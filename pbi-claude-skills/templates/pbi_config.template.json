@@ -1,0 +1,43 @@
+{
+  "project": {
+    "name": "your_project_name",
+    "type": "pbip",
+    "semantic_model": {
+      "name": "YourProject.SemanticModel",
+      "path": "YourProject.SemanticModel/definition"
+    }
+  },
+  "tables": {
+    "main_dax": "DAX",
+    "dax_variants": [
+      "DAX_Variance_PCT",
+      "DAX_Variance_ABS",
+      "DAX_Texts",
+      "DAX_Anchors"
+    ]
+  },
+  "index": {
+    "file": "POWER_BI_INDEX.md",
+    "auto_update": true
+  },
+  "data_source": {
+    "type": "GoogleBigQuery",
+    "connection_name": "BigQuery Connection"
+  },
+  "conventions": {
+    "measure_naming": "snake_case",
+    "prefixes": ["tot_", "avg_", "pct_", "sum_", "max_", "min_"],
+    "suffixes": ["_cy", "_py", "_yoy", "_mom"]
+  },
+  "_comments": {
+    "project.name": "Nome do projeto (usado em logs e mensagens)",
+    "semantic_model.name": "Nome da pasta .SemanticModel (ex: MyProject.SemanticModel)",
+    "semantic_model.path": "Caminho relativo ao diretório de definition (ex: MyProject.SemanticModel/definition)",
+    "tables.main_dax": "Nome da tabela principal de medidas DAX",
+    "tables.dax_variants": "Outras tabelas DAX auxiliares (opcional)",
+    "index.file": "Nome do arquivo de índice (padrão: POWER_BI_INDEX.md)",
+    "index.auto_update": "Se true, skills atualizam o índice automaticamente",
+    "data_source": "Informações da fonte de dados (opcional, para documentação)",
+    "conventions": "Padrões de nomenclatura do projeto (opcional)"
+  }
+}

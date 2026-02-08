@@ -1,0 +1,26 @@
+{
+  "capabilities": {
+    "terminal": {
+      "enabled": true
+    },
+    "files": {
+      "deny_read": [
+        "**/*.pbix",
+        "**/.env",
+        "**/node_modules/**",
+        "**/bin/**",
+        "**/obj/**",
+        "**/.git/**",
+        "**/dist/**",
+        "**/build/**",
+        "**/*.log",
+        "**/venv/**",
+        "**/.venv/**"
+      ]
+    }
+  },
+  "behavior": {
+    "auto_compact": true,
+    "plan_mode_by_default": true
+  }
+}
