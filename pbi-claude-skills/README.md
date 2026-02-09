@@ -1,10 +1,10 @@
 # Power BI Claude Skills
 
-> **Status:** 🚧 In Development
+> **Status:** ✅ Production Ready | **Version:** 1.0.0 | **Last Updated:** 2026-02-08
 
 Centralized skills and templates for Power BI PBIP projects using Claude Code.
 
-## 📚 Skills Available (Coming Soon)
+## 📚 Skills Available
 
 | Skill | Comando | Descrição |
 |-------|---------|-----------|
