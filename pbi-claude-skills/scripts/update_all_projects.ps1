@@ -15,7 +15,7 @@ Write-Host ""
 
 # Verificar se root existe
 if (-not (Test-Path $ProjectsRoot)) {
-    Write-Host "❌ ERRO: Diretório não encontrado: $ProjectsRoot" -ForegroundColor Red
+    Write-Host "ERROR: ERRO: Diretório não encontrado: $ProjectsRoot" -ForegroundColor Red
     Write-Host "   Use: .\update_all_projects.ps1 -ProjectsRoot 'C:\seu\path'" -ForegroundColor Yellow
     exit 1
 }
@@ -24,7 +24,7 @@ if (-not (Test-Path $ProjectsRoot)) {
 $projects = Get-ChildItem $ProjectsRoot -Filter "_project_pbip_*" -Directory
 
 if ($projects.Count -eq 0) {
-    Write-Host "⚠️  Nenhum projeto encontrado em $ProjectsRoot" -ForegroundColor Yellow
+    Write-Host "WARNING:  Nenhum projeto encontrado em $ProjectsRoot" -ForegroundColor Yellow
     Write-Host "   Padrão de busca: _project_pbip_*" -ForegroundColor DarkYellow
     exit 0
 }
@@ -44,7 +44,7 @@ foreach ($project in $projects) {
     Write-Host "📦 $projectName..." -ForegroundColor Cyan
 
     if (-not (Test-Path $hubPath)) {
-        Write-Host "  ⚠️  Hub não encontrado (não configurado)" -ForegroundColor DarkYellow
+        Write-Host "  WARNING:  Hub não encontrado (não configurado)" -ForegroundColor DarkYellow
         Write-Host "     Execute: .\setup_new_project.ps1 -ProjectPath '$($project.FullName)'" -ForegroundColor DarkGray
         $skipped++
         Write-Host ""
@@ -61,22 +61,22 @@ foreach ($project in $projects) {
             Pop-Location
 
             if ($gitOutput -match "Already up to date") {
-                Write-Host "  ✅ Já atualizado" -ForegroundColor Green
+                Write-Host "  OK: Já atualizado" -ForegroundColor Green
             } elseif ($gitOutput -match "Updating") {
-                Write-Host "  ✅ Atualizado com sucesso" -ForegroundColor Green
+                Write-Host "  OK: Atualizado com sucesso" -ForegroundColor Green
 
                 # Re-copiar skills após update
                 $hubSkillsPath = Join-Path $hubPath "pbi-claude-skills\skills"
                 Copy-Item "$hubSkillsPath\*" $skillsPath -Recurse -Force
                 Write-Host "     Skills copiadas" -ForegroundColor DarkGreen
             } else {
-                Write-Host "  ℹ️  $gitOutput" -ForegroundColor White
+                Write-Host "  INFO:  $gitOutput" -ForegroundColor White
             }
 
             $updated++
         }
     } catch {
-        Write-Host "  ❌ ERRO: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "  ERROR: ERRO: $($_.Exception.Message)" -ForegroundColor Red
         $errors++
     }
 
@@ -86,11 +86,11 @@ foreach ($project in $projects) {
 Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor DarkGray
 Write-Host ""
 Write-Host "📊 Resumo:" -ForegroundColor Cyan
-Write-Host "  ✅ Atualizados: $updated" -ForegroundColor Green
-Write-Host "  ⚠️  Ignorados: $skipped" -ForegroundColor Yellow
+Write-Host "  OK: Atualizados: $updated" -ForegroundColor Green
+Write-Host "  WARNING:  Ignorados: $skipped" -ForegroundColor Yellow
 
 if ($errors -gt 0) {
-    Write-Host "  ❌ Erros: $errors" -ForegroundColor Red
+    Write-Host "  ERROR: Erros: $errors" -ForegroundColor Red
 }
 
 Write-Host ""
@@ -100,9 +100,9 @@ if ($skipped -gt 0) {
 }
 
 if ($DryRun) {
-    Write-Host "ℹ️  Modo DRY RUN - nenhuma alteração foi feita" -ForegroundColor DarkYellow
+    Write-Host "INFO:  Modo DRY RUN - nenhuma alteração foi feita" -ForegroundColor DarkYellow
     Write-Host "   Execute sem -DryRun para aplicar atualizações" -ForegroundColor DarkGray
 }
 
 Write-Host ""
-Write-Host "✅ Atualização concluída!" -ForegroundColor Green
+Write-Host "OK: Atualização concluída!" -ForegroundColor Green
