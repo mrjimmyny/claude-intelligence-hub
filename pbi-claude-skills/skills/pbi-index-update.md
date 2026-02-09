@@ -454,7 +454,7 @@ Read: tables/DAX.tmdl (arquivo completo)
 ### Pré-Execução
 
 1. **Verificar estrutura do projeto:**
-   - `hr_kpis_board_v2.SemanticModel/` existe?
+   - `{semantic_model}/` existe?
    - `definition/tables/` existe?
    - `definition/relationships.tmdl` existe?
 

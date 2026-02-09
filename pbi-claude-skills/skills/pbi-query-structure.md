@@ -178,7 +178,7 @@ Permitir consultas rápidas à estrutura do projeto sem consumir tokens desneces
 
 ```
 1. Validar que tabela foi fornecida (obrigatório)
-2. Construir caminho: hr_kpis_board_v2.SemanticModel/definition/tables/{tabela}.tmdl
+2. Construir caminho: {defPath}/tables/{tabela}.tmdl
 3. Ler arquivo .tmdl
 4. Extrair todas as linhas começando com "column "
 5. Para cada coluna:

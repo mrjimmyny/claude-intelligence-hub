@@ -43,15 +43,15 @@ Fornecer uma visão instantânea e completa da estrutura do projeto Power BI com
 
 **Comando interno:**
 ```bash
-ls -R hr_kpis_board_v2.SemanticModel/definition/
+ls -R {defPath}/
 ```
 
 **Output esperado:**
 ```
-hr_kpis_board_v2.SemanticModel/definition/:
+{defPath}/:
 cultures  database.tmdl  expressions.tmdl  model.tmdl  relationships.tmdl  tables
 
-hr_kpis_board_v2.SemanticModel/definition/tables:
+{defPath}/tables:
 DAX.tmdl
 DAX_Anchors.tmdl
 employee_dimension.tmdl
@@ -67,14 +67,14 @@ payroll_facts.tmdl
 
 **Comando interno:**
 ```bash
-find hr_kpis_board_v2.SemanticModel/definition/tables -name "*.tmdl" -type f
+find {defPath}/tables -name "*.tmdl" -type f
 ```
 
 **Output esperado:**
 ```
-hr_kpis_board_v2.SemanticModel/definition/tables/DAX.tmdl
-hr_kpis_board_v2.SemanticModel/definition/tables/employee_dimension.tmdl
-hr_kpis_board_v2.SemanticModel/definition/tables/payroll_facts.tmdl
+{defPath}/tables/DAX.tmdl
+{defPath}/tables/employee_dimension.tmdl
+{defPath}/tables/payroll_facts.tmdl
 ...
 ```
 
@@ -86,15 +86,15 @@ hr_kpis_board_v2.SemanticModel/definition/tables/payroll_facts.tmdl
 
 **Comando interno:**
 ```bash
-find hr_kpis_board_v2.SemanticModel/definition -maxdepth 1 -name "*.tmdl" -type f
+find {defPath} -maxdepth 1 -name "*.tmdl" -type f
 ```
 
 **Output esperado:**
 ```
-hr_kpis_board_v2.SemanticModel/definition/model.tmdl
-hr_kpis_board_v2.SemanticModel/definition/relationships.tmdl
-hr_kpis_board_v2.SemanticModel/definition/expressions.tmdl
-hr_kpis_board_v2.SemanticModel/definition/database.tmdl
+{defPath}/model.tmdl
+{defPath}/relationships.tmdl
+{defPath}/expressions.tmdl
+{defPath}/database.tmdl
 ```
 
 **Consumo:** ~50 tokens
@@ -135,17 +135,17 @@ hr_kpis_board_v2.Report/definition/pages/.../visuals/.../visual.json
 
 #### Opção: `full`
 ```bash
-ls -R hr_kpis_board_v2.SemanticModel/definition/
+ls -R {defPath}/
 ```
 
 #### Opção: `tables`
 ```bash
-find hr_kpis_board_v2.SemanticModel/definition/tables -name "*.tmdl" -type f
+find {defPath}/tables -name "*.tmdl" -type f
 ```
 
 #### Opção: `model`
 ```bash
-find hr_kpis_board_v2.SemanticModel/definition -maxdepth 1 -name "*.tmdl" -type f
+find {defPath} -maxdepth 1 -name "*.tmdl" -type f
 ```
 
 #### Opção: `report`
@@ -237,15 +237,15 @@ find definition/tables -name "*.tmdl"
 ### Exemplo 1: Discovery de Tabelas
 
 ```bash
-$ find hr_kpis_board_v2.SemanticModel/definition/tables -name "*.tmdl" -type f
+$ find {defPath}/tables -name "*.tmdl" -type f
 
-hr_kpis_board_v2.SemanticModel/definition/tables/company_dimension.tmdl
-hr_kpis_board_v2.SemanticModel/definition/tables/employee_dimension.tmdl
-hr_kpis_board_v2.SemanticModel/definition/tables/job_dimension.tmdl
-hr_kpis_board_v2.SemanticModel/definition/tables/date_dimension.tmdl
-hr_kpis_board_v2.SemanticModel/definition/tables/payroll_facts.tmdl
-hr_kpis_board_v2.SemanticModel/definition/tables/DAX.tmdl
-hr_kpis_board_v2.SemanticModel/definition/tables/DAX_Variance_ABS.tmdl
+{defPath}/tables/company_dimension.tmdl
+{defPath}/tables/employee_dimension.tmdl
+{defPath}/tables/job_dimension.tmdl
+{defPath}/tables/date_dimension.tmdl
+{defPath}/tables/payroll_facts.tmdl
+{defPath}/tables/DAX.tmdl
+{defPath}/tables/DAX_Variance_ABS.tmdl
 ... (37 arquivos total)
 ```
 
@@ -256,15 +256,15 @@ hr_kpis_board_v2.SemanticModel/definition/tables/DAX_Variance_ABS.tmdl
 ### Exemplo 2: Discovery Completo
 
 ```bash
-$ ls -R hr_kpis_board_v2.SemanticModel/definition/
+$ ls -R {defPath}/
 
-hr_kpis_board_v2.SemanticModel/definition/:
+{defPath}/:
 cultures  database.tmdl  expressions.tmdl  model.tmdl  relationships.tmdl  tables
 
-hr_kpis_board_v2.SemanticModel/definition/cultures:
+{defPath}/cultures:
 en-US.tmdl
 
-hr_kpis_board_v2.SemanticModel/definition/tables:
+{defPath}/tables:
 DAX.tmdl
 DAX_Anchors.tmdl
 DAX_ForwardFill_CY_AVGRoll3MPY.tmdl
@@ -415,15 +415,15 @@ Total: ~1,000 tokens
 
 ```bash
 # Teste 1: Listar tabelas
-find hr_kpis_board_v2.SemanticModel/definition/tables -name "*.tmdl" | wc -l
+find {defPath}/tables -name "*.tmdl" | wc -l
 # Esperado: 37
 
 # Teste 2: Listar arquivos do modelo
-find hr_kpis_board_v2.SemanticModel/definition -maxdepth 1 -name "*.tmdl"
+find {defPath} -maxdepth 1 -name "*.tmdl"
 # Esperado: model.tmdl, relationships.tmdl, expressions.tmdl, database.tmdl
 
 # Teste 3: Estrutura completa
-ls -R hr_kpis_board_v2.SemanticModel/definition/ | head -20
+ls -R {defPath}/ | head -20
 # Esperado: listagem hierárquica
 ```
 

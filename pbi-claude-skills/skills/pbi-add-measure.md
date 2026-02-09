@@ -319,8 +319,8 @@ table DAX
 
 Usuário pode criar backup manual antes:
 ```bash
-cp hr_kpis_board_v2.SemanticModel/definition/tables/DAX.tmdl \
-   hr_kpis_board_v2.SemanticModel/definition/tables/DAX.tmdl.bak
+cp {defPath}/tables/DAX.tmdl \
+   {defPath}/tables/DAX.tmdl.bak
 ```
 
 ### Validação Pós-Inserção
@@ -353,7 +353,7 @@ Após adicionar medida, atualizar POWER_BI_INDEX.md:
 ✅ Medida adicionada com sucesso!
 
 **Nome:** employee_growth_rate
-**Localização:** hr_kpis_board_v2.SemanticModel/definition/tables/DAX.tmdl
+**Localização:** {defPath}/tables/DAX.tmdl
 **Formato:** 0.0%
 **lineageTag:** 3fa7b8c9-1d2e-4f5a-9b6c-7d8e9f0a1b2c
 
@@ -387,7 +387,7 @@ Use snake_case (ex: `total_revenue`) ou PascalCase (ex: `TotalRevenue`)
 ⚠️ Aviso: Medida já existe
 
 **Nome:** tot_employee_active
-**Localização:** hr_kpis_board_v2.SemanticModel/definition/tables/DAX.tmdl (linha 14)
+**Localização:** {defPath}/tables/DAX.tmdl (linha 14)
 
 Deseja:
 1. Substituir medida existente
@@ -399,7 +399,7 @@ Deseja:
 
 ### Problema: Arquivo não encontrado
 **Causa:** Caminho incorreto ou estrutura de projeto diferente
-**Solução:** Verificar se `hr_kpis_board_v2.SemanticModel/definition/tables/DAX.tmdl` existe
+**Solução:** Verificar se `{defPath}/tables/DAX.tmdl` existe
 
 ### Problema: Permissão negada
 **Causa:** Arquivo readonly ou sem permissões

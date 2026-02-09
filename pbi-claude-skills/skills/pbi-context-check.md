@@ -107,8 +107,8 @@ Adicionando medidas de variância percentual para KPIs de headcount
 - Atualizar índice após validação
 
 #### Arquivos Quentes
-- hr_kpis_board_v2.SemanticModel/definition/tables/DAX.tmdl
-- hr_kpis_board_v2.SemanticModel/definition/tables/DAX_Variance_PCT.tmdl
+- {defPath}/tables/DAX.tmdl
+- {defPath}/tables/DAX_Variance_PCT.tmdl
 
 #### Variáveis/Medidas em Foco
 - `tot_employee_active_cy`
