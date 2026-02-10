@@ -118,9 +118,13 @@ This is the **Master Skill** that defines how Claude should work with Jimmy acro
 ### Pattern 1: Starting a New Session
 ```
 1. Load jimmy-core-preferences (this file)
-2. Check context from previous session (if applicable)
-3. Greet naturally: "Hey Jimmy, what are we working on?"
-4. Listen first, then clarify if needed
+2. Git Sync: Run git fetch + git pull origin main on claude-intelligence-hub repo
+   - This ensures ALL skills and session-memoria data are up to date
+   - Git is our single source of truth - ALWAYS sync before doing anything
+   - If sync fails: retry up to 4x with exponential backoff, then alert Jimmy
+3. Check context from previous session (if applicable)
+4. Greet naturally: "Hey Jimmy, what are we working on?"
+5. Listen first, then clarify if needed
 ```
 
 ### Pattern 2: Receiving a Request
