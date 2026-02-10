@@ -2,19 +2,30 @@
   "version": "1.0.0",
   "initialized": "2026-02-10",
   "stats": {
-    "total_entries": 0,
-    "total_size_bytes": 0,
-    "last_entry_id": null,
-    "last_updated": null,
-    "entries_by_category": {},
-    "entries_by_tag": {},
-    "entries_by_month": {}
+    "total_entries": 1,
+    "total_size_bytes": 4247,
+    "last_entry_id": "2026-02-10-001",
+    "last_updated": "2026-02-10 02:20:00",
+    "entries_by_category": {
+      "Projects": 1
+    },
+    "entries_by_tag": {
+      "session-memoria": 1,
+      "knowledge-management": 1,
+      "skill-implementation": 1,
+      "git-integration": 1
+    },
+    "entries_by_month": {
+      "2026-02": 1
+    }
   },
   "counters": {
-    "daily": {}
+    "daily": {
+      "2026-02-10": 1
+    }
   },
   "alerts": {
-    "last_check": null,
+    "last_check": "2026-02-10 02:20:00",
     "current_level": "info",
     "history": []
   }
