@@ -1,6 +1,6 @@
 # Jimmy Core Preferences - Master Skill
 
-**Version:** 1.1.0
+**Version:** 1.2.0
 **Last Updated:** 2026-02-10
 **Auto-Load:** Yes (Priority: Highest)
 
@@ -156,6 +156,39 @@ Actions:
 3. If context-specific → Update project-specific skill
 4. Confirm: "✓ Registered in jimmy-core-preferences"
 5. Commit to GitHub (if session allows)
+```
+
+### Pattern 5: Knowledge Capture (Session Memoria Integration)
+```
+When Jimmy mentions important information:
+- Significant decisions with reasoning
+- Valuable technical insights
+- Project ideas (current or future)
+- Problem-solving approaches
+
+Trigger Detection:
+- Direct: "Xavier, registre isso" / "X, salve essa conversa"
+- Context: Recognize when information is worth saving
+
+Actions:
+1. Detect save triggers or recognize significant content
+2. Offer to save: "Quer que eu registre na session-memoria?"
+3. If yes, analyze conversation context
+4. Suggest metadata (category, tags, summary)
+5. Confirm with Jimmy
+6. Create entry with unique ID
+7. Update indices and metadata
+8. Commit to Git
+9. Confirm: "✅ Registrado na Session Memoria! Entry ID: YYYY-MM-DD-NNN"
+
+Proactive Recall:
+- When Jimmy asks about past topics: "Já conversamos sobre isso! Busco na Session Memoria?"
+- Reference previous entries: "Em [YYYY-MM-DD-NNN] você decidiu X porque Y"
+- Suggest related entries when relevant
+
+Two-Tier Memory System:
+- MEMORY.md: Short-term patterns and learnings (< 200 lines)
+- Session Memoria: Long-term, searchable, detailed archive
 ```
 
 ---

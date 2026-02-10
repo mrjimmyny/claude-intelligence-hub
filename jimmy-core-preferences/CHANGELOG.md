@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.2.0] - 2026-02-10
+
+### Added
+- Pattern 5: Knowledge Capture (Session Memoria Integration)
+- Proactive knowledge capture workflow
+- Two-tier memory system documentation (MEMORY.md + Session Memoria)
+- Trigger detection for save and recall operations
+- Proactive recall integration
+
+### Changed
+- Updated version from 1.1.0 to 1.2.0
+
+---
+
 ## [1.1.0] - 2026-02-10
 
 ### Added
@@ -164,5 +178,5 @@ When adding a new entry, use this format:
 ---
 
 **Last Updated:** 2026-02-10
-**Current Version:** 1.1.0
+**Current Version:** 1.2.0
 **Status:** ✅ Active Maintenance

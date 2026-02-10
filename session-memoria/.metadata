@@ -1,0 +1,33 @@
+{
+  "name": "session-memoria",
+  "version": "1.0.0",
+  "description": "Jimmy's second brain - captures and recalls conversations, decisions, insights, and ideas across all sessions",
+  "author": "Xavier (Claude)",
+  "created": "2026-02-10",
+  "type": "knowledge-management",
+  "triggers": {
+    "save": [
+      "xavier, registre isso",
+      "x, salve essa conversa",
+      "registre isso",
+      "salvar essa decisão",
+      "guarde essa informação"
+    ],
+    "search": [
+      "xavier, já falamos sobre",
+      "x, busca tema",
+      "procure na memoria",
+      "recall",
+      "o que já conversamos sobre"
+    ]
+  },
+  "settings": {
+    "auto_push": true,
+    "default_language": "pt-BR",
+    "max_tags": 5,
+    "alert_thresholds": {
+      "warning": 500,
+      "critical": 1000
+    }
+  }
+}

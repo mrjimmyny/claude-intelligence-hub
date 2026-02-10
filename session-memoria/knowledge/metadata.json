@@ -1,0 +1,21 @@
+{
+  "version": "1.0.0",
+  "initialized": "2026-02-10",
+  "stats": {
+    "total_entries": 0,
+    "total_size_bytes": 0,
+    "last_entry_id": null,
+    "last_updated": null,
+    "entries_by_category": {},
+    "entries_by_tag": {},
+    "entries_by_month": {}
+  },
+  "counters": {
+    "daily": {}
+  },
+  "alerts": {
+    "last_check": null,
+    "current_level": "info",
+    "history": []
+  }
+}

@@ -13,6 +13,8 @@ This hub organizes Claude Code skills by project type, making them easy to disco
 | Collection | Status | Description |
 |------------|--------|-------------|
 | **[pbi-claude-skills](pbi-claude-skills/)** | ✅ Production Ready (v1.0.0) | Power BI PBIP projects |
+| **[session-memoria](session-memoria/)** | ✅ Production Ready (v1.0.0) | Knowledge management system |
+| **[jimmy-core-preferences](jimmy-core-preferences/)** | ✅ Production Ready (v1.1.0) | Core personality & preferences |
 | **[python-claude-skills](python-claude-skills/)** | 📋 Planned | Python development |
 | **[git-claude-skills](git-claude-skills/)** | 📋 Planned | Git workflows |
 
@@ -45,6 +47,12 @@ claude-intelligence-hub/
 │   ├── templates/               # Project templates
 │   ├── scripts/                 # Automation (PowerShell)
 │   └── docs/                    # Guides
+├── session-memoria/             # Knowledge management
+│   ├── knowledge/               # Stored entries & indices
+│   ├── templates/               # Entry templates
+│   └── SKILL.md                 # Capture & recall system
+├── jimmy-core-preferences/      # Core personality
+│   └── SKILL.md                 # Master preferences
 ├── python-claude-skills/        # (Future) Python skills
 ├── git-claude-skills/           # (Future) Git skills
 ├── docs/                        # Global documentation
@@ -68,6 +76,8 @@ cd claude-intelligence-hub\pbi-claude-skills
 ## 📖 Documentation
 
 - [Power BI Skills Guide](pbi-claude-skills/README.md)
+- [Session Memoria Guide](session-memoria/README.md) - Knowledge management system
+- [Jimmy Core Preferences](jimmy-core-preferences/SKILL.md) - Master personality skill
 - [Contributing Guidelines](docs/CONTRIBUTING.md) _(coming soon)_
 - [Architecture Overview](docs/ARCHITECTURE.md) _(coming soon)_
 - [Changelog](CHANGELOG.md)
