@@ -1,0 +1,11 @@
+{
+  "name": "jimmy-core-preferences",
+  "version": "1.0.0",
+  "description": "Master skill containing Jimmy's core preferences, working style, and permanent rules for Claude",
+  "author": "mrjimmyny",
+  "created": "2025-02-09",
+  "last_updated": "2025-02-09",
+  "skill_type": "master-preferences",
+  "auto_load": true,
+  "priority": "highest"
+}
