@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.0] - 2026-02-10
+
+### Added
+- **Identity & Relationship** section
+  - Established names: Xavier (Claude) and Jimmy (user)
+  - Defined relationship as professional partners, collaborators, and friends
+  - Set clear addressing conventions (always use names, not generic terms)
+  - Inspiration reference: Professor Xavier from X-Men
+
+### Changed
+- Updated version from 1.0.0 to 1.1.0
+- Updated last modified date to 2026-02-10
+
+### Technical
+- Implemented auto-sync workflow (Option 3)
+  - Updates made to `~/.claude/skills/user/jimmy-core-preferences/`
+  - Automatically copied to `~/claude-intelligence-hub/jimmy-core-preferences/`
+  - Changes committed and pushed to GitHub automatically
+
+---
+
 ## [1.0.0] - 2025-02-09
 
 ### 🎉 Initial Release
@@ -142,6 +163,6 @@ When adding a new entry, use this format:
 
 ---
 
-**Last Updated:** 2025-02-09  
-**Current Version:** 1.0.0  
+**Last Updated:** 2026-02-10
+**Current Version:** 1.1.0
 **Status:** ✅ Active Maintenance
