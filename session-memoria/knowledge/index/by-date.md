@@ -1,7 +1,7 @@
 # Session Memoria - Chronological Index
 
-**Last updated:** 2026-02-10 02:20
-**Total entries:** 1
+**Last updated:** 2026-02-10 23:55
+**Total entries:** 4
 
 ---
 
@@ -10,6 +10,18 @@
 Entries organized chronologically (newest first).
 
 ## 2026-02
+
+**[2026-02-10-004]** 06:45 | Power BI | Planejamento de criação de skill de documentação completa para projetos Power BI - discussão detalhada em breve | Status: `aberto`
+Tags: power-bi, skill-documentacao, planejamento
+→ [Read entry](../entries/2026/02/2026-02-10_skill-documentacao-power-bi.md)
+
+**[2026-02-10-003]** 23:55 | Projects | Ideia de skill para registrar projetos concluidos e alimentar dados para Performance Review anual | Status: `aberto`
+Tags: skill-development, performance-review, project-tracking, portfolio, gestao
+→ [Read entry](../entries/2026/02/2026-02-10_skill-project-portfolio-performance-review.md)
+
+**[2026-02-10-002]** 23:45 | Power BI | Ideia de nova skill para automatizar import de tabelas do BigQuery para Power BI via pbi-claude-skills | Status: `aberto`
+Tags: power-bi, bigquery, skill-development, data-import, pbi-claude-skills
+→ [Read entry](../entries/2026/02/2026-02-10_skill-import-bigquery-power-bi.md)
 
 **[2026-02-10-001]** 02:20 | Projects | Implementação completa do session-memoria skill v1.0.0 - sistema de gestão de conhecimento permanente | Status: `aberto`
 Tags: session-memoria, knowledge-management, skill-implementation, git-integration
