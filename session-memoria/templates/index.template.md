@@ -6,7 +6,7 @@ Each index file follows this pattern:
 
 ### Entry Format
 ```
-[YYYY-MM-DD-NNN] HH:MM | Category | Summary
+[YYYY-MM-DD-NNN] HH:MM | Category | Summary | Status: `status`
 Tags: tag1, tag2, tag3
 → [Read entry](../entries/YYYY/MM/YYYY-MM-DD_topic-slug.md)
 ```

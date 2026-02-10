@@ -1,6 +1,6 @@
 # Session Memoria - Xavier's Second Brain
 
-**Version:** 1.0.0
+**Version:** 1.1.0
 **Purpose:** Capture, store, and recall conversations, decisions, insights, and ideas across all sessions
 **Language:** Portuguese (pt-BR)
 
@@ -14,8 +14,10 @@ Session Memoria is Jimmy's permanent knowledge repository. Every important conve
 1. **Capture:** Save conversations with rich metadata
 2. **Search:** Multi-index search (date, category, tag)
 3. **Recall:** Retrieve full entries with context
-4. **Monitor:** Track growth and alert on thresholds
-5. **Sync:** Automatic Git commits and push
+4. **Update:** Change status, resolution, and tracking fields of existing entries
+5. **Recap:** Summarize recent entries with status overview
+6. **Monitor:** Track growth and alert on thresholds
+7. **Sync:** Automatic Git commits and push
 
 ---
 
@@ -38,8 +40,86 @@ Listen for these phrases:
 - "o que já conversamos sobre X?"
 - "recall X"
 
+### Update Triggers (Portuguese)
+Listen for these phrases:
+- "Xavier, marca como resolvido"
+- "X, fecha o tema"
+- "atualiza o status de"
+- "marca esse assunto como"
+- "resolve o entry"
+- "Xavier, atualiza o desfecho"
+
+### Recap Triggers (Portuguese)
+Listen for these phrases:
+- "Xavier, resume os últimos registros"
+- "X, resume os últimos N registros"
+- "quais assuntos registramos"
+- "o que temos em aberto na memoria"
+- "recap session-memoria"
+- "X, quais temas estão abertos"
+- "resume a session-memoria"
+- "o que ainda falta discutir"
+
 ### Stats Trigger
 - `/session-memoria stats`
+
+---
+
+## Step 0: Git Sync (Mandatory Before Any Read Operation)
+
+**CRITICAL:** Before executing ANY read operation (search, recap, update, stats), Xavier MUST sync from Git to ensure local data matches the repository (our single source of truth).
+
+### Sync Workflow
+```
+1. Navigate to claude-intelligence-hub directory
+2. Run: git fetch origin main
+3. Run: git pull origin main
+4. Verify no merge conflicts
+5. If conflicts exist → Alert Jimmy and stop
+6. Proceed with the requested operation
+```
+
+### When to Sync
+- **Always before:** Search, Recap, Update, Stats
+- **Not needed before:** Save (we're writing, not reading)
+- **After Save:** Git commit + push (already in Save Workflow)
+
+### Sync Failure Handling
+- If network fails → Retry up to 4x with exponential backoff (2s, 4s, 8s, 16s)
+- If merge conflict → Report to Jimmy, do NOT auto-resolve
+- If pull succeeds → Proceed silently (no need to inform Jimmy unless asked)
+
+---
+
+## Entry Status & Tracking Fields
+
+### Status Values
+| Status | Description | When to Use |
+|--------|-------------|-------------|
+| `aberto` | Topic not yet discussed or resolved | Default for new entries |
+| `em_discussao` | Currently being discussed across sessions | When topic spans multiple conversations |
+| `resolvido` | Topic fully discussed and concluded | When decision is final or issue is fixed |
+| `arquivado` | No longer relevant, kept for history | When topic becomes obsolete |
+
+### Priority Values
+| Priority | Description |
+|----------|-------------|
+| `alta` | Urgent, needs attention soon |
+| `media` | Normal priority (default) |
+| `baixa` | Can wait, nice to have |
+
+### Resolution Field
+Free-text field describing the outcome. Examples:
+- "Decidido usar abordagem X por causa de Y"
+- "Criado e implementado com sucesso"
+- "Descartado - não faz mais sentido"
+- "Em aberto - aguardando mais informações"
+- "" (empty when not yet resolved)
+
+### last_discussed Field
+- Format: `YYYY-MM-DD`
+- Updated automatically when an entry is referenced in a recap or update
+- Helps track how recently a topic was revisited
 
 ---
 
@@ -64,6 +144,10 @@ Generate suggestions for:
 - **Tags:** Extract 3-5 relevant keywords (kebab-case)
 - **Summary:** Create one-line description (max 120 chars)
 - **Title:** Create descriptive title
+- **Status:** Default `aberto` (override only if Jimmy specifies)
+- **Priority:** Default `media` (override only if Jimmy specifies)
+- **last_discussed:** Set to today's date (YYYY-MM-DD)
+- **Resolution:** Default empty `""` (will be filled on update)
 
 ### Step 3: Confirm with Jimmy
 Present suggestion in this format:
@@ -101,7 +185,7 @@ Update all three index files:
 - Add entry at top of section (newest first)
 - Format:
   ```
-  **[YYYY-MM-DD-NNN]** HH:MM | Category | Summary
+  **[YYYY-MM-DD-NNN]** HH:MM | Category | Summary | Status: `aberto`
   Tags: tag1, tag2, tag3
   → [Read entry](../entries/YYYY/MM/YYYY-MM-DD_topic-slug.md)
   ```
@@ -109,14 +193,14 @@ Update all three index files:
 #### by-category.md
 - Find or create section: `## Category Name`
 - Add entry (chronological within category)
-- Same format as by-date
+- Same format as by-date (including status)
 
 #### by-tag.md
 - Update tag cloud with frequencies
 - For each tag in entry:
   - Find or create section: `## #tag-name`
   - Add entry reference
-  - Same format as by-date
+  - Same format as by-date (including status)
 
 ### Step 7: Update Metadata
 Update `knowledge/metadata.json`:
@@ -246,6 +330,163 @@ When Jimmy requests full entry:
 
 ---
 
+## Update Workflow
+
+When an update trigger is detected:
+
+### Step 1: Git Sync
+Execute Step 0 (Git Sync) to ensure local data is current.
+
+### Step 2: Parse Update Request
+Extract:
+- **Target:** Entry ID (YYYY-MM-DD-NNN) or search terms to identify the entry
+- **Field to update:** status, resolution, priority, or combination
+- **New value:** The new status, resolution text, or priority level
+
+If Jimmy doesn't specify an entry ID, search for the entry first (use Search Workflow Steps 1-4) and confirm which entry to update.
+
+### Step 3: Read Current Entry
+1. Locate entry file: `knowledge/entries/YYYY/MM/YYYY-MM-DD_topic-slug.md`
+2. Read current frontmatter
+3. Display current values to Jimmy:
+
+```
+Vou atualizar a entry [YYYY-MM-DD-NNN]:
+
+📋 Título: [title]
+📊 Status atual: [current_status] → [new_status]
+📝 Resolução atual: [current_resolution] → [new_resolution]
+🔢 Prioridade atual: [current_priority] → [new_priority]
+
+Confirma?
+```
+
+### Step 4: Update Entry File
+1. Modify YAML frontmatter fields as requested
+2. Update `last_discussed` to today's date (YYYY-MM-DD)
+3. If resolution is being set, add a `## Resolution` section at the end of the entry content (before the `---` footer) if it doesn't exist:
+
+```markdown
+## Resolution
+**Date:** DD/MM/YYYY
+**Status:** [new_status]
+**Outcome:** [resolution text]
+```
+
+### Step 5: Update Indices
+Update status display in all three index files:
+- Find the entry line in each index
+- Update the status badge: `Status: \`new_status\``
+
+### Step 6: Git Commit
+```bash
+cd claude-intelligence-hub
+git add session-memoria/knowledge/entries/YYYY/MM/YYYY-MM-DD_topic-slug.md
+git add session-memoria/knowledge/index/*.md
+git commit -m "update(session-memoria): entry YYYY-MM-DD-NNN status → [new_status]
+
+Resolution: [resolution text if provided]
+Updated fields: [list of changed fields]"
+git push origin main
+```
+
+### Step 7: Confirm to Jimmy
+```
+✅ Entry atualizada!
+
+📋 Entry ID: YYYY-MM-DD-NNN
+📊 Status: [old] → [new]
+📝 Resolução: [resolution text]
+📅 Última discussão: DD/MM/YYYY
+```
+
+---
+
+## Recap Workflow
+
+When a recap trigger is detected:
+
+### Step 1: Git Sync
+Execute Step 0 (Git Sync) to ensure local data is current.
+
+### Step 2: Parse Recap Request
+Extract:
+- **Count:** How many entries to recap (default: 5)
+- **Filter:** Optional filters:
+  - `--status=aberto` (only open entries)
+  - `--category=X` (specific category)
+  - `--period=semana` or `--period=mes` (time period)
+  - `--priority=alta` (specific priority)
+
+Examples of natural language parsing:
+- "resume os últimos 3 registros" → count=3, no filter
+- "quais assuntos estão abertos" → no count limit, status=aberto
+- "o que registramos na última semana" → period=last 7 days
+- "temas de alta prioridade em aberto" → status=aberto, priority=alta
+
+### Step 3: Fetch Entries
+1. Read `knowledge/index/by-date.md` for chronological order
+2. Read individual entry files to get full metadata (status, priority, resolution, last_discussed)
+3. Apply filters from Step 2
+4. Sort by date (newest first), then by priority (alta > media > baixa)
+
+### Step 4: Build Recap Summary
+For each entry, extract:
+- Entry ID
+- Date (Brazilian format DD/MM/YYYY)
+- Category
+- Summary (from frontmatter)
+- Status (with visual indicator)
+- Priority
+- Last discussed date
+- Resolution (if exists)
+
+### Step 5: Display Recap
+Present in this format:
+
+```
+📋 Recap Session Memoria - Últimos N registros
+
+═══════════════════════════════════════════════
+[Filter applied, if any]
+═══════════════════════════════════════════════
+
+1. [YYYY-MM-DD-NNN] | DD/MM/YYYY | Category
+   📝 Summary text here
+   📊 Status: 🔴 aberto | Prioridade: media
+   📅 Última discussão: DD/MM/YYYY
+
+2. [YYYY-MM-DD-NNN] | DD/MM/YYYY | Category
+   📝 Summary text here
+   📊 Status: 🟢 resolvido | Prioridade: alta
+   📅 Última discussão: DD/MM/YYYY
+   📌 Desfecho: [resolution text]
+
+═══════════════════════════════════════════════
+📊 Resumo: N abertos | N em discussão | N resolvidos
+═══════════════════════════════════════════════
+
+Quer ver algum em detalhe? (digite o número ou entry ID)
+Quer atualizar o status de algum? (ex: "marca o 1 como resolvido")
+```
+
+### Status Visual Indicators
+| Status | Indicator |
+|--------|-----------|
+| `aberto` | 🔴 aberto |
+| `em_discussao` | 🟡 em discussão |
+| `resolvido` | 🟢 resolvido |
+| `arquivado` | ⚪ arquivado |
+
+### Step 6: Handle Follow-up
+After displaying the recap, Jimmy may:
+- Ask to see a full entry → Execute Search Workflow Step 5
+- Ask to update a status → Execute Update Workflow
+- Ask for more entries → Repeat with new count
+- Move on → No action needed
+
+---
+
 ## Stats Command
 
 When `/session-memoria stats` is invoked:
@@ -319,6 +560,15 @@ All paths relative to `claude-intelligence-hub/session-memoria/`:
 - Validate tags are kebab-case
 - Validate summary ≤ 120 chars
 - Validate entry_id format: YYYY-MM-DD-NNN
+- Validate status is one of: aberto, em_discussao, resolvido, arquivado
+- Validate priority is one of: alta, media, baixa
+- Validate last_discussed is valid date (YYYY-MM-DD)
+
+### Before Updating
+- Validate entry exists
+- Validate new status is a valid value
+- Validate new priority is a valid value
+- Confirm changes with Jimmy before writing
 
 ### After Saving
 - Verify all 3 indices updated
@@ -429,6 +679,15 @@ When Jimmy asks about a topic you recognize:
 
 ## Version History
 
+### v1.1.0 (2026-02-10)
+- Entry tracking fields: status, priority, last_discussed, resolution
+- Update Workflow (change status, resolution, priority of existing entries)
+- Recap Workflow (summarize recent entries with status overview)
+- Git Sync as mandatory Step 0 for all read operations
+- Update and recap triggers in Portuguese
+- Status visual indicators in indices and recap display
+- Data validation for new fields
+
 ### v1.0.0 (2026-02-10)
 - Initial release
 - Save workflow with Git integration
@@ -439,7 +698,7 @@ When Jimmy asks about a topic you recognize:
 
 ---
 
-## Future Enhancements (v1.1.0+)
+## Future Enhancements (v1.2.0+)
 
 - Archive entries older than 6 months
 - Entry merging (consolidate related entries)

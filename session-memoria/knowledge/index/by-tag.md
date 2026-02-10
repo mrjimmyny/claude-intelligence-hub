@@ -22,22 +22,22 @@ Entries organized by tags (cross-cutting themes).
 
 ## #session-memoria
 
-**[2026-02-10-001]** 02:20 | Projects | Implementação completa do session-memoria skill v1.0.0
+**[2026-02-10-001]** 02:20 | Projects | Implementação completa do session-memoria skill v1.0.0 | Status: `aberto`
 → [Read entry](../entries/2026/02/2026-02-10_implementacao-session-memoria-skill.md)
 
 ## #knowledge-management
 
-**[2026-02-10-001]** 02:20 | Projects | Implementação completa do session-memoria skill v1.0.0
+**[2026-02-10-001]** 02:20 | Projects | Implementação completa do session-memoria skill v1.0.0 | Status: `aberto`
 → [Read entry](../entries/2026/02/2026-02-10_implementacao-session-memoria-skill.md)
 
 ## #skill-implementation
 
-**[2026-02-10-001]** 02:20 | Projects | Implementação completa do session-memoria skill v1.0.0
+**[2026-02-10-001]** 02:20 | Projects | Implementação completa do session-memoria skill v1.0.0 | Status: `aberto`
 → [Read entry](../entries/2026/02/2026-02-10_implementacao-session-memoria-skill.md)
 
 ## #git-integration
 
-**[2026-02-10-001]** 02:20 | Projects | Implementação completa do session-memoria skill v1.0.0
+**[2026-02-10-001]** 02:20 | Projects | Implementação completa do session-memoria skill v1.0.0 | Status: `aberto`
 → [Read entry](../entries/2026/02/2026-02-10_implementacao-session-memoria-skill.md)
 
 ---

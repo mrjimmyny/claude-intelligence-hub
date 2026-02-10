@@ -22,7 +22,7 @@ Entries organized by domain and category.
 
 ## Projects
 
-**[2026-02-10-001]** 02:20 | 10/02/2026 | Implementação completa do session-memoria skill v1.0.0 - sistema de gestão de conhecimento permanente
+**[2026-02-10-001]** 02:20 | 10/02/2026 | Implementação completa do session-memoria skill v1.0.0 - sistema de gestão de conhecimento permanente | Status: `aberto`
 Tags: session-memoria, knowledge-management, skill-implementation, git-integration
 → [Read entry](../entries/2026/02/2026-02-10_implementacao-session-memoria-skill.md)
 
