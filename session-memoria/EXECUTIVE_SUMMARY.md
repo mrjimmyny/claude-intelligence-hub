@@ -1062,6 +1062,135 @@ Summary: Teste de prova da skill session-memoria - registro criado via sessão m
 
 ---
 
+## 📱 Mobile Usage Strategy
+
+### Mobile Environment Reality
+
+**Challenge:** The Claude mobile app (claude.ai) does NOT load local skills:
+- ❌ No jimmy-core-preferences auto-load
+- ❌ No session-memoria skill auto-load
+- ❌ No automatic triggers ("xavier, registre isso")
+- ❌ Mobile Claude is "vanilla" - no context from skills
+
+**Impact:**
+- Mobile sessions don't know about session-memoria structure
+- No automatic Xavier identity or behavior
+- Manual explanation required each session
+
+### Solution: MOBILE_SESSION_STARTER.md
+
+**Created:** February 11, 2026
+**Location:** `session-memoria/MOBILE_SESSION_STARTER.md`
+**Size:** ~12KB
+**Purpose:** Complete context package for mobile sessions
+
+**What it contains:**
+- ✅ Full session-memoria system documentation
+- ✅ Repository structure and file paths
+- ✅ Entry templates and formats
+- ✅ Valid statuses, categories, tags, priorities
+- ✅ Git sync protocol (mandatory pull/push)
+- ✅ Xavier identity and behavior rules
+- ✅ Step-by-step operation guides (save, search, update, recap)
+- ✅ Current statistics and version info
+- ✅ Common mobile task examples
+
+### Mobile Workflow
+
+**One-time setup:**
+```
+1. Download MOBILE_SESSION_STARTER.md to mobile device
+2. Save in accessible location (Downloads, Files app, etc.)
+3. Keep for all future mobile sessions
+```
+
+**Every mobile session:**
+```
+1. Start Claude Code session on mobile
+2. Attach MOBILE_SESSION_STARTER.md file
+3. Claude reads and loads context (~30 seconds)
+4. Proceed with requests normally
+5. All operations work: save, search, update, recap
+```
+
+**After mobile operations:**
+```
+Mobile: Create/update entry
+   ↓
+Mobile: Git commit + push to main
+   ↓
+Desktop: Git pull (mandatory protocol)
+   ↓
+Desktop: Junction points auto-update skills ✅
+   ↓
+Desktop: Changes immediately available
+```
+
+### Mobile vs Desktop Comparison
+
+| Feature | Desktop | Mobile (with starter) | Mobile (without starter) |
+|---------|---------|----------------------|-------------------------|
+| **Skills auto-load** | ✅ Yes | ❌ No | ❌ No |
+| **Xavier identity** | ✅ Auto | ✅ Manual (via starter) | ❌ No |
+| **Session-memoria ops** | ✅ Auto | ✅ Manual (via starter) | ❌ No |
+| **Triggers work** | ✅ Yes | ❌ No (manual request) | ❌ No |
+| **Git sync** | ✅ Auto (junction) | ✅ Manual | ✅ Manual |
+| **Entry creation** | ✅ Guided | ✅ Template-based | ❌ No context |
+| **Entry search** | ✅ Indexed | ✅ File-based | ❌ No knowledge |
+| **Setup time** | 0s (auto) | ~30s (attach file) | N/A |
+
+### Mobile Limitations & Workarounds
+
+**Limitations:**
+1. ❌ No auto-triggers - Must explicitly request operations
+2. ❌ Slower setup - Need to attach starter file each session
+3. ❌ No proactive suggestions - Xavier won't offer to save automatically
+4. ⚠️ Context refresh needed - Each session starts fresh
+
+**Workarounds:**
+1. ✅ Keep MOBILE_SESSION_STARTER.md easily accessible
+2. ✅ Attach at session start (becomes second nature)
+3. ✅ Use explicit commands: "Create session-memoria entry about [topic]"
+4. ✅ All changes sync perfectly to desktop via Git
+5. ✅ Desktop sessions pick up mobile changes immediately
+
+### Mobile Testing Results
+
+**Test:** Create entry on mobile using MOBILE_SESSION_STARTER.md
+**Date:** 2026-02-11
+**Result:** ✅ Success
+
+**Validation:**
+- ✅ Mobile Claude loaded context from starter file
+- ✅ Entry created with correct structure and metadata
+- ✅ Git commit + push successful
+- ✅ Desktop git pull retrieved entry
+- ✅ Junction points reflected changes immediately
+- ✅ Entry readable in subsequent desktop session
+
+**Conclusion:** Mobile workflow with starter file is fully functional, just requires manual file attachment each session.
+
+### Recommendations
+
+**For quick mobile tasks:**
+- ✅ Use mobile for urgent edits
+- ✅ Attach MOBILE_SESSION_STARTER.md
+- ✅ Create/update entries as needed
+- ✅ Let Git sync handle the rest
+
+**For complex operations:**
+- ⚠️ Prefer desktop sessions (skills auto-loaded)
+- ⚠️ Use mobile only when desktop unavailable
+- ⚠️ Mobile best for simple add/search, not complex analysis
+
+**Best practices:**
+1. Keep MOBILE_SESSION_STARTER.md updated (version matches repo)
+2. Always git pull before mobile operations
+3. Always git push after mobile operations
+4. Verify desktop sync after mobile changes
+
+---
+
 **End of Executive Summary**
 
 *Document prepared for NotebookLM processing and presentation generation*
@@ -1072,5 +1201,6 @@ Summary: Teste de prova da skill session-memoria - registro criado via sessão m
 
 ### 📝 Document History
 
-**v1.0** - February 11, 2026 - Initial comprehensive executive summary
-**Current** - v1.0 (first version)
+**v1.0** - February 11, 2026 02:01 - Initial comprehensive executive summary
+**v1.1** - February 11, 2026 03:30 - Added mobile usage strategy and MOBILE_SESSION_STARTER.md documentation
+**Current** - v1.1
