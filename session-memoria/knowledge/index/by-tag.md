@@ -1,7 +1,7 @@
 # Session Memoria - Tag Index
 
-**Last updated:** 2026-02-10 21:00
-**Total entries:** 5
+**Last updated:** 2026-02-11 12:00
+**Total entries:** 6
 
 ---
 
@@ -12,7 +12,10 @@ Tags are listed by frequency (most used first).
 - **#bigquery** (2)
 - **#skill-development** (2)
 - **#power-bi** (2)
-- **#session-memoria** (1)
+- **#session-memoria** (2)
+- **#test** (1)
+- **#proof-of-concept** (1)
+- **#mobile-session** (1)
 - **#knowledge-management** (1)
 - **#skill-implementation** (1)
 - **#git-integration** (1)
@@ -54,6 +57,9 @@ Entries organized by tags (cross-cutting themes).
 → [Read entry](../entries/2026/02/2026-02-10_skill-import-bigquery-power-bi.md)
 
 ## #session-memoria
+
+**[2026-02-11-001]** 12:00 | Other | Teste de prova da skill session-memoria via mobile | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-11_test-memory-proof-mobile-session.md)
 
 **[2026-02-10-001]** 02:20 | Projects | Implementação completa do session-memoria skill v1.0.0 | Status: `aberto`
 → [Read entry](../entries/2026/02/2026-02-10_implementacao-session-memoria-skill.md)
@@ -150,6 +156,21 @@ Entries organized by tags (cross-cutting themes).
 
 **[2026-02-10-005]** 21:00 | Projects | Auditoria e refatoração do PBI Inventory Framework | Status: `on-hold`
 → [Read entry](../entries/2026/02/2026-02-10_auditoria-refatoracao-pbi-inventory-framework.md)
+
+## #test
+
+**[2026-02-11-001]** 12:00 | Other | Teste de prova da skill session-memoria via mobile | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-11_test-memory-proof-mobile-session.md)
+
+## #proof-of-concept
+
+**[2026-02-11-001]** 12:00 | Other | Teste de prova da skill session-memoria via mobile | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-11_test-memory-proof-mobile-session.md)
+
+## #mobile-session
+
+**[2026-02-11-001]** 12:00 | Other | Teste de prova da skill session-memoria via mobile | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-11_test-memory-proof-mobile-session.md)
 
 ---
 
