@@ -39,6 +39,8 @@ The **Claude Intelligence Hub** is a centralized system that:
 
 ## ⚡ Quick Start
 
+> **⚠️ Windows Users**: See [WINDOWS_JUNCTION_SETUP.md](WINDOWS_JUNCTION_SETUP.md) for junction point setup (required for auto-sync)
+
 ### 1. Clone the Hub
 
 ```bash
