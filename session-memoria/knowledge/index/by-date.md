@@ -1,7 +1,7 @@
 # Session Memoria - Chronological Index
 
-**Last updated:** 2026-02-10 21:00
-**Total entries:** 5
+**Last updated:** 2026-02-11 12:00
+**Total entries:** 6
 
 ---
 
@@ -10,6 +10,10 @@
 Entries organized chronologically (newest first).
 
 ## 2026-02
+
+**[2026-02-11-001]** 12:00 | Other | Teste de prova da skill session-memoria - registro criado via sessão mobile para validar persistência cross-session | Status: `aberto`
+Tags: test, session-memoria, proof-of-concept, mobile-session
+→ [Read entry](../entries/2026/02/2026-02-11_test-memory-proof-mobile-session.md)
 
 **[2026-02-10-005]** 21:00 | Projects | Auditoria e refatoração do PBI Automated Framework Inventory - framework desenvolvido com ChatGPT 5.2, migração Notion → BigQuery | Status: `on-hold`
 Tags: pbi-inventory, framework, refactoring, bigquery, notion, architecture-review, chatgpt

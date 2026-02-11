@@ -1,7 +1,7 @@
 # Session Memoria - Category Index
 
-**Last updated:** 2026-02-10 21:00
-**Total entries:** 5
+**Last updated:** 2026-02-11 12:00
+**Total entries:** 6
 
 ---
 
@@ -43,6 +43,12 @@ Tags: skill-development, performance-review, project-tracking, portfolio, gestao
 **[2026-02-10-001]** 02:20 | 10/02/2026 | Implementação completa do session-memoria skill v1.0.0 - sistema de gestão de conhecimento permanente | Status: `aberto`
 Tags: session-memoria, knowledge-management, skill-implementation, git-integration
 → [Read entry](../entries/2026/02/2026-02-10_implementacao-session-memoria-skill.md)
+
+## Other
+
+**[2026-02-11-001]** 12:00 | 11/02/2026 | Teste de prova da skill session-memoria - registro criado via sessão mobile para validar persistência cross-session | Status: `aberto`
+Tags: test, session-memoria, proof-of-concept, mobile-session
+→ [Read entry](../entries/2026/02/2026-02-11_test-memory-proof-mobile-session.md)
 
 ---
 
