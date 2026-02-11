@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.2.0] - 2026-02-11
+
+### Added
+- **Google Drive Integration:** New companion skill `gdrive-sync-memoria` v1.0.0
+- **ChatLLM Teams Workflow:** Automated import of summaries from ABACUS.AI via Google Drive
+- **Auto-Categorization:** Keyword-based category inference for imported files
+- **Auto-Tagging:** Extract up to 5 relevant tags from imported content
+- **Language Preservation:** Preserves original language (NO translation) for all imported content
+- **Source Tracking:** New frontmatter fields `source`, `original_filename`, `language`, `sync_date`
+- **gdrive_sync Metadata:** Tracking in metadata.json (last_sync, total_synced, last_count, last_error)
+
+### Changed
+- **metadata.json:** Added `gdrive_sync` section with sync tracking
+- **Total Entries:** 6 → 7 (first Google Drive sync: github_security_summary.md)
+- **Total Size:** 16.8 KB → 18.2 KB
+- **Supported Sources:** Local manual + Google Drive automated
+
+### Fixed
+- None
+
+---
+
 ## [1.1.0] - 2026-02-10
 
 ### Added

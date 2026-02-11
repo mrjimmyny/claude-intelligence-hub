@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.5.0] - 2026-02-11
+
+### Added
+- **Token Monitoring Protocol:** Real token parsing from system reminders (`Token usage: X/200000; Y remaining`)
+- **Proactive Context Alerts:** Alerts at 70%, 85%, 95% (not just 2% as before)
+- **Improved Fallback Heuristic:** Conservative estimation (chars / 3.8) when system reminders unavailable
+- **Visual Indicators:** 🟠 70%, 🔶 85%, 🔴 95% with actionable messages
+- **Snapshot Creation:** Automatic before suggesting /compact at 95%+
+- **Protocol Documentation:** Comprehensive Token Monitoring Protocol in SKILL.md (lines 242-268)
+
+### Changed
+- **Context Management Section:** Complete rewrite with active monitoring requirements
+- **Alert Thresholds:** Now functional at documented levels (70/85/95% vs. previous 2%)
+- **Monitoring Strategy:** Proactive (not reactive) - alerts BEFORE overflow, never after
+
+### Fixed
+- **Context Overflow Prevention:** Fixed issue where alerts only appeared at 2% instead of 70/85/95%
+- **Token Estimation:** More accurate fallback when system reminders not available
+
+---
+
 ## [1.4.0] - 2026-02-10
 
 ### Added
