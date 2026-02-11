@@ -1,7 +1,7 @@
 # Session Memoria - Category Index
 
-**Last updated:** 2026-02-10 23:55
-**Total entries:** 4
+**Last updated:** 2026-02-10 21:00
+**Total entries:** 5
 
 ---
 
@@ -31,6 +31,10 @@ Tags: power-bi, bigquery, skill-development, data-import, pbi-claude-skills
 → [Read entry](../entries/2026/02/2026-02-10_skill-import-bigquery-power-bi.md)
 
 ## Projects
+
+**[2026-02-10-005]** 21:00 | 10/02/2026 | Auditoria e refatoração do PBI Automated Framework Inventory - framework desenvolvido com ChatGPT 5.2, migração Notion → BigQuery | Status: `on-hold`
+Tags: pbi-inventory, framework, refactoring, bigquery, notion, architecture-review, chatgpt
+→ [Read entry](../entries/2026/02/2026-02-10_auditoria-refatoracao-pbi-inventory-framework.md)
 
 **[2026-02-10-003]** 23:55 | 10/02/2026 | Ideia de skill para registrar projetos concluidos e alimentar dados para Performance Review anual | Status: `aberto`
 Tags: skill-development, performance-review, project-tracking, portfolio, gestao
