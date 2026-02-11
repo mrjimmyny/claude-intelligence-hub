@@ -1,0 +1,9 @@
+{
+  "skill_id": "gdrive-sync-memoria",
+  "version": "1.0.0",
+  "auto_load": false,
+  "dependencies": ["session-memoria"],
+  "description": "Google Drive integration for ChatLLM Teams summaries",
+  "author": "Jimmy's Claude Intelligence Hub",
+  "created": "2026-02-11"
+}

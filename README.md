@@ -15,6 +15,7 @@ This hub organizes Claude Code skills by project type, making them easy to disco
 | **[pbi-claude-skills](pbi-claude-skills/)** | ✅ Production Ready (v1.0.0) | Power BI PBIP projects |
 | **[session-memoria](session-memoria/)** | ✅ Production Ready (v1.0.0) | Knowledge management system |
 | **[jimmy-core-preferences](jimmy-core-preferences/)** | ✅ Production Ready (v1.1.0) | Core personality & preferences |
+| **[gdrive-sync-memoria](gdrive-sync-memoria/)** | ✅ Production Ready (v1.0.0) | Google Drive integration for ChatLLM Teams sync |
 | **[python-claude-skills](python-claude-skills/)** | 📋 Planned | Python development |
 | **[git-claude-skills](git-claude-skills/)** | 📋 Planned | Git workflows |
 

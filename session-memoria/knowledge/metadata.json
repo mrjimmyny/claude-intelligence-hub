@@ -28,5 +28,12 @@
     "last_check": "2026-02-10 02:20:00",
     "current_level": "info",
     "history": []
+  },
+  "gdrive_sync": {
+    "enabled": true,
+    "last_sync": null,
+    "total_synced": 0,
+    "last_count": 0,
+    "last_error": null
   }
 }

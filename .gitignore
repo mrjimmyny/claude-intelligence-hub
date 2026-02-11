@@ -222,3 +222,7 @@ __marimo__/
 *.bak
 .DS_Store
 Thumbs.db
+
+# Google Drive Sync - Temporary and log files
+gdrive-sync-memoria/logs/
+gdrive-sync-memoria/temp/

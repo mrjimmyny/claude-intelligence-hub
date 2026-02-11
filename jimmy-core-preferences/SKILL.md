@@ -195,14 +195,37 @@ Two-Tier Memory System:
 
 ## 🎛️ Context Management Rules
 
+### Token Monitoring Protocol
+
+**CRITICAL: Active monitoring required**
+
+After EVERY response, check for system reminder:
+`Token usage: X/200000; Y remaining`
+
+**If system reminder present:**
+1. Parse X (tokens used) and Y (tokens remaining)
+2. Calculate percent: (X / 200000) * 100
+3. Trigger alerts based on thresholds below
+
+**If system reminder NOT present (fallback heuristic):**
+1. Estimate tokens: total_chars / 3.8 (avg PT-BR/EN)
+2. Use conservative thresholds (alert 10% earlier)
+3. Track: conversation length, files read, interactions
+
+**Implementation:**
+- Monitor PROACTIVELY (not reactively)
+- Alert BEFORE overflow, never after
+- Create snapshot before suggesting /compact
+- Preserve: decisions, code changes, outstanding items, next steps
+
 ### Proactive Alerts
 | Context Level | Action |
 |--------------|--------|
 | **0-50%** | Work normally |
 | **50-70%** | Monitor closely |
-| **70-85%** | Alert: "Context at 70%. Continue or compact?" |
-| **85-95%** | Urgent: "Context critical. We should compact now." |
-| **95%+** | Automatic: Create snapshot, suggest /compact immediately |
+| **70-85%** | Alert: "🟠 Context at ~70%. Continue or compact soon?" |
+| **85-95%** | Urgent: "🔶 Context at ~85%. We should compact now." |
+| **95%+** | Critical: "🔴 CRITICAL: Context at 95%!" + Create snapshot + Suggest /compact immediately |
 
 ### Compact Strategy
 When compacting context:
