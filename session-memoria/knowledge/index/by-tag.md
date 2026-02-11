@@ -1,7 +1,7 @@
 # Session Memoria - Tag Index
 
-**Last updated:** 2026-02-11 12:00
-**Total entries:** 6
+**Last updated:** 2026-02-11 19:42
+**Total entries:** 7
 
 ---
 
@@ -13,6 +13,11 @@ Tags are listed by frequency (most used first).
 - **#skill-development** (2)
 - **#power-bi** (2)
 - **#session-memoria** (2)
+- **#github** (1)
+- **#security** (1)
+- **#2fa** (1)
+- **#authentication** (1)
+- **#claude-code** (1)
 - **#test** (1)
 - **#proof-of-concept** (1)
 - **#mobile-session** (1)
@@ -171,6 +176,31 @@ Entries organized by tags (cross-cutting themes).
 
 **[2026-02-11-001]** 12:00 | Other | Teste de prova da skill session-memoria via mobile | Status: `aberto`
 → [Read entry](../entries/2026/02/2026-02-11_test-memory-proof-mobile-session.md)
+
+## #github
+
+**[2026-02-11-002]** 19:42 | Other | Security assessment for public GitHub repos with Claude Code | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-11-002.md)
+
+## #security
+
+**[2026-02-11-002]** 19:42 | Other | Security assessment for public GitHub repos with Claude Code | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-11-002.md)
+
+## #2fa
+
+**[2026-02-11-002]** 19:42 | Other | Security assessment for public GitHub repos with Claude Code | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-11-002.md)
+
+## #authentication
+
+**[2026-02-11-002]** 19:42 | Other | Security assessment for public GitHub repos with Claude Code | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-11-002.md)
+
+## #claude-code
+
+**[2026-02-11-002]** 19:42 | Other | Security assessment for public GitHub repos with Claude Code | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-11-002.md)
 
 ---
 

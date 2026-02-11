@@ -1,7 +1,7 @@
 # Session Memoria - Category Index
 
-**Last updated:** 2026-02-11 12:00
-**Total entries:** 6
+**Last updated:** 2026-02-11 19:42
+**Total entries:** 7
 
 ---
 
@@ -45,6 +45,10 @@ Tags: session-memoria, knowledge-management, skill-implementation, git-integrati
 → [Read entry](../entries/2026/02/2026-02-10_implementacao-session-memoria-skill.md)
 
 ## Other
+
+**[2026-02-11-002]** 19:42 | 11/02/2026 | Security assessment for public GitHub repos with Claude Code - covers public access risks, 2FA impact, and best practices | Status: `aberto`
+Tags: github, security, 2fa, authentication, claude-code
+→ [Read entry](../entries/2026/02/2026-02-11-002.md)
 
 **[2026-02-11-001]** 12:00 | 11/02/2026 | Teste de prova da skill session-memoria - registro criado via sessão mobile para validar persistência cross-session | Status: `aberto`
 Tags: test, session-memoria, proof-of-concept, mobile-session

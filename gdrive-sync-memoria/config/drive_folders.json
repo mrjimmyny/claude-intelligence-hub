@@ -1,7 +1,7 @@
 {
-  "input_folder": "_tobe_registered",
+  "input_folder": "Claude/_claude_intelligence_hub/_session_memoria/_tobe_registered",
   "input_folder_id": "1Lmf51XNKbnzdBYlR0VgsWhP6YjgF3si7",
-  "processed_folder": "_registered_claude_session_memoria",
+  "processed_folder": "Claude/_claude_intelligence_hub/_session_memoria/_registered_claude_session_memoria",
   "processed_folder_id": "1fF4kTEUTEbG-Jf9tGdV5Ur7bnnW1bmLN",
   "rclone_remote": "gdrive-jimmy",
   "preserve_original_language": true,
