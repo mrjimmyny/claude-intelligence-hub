@@ -1,6 +1,6 @@
 # Jimmy Core Preferences - Master Skill
 
-**Version:** 1.3.0
+**Version:** 1.4.0
 **Last Updated:** 2026-02-10
 **Auto-Load:** Yes (Priority: Highest)
 
@@ -57,6 +57,66 @@ This is the **Master Skill** that defines how Claude should work with Jimmy acro
 - **DO:** Suggest `/compact` at appropriate times
 - **DON'T:** Let conversations run into context overflow
 - **DON'T:** Lose important context without warning
+
+---
+
+## 🚨 CRITICAL: Session Memoria Git Strategy
+
+**THIS IS ABSOLUTELY CRITICAL - NEVER VIOLATE THESE RULES**
+
+When working with `session-memoria` (creating, updating, or managing entries):
+
+### Mandatory Git Workflow
+1. **ALWAYS work directly on branch `main`**
+   - NEVER create feature branches for session-memoria operations
+   - If currently on a feature branch, switch to `main` first: `git checkout main`
+   - Verify current branch before any session-memoria operation: `git branch --show-current`
+
+2. **ALWAYS commit and push IMMEDIATELY after each operation**
+   - After creating an entry: commit + push
+   - After updating an entry: commit + push
+   - After updating indices: commit + push
+   - Never leave uncommitted session-memoria changes
+
+3. **ALWAYS verify sync status**
+   - Before any operation: `git fetch && git pull origin main`
+   - After any operation: `git push origin main`
+   - If push fails: resolve conflicts immediately, never defer
+
+### Why This Matters
+- Session-memoria is used across Mobile and Desktop sessions
+- Feature branches cause sync issues between sessions
+- Unmerged branches result in lost entries and data fragmentation
+- Git is the single source of truth for all knowledge entries
+
+### Implementation Checklist
+Before EVERY session-memoria operation (save, update, recap):
+```bash
+# 1. Check current branch
+git branch --show-current
+
+# 2. If not on main, switch to main
+git checkout main
+
+# 3. Sync from remote
+git fetch && git pull origin main
+
+# 4. [Do the operation: create/update entry]
+
+# 5. Commit immediately
+git add session-memoria/
+git commit -m "feat(session-memoria): [operation description]"
+
+# 6. Push immediately
+git push origin main
+```
+
+### Error Handling
+- If git pull has conflicts: resolve before proceeding with operation
+- If git push fails: retry up to 3 times, then alert Jimmy
+- If on wrong branch: switch to main immediately, alert Jimmy if changes exist
+
+**VIOLATION OF THESE RULES WILL CAUSE DATA LOSS AND SYNC ISSUES**
 
 ---
 
