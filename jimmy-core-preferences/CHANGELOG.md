@@ -7,6 +7,47 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.4.0] - 2026-02-10
+
+### Added
+- **🚨 CRITICAL: Session Memoria Git Strategy** section
+  - Mandatory git workflow rules for session-memoria operations
+  - ALWAYS work on branch `main` (never create feature branches)
+  - ALWAYS commit and push immediately after operations
+  - Detailed implementation checklist with bash commands
+  - Error handling procedures for git conflicts and failures
+  - Clear explanation of why these rules prevent sync issues between Mobile and Desktop sessions
+
+### Changed
+- Updated version from 1.3.0 to 1.4.0
+- Enhanced Pattern 1 (Starting a New Session) with mandatory git sync requirement
+
+### Fixed
+- **CRITICAL FIX:** Prevents session-memoria entries from being created in feature branches
+- Eliminates sync issues that cause lost entries between Mobile and Desktop sessions
+- Ensures git is always the single source of truth for knowledge entries
+
+### Security
+- Prevents data loss from unmerged branches
+- Ensures consistency across all Claude instances (Mobile and Desktop)
+
+---
+
+## [1.3.0] - 2026-02-10
+
+### Added
+- **Recap triggers** in Pattern 5: "resume os últimos registros", "quais assuntos registramos", "o que temos em aberto", etc.
+- **Update triggers** in Pattern 5: "marca como resolvido", "fecha o tema", "atualiza o status de", etc.
+- **Git Sync requirement** documented as mandatory Step 0 before any session-memoria read operation
+- **Status-aware proactive recall**: Xavier now mentions entry status when referencing past topics
+
+### Changed
+- Pattern 5 expanded from save/recall only to save/recap/update/recall
+- Pattern 5 now documents full workflows for all 4 operations
+- Updated version from 1.2.0 to 1.3.0
+
+---
+
 ## [1.2.0] - 2026-02-10
 
 ### Added
@@ -178,5 +219,5 @@ When adding a new entry, use this format:
 ---
 
 **Last Updated:** 2026-02-10
-**Current Version:** 1.2.0
+**Current Version:** 1.4.0
 **Status:** ✅ Active Maintenance

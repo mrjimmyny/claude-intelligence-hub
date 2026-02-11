@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.0] - 2026-02-10
+
+### Added
+- **Entry tracking fields:** `status`, `priority`, `last_discussed`, `resolution` in YAML frontmatter
+- **Update Workflow:** 7-step process to change status, resolution, and priority of existing entries
+- **Recap Workflow:** 6-step process to summarize recent entries with status overview and visual indicators
+- **Git Sync (Step 0):** Mandatory git fetch + pull before any read operation (search, recap, update, stats)
+- **Update triggers (Portuguese):** "marca como resolvido", "fecha o tema", "atualiza o status de", etc.
+- **Recap triggers (Portuguese):** "resume os últimos registros", "quais assuntos registramos", "o que temos em aberto", etc.
+- **Status values:** `aberto`, `em_discussao`, `resolvido`, `arquivado`
+- **Priority values:** `alta`, `media`, `baixa`
+- **Status visual indicators:** in indices and recap display
+- **Data validation:** for new status and priority fields
+- **Resolution section:** optional markdown section added to entries when resolved
+
+### Changed
+- Entry template updated with 4 new frontmatter fields
+- Index format now includes status badge (`Status: \`aberto\``)
+- Index template updated to reflect new format
+- Existing entry (2026-02-10-001) updated with new fields
+- `.metadata` updated with update/recap triggers and valid status/priority settings
+- Future enhancements renumbered to v1.2.0+ (entry editing/updating now implemented)
+
+---
+
 ## [1.0.0] - 2026-02-10
 
 ### Added
@@ -71,7 +96,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Planned for v1.1.0
+### Planned for v1.2.0
 - Archive entries older than 6 months
 - Entry merging (consolidate related entries)
 - Tag consolidation and cleanup tools
@@ -83,10 +108,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Full-text search within entries
 - Related entries suggestion (based on tags and content)
 - Batch import from existing notes
-- Entry editing/updating workflow
 - Entry deletion with confirmation
 
-### Planned for v1.2.0
+### Planned for v1.3.0
 - Web interface for browsing entries
 - Visual analytics (graphs, charts)
 - Entry linking and backlinks
@@ -101,6 +125,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Version | Date | Status | Notes |
 |---------|------|--------|-------|
+| 1.1.0 | 2026-02-10 | Released | Entry tracking, update/recap workflows, git sync |
 | 1.0.0 | 2026-02-10 | Released | Initial release with core features |
 
 ---

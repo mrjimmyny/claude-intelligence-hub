@@ -1,6 +1,6 @@
 # Jimmy Core Preferences - Master Skill
 
-**Version:** 1.2.0
+**Version:** 1.4.0
 **Last Updated:** 2026-02-10
 **Auto-Load:** Yes (Priority: Highest)
 
@@ -57,6 +57,66 @@ This is the **Master Skill** that defines how Claude should work with Jimmy acro
 - **DO:** Suggest `/compact` at appropriate times
 - **DON'T:** Let conversations run into context overflow
 - **DON'T:** Lose important context without warning
+
+---
+
+## 🚨 CRITICAL: Session Memoria Git Strategy
+
+**THIS IS ABSOLUTELY CRITICAL - NEVER VIOLATE THESE RULES**
+
+When working with `session-memoria` (creating, updating, or managing entries):
+
+### Mandatory Git Workflow
+1. **ALWAYS work directly on branch `main`**
+   - NEVER create feature branches for session-memoria operations
+   - If currently on a feature branch, switch to `main` first: `git checkout main`
+   - Verify current branch before any session-memoria operation: `git branch --show-current`
+
+2. **ALWAYS commit and push IMMEDIATELY after each operation**
+   - After creating an entry: commit + push
+   - After updating an entry: commit + push
+   - After updating indices: commit + push
+   - Never leave uncommitted session-memoria changes
+
+3. **ALWAYS verify sync status**
+   - Before any operation: `git fetch && git pull origin main`
+   - After any operation: `git push origin main`
+   - If push fails: resolve conflicts immediately, never defer
+
+### Why This Matters
+- Session-memoria is used across Mobile and Desktop sessions
+- Feature branches cause sync issues between sessions
+- Unmerged branches result in lost entries and data fragmentation
+- Git is the single source of truth for all knowledge entries
+
+### Implementation Checklist
+Before EVERY session-memoria operation (save, update, recap):
+```bash
+# 1. Check current branch
+git branch --show-current
+
+# 2. If not on main, switch to main
+git checkout main
+
+# 3. Sync from remote
+git fetch && git pull origin main
+
+# 4. [Do the operation: create/update entry]
+
+# 5. Commit immediately
+git add session-memoria/
+git commit -m "feat(session-memoria): [operation description]"
+
+# 6. Push immediately
+git push origin main
+```
+
+### Error Handling
+- If git pull has conflicts: resolve before proceeding with operation
+- If git push fails: retry up to 3 times, then alert Jimmy
+- If on wrong branch: switch to main immediately, alert Jimmy if changes exist
+
+**VIOLATION OF THESE RULES WILL CAUSE DATA LOSS AND SYNC ISSUES**
 
 ---
 
@@ -118,9 +178,13 @@ This is the **Master Skill** that defines how Claude should work with Jimmy acro
 ### Pattern 1: Starting a New Session
 ```
 1. Load jimmy-core-preferences (this file)
-2. Check context from previous session (if applicable)
-3. Greet naturally: "Hey Jimmy, what are we working on?"
-4. Listen first, then clarify if needed
+2. Git Sync: Run git fetch + git pull origin main on claude-intelligence-hub repo
+   - This ensures ALL skills and session-memoria data are up to date
+   - Git is our single source of truth - ALWAYS sync before doing anything
+   - If sync fails: retry up to 4x with exponential backoff, then alert Jimmy
+3. Check context from previous session (if applicable)
+4. Greet naturally: "Hey Jimmy, what are we working on?"
+5. Listen first, then clarify if needed
 ```
 
 ### Pattern 2: Receiving a Request
@@ -160,12 +224,17 @@ Actions:
 
 ### Pattern 5: Knowledge Capture (Session Memoria Integration)
 ```
+CRITICAL: Before ANY read operation on session-memoria (search, recap, update, stats),
+execute Git Sync first: git fetch + git pull origin main.
+Git is our single source of truth - always sync before reading.
+
 When Jimmy mentions important information:
 - Significant decisions with reasoning
 - Valuable technical insights
 - Project ideas (current or future)
 - Problem-solving approaches
 
+--- SAVE ---
 Trigger Detection:
 - Direct: "Xavier, registre isso" / "X, salve essa conversa"
 - Context: Recognize when information is worth saving
@@ -174,21 +243,60 @@ Actions:
 1. Detect save triggers or recognize significant content
 2. Offer to save: "Quer que eu registre na session-memoria?"
 3. If yes, analyze conversation context
-4. Suggest metadata (category, tags, summary)
+4. Suggest metadata (category, tags, summary, status, priority)
 5. Confirm with Jimmy
-6. Create entry with unique ID
-7. Update indices and metadata
+6. Create entry with unique ID (status=aberto, priority=media by default)
+7. Update indices and metadata (include status in index lines)
 8. Commit to Git
 9. Confirm: "✅ Registrado na Session Memoria! Entry ID: YYYY-MM-DD-NNN"
 
-Proactive Recall:
+--- RECAP ---
+Trigger Detection:
+- "Xavier, resume os últimos registros"
+- "X, resume os últimos N registros"
+- "quais assuntos registramos"
+- "o que temos em aberto na memoria"
+- "o que ainda falta discutir"
+- "X, quais temas estão abertos"
+- Any request to summarize recent session-memoria entries
+
+Actions:
+1. Git Sync (fetch + pull) - MANDATORY
+2. Parse request: how many entries, any filters (status, category, period, priority)
+3. Read indices and entry files to get full metadata
+4. Build summary with: entry ID, date, category, summary, status, priority, last_discussed
+5. Display recap with status indicators (🔴 aberto, 🟡 em discussão, 🟢 resolvido, ⚪ arquivado)
+6. Show totals: N abertos | N em discussão | N resolvidos
+7. Offer follow-up: see full entry or update status
+
+--- UPDATE ---
+Trigger Detection:
+- "Xavier, marca como resolvido"
+- "X, fecha o tema"
+- "atualiza o status de"
+- "marca esse assunto como"
+- "resolve o entry"
+- Any request to change status/resolution/priority of an entry
+
+Actions:
+1. Git Sync (fetch + pull) - MANDATORY
+2. Identify which entry (by ID or search)
+3. Show current values and proposed changes
+4. Confirm with Jimmy
+5. Update entry frontmatter (status, resolution, priority, last_discussed)
+6. Update indices with new status
+7. Commit + push to Git
+8. Confirm: "✅ Entry atualizada!"
+
+--- PROACTIVE RECALL ---
 - When Jimmy asks about past topics: "Já conversamos sobre isso! Busco na Session Memoria?"
 - Reference previous entries: "Em [YYYY-MM-DD-NNN] você decidiu X porque Y"
 - Suggest related entries when relevant
+- When recalling, mention the status: "Esse assunto está [aberto/resolvido]"
 
 Two-Tier Memory System:
 - MEMORY.md: Short-term patterns and learnings (< 200 lines)
-- Session Memoria: Long-term, searchable, detailed archive
+- Session Memoria: Long-term, searchable, detailed archive with status tracking
 ```
 
 ---

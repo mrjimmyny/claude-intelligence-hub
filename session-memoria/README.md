@@ -1,6 +1,6 @@
 # Session Memoria - Xavier's Second Brain 🧠
 
-**Version:** 1.0.0
+**Version:** 1.1.0
 **Status:** Active
 **Language:** Portuguese (pt-BR)
 
@@ -243,12 +243,14 @@ Xavier vai referenciar memórias anteriores quando relevante:
 
 ---
 
-## Estatísticas (v1.0.0)
+## Estatísticas (v1.1.0)
 
-- **Total de entradas:** 0
-- **Tamanho total:** 0 MB
-- **Última entrada:** N/A
-- **Status:** Inicializado
+- **Total de entradas:** 6
+- **Tamanho total:** ~17KB
+- **Última entrada:** 2026-02-11-001
+- **Status:** Produção ativa
+- **Categorias:** Projects (3), Power BI (2), Other (1)
+- **Cross-device:** Desktop + Mobile sync ativo
 
 ---
 
@@ -285,19 +287,71 @@ Xavier: [exibe estatísticas completas]
 
 ## Roadmap
 
-### v1.0.0 (Atual)
+### v1.0.0 (Released 2026-02-10)
 - ✅ Save workflow com Git
 - ✅ Triple index system
 - ✅ Search multi-index
 - ✅ Growth monitoring
 - ✅ Portuguese support
 
-### v1.1.0 (Futuro)
+### v1.1.0 (Released 2026-02-11)
+- ✅ Entry status tracking (aberto, em_discussao, resolvido, arquivado)
+- ✅ Priority levels (alta, media, baixa)
+- ✅ Update triggers ("xavier, marca como resolvido")
+- ✅ Recap triggers ("xavier, resume os últimos registros")
+- ✅ Mobile support via MOBILE_SESSION_STARTER.md
+- ✅ Cross-device sync (Desktop + Mobile)
+
+### v1.2.0 (Futuro)
 - Archive entries > 6 meses
 - Entry merging
 - Tag consolidation
 - Entry summarization
 - Export (PDF, JSON)
+
+---
+
+## 📱 Mobile Usage (claude.ai app)
+
+**Important:** The Claude mobile app doesn't load local skills automatically.
+
+### Solution: Use MOBILE_SESSION_STARTER.md
+
+**One-time setup:**
+1. Download [MOBILE_SESSION_STARTER.md](MOBILE_SESSION_STARTER.md) to your mobile device
+2. Save in an accessible location
+
+**Every mobile Code session:**
+1. Start new Claude Code session on mobile
+2. Attach MOBILE_SESSION_STARTER.md file
+3. Claude will load all necessary context
+4. Use session-memoria normally
+
+**What MOBILE_SESSION_STARTER.md provides:**
+- ✅ Complete session-memoria context
+- ✅ Repository structure
+- ✅ Entry templates and formats
+- ✅ Git sync protocol
+- ✅ Xavier identity and behavior
+- ✅ All valid statuses, categories, tags
+- ✅ Step-by-step operation guides
+
+**Mobile workflow:**
+```
+Mobile: Create/update entry → Commit + Push
+   ↓
+Desktop: Git pull (auto-sync via junction points)
+   ↓
+Desktop: Skills auto-updated with mobile changes ✅
+```
+
+**Limitations on mobile:**
+- ❌ No auto-triggers ("xavier, registre isso")
+- ❌ No automatic skill loading
+- ✅ Manual operations work perfectly with starter file
+- ✅ Full Git sync with desktop
+
+See [MOBILE_SESSION_STARTER.md](MOBILE_SESSION_STARTER.md) for complete mobile instructions.
 
 ---
 
@@ -317,4 +371,5 @@ MIT License - Sinta-se livre para usar e modificar.
 
 **Criado por Xavier para Jimmy**
 **Data:** 2026-02-10
-**Versão:** 1.0.0
+**Versão:** 1.1.0
+**Última atualização:** 2026-02-11

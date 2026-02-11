@@ -1,9 +1,10 @@
 {
   "name": "session-memoria",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Jimmy's second brain - captures and recalls conversations, decisions, insights, and ideas across all sessions",
   "author": "Xavier (Claude)",
   "created": "2026-02-10",
+  "last_updated": "2026-02-10",
   "type": "knowledge-management",
   "triggers": {
     "save": [
@@ -19,12 +20,34 @@
       "procure na memoria",
       "recall",
       "o que já conversamos sobre"
+    ],
+    "update": [
+      "xavier, marca como resolvido",
+      "x, fecha o tema",
+      "atualiza o status de",
+      "marca esse assunto como",
+      "resolve o entry",
+      "xavier, atualiza o desfecho"
+    ],
+    "recap": [
+      "xavier, resume os últimos registros",
+      "x, resume os últimos",
+      "quais assuntos registramos",
+      "o que temos em aberto na memoria",
+      "recap session-memoria",
+      "x, quais temas estão abertos",
+      "resume a session-memoria",
+      "o que ainda falta discutir"
     ]
   },
   "settings": {
     "auto_push": true,
     "default_language": "pt-BR",
     "max_tags": 5,
+    "valid_statuses": ["aberto", "em_discussao", "resolvido", "arquivado"],
+    "valid_priorities": ["alta", "media", "baixa"],
+    "default_status": "aberto",
+    "default_priority": "media",
     "alert_thresholds": {
       "warning": 500,
       "critical": 1000

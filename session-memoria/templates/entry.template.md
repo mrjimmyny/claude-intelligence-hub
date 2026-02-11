@@ -4,6 +4,10 @@ date: YYYY-MM-DD
 time: HH:MM
 category: Category Name
 tags: [tag1, tag2, tag3]
+status: aberto
+priority: media
+last_discussed: YYYY-MM-DD
+resolution: ""
 project: optional-project-name
 conversation_id: optional-uuid
 summary: One-line summary describing this entry (max 120 chars)
