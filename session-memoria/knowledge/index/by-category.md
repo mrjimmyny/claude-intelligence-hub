@@ -1,7 +1,7 @@
 # Session Memoria - Category Index
 
-**Last updated:** 2026-02-12 02:30
-**Total entries:** 9
+**Last updated:** 2026-02-12 06:30
+**Total entries:** 10
 
 ---
 
@@ -32,6 +32,10 @@ Tags: power-bi, bigquery, skill-development, data-import, pbi-claude-skills
 → [Read entry](../entries/2026/02/2026-02-10_skill-import-bigquery-power-bi.md)
 
 ## Projects
+
+**[2026-02-12-003]** 06:30 | 12/02/2026 | CRITICAL: CLI sessions stored locally only - machine format = total loss. Backup strategy approved. | Status: `aberto`
+Tags: claude-code, session-backup, data-persistence, disaster-recovery, session-management, critical-concern
+→ [Read entry](../entries/2026/02/2026-02-12-003_session-backup-critical-concern.md)
 
 **[2026-02-12-001]** 01:50 | 12/02/2026 | Workflow for preserving structural memory via session resume IDs and knowledge registry skill in claude-intelligence-hub | Status: `aberto`
 Tags: claude-code, session-management, skill-development, workflow, knowledge-registry

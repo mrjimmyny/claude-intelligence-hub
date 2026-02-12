@@ -1,7 +1,7 @@
 # Session Memoria - Tag Index
 
-**Last updated:** 2026-02-12 02:30
-**Total entries:** 9
+**Last updated:** 2026-02-12 06:30
+**Total entries:** 10
 
 ---
 
@@ -9,23 +9,26 @@
 
 Tags are listed by frequency (most used first).
 
+- **#claude-code** (4)
 - **#skill-development** (3)
-- **#claude-code** (3)
+- **#session-management** (2)
 - **#bigquery** (2)
 - **#power-bi** (2)
+- **#session-memoria** (2)
+- **#session-backup** (1)
+- **#data-persistence** (1)
+- **#disaster-recovery** (1)
+- **#critical-concern** (1)
 - **#slash-command-insights** (1)
 - **#youtube** (1)
 - **#productivity** (1)
 - **#future-implementation** (1)
-- **#session-memoria** (2)
-- **#session-management** (1)
 - **#workflow** (1)
 - **#knowledge-registry** (1)
 - **#github** (1)
 - **#security** (1)
 - **#2fa** (1)
 - **#authentication** (1)
-- **#claude-code** (1)
 - **#test** (1)
 - **#proof-of-concept** (1)
 - **#mobile-session** (1)
@@ -210,6 +213,9 @@ Entries organized by tags (cross-cutting themes).
 
 ## #claude-code
 
+**[2026-02-12-003]** 06:30 | Projects | CRITICAL: CLI session backup strategy approved | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-12-003_session-backup-critical-concern.md)
+
 **[2026-02-12-002]** 02:30 | Claude Code | Descoberta do comando /insights do Claude Code via YouTube | Status: `aberto`
 → [Read entry](../entries/2026/02/2026-02-12_comando-insights-claude-code-youtube.md)
 
@@ -220,6 +226,9 @@ Entries organized by tags (cross-cutting themes).
 → [Read entry](../entries/2026/02/2026-02-11-002.md)
 
 ## #session-management
+
+**[2026-02-12-003]** 06:30 | Projects | CRITICAL: CLI session backup strategy approved | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-12-003_session-backup-critical-concern.md)
 
 **[2026-02-12-001]** 01:50 | Projects | Workflow for preserving structural memory via session resume IDs | Status: `aberto`
 → [Read entry](../entries/2026/02/2026-02-12-001.md)
@@ -253,6 +262,26 @@ Entries organized by tags (cross-cutting themes).
 
 **[2026-02-12-002]** 02:30 | Claude Code | Descoberta do comando /insights do Claude Code via YouTube | Status: `aberto`
 → [Read entry](../entries/2026/02/2026-02-12_comando-insights-claude-code-youtube.md)
+
+## #session-backup
+
+**[2026-02-12-003]** 06:30 | Projects | CRITICAL: CLI session backup strategy approved | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-12-003_session-backup-critical-concern.md)
+
+## #data-persistence
+
+**[2026-02-12-003]** 06:30 | Projects | CRITICAL: CLI session backup strategy approved | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-12-003_session-backup-critical-concern.md)
+
+## #disaster-recovery
+
+**[2026-02-12-003]** 06:30 | Projects | CRITICAL: CLI session backup strategy approved | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-12-003_session-backup-critical-concern.md)
+
+## #critical-concern
+
+**[2026-02-12-003]** 06:30 | Projects | CRITICAL: CLI session backup strategy approved | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-12-003_session-backup-critical-concern.md)
 
 ---
 

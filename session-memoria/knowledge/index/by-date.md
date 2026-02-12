@@ -1,7 +1,7 @@
 # Session Memoria - Chronological Index
 
-**Last updated:** 2026-02-12 02:30
-**Total entries:** 9
+**Last updated:** 2026-02-12 06:30
+**Total entries:** 10
 
 ---
 
@@ -10,6 +10,10 @@
 Entries organized chronologically (newest first).
 
 ## 2026-02
+
+**[2026-02-12-003]** 06:30 | Projects | CRITICAL: CLI sessions stored locally only - machine format = total loss. Backup strategy approved for registered sessions. | Status: `aberto`
+Tags: claude-code, session-backup, data-persistence, disaster-recovery, session-management, critical-concern
+→ [Read entry](../entries/2026/02/2026-02-12-003_session-backup-critical-concern.md)
 
 **[2026-02-12-002]** 02:30 | Claude Code | Descoberta do comando /insights do Claude Code via video YouTube - explorar e implementar em sessao principal | Status: `aberto`
 Tags: claude-code, slash-command-insights, youtube, productivity, future-implementation
