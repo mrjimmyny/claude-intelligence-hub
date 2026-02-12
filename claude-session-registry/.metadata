@@ -1,0 +1,31 @@
+{
+  "name": "claude-session-registry",
+  "version": "1.0.0",
+  "description": "Track Claude sessions with Git context",
+  "author": "Xavier (Claude)",
+  "created": "2026-02-12",
+  "type": "session-tracking",
+  "triggers": {
+    "register": [
+      "xavier, registra sessão",
+      "x, registra a sessão",
+      "salvar sessão"
+    ],
+    "search": [
+      "xavier, busca sessões",
+      "procura sessões"
+    ],
+    "stats": [
+      "/session-registry stats"
+    ]
+  },
+  "settings": {
+    "auto_push": true,
+    "default_language": "pt-BR",
+    "timezone": "America/Sao_Paulo",
+    "machine_id": "",
+    "golden_close_enabled": true,
+    "min_summary_items": 3,
+    "max_summary_items": 5
+  }
+}
