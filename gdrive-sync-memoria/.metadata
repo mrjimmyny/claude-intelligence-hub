@@ -1,9 +1,23 @@
 {
-  "skill_id": "gdrive-sync-memoria",
+  "name": "gdrive-sync-memoria",
   "version": "1.0.0",
-  "auto_load": false,
-  "dependencies": ["session-memoria"],
-  "description": "Google Drive integration for ChatLLM Teams summaries",
+  "description": "Google Drive integration for ChatLLM Teams summaries - syncs .md files from ChatLLM Teams to session-memoria",
   "author": "Jimmy's Claude Intelligence Hub",
-  "created": "2026-02-11"
+  "created": "2026-02-11",
+  "last_updated": "2026-02-11",
+  "type": "integration",
+  "triggers": {
+    "sync": [
+      "xavier, sincroniza o google drive",
+      "x, processa arquivos do chatllm",
+      "importa os resumos do google drive",
+      "sincroniza gdrive",
+      "processa arquivos pendentes"
+    ]
+  },
+  "settings": {
+    "auto_push": true,
+    "rclone_remote": "gdrive-jimmy",
+    "preserve_original_language": true
+  }
 }
