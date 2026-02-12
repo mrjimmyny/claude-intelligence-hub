@@ -29,9 +29,10 @@ The **Claude Intelligence Hub** is a centralized system that:
 
 | Collection | Version | Status | Description | Key Features |
 |------------|---------|--------|-------------|--------------|
-| **[jimmy-core-preferences](jimmy-core-preferences/)** | v1.4.0 | ✅ Production | Master intelligence framework | Radical honesty, self-learning, context management, identity (Xavier + Jimmy) |
-| **[session-memoria](session-memoria/)** | v1.1.0 | ✅ Production | Knowledge management system | 100% conversation retention, triple-index search, lifecycle tracking, Git-synced |
-| **[gdrive-sync-memoria](gdrive-sync-memoria/)** | v1.0.0 | ✅ Production | Google Drive integration | ChatLLM Teams sync, auto-import to session-memoria, rclone-based |
+| **[jimmy-core-preferences](jimmy-core-preferences/)** | v1.5.0 | ✅ Production | Master intelligence framework | Radical honesty, self-learning, context management, identity (Xavier + Jimmy) |
+| **[session-memoria](session-memoria/)** | v1.2.0 | ✅ Production | Knowledge management system | 100% conversation retention, triple-index search, lifecycle tracking, Git-synced |
+| **[gdrive-sync-memoria](gdrive-sync-memoria/)** | v1.0.0 | ✅ Production | Google Drive integration | ChatLLM Teams sync, auto-import to session-memoria, zero-friction automation |
+| **[claude-session-registry](claude-session-registry/)** | v1.0.0 | ✅ Production | Session tracking & continuity | Resume ID tracking, Git context, Golden Close protocol, cross-device sessions |
 | **[pbi-claude-skills](pbi-claude-skills/)** | v1.3.0 | ✅ Production | Power BI PBIP optimization | 50-97% token savings, 5 specialized skills, auto-indexing |
 | **[python-claude-skills](python-claude-skills/)** | - | 📋 Planned | Python development patterns | Coming soon |
 | **[git-claude-skills](git-claude-skills/)** | - | 📋 Planned | Git workflow automation | Coming soon |
@@ -119,9 +120,9 @@ Stats: /session-memoria stats
 - [Changelog](session-memoria/CHANGELOG.md)
 
 **Current Stats:**
-- Total Entries: 6 (validated in production)
-- Categories: Projects (3), Power BI (2), Other (1)
-- Total Size: ~17KB
+- Total Entries: 8 (validated in production)
+- Categories: Projects (4), Power BI (2), Other (2)
+- Total Size: ~21KB
 - Status: 100% operational
 
 </details>
@@ -162,21 +163,37 @@ claude
 ```
 claude-intelligence-hub/
 │
-├── 📁 jimmy-core-preferences/       # ⭐ Master Skill (v1.4.0)
+├── 📁 jimmy-core-preferences/       # ⭐ Master Skill (v1.5.0)
 │   ├── SKILL.md                     # Universal AI behavior rules (15KB)
 │   ├── EXECUTIVE_SUMMARY.md         # 49KB comprehensive doc
-│   ├── CHANGELOG.md                 # v1.0 → v1.4 evolution
+│   ├── CHANGELOG.md                 # v1.0 → v1.5 evolution
 │   └── README.md                    # User guide
 │
-├── 📁 session-memoria/              # ⭐ Knowledge System (v1.1.0)
+├── 📁 session-memoria/              # ⭐ Knowledge System (v1.2.0)
 │   ├── SKILL.md                     # Capture/recall workflows (22KB)
 │   ├── EXECUTIVE_SUMMARY.md         # 39KB comprehensive doc
 │   ├── knowledge/                   # Storage
-│   │   ├── entries/                 # 6 entries (YYYY/MM structure)
+│   │   ├── entries/                 # 8 entries (YYYY/MM structure)
 │   │   ├── index/                   # Triple-index (date/category/tag)
 │   │   └── metadata.json            # Stats & counters
 │   ├── templates/                   # Entry templates
 │   └── README.md                    # User guide
+│
+├── 📁 gdrive-sync-memoria/          # ⭐ Google Drive Integration (v1.0.0)
+│   ├── SKILL.md                     # 8-step sync workflow (21KB)
+│   ├── README.md                    # User guide (12KB)
+│   ├── QUICK_REFERENCE.md           # Quick ref & troubleshooting
+│   ├── sync-gdrive.sh               # Wrapper script (zero-friction)
+│   ├── config/                      # drive_folders.json
+│   ├── temp/                        # Download cache (git-ignored)
+│   └── logs/                        # Sync history (git-ignored)
+│
+├── 📁 claude-session-registry/      # ⭐ Session Tracking (v1.0.0)
+│   ├── SKILL.md                     # Session tracking workflows (15KB)
+│   ├── README.md                    # User guide (4KB)
+│   ├── SETUP_GUIDE.md               # Installation instructions
+│   ├── registry/                    # Session entries storage
+│   └── templates/                   # Entry templates
 │
 ├── 📁 pbi-claude-skills/            # ⭐ Power BI Optimization (v1.3.0)
 │   ├── skills/                      # 5 parametrized skills
@@ -189,10 +206,12 @@ claude-intelligence-hub/
 ├── 📁 git-claude-skills/            # 📋 Placeholder (future)
 │
 ├── 📁 .claude/                      # Project-level config
-│   └── project-instructions.md      # Mandatory initialization protocol
+│   ├── project-instructions.md      # Mandatory initialization protocol
+│   └── projects/                    # Per-project memory & settings
 │
 ├── README.md                        # ⭐ This file
 ├── CHANGELOG.md                     # Version history
+├── HUB_EXECUTIVE_SUMMARY.md         # Comprehensive hub overview
 └── LICENSE                          # MIT License
 ```
 
@@ -327,18 +346,19 @@ git pull origin main
 
 | Metric | Value |
 |--------|-------|
-| **Total Skills** | 3 skill collections (11+ individual skills) |
-| **Total Documentation** | ~150KB (executive summaries, guides, changelogs) |
-| **Version History** | 15+ commits (tracked in CHANGELOG.md) |
+| **Total Skills** | 4 skill collections (15+ individual skills) |
+| **Total Documentation** | ~180KB (executive summaries, guides, changelogs) |
+| **Version History** | 20+ commits (tracked in CHANGELOG.md) |
 | **Projects Migrated** | 1/9 Power BI projects (hr_kpis_board_v2) |
-| **Session Memoria Entries** | 6 entries (~17KB knowledge base) |
+| **Session Memoria Entries** | 8 entries (~21KB knowledge base) |
+| **Google Drive Syncs** | 2 successful (2 files imported) |
 | **Token Savings (Power BI)** | 50-97% per operation |
 | **Time Savings (Preferences)** | ~30 hours/year |
 | **Test Success Rate** | 99% (158/160 total tests) |
 
 ### Skills by Status
 
-- ✅ **Production Ready:** 3 (jimmy-core-preferences, session-memoria, pbi-claude-skills)
+- ✅ **Production Ready:** 4 (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry)
 - 🚧 **In Development:** 0
 - 📋 **Planned:** 2 (python-claude-skills, git-claude-skills)
 
@@ -523,8 +543,8 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 
 ## 📈 Version History
 
-**Current Version:** v1.4.0 ✅ **Production Ready**
-**Last Updated:** February 11, 2026
+**Current Version:** v1.6.0 ✅ **Production Ready**
+**Last Updated:** February 12, 2026
 **Status:** Operational | Validated | Actively Maintained
 
 ### Major Milestones
@@ -534,6 +554,8 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 - **v1.2.0** (2026-02-10): Session-memoria v1.0.0 - knowledge management
 - **v1.3.0** (2026-02-10): Session-memoria v1.1.0 - lifecycle tracking
 - **v1.4.0** (2026-02-10): Critical git strategy - data loss prevention
+- **v1.5.0** (2026-02-11): Google Drive sync + token monitoring
+- **v1.6.0** (2026-02-12): Session registry + zero-friction automation
 
 See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
 

@@ -28,20 +28,29 @@ Automatically import summaries and documents from ChatLLM Teams (ABACUS.AI) into
 
 ### Usage
 
-**Manual sync:**
-```
-/gdrive-sync
-```
-
-Or natural language:
+**Option 1: Natural language (zero-friction):**
 ```
 Xavier, sincroniza o Google Drive
 X, processa arquivos do ChatLLM
 Importa os resumos do Google Drive
 ```
 
+**Option 2: Direct script execution:**
+```bash
+cd claude-intelligence-hub
+bash gdrive-sync-memoria/sync-gdrive.sh
+```
+
+**Option 3: Skill command:**
+```
+/gdrive-sync
+```
+
 **Automatic reminders:**
 Xavier will proactively suggest syncing if >3 days since last sync.
+
+**Quick Reference:**
+See [QUICK_REFERENCE.md](QUICK_REFERENCE.md) for troubleshooting and common tasks.
 
 ---
 

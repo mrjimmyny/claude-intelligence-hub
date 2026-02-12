@@ -4,6 +4,72 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.6.0] - 2026-02-12
+
+### Added
+- **claude-session-registry** - New skill v1.0.0 for session tracking
+  - Resume ID tracking with Git context (branch + commit hash)
+  - Golden Close protocol (reminds to capture session before exit)
+  - Session search and statistics
+  - Timezone-aware timestamps (America/Sao_Paulo)
+  - Auto-push to GitHub after registry updates
+  - Template-based entry creation
+  - Integration with session-memoria for cross-referencing
+- **gdrive-sync-memoria automation improvements**
+  - sync-gdrive.sh wrapper script for direct execution
+  - QUICK_REFERENCE.md for troubleshooting and quick access
+  - Zero-friction defense implementation (3-layer protection)
+  - MEMORY.md enhanced with triggers and anti-patterns
+  - Automated trigger recognition ("sincroniza Google Drive")
+- **session-memoria** v1.2
+  - 2 new entries synced from Google Drive
+  - Entry: 2026-02-12-001 (Claude Code Session Resume IDs)
+  - Total entries: 6 → 8
+  - Total size: 18.2 KB → 20.7 KB
+  - Enhanced Google Drive metadata tracking
+
+### Changed
+- **README.md**
+  - Added claude-session-registry to skills table
+  - Updated Hub Architecture with claude-session-registry structure
+  - Updated gdrive-sync-memoria architecture (new files)
+  - Updated statistics: 8 entries, 4 skills, 21KB knowledge base
+  - Updated version history: v1.4.0 → v1.6.0
+  - Last updated: 2026-02-11 → 2026-02-12
+- **MEMORY.md** (auto memory)
+  - Section: "Google Drive Sync - PADRÃO AUTOMÁTICO"
+  - Triggers documented for immediate recognition
+  - Anti-pattern documented: "Instalação desnecessária"
+  - Workflow padrão: Check docs FIRST, then execute
+  - Claude Intelligence Hub structure reference
+
+### Fixed
+- **Zero-friction sync trigger** - Eliminated setup questions when requesting Google Drive sync
+  - 3-layer defense: MEMORY.md + script wrapper + skill registration
+  - Xavier now recognizes sync requests immediately without asking about installations
+  - Anti-pattern catalogued to prevent regression
+
+### Documentation
+- Created: claude-session-registry/SKILL.md (15KB)
+- Created: claude-session-registry/README.md (4KB)
+- Created: claude-session-registry/SETUP_GUIDE.md (10KB)
+- Created: gdrive-sync-memoria/sync-gdrive.sh (executable script)
+- Created: gdrive-sync-memoria/QUICK_REFERENCE.md (3KB)
+- Updated: MEMORY.md (auto memory with patterns)
+- Updated: README.md (skills table, architecture, stats)
+- Updated: CHANGELOG.md (this file)
+
+### Validation
+- ✅ Google Drive sync executed successfully (1 file)
+- ✅ Entry 2026-02-12-001 created and indexed
+- ✅ Git commit + push successful (af98566)
+- ✅ claude-session-registry skill symlinked
+- ✅ MEMORY.md triggers tested
+- ✅ Zero-friction workflow validated
+- ✅ All documentation updated
+
+---
+
 ## [1.5.0] - 2026-02-11
 
 ### Added
