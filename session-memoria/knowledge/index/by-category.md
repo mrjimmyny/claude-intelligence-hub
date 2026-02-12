@@ -1,7 +1,7 @@
 # Session Memoria - Category Index
 
-**Last updated:** 2026-02-12 01:50
-**Total entries:** 8
+**Last updated:** 2026-02-12 02:30
+**Total entries:** 9
 
 ---
 
@@ -15,6 +15,7 @@ Entries organized by domain and category.
 - Gestão (Management)
 - Pessoal (Personal)
 - Git
+- Claude Code
 - Projects
 - Other
 
@@ -47,6 +48,12 @@ Tags: skill-development, performance-review, project-tracking, portfolio, gestao
 **[2026-02-10-001]** 02:20 | 10/02/2026 | Implementação completa do session-memoria skill v1.0.0 - sistema de gestão de conhecimento permanente | Status: `aberto`
 Tags: session-memoria, knowledge-management, skill-implementation, git-integration
 → [Read entry](../entries/2026/02/2026-02-10_implementacao-session-memoria-skill.md)
+
+## Claude Code
+
+**[2026-02-12-002]** 02:30 | 12/02/2026 | Descoberta do comando /insights do Claude Code via video YouTube - explorar e implementar em sessao principal | Status: `aberto`
+Tags: claude-code, slash-command-insights, youtube, productivity, future-implementation
+→ [Read entry](../entries/2026/02/2026-02-12_comando-insights-claude-code-youtube.md)
 
 ## Other
 

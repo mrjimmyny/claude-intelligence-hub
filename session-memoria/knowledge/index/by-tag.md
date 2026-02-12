@@ -1,7 +1,7 @@
 # Session Memoria - Tag Index
 
-**Last updated:** 2026-02-12 01:50
-**Total entries:** 8
+**Last updated:** 2026-02-12 02:30
+**Total entries:** 9
 
 ---
 
@@ -10,9 +10,13 @@
 Tags are listed by frequency (most used first).
 
 - **#skill-development** (3)
-- **#claude-code** (2)
+- **#claude-code** (3)
 - **#bigquery** (2)
 - **#power-bi** (2)
+- **#slash-command-insights** (1)
+- **#youtube** (1)
+- **#productivity** (1)
+- **#future-implementation** (1)
 - **#session-memoria** (2)
 - **#session-management** (1)
 - **#workflow** (1)
@@ -206,6 +210,9 @@ Entries organized by tags (cross-cutting themes).
 
 ## #claude-code
 
+**[2026-02-12-002]** 02:30 | Claude Code | Descoberta do comando /insights do Claude Code via YouTube | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-12_comando-insights-claude-code-youtube.md)
+
 **[2026-02-12-001]** 01:50 | Projects | Workflow for preserving structural memory via session resume IDs | Status: `aberto`
 → [Read entry](../entries/2026/02/2026-02-12-001.md)
 
@@ -226,6 +233,26 @@ Entries organized by tags (cross-cutting themes).
 
 **[2026-02-12-001]** 01:50 | Projects | Workflow for preserving structural memory via session resume IDs | Status: `aberto`
 → [Read entry](../entries/2026/02/2026-02-12-001.md)
+
+## #slash-command-insights
+
+**[2026-02-12-002]** 02:30 | Claude Code | Descoberta do comando /insights do Claude Code via YouTube | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-12_comando-insights-claude-code-youtube.md)
+
+## #youtube
+
+**[2026-02-12-002]** 02:30 | Claude Code | Descoberta do comando /insights do Claude Code via YouTube | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-12_comando-insights-claude-code-youtube.md)
+
+## #productivity
+
+**[2026-02-12-002]** 02:30 | Claude Code | Descoberta do comando /insights do Claude Code via YouTube | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-12_comando-insights-claude-code-youtube.md)
+
+## #future-implementation
+
+**[2026-02-12-002]** 02:30 | Claude Code | Descoberta do comando /insights do Claude Code via YouTube | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-12_comando-insights-claude-code-youtube.md)
 
 ---
 

@@ -1,7 +1,7 @@
 # Session Memoria - Chronological Index
 
-**Last updated:** 2026-02-12 01:50
-**Total entries:** 8
+**Last updated:** 2026-02-12 02:30
+**Total entries:** 9
 
 ---
 
@@ -10,6 +10,10 @@
 Entries organized chronologically (newest first).
 
 ## 2026-02
+
+**[2026-02-12-002]** 02:30 | Claude Code | Descoberta do comando /insights do Claude Code via video YouTube - explorar e implementar em sessao principal | Status: `aberto`
+Tags: claude-code, slash-command-insights, youtube, productivity, future-implementation
+→ [Read entry](../entries/2026/02/2026-02-12_comando-insights-claude-code-youtube.md)
 
 **[2026-02-12-001]** 01:50 | Projects | Workflow for preserving structural memory via session resume IDs and knowledge registry skill in claude-intelligence-hub | Status: `aberto`
 Tags: claude-code, session-management, skill-development, workflow, knowledge-registry
