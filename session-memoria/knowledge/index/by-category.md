@@ -1,7 +1,7 @@
 # Session Memoria - Category Index
 
-**Last updated:** 2026-02-11 19:42
-**Total entries:** 7
+**Last updated:** 2026-02-12 01:50
+**Total entries:** 8
 
 ---
 
@@ -31,6 +31,10 @@ Tags: power-bi, bigquery, skill-development, data-import, pbi-claude-skills
 → [Read entry](../entries/2026/02/2026-02-10_skill-import-bigquery-power-bi.md)
 
 ## Projects
+
+**[2026-02-12-001]** 01:50 | 12/02/2026 | Workflow for preserving structural memory via session resume IDs and knowledge registry skill in claude-intelligence-hub | Status: `aberto`
+Tags: claude-code, session-management, skill-development, workflow, knowledge-registry
+→ [Read entry](../entries/2026/02/2026-02-12-001.md)
 
 **[2026-02-10-005]** 21:00 | 10/02/2026 | Auditoria e refatoração do PBI Automated Framework Inventory - framework desenvolvido com ChatGPT 5.2, migração Notion → BigQuery | Status: `on-hold`
 Tags: pbi-inventory, framework, refactoring, bigquery, notion, architecture-review, chatgpt

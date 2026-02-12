@@ -1,7 +1,7 @@
 # Session Memoria - Tag Index
 
-**Last updated:** 2026-02-11 19:42
-**Total entries:** 7
+**Last updated:** 2026-02-12 01:50
+**Total entries:** 8
 
 ---
 
@@ -9,10 +9,14 @@
 
 Tags are listed by frequency (most used first).
 
+- **#skill-development** (3)
+- **#claude-code** (2)
 - **#bigquery** (2)
-- **#skill-development** (2)
 - **#power-bi** (2)
 - **#session-memoria** (2)
+- **#session-management** (1)
+- **#workflow** (1)
+- **#knowledge-registry** (1)
 - **#github** (1)
 - **#security** (1)
 - **#2fa** (1)
@@ -46,6 +50,9 @@ Tags are listed by frequency (most used first).
 Entries organized by tags (cross-cutting themes).
 
 ## #skill-development
+
+**[2026-02-12-001]** 01:50 | Projects | Workflow for preserving structural memory via session resume IDs | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-12-001.md)
 
 **[2026-02-10-003]** 23:55 | Projects | Ideia de skill para registrar projetos concluidos | Status: `aberto`
 → [Read entry](../entries/2026/02/2026-02-10_skill-project-portfolio-performance-review.md)
@@ -199,8 +206,26 @@ Entries organized by tags (cross-cutting themes).
 
 ## #claude-code
 
+**[2026-02-12-001]** 01:50 | Projects | Workflow for preserving structural memory via session resume IDs | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-12-001.md)
+
 **[2026-02-11-002]** 19:42 | Other | Security assessment for public GitHub repos with Claude Code | Status: `aberto`
 → [Read entry](../entries/2026/02/2026-02-11-002.md)
+
+## #session-management
+
+**[2026-02-12-001]** 01:50 | Projects | Workflow for preserving structural memory via session resume IDs | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-12-001.md)
+
+## #workflow
+
+**[2026-02-12-001]** 01:50 | Projects | Workflow for preserving structural memory via session resume IDs | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-12-001.md)
+
+## #knowledge-registry
+
+**[2026-02-12-001]** 01:50 | Projects | Workflow for preserving structural memory via session resume IDs | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-12-001.md)
 
 ---
 
