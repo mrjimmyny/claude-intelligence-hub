@@ -1,7 +1,7 @@
 # Session Memoria - Tag Index
 
-**Last updated:** 2026-02-12 06:30
-**Total entries:** 10
+**Last updated:** 2026-02-13 05:05
+**Total entries:** 11
 
 ---
 
@@ -49,6 +49,11 @@ Tags are listed by frequency (most used first).
 - **#notion** (1)
 - **#architecture-review** (1)
 - **#chatgpt** (1)
+- **#x-mem-protocol** (1)
+- **#memory-system** (1)
+- **#architecture-design** (1)
+- **#token-optimization** (1)
+- **#session-persistence** (1)
 
 ---
 
@@ -282,6 +287,31 @@ Entries organized by tags (cross-cutting themes).
 
 **[2026-02-12-003]** 06:30 | Projects | CRITICAL: CLI session backup strategy approved | Status: `aberto`
 → [Read entry](../entries/2026/02/2026-02-12-003_session-backup-critical-concern.md)
+
+## #x-mem-protocol
+
+**[2026-02-13-001]** 05:05 | Other | Arquitetura completa do X-MEM Protocol para memorizar falhas/sucessos | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-13_x-mem-protocol-sistema-memoria-experiencias.md)
+
+## #memory-system
+
+**[2026-02-13-001]** 05:05 | Other | Arquitetura completa do X-MEM Protocol para memorizar falhas/sucessos | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-13_x-mem-protocol-sistema-memoria-experiencias.md)
+
+## #architecture-design
+
+**[2026-02-13-001]** 05:05 | Other | Arquitetura completa do X-MEM Protocol para memorizar falhas/sucessos | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-13_x-mem-protocol-sistema-memoria-experiencias.md)
+
+## #token-optimization
+
+**[2026-02-13-001]** 05:05 | Other | Arquitetura completa do X-MEM Protocol para memorizar falhas/sucessos | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-13_x-mem-protocol-sistema-memoria-experiencias.md)
+
+## #session-persistence
+
+**[2026-02-13-001]** 05:05 | Other | Arquitetura completa do X-MEM Protocol para memorizar falhas/sucessos | Status: `aberto`
+→ [Read entry](../entries/2026/02/2026-02-13_x-mem-protocol-sistema-memoria-experiencias.md)
 
 ---
 

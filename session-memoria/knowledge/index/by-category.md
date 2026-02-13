@@ -1,7 +1,7 @@
 # Session Memoria - Category Index
 
-**Last updated:** 2026-02-12 06:30
-**Total entries:** 10
+**Last updated:** 2026-02-13 05:05
+**Total entries:** 11
 
 ---
 
@@ -60,6 +60,10 @@ Tags: claude-code, slash-command-insights, youtube, productivity, future-impleme
 → [Read entry](../entries/2026/02/2026-02-12_comando-insights-claude-code-youtube.md)
 
 ## Other
+
+**[2026-02-13-001]** 05:05 | 13/02/2026 | Arquitetura completa do X-MEM Protocol para memorizar falhas/sucessos e evitar erros repetidos entre sessões | Status: `aberto`
+Tags: x-mem-protocol, memory-system, architecture-design, token-optimization, session-persistence
+→ [Read entry](../entries/2026/02/2026-02-13_x-mem-protocol-sistema-memoria-experiencias.md)
 
 **[2026-02-11-002]** 19:42 | 11/02/2026 | Security assessment for public GitHub repos with Claude Code - covers public access risks, 2FA impact, and best practices | Status: `aberto`
 Tags: github, security, 2fa, authentication, claude-code
