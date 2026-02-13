@@ -19,6 +19,19 @@
 
 set -euo pipefail
 
+# Find jq (check multiple locations)
+if command -v jq &> /dev/null; then
+    JQ="jq"
+elif [ -f "$HOME/bin/jq.exe" ]; then
+    JQ="$HOME/bin/jq.exe"
+elif [ -f "$HOME/bin/jq" ]; then
+    JQ="$HOME/bin/jq"
+else
+    echo "❌ Error: jq not found. Please install jq."
+    echo "💡 Download from: https://jqlang.github.io/jq/download/"
+    exit 1
+fi
+
 # Arguments
 SESSION_ID="${1:-}"
 JSONL_FILE="${2:-}"
@@ -47,15 +60,15 @@ OUTPUT_DIR=$(dirname "$OUTPUT_MD")
 mkdir -p "$OUTPUT_DIR"
 
 # Extract metadata fields using jq
-SESSION_DATE=$(echo "$METADATA_JSON" | jq -r '.date // "Unknown"')
-SESSION_TIME=$(echo "$METADATA_JSON" | jq -r '.time // "Unknown"')
-SESSION_TAGS=$(echo "$METADATA_JSON" | jq -r '.tags // ""')
-SESSION_SUMMARY=$(echo "$METADATA_JSON" | jq -r '.summary // "No summary provided"')
-SESSION_PROJECT=$(echo "$METADATA_JSON" | jq -r '.project // "Unknown"')
-SESSION_MACHINE=$(echo "$METADATA_JSON" | jq -r '.machine // "Unknown"')
-SESSION_BRANCH=$(echo "$METADATA_JSON" | jq -r '.branch // ""')
-SESSION_COMMIT=$(echo "$METADATA_JSON" | jq -r '.commit // ""')
-IS_CRITICAL=$(echo "$METADATA_JSON" | jq -r '.tags // "" | contains("#critical")')
+SESSION_DATE=$(echo "$METADATA_JSON" | $JQ -r '.date // "Unknown"')
+SESSION_TIME=$(echo "$METADATA_JSON" | $JQ -r '.time // "Unknown"')
+SESSION_TAGS=$(echo "$METADATA_JSON" | $JQ -r '.tags // ""')
+SESSION_SUMMARY=$(echo "$METADATA_JSON" | $JQ -r '.summary // "No summary provided"')
+SESSION_PROJECT=$(echo "$METADATA_JSON" | $JQ -r '.project // "Unknown"')
+SESSION_MACHINE=$(echo "$METADATA_JSON" | $JQ -r '.machine // "Unknown"')
+SESSION_BRANCH=$(echo "$METADATA_JSON" | $JQ -r '.branch // ""')
+SESSION_COMMIT=$(echo "$METADATA_JSON" | $JQ -r '.commit // ""')
+IS_CRITICAL=$(echo "$METADATA_JSON" | $JQ -r '.tags // "" | contains("#critical")')
 
 # Get current timestamp for backup_date
 BACKUP_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
@@ -78,7 +91,7 @@ while IFS= read -r line; do
     [ -z "$line" ] && continue
 
     # Extract message type
-    MSG_TYPE=$(echo "$line" | jq -r '.type // empty')
+    MSG_TYPE=$(echo "$line" | $JQ -r '.type // empty')
 
     # Skip file-history-snapshot (noise)
     if [ "$MSG_TYPE" = "file-history-snapshot" ]; then
@@ -94,7 +107,7 @@ while IFS= read -r line; do
             USER_MESSAGES=$((USER_MESSAGES + 1))
 
             # Extract timestamp (if available)
-            TIMESTAMP=$(echo "$line" | jq -r '.timestamp // ""')
+            TIMESTAMP=$(echo "$line" | $JQ -r '.timestamp // ""')
             if [ -n "$TIMESTAMP" ]; then
                 # Format timestamp to readable format
                 FORMATTED_TIME=$(date -d "$TIMESTAMP" "+%Y-%m-%d %H:%M:%S" 2>/dev/null || echo "$TIMESTAMP")
@@ -103,7 +116,7 @@ while IFS= read -r line; do
             fi
 
             # Extract message content
-            MESSAGE=$(echo "$line" | jq -r '.message // ""')
+            MESSAGE=$(echo "$line" | $JQ -r '.message // ""')
 
             # Write to temp file
             echo "" >> "$TEMP_CONV"
@@ -120,7 +133,7 @@ while IFS= read -r line; do
             ASSISTANT_MESSAGES=$((ASSISTANT_MESSAGES + 1))
 
             # Extract timestamp
-            TIMESTAMP=$(echo "$line" | jq -r '.timestamp // ""')
+            TIMESTAMP=$(echo "$line" | $JQ -r '.timestamp // ""')
             if [ -n "$TIMESTAMP" ]; then
                 FORMATTED_TIME=$(date -d "$TIMESTAMP" "+%Y-%m-%d %H:%M:%S" 2>/dev/null || echo "$TIMESTAMP")
             else
@@ -128,14 +141,14 @@ while IFS= read -r line; do
             fi
 
             # Extract thinking block (if present)
-            THINKING=$(echo "$line" | jq -r '.thinking // empty')
+            THINKING=$(echo "$line" | $JQ -r '.thinking // empty')
 
             # Extract text response
-            TEXT=$(echo "$line" | jq -r '.text // ""')
+            TEXT=$(echo "$line" | $JQ -r '.text // ""')
 
             # Extract tool uses
-            TOOL_USES=$(echo "$line" | jq -c '.tool_uses // []')
-            TOOL_COUNT=$(echo "$TOOL_USES" | jq 'length')
+            TOOL_USES=$(echo "$line" | $JQ -c '.tool_uses // []')
+            TOOL_COUNT=$(echo "$TOOL_USES" | $JQ 'length')
 
             # Write to temp file
             echo "" >> "$TEMP_CONV"
@@ -168,38 +181,38 @@ while IFS= read -r line; do
 
                 # Parse each tool use
                 for i in $(seq 0 $((TOOL_COUNT - 1))); do
-                    TOOL_NAME=$(echo "$TOOL_USES" | jq -r ".[$i].name // \"Unknown\"")
-                    TOOL_INPUT=$(echo "$TOOL_USES" | jq -r ".[$i].input // {}")
+                    TOOL_NAME=$(echo "$TOOL_USES" | $JQ -r ".[$i].name // \"Unknown\"")
+                    TOOL_INPUT=$(echo "$TOOL_USES" | $JQ -r ".[$i].input // {}")
 
                     # Format based on common tools
                     case "$TOOL_NAME" in
                         Read)
-                            FILE_PATH=$(echo "$TOOL_INPUT" | jq -r '.file_path // ""')
+                            FILE_PATH=$(echo "$TOOL_INPUT" | $JQ -r '.file_path // ""')
                             echo "- 📖 **Read** → \`$FILE_PATH\`" >> "$TEMP_CONV"
                             ;;
                         Write)
-                            FILE_PATH=$(echo "$TOOL_INPUT" | jq -r '.file_path // ""')
+                            FILE_PATH=$(echo "$TOOL_INPUT" | $JQ -r '.file_path // ""')
                             echo "- ✍️ **Write** → \`$FILE_PATH\`" >> "$TEMP_CONV"
                             ;;
                         Edit)
-                            FILE_PATH=$(echo "$TOOL_INPUT" | jq -r '.file_path // ""')
+                            FILE_PATH=$(echo "$TOOL_INPUT" | $JQ -r '.file_path // ""')
                             echo "- ✏️ **Edit** → \`$FILE_PATH\`" >> "$TEMP_CONV"
                             ;;
                         Bash)
-                            COMMAND=$(echo "$TOOL_INPUT" | jq -r '.command // ""' | head -c 60)
+                            COMMAND=$(echo "$TOOL_INPUT" | $JQ -r '.command // ""' | head -c 60)
                             echo "- 💻 **Bash** → \`$COMMAND...\`" >> "$TEMP_CONV"
                             ;;
                         Grep)
-                            PATTERN=$(echo "$TOOL_INPUT" | jq -r '.pattern // ""')
+                            PATTERN=$(echo "$TOOL_INPUT" | $JQ -r '.pattern // ""')
                             echo "- 🔍 **Grep** → \`$PATTERN\`" >> "$TEMP_CONV"
                             ;;
                         Glob)
-                            PATTERN=$(echo "$TOOL_INPUT" | jq -r '.pattern // ""')
+                            PATTERN=$(echo "$TOOL_INPUT" | $JQ -r '.pattern // ""')
                             echo "- 📁 **Glob** → \`$PATTERN\`" >> "$TEMP_CONV"
                             ;;
                         Task)
-                            SUBAGENT=$(echo "$TOOL_INPUT" | jq -r '.subagent_type // ""')
-                            PROMPT=$(echo "$TOOL_INPUT" | jq -r '.prompt // ""' | head -c 40)
+                            SUBAGENT=$(echo "$TOOL_INPUT" | $JQ -r '.subagent_type // ""')
+                            PROMPT=$(echo "$TOOL_INPUT" | $JQ -r '.prompt // ""' | head -c 40)
                             echo "- 🤖 **Task** ($SUBAGENT) → \`$PROMPT...\`" >> "$TEMP_CONV"
                             ;;
                         *)
@@ -213,11 +226,11 @@ while IFS= read -r line; do
 
         tool_result)
             # Extract tool result (abbreviated)
-            TOOL_NAME=$(echo "$line" | jq -r '.tool_name // "Unknown"')
-            IS_ERROR=$(echo "$line" | jq -r '.is_error // false')
+            TOOL_NAME=$(echo "$line" | $JQ -r '.tool_name // "Unknown"')
+            IS_ERROR=$(echo "$line" | $JQ -r '.is_error // false')
 
             if [ "$IS_ERROR" = "true" ]; then
-                ERROR_MSG=$(echo "$line" | jq -r '.content // "Unknown error"' | head -c 100)
+                ERROR_MSG=$(echo "$line" | $JQ -r '.content // "Unknown error"' | head -c 100)
                 echo "  ❌ **Error:** $ERROR_MSG" >> "$TEMP_CONV"
                 echo "" >> "$TEMP_CONV"
             fi

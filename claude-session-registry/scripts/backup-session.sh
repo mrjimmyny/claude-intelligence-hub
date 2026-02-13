@@ -26,6 +26,19 @@ BACKUP_REPO="$HOME/claude-session-backups"
 REGISTRY_DIR="$HOME/Downloads/claude-intelligence-hub/claude-session-registry"
 SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# Find jq (check multiple locations)
+if command -v jq &> /dev/null; then
+    JQ="jq"
+elif [ -f "$HOME/bin/jq.exe" ]; then
+    JQ="$HOME/bin/jq.exe"
+elif [ -f "$HOME/bin/jq" ]; then
+    JQ="$HOME/bin/jq"
+else
+    echo "❌ Error: jq not found. Please install jq."
+    echo "💡 Download from: https://jqlang.github.io/jq/download/"
+    exit 1
+fi
+
 # Arguments
 SESSION_ID="${1:-}"
 METADATA_JSON="${2:-}"
@@ -45,14 +58,14 @@ if [ ! -d "$BACKUP_REPO" ]; then
 fi
 
 # Extract metadata fields
-SESSION_DATE=$(echo "$METADATA_JSON" | jq -r '.date // ""')
-SESSION_TIME=$(echo "$METADATA_JSON" | jq -r '.time // ""')
-SESSION_TAGS=$(echo "$METADATA_JSON" | jq -r '.tags // ""')
-SESSION_SUMMARY=$(echo "$METADATA_JSON" | jq -r '.summary // ""')
-SESSION_PROJECT=$(echo "$METADATA_JSON" | jq -r '.project // ""')
-SESSION_MACHINE=$(echo "$METADATA_JSON" | jq -r '.machine // ""')
-SESSION_BRANCH=$(echo "$METADATA_JSON" | jq -r '.branch // ""')
-SESSION_COMMIT=$(echo "$METADATA_JSON" | jq -r '.commit // ""')
+SESSION_DATE=$(echo "$METADATA_JSON" | $JQ -r '.date // ""')
+SESSION_TIME=$(echo "$METADATA_JSON" | $JQ -r '.time // ""')
+SESSION_TAGS=$(echo "$METADATA_JSON" | $JQ -r '.tags // ""')
+SESSION_SUMMARY=$(echo "$METADATA_JSON" | $JQ -r '.summary // ""')
+SESSION_PROJECT=$(echo "$METADATA_JSON" | $JQ -r '.project // ""')
+SESSION_MACHINE=$(echo "$METADATA_JSON" | $JQ -r '.machine // ""')
+SESSION_BRANCH=$(echo "$METADATA_JSON" | $JQ -r '.branch // ""')
+SESSION_COMMIT=$(echo "$METADATA_JSON" | $JQ -r '.commit // ""')
 
 # Validate required fields
 if [ -z "$SESSION_DATE" ]; then
@@ -78,14 +91,17 @@ echo "📍 Step 1/10: Locating session file..."
 
 # Convert project path to slug
 # Example: /c/Users/jaderson.almeida/Downloads → C--Users-jaderson-almeida-Downloads
-PROJECT_SLUG=$(echo "$SESSION_PROJECT" | sed 's|^/||; s|:|--|g; s|/|-|g')
+# Claude converts: / → -, : → --, . → -, and uppercases drive letter
+PROJECT_SLUG=$(echo "$SESSION_PROJECT" | sed 's|^/\([a-z]\)/|\U\1--|; s|/|-|g; s|\.|-|g')
 PROJECT_DIR="$HOME/.claude/projects/$PROJECT_SLUG"
 
 JSONL_FILE="$PROJECT_DIR/$SESSION_ID.jsonl"
 
+# Validate file exists
 if [ ! -f "$JSONL_FILE" ]; then
     echo "❌ Error: Session file not found: $JSONL_FILE"
     echo "💡 The session may have been deleted or moved"
+    echo "💡 Debug: Project=$SESSION_PROJECT, Slug=$PROJECT_SLUG"
     exit 1
 fi
 
@@ -222,8 +238,8 @@ echo "📊 Step 7/10: Updating metadata.json..."
 METADATA_FILE="$BACKUP_REPO/metadata.json"
 
 # Read current values
-CURRENT_TOTAL=$(jq -r '.total_backups // 0' "$METADATA_FILE")
-CURRENT_CRITICAL=$(jq -r '.total_critical // 0' "$METADATA_FILE")
+CURRENT_TOTAL=$($JQ -r '.total_backups // 0' "$METADATA_FILE")
+CURRENT_CRITICAL=$($JQ -r '.total_critical // 0' "$METADATA_FILE")
 
 # Increment
 NEW_TOTAL=$((CURRENT_TOTAL + 1))
@@ -236,7 +252,7 @@ fi
 # Update metadata
 CURRENT_TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-jq \
+$JQ \
     --arg total "$NEW_TOTAL" \
     --arg critical "$NEW_CRITICAL" \
     --arg date "$CURRENT_TIMESTAMP" \
@@ -344,7 +360,7 @@ TRACKING_FILE="$REGISTRY_DIR/backup-tracking.json"
 if [ -f "$TRACKING_FILE" ]; then
     TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-    jq \
+    $JQ \
         --arg id "$SESSION_ID" \
         --arg date "$TIMESTAMP" \
         --arg status "success" \
