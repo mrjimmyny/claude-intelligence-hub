@@ -1,9 +1,10 @@
 {
   "name": "claude-session-registry",
-  "version": "1.0.0",
-  "description": "Track Claude sessions with Git context",
+  "version": "1.1.0",
+  "description": "Track Claude sessions with Git context and automatic backup",
   "author": "Xavier (Claude)",
   "created": "2026-02-12",
+  "updated": "2026-02-13",
   "type": "session-tracking",
   "triggers": {
     "register": [
@@ -21,6 +22,8 @@
   },
   "settings": {
     "auto_push": true,
+    "auto_backup": true,
+    "backup_repo_path": "~/claude-session-backups",
     "default_language": "pt-BR",
     "timezone": "America/Sao_Paulo",
     "machine_id": "",

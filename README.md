@@ -32,7 +32,7 @@ The **Claude Intelligence Hub** is a centralized system that:
 | **[jimmy-core-preferences](jimmy-core-preferences/)** | v1.5.0 | ✅ Production | Master intelligence framework | Radical honesty, self-learning, context management, identity (Xavier + Jimmy) |
 | **[session-memoria](session-memoria/)** | v1.2.0 | ✅ Production | Knowledge management system | 100% conversation retention, triple-index search, lifecycle tracking, Git-synced |
 | **[gdrive-sync-memoria](gdrive-sync-memoria/)** | v1.0.0 | ✅ Production | Google Drive integration | ChatLLM Teams sync, auto-import to session-memoria, zero-friction automation |
-| **[claude-session-registry](claude-session-registry/)** | v1.0.0 | ✅ Production | Session tracking & continuity | Resume ID tracking, Git context, Golden Close protocol, cross-device sessions |
+| **[claude-session-registry](claude-session-registry/)** | v1.1.0 | ✅ Production | Session tracking & backup | Resume ID tracking, Git context, Golden Close protocol, **automatic backup to GitHub** |
 | **[pbi-claude-skills](pbi-claude-skills/)** | v1.3.0 | ✅ Production | Power BI PBIP optimization | 50-97% token savings, 5 specialized skills, auto-indexing |
 | **[python-claude-skills](python-claude-skills/)** | - | 📋 Planned | Python development patterns | Coming soon |
 | **[git-claude-skills](git-claude-skills/)** | - | 📋 Planned | Git workflow automation | Coming soon |

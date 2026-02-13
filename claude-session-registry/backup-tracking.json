@@ -1,0 +1,9 @@
+{
+  "backups": {},
+  "stats": {
+    "total_backups": 0,
+    "total_critical": 0,
+    "last_backup": "",
+    "failed_backups": 0
+  }
+}

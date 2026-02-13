@@ -222,8 +222,9 @@ Path: `registry/YYYY/MM/SESSIONS.md`
 | claude-20260212-1430-a4f9 | 2026-02-12 | 14:30 | DESKTOP-ABC | main | abc1234 | /c/Users/jimmy/project | #BI #MCP | - Implementou X<br>- Corrigiu Y<br>- Documentou Z |
 ```
 
-#### Step 9: Git Commit & Push
-If `auto_push: true` in `.metadata` settings:
+#### Step 9: Git Commit & Push + Trigger Backup
+
+**Part A: Commit Session Registry** (if `auto_push: true` in `.metadata` settings)
 
 ```bash
 git add claude-session-registry/registry/YYYY/MM/SESSIONS.md
@@ -241,6 +242,59 @@ Summary:
 
 git push origin main
 ```
+
+**Part B: Trigger Session Backup** (NEW - v1.1.0)
+
+After successful registry push, automatically trigger backup:
+
+```bash
+echo ""
+echo "🔄 Triggering session backup..."
+
+# Check if auto_backup enabled
+AUTO_BACKUP=$(jq -r '.settings.auto_backup // false' claude-intelligence-hub/claude-session-registry/.metadata)
+if [ "$AUTO_BACKUP" != "true" ]; then
+    echo "⏭️  Auto-backup disabled, skipping"
+    # Continue to Step 10
+else
+    # Prepare session metadata as JSON
+    SESSION_METADATA=$(cat <<EOF
+{
+  "session_id": "$SESSION_ID",
+  "date": "$DATE",
+  "time": "$TIME",
+  "machine": "$MACHINE",
+  "branch": "$BRANCH",
+  "commit": "$COMMIT",
+  "project": "$PROJECT",
+  "tags": "$TAGS",
+  "summary": "$SUMMARY"
+}
+EOF
+)
+
+    # Call backup script
+    bash claude-intelligence-hub/claude-session-registry/scripts/backup-session.sh \
+        "$SESSION_ID" \
+        "$SESSION_METADATA"
+
+    # Check result
+    if [ $? -eq 0 ]; then
+        echo "✅ Session backup completed"
+        echo "🔗 View: https://github.com/mrjimmyny/claude-session-backups"
+    else
+        echo "⚠️  Session backup failed (see logs)"
+        echo "📋 Retry manually: bash scripts/backup-session.sh $SESSION_ID \"\$METADATA\""
+    fi
+fi
+```
+
+**Important Notes:**
+- Backup failure does NOT block session registration
+- If backup fails, session is still registered successfully
+- Manual retry available via `backup-session.sh` script
+- Critical sessions (#critical tag) get full .jsonl backup + markdown
+- Non-critical sessions get markdown transcript only
 
 #### Step 10: Success Confirmation
 Display summary:

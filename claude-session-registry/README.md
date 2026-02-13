@@ -1,11 +1,11 @@
 # Claude Session Registry
 
-**Version:** 1.0.0
+**Version:** 1.1.0
 **Author:** Xavier (Claude)
 **Language:** pt-BR (Brazilian Portuguese)
 **Timezone:** America/Sao_Paulo
 
-Track Claude Code sessions with automatic Git context capture, multi-machine sync, and intelligent session memory.
+Track Claude Code sessions with automatic Git context capture, multi-machine sync, intelligent session memory, and **automatic backup to private GitHub repository**.
 
 ---
 
@@ -21,6 +21,10 @@ Track Claude Code sessions with automatic Git context capture, multi-machine syn
 - 🇧🇷 **Brazilian timezone** built-in (America/Sao_Paulo)
 - 🔍 **Smart search** (by tag, project, date, machine)
 - 📈 **Statistics** (monthly or all-time analytics)
+- 💾 **Automatic Backup** (NEW v1.1.0) - Zero-cost session backup to private GitHub
+  - Markdown transcripts for all sessions (human-readable)
+  - Raw .jsonl backups for critical sessions (full restore)
+  - Auto-indexed by date, tag, and machine
 
 ---
 
@@ -161,11 +165,68 @@ See `SETUP_GUIDE.md` for junction point configuration.
 
 ---
 
+## 💾 Session Backup System (NEW v1.1.0)
+
+**Zero-cost automatic backup** of sessions to private GitHub repository.
+
+### Features
+- ✅ **Markdown transcripts** for all registered sessions (human-readable)
+- ✅ **Raw .jsonl backups** for sessions tagged `#critical` (full restore capability)
+- ✅ **Auto-indexed** by date, tag, and machine
+- ✅ **Git-based** with full version history
+- ✅ **Free** - Uses GitHub private repo (500MB storage)
+
+### Backup Repository
+🔗 **[claude-session-backups](https://github.com/mrjimmyny/claude-session-backups)** (private)
+
+### Quick Stats
+<!-- AUTO-UPDATED BY BACKUP SCRIPT -->
+- **Total Backups:** 0
+- **Critical Backups:** 0
+- **Last Backup:** -
+
+### Usage
+
+**Mark session as critical** (triggers .jsonl backup):
+```
+Tags: #critical #project #gdrive-sync
+```
+
+**View backups:**
+```bash
+# Read markdown transcript
+cat ~/claude-session-backups/transcripts/2026/02/[session-id].md
+
+# List critical backups
+ls ~/claude-session-backups/critical/2026/02/
+
+# View indexes
+cat ~/claude-session-backups/indexes/by-date/2026-02.md
+cat ~/claude-session-backups/indexes/by-tag/critical.md
+```
+
+**Restore critical session:**
+```bash
+# Copy .jsonl to project directory
+cp critical/2026/02/[id].jsonl ~/.claude/projects/[project-slug]/[id].jsonl
+
+# Resume session
+cd /path/to/original/project
+claude --resume [session-id]
+```
+
+### Documentation
+- **[docs/BACKUP_SYSTEM.md](docs/BACKUP_SYSTEM.md)** - Complete backup system documentation
+- **[RESTORE_GUIDE.md](~/claude-session-backups/docs/RESTORE_GUIDE.md)** - How to restore sessions
+
+---
+
 ## 📚 Documentation
 
 - **SKILL.md** - Complete workflow documentation
 - **SETUP_GUIDE.md** - Installation & troubleshooting
 - **CHANGELOG.md** - Version history
+- **docs/BACKUP_SYSTEM.md** - Backup system documentation (NEW)
 
 ---
 
