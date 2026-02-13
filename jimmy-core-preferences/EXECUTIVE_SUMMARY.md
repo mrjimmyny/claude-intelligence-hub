@@ -1,3 +1,9 @@
+> **📖 Skill-Specific Documentation**
+> This is the detailed guide for jimmy-core-preferences.
+> For the complete hub overview, see [/EXECUTIVE_SUMMARY.md](../EXECUTIVE_SUMMARY.md).
+
+---
+
 # 📊 Executive Summary: Jimmy Core Preferences - Master Intelligence Framework
 
 **Date:** February 11, 2026

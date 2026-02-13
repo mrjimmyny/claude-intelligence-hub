@@ -4,6 +4,59 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.7.0] - 2026-02-13
+
+### 🎯 Major Architectural Upgrade
+
+**Focus:** Hub cleanup, skill routing foundation, scalability preparation
+
+### Added
+- **HUB_MAP.md** - Centralized skill routing dictionary (~30KB)
+  - All triggers documented (15+)
+  - Skill dependencies declared
+  - Tier-based loading strategy (Always/Context-Aware/Explicit)
+  - Lifecycle states defined (Production/Roadmap/Deprecated)
+  - Skill Routing Logic (4 patterns: Trigger-Based, Context-Based, Always-Load, Proactive)
+  - Complete troubleshooting guide
+  - Adding New Skills Protocol
+- Hierarchy notes in skill-level EXECUTIVE_SUMMARY.md files
+  - jimmy-core-preferences/EXECUTIVE_SUMMARY.md
+  - session-memoria/EXECUTIVE_SUMMARY.md
+  - gdrive-sync-memoria/EXECUTIVE_SUMMARY.md
+  - pbi-claude-skills/EXECUTIVE_SUMMARY_PBI_SKILLS.md
+
+### Changed
+- **EXECUTIVE_SUMMARY.md** (root) - Renamed from HUB_EXECUTIVE_SUMMARY.md
+  - Single canonical summary for entire hub
+  - Clear hierarchy (hub-level vs. skill-level docs)
+- **README.md** - Fixed skill count and added HUB_MAP integration
+  - Skill count: 7 collections → 5 production collections
+  - Session-memoria entry count: 8 → 11 entries
+  - Added "🗺️ Skill Routing Guide" section with HUB_MAP links
+  - Added HUB_MAP.md references to skill table
+  - Updated stats section (production vs. planned skills)
+- **Skills by Status**
+  - Production: 5 skills (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills)
+  - Planned: 0 (python/git moved to roadmap v1.8.0)
+
+### Removed
+- **EXECUTIVE_SUMMARY.md** (obsolete Feb 8 version) - Removed duplicate
+- **python-claude-skills/** - Placeholder removed (moved to roadmap v1.8.0)
+- **git-claude-skills/** - Placeholder removed (moved to roadmap v1.8.0)
+
+### Migration Notes
+- No breaking changes (all production skills unchanged)
+- HUB_MAP.md is new documentation (no code changes)
+- Placeholder skills can be recreated when ready for development
+
+### Validation
+- Run: `ls -la | grep claude-skills` → Should show ONLY pbi-claude-skills
+- Run: `cat HUB_MAP.md | grep "Production Skills"` → Should list 5 skills
+- Check: README.md links to HUB_MAP work correctly
+- Verify: All skill EXECUTIVE_SUMMARY.md files have hierarchy notes
+
+---
+
 ## [1.6.0] - 2026-02-12
 
 ### Added

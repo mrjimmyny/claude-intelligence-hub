@@ -1,3 +1,9 @@
+> **📖 Skill-Specific Documentation**
+> This is the detailed guide for gdrive-sync-memoria.
+> For the complete hub overview, see [/EXECUTIVE_SUMMARY.md](../EXECUTIVE_SUMMARY.md).
+
+---
+
 # Google Drive Sync for Session-Memoria - Executive Summary
 
 **Version:** 1.0.0

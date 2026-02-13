@@ -1,3 +1,9 @@
+> **📖 Skill-Specific Documentation**
+> This is the detailed guide for session-memoria.
+> For the complete hub overview, see [/EXECUTIVE_SUMMARY.md](../EXECUTIVE_SUMMARY.md).
+
+---
+
 # 📊 Executive Summary: Session Memoria - Xavier's Second Brain
 
 **Date:** February 11, 2026

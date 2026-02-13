@@ -1,3 +1,9 @@
+> **📖 Skill-Specific Documentation**
+> This is the detailed guide for pbi-claude-skills.
+> For the complete hub overview, see [/EXECUTIVE_SUMMARY.md](../EXECUTIVE_SUMMARY.md).
+
+---
+
 # 📊 Executive Summary: Sistema de Skills para Power BI PBIP
 
 **Data:** 08 de Fevereiro de 2026 (atualizado)

@@ -29,13 +29,31 @@ The **Claude Intelligence Hub** is a centralized system that:
 
 | Collection | Version | Status | Description | Key Features |
 |------------|---------|--------|-------------|--------------|
-| **[jimmy-core-preferences](jimmy-core-preferences/)** | v1.5.0 | ✅ Production | Master intelligence framework | Radical honesty, self-learning, context management, identity (Xavier + Jimmy) |
-| **[session-memoria](session-memoria/)** | v1.2.0 | ✅ Production | Knowledge management system | 100% conversation retention, triple-index search, lifecycle tracking, Git-synced |
-| **[gdrive-sync-memoria](gdrive-sync-memoria/)** | v1.0.0 | ✅ Production | Google Drive integration | ChatLLM Teams sync, auto-import to session-memoria, zero-friction automation |
-| **[claude-session-registry](claude-session-registry/)** | v1.1.0 | ✅ Production | Session tracking & backup | Resume ID tracking, Git context, Golden Close protocol, **automatic backup to GitHub** |
-| **[pbi-claude-skills](pbi-claude-skills/)** | v1.3.0 | ✅ Production | Power BI PBIP optimization | 50-97% token savings, 5 specialized skills, auto-indexing |
-| **[python-claude-skills](python-claude-skills/)** | - | 📋 Planned | Python development patterns | Coming soon |
-| **[git-claude-skills](git-claude-skills/)** | - | 📋 Planned | Git workflow automation | Coming soon |
+| **[jimmy-core-preferences](jimmy-core-preferences/)** | v1.5.0 | ✅ Production | Master intelligence framework | Radical honesty, self-learning, context management, identity (Xavier + Jimmy). See [HUB_MAP.md](HUB_MAP.md) for triggers. |
+| **[session-memoria](session-memoria/)** | v1.2.0 | ✅ Production | Knowledge management system | 100% conversation retention, triple-index search, lifecycle tracking, Git-synced. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
+| **[gdrive-sync-memoria](gdrive-sync-memoria/)** | v1.0.0 | ✅ Production | Google Drive integration | ChatLLM Teams sync, auto-import to session-memoria, zero-friction automation. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
+| **[claude-session-registry](claude-session-registry/)** | v1.1.0 | ✅ Production | Session tracking & backup | Resume ID tracking, Git context, Golden Close protocol, **automatic backup to GitHub**. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
+| **[pbi-claude-skills](pbi-claude-skills/)** | v1.3.0 | ✅ Production | Power BI PBIP optimization | 50-97% token savings, 5 specialized skills, auto-indexing. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
+
+---
+
+## 🗺️ Skill Routing Guide
+
+**New to the hub?** Start here to understand how skills work and when to use them.
+
+- **[HUB_MAP.md](HUB_MAP.md)** - Complete skill ecosystem reference
+  - All triggers (how to invoke each skill)
+  - Routing logic (how Xavier auto-detects which skill you need)
+  - Dependencies (which skills require others)
+  - Loading tiers (which skills auto-load vs. on-demand)
+
+**Quick trigger reference:**
+- "registre isso" → session-memoria (save conversation)
+- "sincroniza Google Drive" → gdrive-sync-memoria
+- Working in `.pbip` project → pbi-claude-skills (auto-suggested)
+- "registra sessão" → claude-session-registry
+
+For complete trigger list and routing patterns, see **[HUB_MAP.md](HUB_MAP.md)**.
 
 ---
 
@@ -346,11 +364,11 @@ git pull origin main
 
 | Metric | Value |
 |--------|-------|
-| **Total Skills** | 4 skill collections (15+ individual skills) |
+| **Production Skills** | 5 collections (15+ individual skills) |
 | **Total Documentation** | ~180KB (executive summaries, guides, changelogs) |
 | **Version History** | 20+ commits (tracked in CHANGELOG.md) |
 | **Projects Migrated** | 1/9 Power BI projects (hr_kpis_board_v2) |
-| **Session Memoria Entries** | 8 entries (~21KB knowledge base) |
+| **Session Memoria Entries** | 11 entries (~25KB knowledge base) |
 | **Google Drive Syncs** | 2 successful (2 files imported) |
 | **Token Savings (Power BI)** | 50-97% per operation |
 | **Time Savings (Preferences)** | ~30 hours/year |
@@ -358,9 +376,9 @@ git pull origin main
 
 ### Skills by Status
 
-- ✅ **Production Ready:** 4 (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry)
+- ✅ **Production Ready:** 5 (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills)
 - 🚧 **In Development:** 0
-- 📋 **Planned:** 2 (python-claude-skills, git-claude-skills)
+- 📋 **Planned:** 0 (python-claude-skills and git-claude-skills moved to roadmap v1.8.0)
 
 ---
 
