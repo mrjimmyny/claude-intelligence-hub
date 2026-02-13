@@ -1,9 +1,20 @@
 {
-  "backups": {},
+  "backups": {
+    "bd44c390-108e-475a-b6fa-851e7c222dfb": {
+      "backup_date": "2026-02-13T04:13:27Z",
+      "status": "success",
+      "is_critical": true
+    },
+    "b34b633c-1e36-47cd-8f08-b9a1d24b27d7": {
+      "backup_date": "2026-02-13T05:19:14Z",
+      "status": "success",
+      "is_critical": false
+    }
+  },
   "stats": {
-    "total_backups": 0,
-    "total_critical": 0,
-    "last_backup": "",
+    "total_backups": 2,
+    "total_critical": 1,
+    "last_backup": "2026-02-13T05:19:14Z",
     "failed_backups": 0
   }
 }
