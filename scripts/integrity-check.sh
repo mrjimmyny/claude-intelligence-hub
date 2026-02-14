@@ -30,8 +30,8 @@ echo "════════════════════════�
 
 orphans_found=0
 for dir in */; do
-    # Skip hidden and special directories
-    if [[ "$dir" == "." || "$dir" == ".git/" || "$dir" == ".claude/" || "$dir" == "scripts/" ]]; then
+    # Skip hidden, special, and infrastructure directories
+    if [[ "$dir" == "." || "$dir" == ".git/" || "$dir" == ".claude/" || "$dir" == "scripts/" || "$dir" == "token-economy/" || "$dir" == "docs/" ]]; then
         continue
     fi
 
@@ -137,8 +137,8 @@ echo "════════════════════════�
 
 drift_found=0
 for skill_dir in */; do
-    # Skip non-skill directories
-    if [[ "$skill_dir" == "." || "$skill_dir" == ".git/" || "$skill_dir" == ".claude/" || "$skill_dir" == "scripts/" ]]; then
+    # Skip non-skill directories (infrastructure, scripts, documentation)
+    if [[ "$skill_dir" == "." || "$skill_dir" == ".git/" || "$skill_dir" == ".claude/" || "$skill_dir" == "scripts/" || "$skill_dir" == "token-economy/" || "$skill_dir" == "docs/" ]]; then
         continue
     fi
 
@@ -148,9 +148,12 @@ for skill_dir in */; do
         skill_version=$(grep '"version"' "$metadata_file" | sed 's/.*"version": *"\([^"]*\)".*/\1/')
         skill_name=$(basename "$skill_dir" /)
 
-        # Check if EXECUTIVE_SUMMARY mentions this version
+        # Check if EXECUTIVE_SUMMARY mentions this version (case-insensitive, flexible format)
         if [ -f "EXECUTIVE_SUMMARY.md" ]; then
-            if ! grep -q "$skill_name.*$skill_version" EXECUTIVE_SUMMARY.md; then
+            # Convert skill-name to "Skill Name" format for matching
+            skill_name_formatted=$(echo "$skill_name" | sed 's/-/ /g' | sed 's/\b\(.\)/\u\1/g')
+            # Check for either format: skill-name or Skill Name with version
+            if ! grep -iq "$skill_name.*$skill_version\|$skill_name_formatted.*$skill_version" EXECUTIVE_SUMMARY.md; then
                 echo -e "${YELLOW}📊 VERSION DRIFT: $skill_name is v$skill_version but EXECUTIVE_SUMMARY may be outdated${NC}"
                 drift_found=1
             fi

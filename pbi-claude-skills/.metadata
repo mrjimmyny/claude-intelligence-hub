@@ -1,0 +1,25 @@
+{
+  "name": "pbi-claude-skills",
+  "version": "1.3.0",
+  "description": "Power BI PBIP project optimization - Token savings for large codebases",
+  "author": "Xavier (Claude) & Jimmy",
+  "created": "2026-02-10",
+  "last_updated": "2026-02-14",
+  "type": "project-specific",
+  "auto_load": false,
+  "triggers": {
+    "context": ["Working in .pbip project"],
+    "manual": [
+      "/pbi-query",
+      "/pbi-discover",
+      "/pbi-add-measure",
+      "/pbi-index-update",
+      "/pbi-context-check"
+    ]
+  },
+  "settings": {
+    "project_detection": "auto",
+    "index_cache": true,
+    "token_optimization": true
+  }
+}
