@@ -1,0 +1,24 @@
+{
+  "name": "x-mem",
+  "version": "1.0.0",
+  "description": "Self-learning protocol - captures failures/successes to prevent repeated errors",
+  "author": "Xavier (Claude) & Jimmy",
+  "created": "2026-02-14",
+  "last_updated": "2026-02-14",
+  "type": "knowledge-management",
+  "auto_load": false,
+  "triggers": {
+    "load": ["/xmem:load", "xavier, carrega x-mem"],
+    "record": ["/xmem:record", "xavier, registra no x-mem"],
+    "search": ["/xmem:search", "xavier, busca no x-mem"],
+    "stats": ["/xmem:stats"],
+    "compact": ["/xmem:compact"]
+  },
+  "settings": {
+    "token_limit_per_query": 15000,
+    "auto_capture_failures": false,
+    "prune_after_days": 365,
+    "max_entries_per_tool": 100,
+    "git_auto_push": true
+  }
+}

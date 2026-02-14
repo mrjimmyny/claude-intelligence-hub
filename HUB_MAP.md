@@ -1,9 +1,9 @@
 # 🗺️ Claude Intelligence Hub - Skill Router Map
 
-**Version:** 1.7.0
+**Version:** 1.8.0
 **Last Updated:** 2026-02-14
 **Purpose:** Central routing dictionary for all skills, triggers, and workflows
-**Routing Status:** 🟢 Active (Module 2 Complete)
+**Routing Status:** 🟢 Active (Module 3 Complete)
 
 ---
 
@@ -11,9 +11,9 @@
 
 | Metric | Count | Status |
 |--------|-------|--------|
-| **Production Skills** | 5 | ✅ Active |
+| **Production Skills** | 6 | ✅ Active |
 | **Planned Skills** | 2 | 📋 Roadmap |
-| **Documented Triggers** | 15+ | ✅ Complete |
+| **Documented Triggers** | 20+ | ✅ Complete |
 | **Skill Tiers** | 3 | ✅ Defined |
 | **Dependencies** | Mapped | ✅ Complete |
 
@@ -193,6 +193,46 @@ Complete skill system for Power BI PBIP projects - optimizes DAX work, structure
 
 #### Loading Tier
 **Tier 2: Context-Aware** - Suggests when `.pbip` project detected
+
+---
+
+### 6. x-mem
+**Type:** Knowledge Management (Self-Learning Protocol)
+**Location:** `~/.claude/skills/user/x-mem/`
+**Auto-load:** ❌ No (manual trigger or proactive recall)
+
+#### Purpose
+Machine-oriented memory buffer that captures tool failures and success patterns to prevent repeated errors across sessions. NOT human-readable logs - optimized for token efficiency.
+
+#### Key Features
+- NDJSON storage (failures.jsonl, successes.jsonl)
+- Fast index-based search (~500 token overhead)
+- Automatic failure detection via jimmy-core-preferences Pattern 6A
+- Token budget enforcement (15K hard limit per query)
+- Git-versioned (auto-push enabled)
+
+#### Triggers (Commands)
+- `/xmem:load` - Load X-MEM context
+- `/xmem:record` - Record failure/success
+- `/xmem:search <query>` - Search by tool/tag
+- `/xmem:stats` - Usage statistics
+- `/xmem:compact` - Prune stale entries
+
+#### Dependencies
+- **Required:** jimmy-core-preferences (Pattern 6A integration)
+- **Optional:** session-memoria (cross-reference entries)
+
+#### Loading Tier
+**Tier 2: Context-Aware (Proactive)**
+- Auto-suggests on tool failures
+- Explicit load via `/xmem:*` commands
+- Index always loaded for Pattern 6A (<500 tokens)
+
+#### Related Files
+- `x-mem/SKILL.md` (execution instructions, ~300 lines)
+- `x-mem/data/index.json` (fast search index, ~500 tokens)
+- `x-mem/data/failures.jsonl` (append-only NDJSON)
+- `x-mem/data/successes.jsonl` (append-only NDJSON)
 
 ---
 

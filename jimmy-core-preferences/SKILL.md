@@ -848,6 +848,74 @@ Is file:
 
 **End of Pattern 6**
 
+### Pattern 6A: X-MEM Proactive Recall (Module 3 - Self-Learning)
+
+**Purpose:** Automatically detect tool failures and suggest X-MEM searches to prevent repeated errors.
+
+**Trigger Conditions:**
+1. Tool exits with non-zero code (failure detected)
+2. Error message in stderr
+3. User mentions "this error again" or similar frustration
+
+**Workflow:**
+
+1. **Detect Failure:**
+   - Tool command fails (exit code ≠ 0)
+   - Extract: tool name, action, error signature
+
+2. **Compute Context Hash:**
+   - Hash = `{tool}-{action_type}-{error_pattern}`
+   - Example: `rclone-sync-config-not-found`
+
+3. **Query X-MEM Index:**
+   - Load `x-mem/data/index.json` (~500 tokens)
+   - Search `ctx_hash_index` for matches
+   - If matches found: proceed to step 4
+   - If no matches: skip to step 6
+
+4. **Proactive Recall (Matches Found):**
+   - Message: "🔍 I found {N} previous failures with this tool. Would you like to review?"
+   - Wait for user confirmation (yes/no)
+   - If yes: Load matching entries from `failures.jsonl` (<15K token limit)
+   - Display: Entry ID, date, pattern to avoid, solution tried
+   - Suggest: "Based on entry {ID}, try: {solution}"
+
+5. **Apply Learning:**
+   - If user confirms suggestion: execute recommended solution
+   - Track: Increment `usage_count` if success pattern applied
+
+6. **Record New Failure (Optional):**
+   - If no match found OR user wants to record
+   - Prompt: "Record this failure in X-MEM for future sessions?"
+   - If yes: Append to `failures.jsonl`, update `index.json`
+   - Git commit + push
+
+**Token Budget:**
+- Index query: ~500 tokens
+- Match results: ~200 tokens per entry (max 15K total)
+- Recording new: ~300 tokens
+
+**Integration Points:**
+- Runs BEFORE other error handling patterns
+- Compatible with existing git-error-recovery workflow
+- Does NOT replace user debugging - augments with historical context
+
+**Anti-Patterns (DO NOT):**
+- ❌ Auto-load X-MEM on every command (token waste)
+- ❌ Record trivial errors (user typos, one-off issues)
+- ❌ Exceed 15K token limit per X-MEM query
+- ❌ Block execution while waiting for X-MEM (async suggestion only)
+
+**Success Criteria:**
+- User sees proactive recall within 5 seconds of failure
+- Relevant suggestions (>80% match rate for ctx_hash)
+- Token usage <15K per recall
+- No false positives (irrelevant suggestions)
+
+---
+
+**End of Pattern 6A**
+
 ### Pattern 7: Golden Close Protocol (MANDATORY)
 
 **Purpose:** Mandatory 7-step checklist Xavier MUST execute before ending any session.
@@ -989,6 +1057,108 @@ Resume: claude --resume [session-id]
 ```
 
 **End of Pattern 7**
+
+---
+
+## 🪙 Section 7: Token Economy Enforcement (Module 3)
+
+### Pre-Flight Token Check (MANDATORY)
+
+**Execute before ANY skill load:**
+
+1. **Estimate Context Usage:**
+   - Track tokens used in current session (~approximate)
+   - Calculate remaining: 200K (hard limit) - used
+   - Determine safe budget: 100K (50% threshold)
+
+2. **Threshold Check:**
+   - If used > 100K:
+     - ⚠️ WARNING: "Context budget at {X}%. Continue or /compact first?"
+     - Wait for user confirmation
+     - Log warning in session
+   - If used < 100K:
+     - Proceed silently (no warning needed)
+
+3. **HUB_MAP.md Index Load:**
+   - Load ONLY lines 1-20 (Quick Stats + skill list)
+   - Token cost: ~500 tokens
+   - DO NOT load full HUB_MAP.md (3.5K tokens)
+
+4. **Skill Section Load:**
+   - From HUB_MAP.md index: identify skill section range
+   - Example: session-memoria → lines 51-96
+   - Load ONLY that range (not full file)
+   - Token cost: ~800 tokens per skill section
+
+5. **Skill File Load:**
+   - Read skill's "Related files" from HUB_MAP.md section
+   - Apply file loading discipline:
+     - Files >500 lines: Load by section (offset/limit)
+     - Logs: Last 50 lines (`tail -50`)
+     - Indices: Full load OK (usually <100 lines)
+   - Token budget per skill activation: <3K total
+
+### File Loading Discipline
+
+**Decision Tree:**
+
+```
+File to load?
+├─ Is it HUB_MAP.md?
+│  ├─ Yes: Load index only (lines 1-20) ✅
+│  └─ No: Continue
+├─ Is it >500 lines?
+│  ├─ Yes: Load section with offset/limit ✅
+│  └─ No: Load full file ✅
+├─ Is it a log file?
+│  ├─ Yes: Load last 50 lines only ✅
+│  └─ No: Continue
+└─ Load as appropriate ✅
+```
+
+**Anti-Patterns (REJECT):**
+- ❌ Loading entire HUB_MAP.md
+- ❌ Loading skill files "just in case"
+- ❌ Full log reads (use tail)
+- ❌ Loading documentation not directly related
+- ❌ Exceeding 3K tokens per skill load
+
+### Response Size Targets
+
+**By Task Type:**
+- Simple query: <500 tokens
+- Standard analysis: <1.5K tokens
+- Code generation: <2K tokens
+- Complex task: <3K tokens (hard ceiling)
+- Multi-part response: Split at 3K boundary
+
+**Violation Handling:**
+- If response would exceed 3K: Stop and ask permission
+- Offer: "Split into parts (A, B, C) or grant permission?"
+- Log: Track permission grants for pattern analysis
+
+### Token Usage Visibility
+
+**On Request:**
+- User: "How's our token budget?"
+- Response: "Current session: ~{X}K tokens used, {Y}K remaining. {Z}% of safe budget."
+
+**Automatic Warnings:**
+- At 50%: "⚠️ Context budget at 50% (100K tokens)"
+- At 75%: "⚠️⚠️ Context budget at 75% (150K tokens) - consider /compact"
+- At 90%: "🚨 Context budget critical: 90% (180K tokens) - /compact strongly recommended"
+
+### Integration with X-MEM
+
+**Token accounting for X-MEM queries:**
+- Index load: ~500 tokens (always)
+- Search results: ~200 tokens per entry
+- Hard limit: 15K tokens per X-MEM query
+- If limit exceeded: Show top results only, offer pagination
+
+---
+
+**End of Section 7**
 
 ---
 
