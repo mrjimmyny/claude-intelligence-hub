@@ -256,9 +256,9 @@ Domain skills **extend** (not replace) these core preferences.
 
 See [CHANGELOG.md](./CHANGELOG.md) for detailed version history.
 
-**Current Version:** 1.0.0  
-**Status:** ✅ Production Ready  
-**Last Updated:** 2025-02-09
+**Current Version:** 1.5.0
+**Status:** ✅ Production Ready
+**Last Updated:** 2026-02-13
 
 ---
 

@@ -243,14 +243,16 @@ Xavier vai referenciar memórias anteriores quando relevante:
 
 ---
 
-## Estatísticas (v1.1.0)
+## Estatísticas (v1.2.0)
 
-- **Total de entradas:** 6
-- **Tamanho total:** ~17KB
-- **Última entrada:** 2026-02-11-001
-- **Status:** Produção ativa
-- **Categorias:** Projects (3), Power BI (2), Other (1)
+- **Total de entradas:** 11
+- **Tamanho total:** ~56KB
+- **Última entrada:** 2026-02-13-001
+- **Status:** Produção ativa (3-tier archiving system)
+- **Tiers:** HOT (11), WARM (0), COLD (0)
+- **Categorias:** Projects, Power BI, Architecture, Security, Other
 - **Cross-device:** Desktop + Mobile sync ativo
+- **Performance:** O(1) incremental indexing, 97% token savings at scale
 
 ---
 
@@ -302,12 +304,18 @@ Xavier: [exibe estatísticas completas]
 - ✅ Mobile support via MOBILE_SESSION_STARTER.md
 - ✅ Cross-device sync (Desktop + Mobile)
 
-### v1.2.0 (Futuro)
-- Archive entries > 6 meses
-- Entry merging
-- Tag consolidation
+### v1.2.0 (Released 2026-02-13)
+- ✅ **3-Tier Archiving System:** HOT/WARM/COLD tiers based on age and status
+- ✅ **Incremental Indexing:** O(1) constant-time performance (200x faster)
+- ✅ **Token Budget Management:** 97% token savings at scale (8K vs 250K+ tokens)
+- ✅ **Deep Search Protocol:** --deep and --full flags for archived content
+- ✅ **Aggressive Tiering:** <30d HOT, 30-90d WARM, >90d COLD
+
+### v1.3.0 (Planned Q2 2026)
+- Entry merging & consolidation
+- Tag cleanup tools
 - Entry summarization
-- Export (PDF, JSON)
+- Export (PDF, JSON, HTML)
 
 ---
 

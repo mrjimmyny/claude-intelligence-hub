@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-1.4.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.7.0-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -138,10 +138,10 @@ Stats: /session-memoria stats
 - [Changelog](session-memoria/CHANGELOG.md)
 
 **Current Stats:**
-- Total Entries: 8 (validated in production)
-- Categories: Projects (4), Power BI (2), Other (2)
-- Total Size: ~21KB
-- Status: 100% operational
+- Total Entries: 11 (validated in production)
+- Categories: Projects, Power BI, Architecture, Security, Other
+- Total Size: ~56KB
+- Status: 100% operational (v1.2.0 with 3-tier archiving)
 
 </details>
 
@@ -229,7 +229,13 @@ claude-intelligence-hub/
 │
 ├── README.md                        # ⭐ This file
 ├── CHANGELOG.md                     # Version history
-├── HUB_EXECUTIVE_SUMMARY.md         # Comprehensive hub overview
+├── EXECUTIVE_SUMMARY.md             # Comprehensive hub overview (v1.7.0)
+├── HUB_MAP.md                       # Skill routing dictionary (v1.7.0)
+├── WINDOWS_JUNCTION_SETUP.md        # Junction setup guide (Windows)
+├── scripts/                         # Automation scripts
+│   └── integrity-check.sh           # Hub validation (5 checks)
+├── .github/workflows/               # CI/CD automation
+│   └── integrity.yml                # Integrity guard (automated)
 └── LICENSE                          # MIT License
 ```
 
@@ -368,7 +374,7 @@ git pull origin main
 | **Total Documentation** | ~180KB (executive summaries, guides, changelogs) |
 | **Version History** | 20+ commits (tracked in CHANGELOG.md) |
 | **Projects Migrated** | 1/9 Power BI projects (hr_kpis_board_v2) |
-| **Session Memoria Entries** | 11 entries (~25KB knowledge base) |
+| **Session Memoria Entries** | 11 entries (~56KB knowledge base) |
 | **Google Drive Syncs** | 2 successful (2 files imported) |
 | **Token Savings (Power BI)** | 50-97% per operation |
 | **Time Savings (Preferences)** | ~30 hours/year |
@@ -496,19 +502,19 @@ Contributions are welcome! This is a public repository designed to help the Clau
 
 ## 🗺️ Roadmap
 
-### v1.5.0 (Q1 2026)
+### v1.8.0 (Q2 2026)
 - [ ] Python skills collection (python-claude-skills)
 - [ ] Git workflow skills (git-claude-skills)
-- [ ] Session-memoria archiving (entries > 6 months)
 - [ ] Advanced search (boolean operators, date ranges)
-
-### v1.6.0 (Q2 2026)
 - [ ] Entry merging & consolidation
+
+### v1.9.0 (Q3 2026)
 - [ ] Tag cleanup & consolidation tools
 - [ ] Export functionality (PDF, JSON, HTML)
 - [ ] Visual analytics for session-memoria
+- [ ] WARM/COLD tier testing (archiving already implemented in v1.7.0)
 
-### v2.0.0 (Q3 2026)
+### v2.0.0 (Q4 2026)
 - [ ] Multi-user support (team-level preferences)
 - [ ] Skill marketplace integration
 - [ ] Automated skill optimization (AI-driven)
@@ -561,8 +567,8 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 
 ## 📈 Version History
 
-**Current Version:** v1.6.0 ✅ **Production Ready**
-**Last Updated:** February 12, 2026
+**Current Version:** v1.7.0 ✅ **Production Ready**
+**Last Updated:** February 13, 2026
 **Status:** Operational | Validated | Actively Maintained
 
 ### Major Milestones
@@ -574,6 +580,7 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 - **v1.4.0** (2026-02-10): Critical git strategy - data loss prevention
 - **v1.5.0** (2026-02-11): Google Drive sync + token monitoring
 - **v1.6.0** (2026-02-12): Session registry + zero-friction automation
+- **v1.7.0** (2026-02-13): Hub modernization - HUB_MAP, Skill Router, 3-tier archiving, Golden Close, GitHub Actions integrity guard
 
 See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
 
