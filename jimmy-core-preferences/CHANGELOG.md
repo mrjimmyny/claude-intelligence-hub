@@ -299,6 +299,6 @@ When adding a new entry, use this format:
 
 ---
 
-**Last Updated:** 2026-02-10
-**Current Version:** 1.4.0
+**Last Updated:** 2026-02-14
+**Current Version:** 1.5.0
 **Status:** ✅ Active Maintenance

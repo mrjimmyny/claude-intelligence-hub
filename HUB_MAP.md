@@ -1,8 +1,9 @@
 # 🗺️ Claude Intelligence Hub - Skill Router Map
 
 **Version:** 1.7.0
-**Last Updated:** 2026-02-13
+**Last Updated:** 2026-02-14
 **Purpose:** Central routing dictionary for all skills, triggers, and workflows
+**Routing Status:** 🟢 Active (Module 2 Complete)
 
 ---
 
@@ -353,7 +354,7 @@ Git Repository
 - Active maintenance
 
 **List:**
-1. jimmy-core-preferences (v1.4.0)
+1. jimmy-core-preferences (v1.5.0)
 2. session-memoria (v1.2.0)
 3. gdrive-sync-memoria (v1.0.0)
 4. claude-session-registry (v1.0.0)
@@ -685,9 +686,9 @@ touch CHANGELOG.md             # Version history
 
 ---
 
-**Version:** 1.7.0
+**Version:** 1.7.1
 **Status:** ✅ Complete and Active
-**Last Updated:** 2026-02-13
+**Last Updated:** 2026-02-14
 **Maintained by:** Xavier & Jimmy
 
 *This is the single source of truth for skill routing in the Claude Intelligence Hub*

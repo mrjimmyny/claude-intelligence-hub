@@ -1,7 +1,7 @@
 # Jimmy Core Preferences - Master Skill
 
-**Version:** 1.4.0
-**Last Updated:** 2026-02-10
+**Version:** 1.5.0
+**Last Updated:** 2026-02-14
 **Auto-Load:** Yes (Priority: Highest)
 
 ---
