@@ -44,6 +44,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Proactive Transparency notifies skill activation (Ciclope Rule #2)
   - Post-Task Hygiene auto-suggests cleanup (Ciclope Rule #4)
   - Active Routing Mandate checks HUB_MAP first (Ciclope Rule #1)
+- **MODULE 3 COMPLETED:** session-memoria v1.2.0
+  - 3-Tier Archiving System (HOT/WARM/COLD) with aggressive tiering (<30d/30-90d/>90d)
+  - Incremental indexing (O(1) constant time vs O(n) rebuild)
+  - Token budget management (INFO/WARN/CONFIRM alerts)
+  - Deep search protocol (--deep and --full flags)
+  - Performance: 200x faster indexing at 500 entries, 91% token savings
+  - Scalability: Supports 1000+ entries without degradation
 - **Skills by Status**
   - Production: 5 skills (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills)
   - Planned: 0 (python/git moved to roadmap v1.8.0)

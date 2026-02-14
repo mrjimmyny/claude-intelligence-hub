@@ -635,15 +635,16 @@ Is file:
 **When:** Every session start, immediately after HUB_MAP loading
 **Skills:**
 - jimmy-core-preferences (this skill) → ~6K tokens
-- session-memoria INDEX files (by-date.md, by-category.md, by-tag.md) → ~1.5K tokens
+- session-memoria HOT index (hot-index.md only) → ~1.5K tokens
   - NOT full entries (entries loaded on-demand via Tier 2)
+  - NOT WARM/COLD indices (loaded only with --deep/--full flags)
 - claude-session-registry metadata.json only → ~500 tokens
 
 **Total Tier 1:** ~8K tokens (acceptable overhead)
 
 **Why these?**
 - jimmy-core-preferences: Defines all behavior (universal)
-- session-memoria indexes: Enable search without loading all entries
+- session-memoria HOT index: Enable search of recent/active entries without loading full archive
 - claude-session-registry metadata: Track session without full history
 
 ---
