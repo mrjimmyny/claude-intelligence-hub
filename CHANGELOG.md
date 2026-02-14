@@ -4,6 +4,37 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.7.1] - 2026-02-14
+
+### Changed - Module 2 Governance Complete
+- **jimmy-core-preferences:** Version synchronized to v1.5.0 across all files
+  - SKILL.md header updated (v1.4.0 → v1.5.0)
+  - Last updated date: 2026-02-14
+  - CHANGELOG.md footer synchronized
+- **HUB_MAP.md:** Updated to reflect v1.5.0 production status
+  - jimmy-core-preferences version reference corrected (line 357)
+  - Added Routing Status: 🟢 Active (Module 2 Complete)
+  - Last updated: 2026-02-14
+  - Footer version: 1.7.1
+
+### Added
+- **Routing validation test:** scripts/validate_routing.md
+  - 4 test scenarios covering all Ciclope Rules (#1-5)
+  - Read-only verification commands
+  - Regression prevention checklist
+  - Comprehensive troubleshooting guide
+
+### Fixed
+- Version inconsistency between .metadata (v1.5.0) and SKILL.md (v1.4.0)
+- HUB_MAP.md outdated version reference
+
+### Notes
+- All Module 2 deliverables complete
+- Zero breaking changes - fully backward compatible
+- Routing infrastructure production-ready
+
+---
+
 ## [1.7.0] - 2026-02-13
 
 ### 🎯 Major Architectural Upgrade
