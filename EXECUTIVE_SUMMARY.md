@@ -165,12 +165,13 @@ session-memoria/
 └── README.md                     ← User guide
 ```
 
-**Current Stats (2026-02-11):**
-- Total Entries: 6
-- Total Size: ~17KB
-- Categories: Projects (3), Power BI (2), Other (1)
-- Latest Entry: 2026-02-11-001
-- Test Pass: ✅ Mobile-desktop sync validated
+**Current Stats (2026-02-13):**
+- Total Entries: 11
+- Total Size: ~56KB
+- Tiers: HOT (11), WARM (0), COLD (0)
+- Categories: Projects, Power BI, Architecture, Security, Other
+- Latest Entry: 2026-02-13-001
+- Test Pass: ✅ Mobile-desktop sync validated, 3-tier archiving active
 
 **Impact:**
 - 100% conversation retention (vs. 0% before)
@@ -385,12 +386,13 @@ Any Device → Edit files → Git commit + push
 | pbi-claude-skills | 20+ | ~50KB | ⚠️ Project | v1.3.0 | ✅ Production |
 
 ### Session Memoria Stats
-- **Total Entries:** 6
-- **Entry Size:** ~17KB
-- **Categories:** Projects (3), Power BI (2), Other (1)
-- **Tags:** 38 unique tags
-- **Statuses:** 6 aberto, 0 em_discussao, 0 resolvido, 0 arquivado
-- **Growth Rate:** ~2 entries/day (early adoption)
+- **Total Entries:** 11
+- **Entry Size:** ~56KB
+- **Tiers:** HOT (11), WARM (0), COLD (0)
+- **Categories:** Projects, Power BI, Architecture, Security, Other
+- **Tags:** 50+ unique tags
+- **Statuses:** Mixed (open/discussion/resolved)
+- **Performance:** O(1) incremental indexing, 97% token savings at scale
 - **Alert Level:** Info (< 500 entries threshold)
 
 ### Test Results
