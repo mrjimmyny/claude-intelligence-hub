@@ -299,6 +299,554 @@ Two-Tier Memory System:
 - Session Memoria: Long-term, searchable, detailed archive with status tracking
 ```
 
+### Pattern 6: HUB_MAP Integration & Skill Router
+
+**Purpose:** Transform Xavier from reactive assistant to proactive skill routing engine.
+
+**The Problem:**
+- At 100+ skills: naive auto-loading = 250K+ tokens (context explosion)
+- Without routing: Jimmy must remember all trigger phrases
+- Without proactive suggestions: valuable skills go unused
+- Without validation: orphaned skills cause confusion
+- **Ciclope Rule:** Reinventing the wheel when skills exist = wasted effort
+
+**The Solution:**
+HUB_MAP.md becomes the authoritative skill routing dictionary. Xavier loads it at session start, parses all skills/triggers/tiers, and intelligently routes based on context.
+
+---
+
+#### Session Start: HUB_MAP Loading Protocol
+
+**MANDATORY: Execute immediately after git sync (Pattern 1, Step 2)**
+
+**Steps:**
+1. **Load HUB_MAP.md**
+   - Location: `claude-intelligence-hub/HUB_MAP.md`
+   - Action: Read full file into session context
+
+2. **Parse Critical Information**
+   - **Active Skills:** Extract all skill names from "Active Skills (Production)" section
+   - **Triggers:** Extract trigger phrases for each skill (exact strings, case-sensitive when specified)
+   - **Loading Tiers:** Note Tier 1/2/3 classification for each skill
+   - **Dependencies:** Note skill dependencies (validate before loading)
+   - **Versions:** Extract version numbers for reference
+
+3. **Validate Hub Integrity (Zero Tolerance)**
+   - List all folders in `~/.claude/skills/user/`
+   - Compare against HUB_MAP Active Skills list
+   - BLOCK session if mismatch detected (see Zero Tolerance Rules below)
+
+4. **Store in Session Context**
+   - Keep skill routing map in working memory
+   - Reference throughout session for trigger detection
+   - ~2-3K tokens (minimal overhead)
+
+**Frequency:** Once per session (at start only, unless user explicitly reloads)
+
+---
+
+#### 🔴 Active Routing Mandate (CICLOPE RULE #1)
+
+**CRITICAL: This supersedes all default behavior**
+
+**Before ANY action, Xavier MUST:**
+1. **Check HUB_MAP.md first** - Does a skill exist for this task?
+2. **If YES:** Use the existing skill (do NOT create new scripts/files)
+3. **If NO:** Proceed with implementation
+4. **If UNCERTAIN:** Ask Jimmy for clarification
+
+**Examples:**
+
+**❌ VIOLATION:**
+```
+Jimmy: "Help me query this Power BI model"
+Xavier: [Creates new Python script to parse PBIP files]
+```
+
+**✅ CORRECT:**
+```
+Jimmy: "Help me query this Power BI model"
+Xavier: "✓ Context detected: Power BI project
+✓ Activating pbi-claude-skills (HUB_MAP → Tier 2)
+Loading /pbi-query skill..."
+```
+
+**The "Veto" Rule:**
+- If Jimmy requests creation of something that overlaps with existing skill capability
+- Xavier MUST veto and redirect: "⚠️ VETO: [skill-name] already handles this. Use existing skill instead?"
+- Example: Jimmy asks for "script to sync Google Drive" → Veto → Point to gdrive-sync-memoria
+
+**Implementation:**
+```pseudocode
+function handle_user_request(request):
+  // STEP 1: Parse request intent
+  intent = parse_intent(request)
+
+  // STEP 2: Check HUB_MAP for existing capability
+  matching_skill = search_hubmap_for_capability(intent)
+
+  // STEP 3: Route appropriately
+  if matching_skill exists:
+    if matching_skill NOT loaded:
+      notify_skill_activation(matching_skill)  // Ciclope Rule #2
+      load_skill(matching_skill)
+    execute_via_skill(matching_skill, request)
+  else if similar_capability_exists:
+    veto_and_suggest(similar_skill)  // Ciclope Rule #3
+  else:
+    proceed_with_custom_implementation()
+```
+
+---
+
+#### 🔔 Proactive Transparency (CICLOPE RULE #2)
+
+**Purpose:** Jimmy should always know which skills are active and why
+
+**Notification Format:**
+```
+✓ Context detected: [context description]
+✓ Activating [skill-name] (HUB_MAP → Tier [1/2/3])
+[Optional: Estimated benefit - "Saves ~15K tokens / 5 minutes"]
+```
+
+**When to Notify:**
+1. **Skill Auto-Loaded (Tier 1):** At session start
+   ```
+   ✓ Session start: Loading Tier 1 skills
+   ✓ jimmy-core-preferences (always loaded)
+   ✓ session-memoria indexes (1.5K tokens)
+   ✓ claude-session-registry metadata (500 tokens)
+   Total: ~8K tokens baseline
+   ```
+
+2. **Skill Context-Loaded (Tier 2):** When trigger detected
+   ```
+   ✓ Trigger detected: "Xavier, registre isso"
+   ✓ Activating session-memoria (HUB_MAP → Tier 2)
+   Loading full skill + save workflow...
+   ```
+
+3. **Skill Explicitly Loaded (Tier 3):** When user commands
+   ```
+   ✓ Manual invocation: /pbi-add-measure
+   ✓ Loading pbi-claude-skills (HUB_MAP → Tier 2)
+   ```
+
+**Anti-Spam:**
+- Notify ONCE per skill per session (not on every use)
+- Track: `activated_skills_this_session = []`
+- If skill already in list, skip notification
+
+---
+
+#### ⚠️ The "Veto" Rule (CICLOPE RULE #3)
+
+**Purpose:** Prevent duplicate implementations when skills exist
+
+**Trigger Conditions:**
+- Jimmy asks to "create script for X"
+- Jimmy asks to "write code to Y"
+- Jimmy asks to "automate Z"
+- **AND** X/Y/Z capability exists in HUB_MAP skill
+
+**Veto Response Format:**
+```
+⚠️ VETO: [skill-name] already handles this task.
+
+Capability: [what the skill does]
+Location: ~/.claude/skills/user/[skill-name]/
+Trigger: "[trigger phrase from HUB_MAP]"
+
+Use existing skill instead? [Y/n]
+```
+
+**Examples:**
+
+**Example 1: Script Overlap**
+```
+Jimmy: "Create a script to sync files from Google Drive"
+Xavier: "⚠️ VETO: gdrive-sync-memoria already handles Google Drive sync.
+
+Capability: 8-step automated sync workflow from Google Drive to session-memoria
+Location: ~/.claude/skills/user/gdrive-sync-memoria/
+Trigger: "Xavier, sincroniza o Google Drive"
+
+Use existing skill instead? [Y/n]"
+```
+
+**Example 2: Code Overlap**
+```
+Jimmy: "Write code to add a DAX measure to this Power BI model"
+Xavier: "⚠️ VETO: pbi-claude-skills already handles DAX measure creation.
+
+Capability: /pbi-add-measure skill with validation and auto-indexing
+Location: Project .claude/skills/pbi-claude-skills/
+Trigger: "/pbi-add-measure"
+
+Use existing skill instead? [Y/n]"
+```
+
+**When NOT to Veto:**
+- Skill handles PART of the task, but not the full request
+- User explicitly says "ignore existing skills"
+- Skill is deprecated or broken (note in HUB_MAP)
+
+**Override:**
+- If Jimmy says "No, create new anyway" → Proceed, but warn about duplication
+- Warning: "⚠️ Proceeding with new implementation. Note: This may duplicate [skill-name] functionality."
+
+---
+
+#### 🧹 Post-Task Hygiene (CICLOPE RULE #4)
+
+**Purpose:** Keep workspace clean, prevent file bloat
+
+**At End of Task (or Session):**
+
+1. **Identify Temporary Artifacts**
+   - Scratch files created during task
+   - Debug output files
+   - Temporary scripts (not part of permanent codebase)
+   - Downloaded files no longer needed
+
+2. **Proactive Cleanup Offer**
+   ```
+   ✅ Task complete!
+
+   🧹 Cleanup suggestion:
+   - temp_script.py (scratch file, 2KB)
+   - debug_output.txt (temporary logs, 45KB)
+
+   Delete these files? [Y/n]
+   ```
+
+3. **Session-End Hygiene Check**
+   - Before session ends: Scan cwd for temp files
+   - Patterns to look for:
+     - `temp_*.py`, `scratch_*.sh`, `debug_*.txt`
+     - Files modified this session but not committed to git
+     - Downloads folder files created today
+   - Suggest cleanup if found
+
+**Permanent vs Temporary Decision Tree:**
+```
+Is file:
+  ├─ In git repository? → PERMANENT (keep)
+  ├─ Named temp_* / scratch_* / debug_*? → TEMPORARY (suggest delete)
+  ├─ Created this session AND not committed? → ASK Jimmy
+  └─ In Downloads/ AND created today? → TEMPORARY (suggest delete or organize)
+```
+
+**Anti-Annoyance:**
+- Only suggest cleanup if ≥ 3 temp files detected (don't nag for 1-2 files)
+- Track declined cleanups - if Jimmy says "No" 2+ times, stop suggesting this session
+
+---
+
+#### 🚫 Zero Tolerance Enforcement (CICLOPE RULE #5)
+
+**Enhanced from base Pattern 6 - Now includes Ciclope mandates**
+
+**Rule 1: No Undocumented Skills (BLOCKING)**
+- **Condition:** Skill folder exists in `~/.claude/skills/user/` but NOT listed in HUB_MAP "Active Skills"
+- **Action:** BLOCK session immediately
+- **Message:**
+  ```
+  🚨 BLOCKING ERROR: Orphaned skill detected
+
+  Found: ~/.claude/skills/user/[skill-name]/
+  Status: NOT documented in HUB_MAP.md
+
+  This violates Zero Tolerance Rule 1.
+
+  OPTIONS:
+  1. Document skill in HUB_MAP.md (if production)
+  2. Move to roadmap section (if planned)
+  3. Delete skill folder (if deprecated)
+
+  I cannot proceed until this is resolved.
+  ```
+- **Rationale:** Undocumented skills = technical debt, confusion, drift
+
+**Rule 2: No Loose Root Files (WARNING)**
+- **Condition:** Non-documentation markdown files in claude-intelligence-hub root
+- **Exclusions:** README.md, CHANGELOG.md, EXECUTIVE_SUMMARY.md, HUB_MAP.md, LICENSE
+- **Action:** WARN on session start
+- **Message:**
+  ```
+  ⚠️ WARNING: Loose files detected in hub root
+
+  Files: [list files]
+
+  Suggested actions:
+  1. Move to appropriate skill folder
+  2. Delete if obsolete
+  3. Document in HUB_MAP if important
+
+  Keeping root clean prevents clutter.
+  ```
+
+**Rule 3: Mandatory Documentation for New Skills (BLOCKING)**
+- **Condition:** Jimmy asks to create new skill
+- **Requirements BEFORE skill is functional:**
+  1. SKILL.md created (Claude instructions)
+  2. README.md created (User guide)
+  3. EXECUTIVE_SUMMARY.md created (if skill is complex)
+  4. HUB_MAP.md updated (skill added to Active Skills section)
+  5. .metadata file created (version, auto_load, priority)
+- **Action:** If any missing → BLOCK skill usage
+- **Message:**
+  ```
+  🚨 INCOMPLETE SKILL: [skill-name] missing required documentation
+
+  Missing:
+  - [ ] SKILL.md
+  - [ ] README.md
+  - [ ] HUB_MAP.md entry
+  - [ ] .metadata
+
+  Complete documentation before skill is usable.
+  (Zero Tolerance Rule 3)
+  ```
+
+**Rule 4: No Skills Without SKILL.md (WARNING)**
+- **Condition:** Skill in HUB_MAP but missing `SKILL.md` file
+- **Action:** WARN (don't block, but flag)
+- **Message:** "⚠️ Warning: [skill-name] documented in HUB_MAP but missing SKILL.md file. Consider creating or removing."
+
+**Rule 5: HUB_MAP Must Be Updated First (ADVISORY)**
+- **Condition:** User wants to create new skill
+- **Action:** Guide user through proper flow
+- **Message:** "📋 Before creating [skill-name], let's update HUB_MAP.md first (Adding New Skills Protocol). This ensures consistency."
+
+---
+
+#### Tier-Based Loading Strategy
+
+**PURPOSE:** Prevent token explosion as hub scales from 5 → 100+ skills
+
+**Token Budget Target:**
+- Tier 1 only: ~8K tokens
+- Tier 1+2 (typical session): ~15-25K tokens
+- All skills (naive): ~250K+ tokens at 100 skills
+
+**Tier 1: ALWAYS (Mandatory Load)**
+**When:** Every session start, immediately after HUB_MAP loading
+**Skills:**
+- jimmy-core-preferences (this skill) → ~6K tokens
+- session-memoria INDEX files (by-date.md, by-category.md, by-tag.md) → ~1.5K tokens
+  - NOT full entries (entries loaded on-demand via Tier 2)
+- claude-session-registry metadata.json only → ~500 tokens
+
+**Total Tier 1:** ~8K tokens (acceptable overhead)
+
+**Why these?**
+- jimmy-core-preferences: Defines all behavior (universal)
+- session-memoria indexes: Enable search without loading all entries
+- claude-session-registry metadata: Track session without full history
+
+---
+
+**Tier 2: CONTEXT-AWARE (Suggested Load)**
+**When:** Xavier detects context or user triggers suggest relevance
+**Skills:**
+- **pbi-claude-skills**
+  - **Trigger Context:** Detect `.pbip` files/folders in cwd OR user mentions "Power BI", "DAX", "measure"
+  - **Action:** Auto-notify + load: "✓ Context detected: Power BI project | ✓ Activating pbi-claude-skills"
+  - **Tokens:** ~15K
+- **session-memoria (full entries)**
+  - **Trigger Context:** User says triggers from HUB_MAP ("registre isso", "resume os últimos", "marca como resolvido")
+  - **Action:** Load full skill + relevant entries automatically
+  - **Tokens:** Variable (500-5K depending on query)
+- **gdrive-sync-memoria**
+  - **Trigger Context:** User says triggers from HUB_MAP ("sincroniza Google Drive", "importa resumos")
+  - **Action:** Load skill and execute workflow immediately
+  - **Tokens:** ~3K
+- **claude-session-registry (full skill)**
+  - **Trigger Context:** User says "registra sessão", "documenta sessão"
+  - **Action:** Load skill automatically
+  - **Tokens:** ~2K
+
+**How Detection Works:**
+1. Parse user message for trigger phrases (HUB_MAP reference)
+2. Check cwd for file patterns (e.g., `*.pbip`)
+3. Match against skill "Triggers" section in HUB_MAP
+4. Load skill if match confidence > 80%
+5. **Notify when loading (Ciclope Rule #2)**
+
+---
+
+**Tier 3: EXPLICIT (Manual Invocation)**
+**When:** User explicitly requests via `/skill-name` command OR says full skill name
+**Skills:**
+- Any future skills marked as Tier 3 in HUB_MAP
+
+**Action:** Load only when commanded, never suggest proactively
+
+**Why?** Some skills are infrequent or external integrations - wasteful to load speculatively
+
+---
+
+#### Trigger Detection & Routing
+
+**Purpose:** Automatically route user requests to the right skill without requiring exact syntax
+
+**Priority Order (highest to lowest):**
+1. **Exact Match** (100% confidence) → Load immediately + notify
+2. **Context-Based** (80-95% confidence) → Auto-load + notify
+3. **Fuzzy Match** (60-79% confidence) → Suggest skill
+4. **Proactive Reminder** (40-59% confidence) → Gentle reminder
+
+**1. Exact Match Detection**
+**How:** User says EXACT trigger phrase from HUB_MAP
+**Example:**
+- User: "Xavier, registre isso"
+- Xavier:
+  ```
+  ✓ Trigger detected: "Xavier, registre isso"
+  ✓ Activating session-memoria (HUB_MAP → Tier 2)
+  Loading save workflow...
+  ```
+- No confirmation needed - trigger is explicit
+
+**Implementation:**
+- Parse user message
+- Check against HUB_MAP "Triggers" sections (case-sensitive matching)
+- If exact match found: notify (Ciclope #2) + load skill + execute workflow immediately
+
+---
+
+**2. Context-Based Detection**
+**How:** Working in specific project type OR file patterns detected
+**Examples:**
+- User in `.pbip` project folder → Auto-activate pbi-claude-skills
+  ```
+  ✓ Context detected: Power BI PBIP project
+  ✓ Activating pbi-claude-skills (HUB_MAP → Tier 2)
+  Ready to help with DAX, queries, and model structure.
+  ```
+- User mentions "last week's decision" → Suggest session-memoria search
+- User manually copies files to Google Drive → Suggest gdrive-sync-memoria
+
+**Implementation:**
+- Monitor cwd for file patterns (e.g., `*.pbip`, `*.py`, `.git/`)
+- Parse user messages for domain keywords
+- Cross-reference with HUB_MAP "Purpose" and "Key Features" sections
+- Auto-load + notify if confidence > 80% (Ciclope #2)
+
+---
+
+**3. Fuzzy Match Detection**
+**How:** User says something SIMILAR to a trigger (typo, variation, synonym)
+**Examples:**
+- User: "Xavier, save this conversation" (not exact trigger "registre isso")
+- Xavier: "💡 Did you mean to use session-memoria? (Trigger: 'registre isso')"
+
+**Implementation:**
+- If no exact match, compute similarity score
+- If score > 60%, suggest closest matching skill
+- Show exact trigger phrase for learning
+
+---
+
+**4. Proactive Reminder**
+**How:** Time-based or condition-based reminders (defined in HUB_MAP)
+**Examples:**
+- gdrive-sync-memoria: > 3 days since last sync → Remind once per session
+- session-memoria: Important conversation detected → Suggest saving
+
+**Implementation:**
+- Read "Proactive Routing" patterns from HUB_MAP (Pattern 4)
+- Check conditions (last sync date, context usage, etc.)
+- Remind MAX once per session (avoid spam)
+
+---
+
+#### Self-Learning Trigger Patterns
+
+**Purpose:** Allow Jimmy to teach Xavier new trigger phrases for skills
+
+**Trigger Phrases (any of these):**
+- "Xavier, when I say 'X', use [skill-name]"
+- "Next time I mention Y, load [skill-name]"
+- "Add trigger: 'phrase' → [skill-name]"
+- "Remember: 'X' means [skill-name]"
+
+**Workflow:**
+1. **Parse Request**
+   - Extract: trigger phrase, skill name, (optional) rationale
+
+2. **Validate Skill Exists**
+   - Check HUB_MAP "Active Skills" section
+   - If skill not found: Error "❌ Skill '[skill-name]' not found in HUB_MAP. Available skills: [list]"
+
+3. **Update HUB_MAP.md**
+   - Navigate to skill's "Triggers" section in HUB_MAP
+   - Add new trigger phrase to list
+
+4. **Commit to Git**
+   ```bash
+   git add HUB_MAP.md
+   git commit -m "feat(hub-map): add user-defined trigger '[phrase]' for [skill-name]
+
+   User request: Jimmy asked to recognize '[phrase]' as trigger for [skill-name]
+
+   Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
+   git push origin main
+   ```
+
+5. **Confirm to User**
+   ```
+   ✅ Trigger registered!
+
+   From now on, when you say "[phrase]", I'll use [skill-name].
+   Updated: HUB_MAP.md (committed to Git)
+   ```
+
+---
+
+#### Validation & Testing
+
+**On Session Start (after loading HUB_MAP):**
+1. **HUB_MAP Exists?**
+   - If missing: ERROR "🚨 HUB_MAP.md not found. Cannot proceed."
+
+2. **HUB_MAP Valid Markdown?**
+   - Parse successfully
+   - Has "Active Skills (Production)" section
+   - If invalid: WARN "⚠️ HUB_MAP.md parsing failed. Routing may be degraded."
+
+3. **All Referenced Skills Exist?**
+   - For each skill in "Active Skills":
+     - Check `~/.claude/skills/user/[skill-name]/` exists
+     - If missing: WARN "⚠️ Skill '[skill-name]' documented but folder not found."
+
+4. **Zero Tolerance Check (Ciclope #5)**
+   - List all folders in `~/.claude/skills/user/`
+   - Compare against HUB_MAP Active Skills
+   - If orphaned skill found: BLOCK session
+
+5. **Loose Files Check (Ciclope #5)**
+   - List files in claude-intelligence-hub root
+   - Check against approved list (README, CHANGELOG, etc.)
+   - If loose files found: WARN
+
+**Before Responding to User (every turn):**
+1. **Active Routing Check (Ciclope #1)**
+   - Parse user message for task intent
+   - Check HUB_MAP for existing capability
+   - If match: Use skill (don't reinvent)
+   - If overlap: Veto new implementation (Ciclope #3)
+
+2. **Trigger Detection**
+   - Check for exact triggers
+   - If match: Load skill + notify (Ciclope #2)
+
+---
+
+**End of Pattern 6**
+
 ---
 
 ## 🎛️ Context Management Rules

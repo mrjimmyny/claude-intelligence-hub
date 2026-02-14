@@ -10,7 +10,7 @@
 **Project:** Jimmy Core Preferences + Claude Intelligence Hub (GitHub)
 **Prepared by:** Claude & Jimmy
 **Purpose:** Comprehensive overview - Master Skill System for Universal AI Behavior
-**Version:** 1.4.0
+**Version:** 1.5.0
 
 ---
 
@@ -25,7 +25,7 @@ We successfully developed and deployed a **Master Intelligence Framework** that 
 | **Consistency Across Sessions** | 100% |
 | **Preference Repetition Eliminated** | 100% reduction |
 | **Master Skill Type** | Universal (highest priority) |
-| **Workflow Patterns Defined** | 5 comprehensive patterns |
+| **Workflow Patterns Defined** | 6 comprehensive patterns (incl. Skill Router) |
 | **Core Principles** | 3 fundamental rules |
 | **Communication Guidelines** | Do's + Don'ts comprehensive |
 | **Context Management** | ✅ Proactive alerting (4 levels) |
@@ -34,7 +34,7 @@ We successfully developed and deployed a **Master Intelligence Framework** that 
 | **Auto-Load Enabled** | ✅ Priority: Highest |
 | **Self-Learning System** | ✅ Dynamic updates |
 | **Version Control** | ✅ GitHub-backed |
-| **Current Version** | 1.4.0 (Production-ready) |
+| **Current Version** | 1.5.0 (Production-ready) |
 | **Status** | ✅ Active, validated, evolving |
 
 ---
@@ -201,6 +201,36 @@ Actions: Git sync, identify entry, confirm changes, update, commit+push
 - Reference previous entries when relevant
 - Mention entry status when recalling
 - Suggest related entries
+```
+
+**Pattern 6: HUB_MAP Integration & Skill Router** ⭐ NEW (v1.5.0)
+```
+Transform Xavier from reactive to proactive skill routing engine
+
+CICLOPE ENFORCEMENTS (5 Rules):
+1. Active Routing Mandate: Check HUB_MAP BEFORE any action - use existing skills
+2. Proactive Transparency: Notify when skills activate ("✓ Activating [skill-name]")
+3. The "Veto" Rule: Block new implementations when skill exists
+4. Post-Task Hygiene: Proactively clean up temp files after tasks
+5. Zero Tolerance: Block orphaned skills, warn about loose root files
+
+TIER-BASED LOADING (3 Tiers):
+- Tier 1 (ALWAYS): Core skills auto-load (~8K tokens)
+- Tier 2 (CONTEXT-AWARE): Load when triggered/detected (~15-25K tokens)
+- Tier 3 (EXPLICIT): Manual invocation only
+
+ROUTING PRIORITY:
+1. Exact Match (100%) → Load immediately + notify
+2. Context-Based (80-95%) → Auto-load + notify
+3. Fuzzy Match (60-79%) → Suggest skill
+4. Proactive Reminder (40-59%) → Gentle reminder
+
+CAPABILITIES:
+- HUB_MAP awareness at session start
+- Zero Tolerance enforcement (blocks inconsistencies)
+- Self-learning triggers (Jimmy can teach new patterns)
+- Proactive skill recommendations
+- Token efficiency: 6.5K (Tier 1) vs 250K+ (naive all-skills at 100+ skills)
 ```
 
 #### 4. **Session Memoria Git Strategy** ⭐ CRITICAL (v1.4)

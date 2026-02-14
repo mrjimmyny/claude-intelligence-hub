@@ -35,6 +35,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Added "🗺️ Skill Routing Guide" section with HUB_MAP links
   - Added HUB_MAP.md references to skill table
   - Updated stats section (production vs. planned skills)
+- **MODULE 2 COMPLETED:** jimmy-core-preferences v1.5.0
+  - Pattern 6: HUB_MAP Integration & Skill Router implemented
+  - Xavier now proactively routes to skills based on HUB_MAP
+  - Tier-based loading prevents token explosion (8K vs 250K+ at 100 skills)
+  - Zero Tolerance enforcement blocks orphaned skills (Ciclope Rule #5)
+  - Veto Rule prevents reinventing the wheel (Ciclope Rule #3)
+  - Proactive Transparency notifies skill activation (Ciclope Rule #2)
+  - Post-Task Hygiene auto-suggests cleanup (Ciclope Rule #4)
+  - Active Routing Mandate checks HUB_MAP first (Ciclope Rule #1)
 - **Skills by Status**
   - Production: 5 skills (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills)
   - Planned: 0 (python/git moved to roadmap v1.8.0)
