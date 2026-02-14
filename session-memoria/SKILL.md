@@ -1,6 +1,6 @@
 # Session Memoria - Xavier's Second Brain
 
-**Version:** 1.1.0
+**Version:** 1.2.0
 **Purpose:** Capture, store, and recall conversations, decisions, insights, and ideas across all sessions
 **Language:** Portuguese (pt-BR)
 

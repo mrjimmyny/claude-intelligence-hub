@@ -1,6 +1,6 @@
 # Claude Session Registry - Skill Workflows
 
-**Version:** 1.0.0
+**Version:** 1.1.0
 **Type:** Session Tracking with Git Context
 **Language:** pt-BR (Brazilian Portuguese)
 **Timezone:** America/Sao_Paulo
@@ -648,7 +648,7 @@ Summary:
 ## 🎯 SKILL METADATA
 
 **Name:** claude-session-registry
-**Version:** 1.0.0
+**Version:** 1.1.0
 **Author:** Xavier (Claude)
 **Created:** 2026-02-12
 **Type:** Session Tracking

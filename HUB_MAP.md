@@ -397,7 +397,7 @@ Git Repository
 1. jimmy-core-preferences (v1.5.0)
 2. session-memoria (v1.2.0)
 3. gdrive-sync-memoria (v1.0.0)
-4. claude-session-registry (v1.0.0)
+4. claude-session-registry (v1.1.0)
 5. pbi-claude-skills (v1.3.0)
 
 ---

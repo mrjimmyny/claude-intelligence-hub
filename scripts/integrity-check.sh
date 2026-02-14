@@ -199,6 +199,61 @@ fi
 echo ""
 
 # ═══════════════════════════════════════
+# CHECK 6: Version Synchronization
+# ═══════════════════════════════════════
+echo "═══════════════════════════════════════"
+echo "CHECK 6: Version Synchronization"
+echo "═══════════════════════════════════════"
+
+sync_issues=0
+for skill_dir in */; do
+    # Skip non-skill directories
+    if [[ "$skill_dir" == ".git/" ]] || [[ "$skill_dir" == "scripts/" ]] || [[ "$skill_dir" == "token-economy/" ]] || [[ "$skill_dir" == ".claude/" ]]; then
+        continue
+    fi
+
+    skill_name=$(basename "$skill_dir" /)
+    metadata_file="${skill_dir}.metadata"
+    skill_md="${skill_dir}SKILL.md"
+
+    if [ -f "$metadata_file" ] && [ -f "$skill_md" ]; then
+        # Extract versions
+        metadata_ver=$(grep '"version"' "$metadata_file" | sed 's/.*"version": *"\([^"]*\)".*/\1/')
+        skillmd_ver=$(grep '^\*\*Version:\*\*' "$skill_md" | head -1 | sed 's/.*Version:\*\* *\([0-9.]*\).*/\1/')
+        hubmap_line=$(grep "$skill_name.*v[0-9]" HUB_MAP.md 2>/dev/null | head -1)
+
+        if [ -n "$hubmap_line" ]; then
+            hubmap_ver=$(echo "$hubmap_line" | grep -o 'v[0-9]\+\.[0-9]\+\.[0-9]\+' | sed 's/^v//')
+        else
+            hubmap_ver="NOT_FOUND"
+        fi
+
+        # Compare versions
+        if [ "$metadata_ver" != "$skillmd_ver" ] || ([ "$hubmap_ver" != "NOT_FOUND" ] && [ "$metadata_ver" != "$hubmap_ver" ]); then
+            echo -e "${RED}❌ VERSION DRIFT: $skill_name${NC}"
+            echo "   .metadata: v$metadata_ver"
+            echo "   SKILL.md:  v$skillmd_ver"
+            if [ "$hubmap_ver" != "NOT_FOUND" ]; then
+                echo "   HUB_MAP:   v$hubmap_ver"
+            fi
+            sync_issues=1
+        fi
+    fi
+done
+
+if [ $sync_issues -eq 0 ]; then
+    echo -e "${GREEN}✅ All versions synchronized across .metadata, SKILL.md, HUB_MAP.md${NC}"
+    ((passed++))
+else
+    echo -e "${RED}❌ Fix: Run sync-versions.sh <skill-name>${NC}"
+    ((failed++))
+fi
+echo ""
+
+# Update total checks count
+total_checks=6
+
+# ═══════════════════════════════════════
 # SUMMARY
 # ═══════════════════════════════════════
 echo "═══════════════════════════════════════"
