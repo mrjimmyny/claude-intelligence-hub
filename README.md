@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-1.7.1-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.8.0-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -34,6 +34,7 @@ The **Claude Intelligence Hub** is a centralized system that:
 | **[gdrive-sync-memoria](gdrive-sync-memoria/)** | v1.0.0 | ✅ Production | Google Drive integration | ChatLLM Teams sync, auto-import to session-memoria, zero-friction automation. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
 | **[claude-session-registry](claude-session-registry/)** | v1.1.0 | ✅ Production | Session tracking & backup | Resume ID tracking, Git context, Golden Close protocol, **automatic backup to GitHub**. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
 | **[pbi-claude-skills](pbi-claude-skills/)** | v1.3.0 | ✅ Production | Power BI PBIP optimization | 50-97% token savings, 5 specialized skills, auto-indexing. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
+| **[x-mem](x-mem/)** | v1.0.0 | ✅ Production | Self-learning protocol | Failure/success capture, proactive recall, NDJSON storage, 15K token budget. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
 
 ---
 

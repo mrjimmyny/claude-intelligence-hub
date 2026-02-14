@@ -4,6 +4,118 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.8.0] - 2026-02-14
+
+### 🎯 Module 3: Advanced Technical Governance
+
+**Focus:** Self-learning, token economy, incremental indexing
+
+### Added
+
+#### Phase 1: X-MEM Protocol (Self-Learning)
+- **x-mem/** - New skill for capturing failures/successes
+  - SKILL.md - Execution instructions (~300 lines)
+  - README.md - User documentation (~200 lines)
+  - .metadata - Skill configuration (v1.0.0)
+  - CHANGELOG.md - Version history
+  - data/index.json - Fast search index (~500 tokens)
+  - data/failures.jsonl - NDJSON failure records (append-only)
+  - data/successes.jsonl - NDJSON success patterns (append-only)
+  - scripts/xmem-search.sh - Search utility
+  - scripts/xmem-compact.sh - Compaction utility
+  - scripts/xmem-stats.sh - Statistics generator
+- **jimmy-core-preferences:** Pattern 6A - X-MEM Proactive Recall
+  - Automatic failure detection
+  - Proactive suggestion when errors recur
+  - Token budget enforcement (15K hard limit per query)
+- **HUB_MAP.md:** Added x-mem section (skill #6)
+  - Updated to v1.8.0
+  - 6 production skills (was 5)
+  - 20+ documented triggers (was 15+)
+
+#### Phase 2: Token Economy Enforcement
+- **token-economy/** - New governance layer
+  - README.md - Overview and best practices (~350 lines)
+  - budget-rules.md - Detailed token rules (~450 lines)
+- **jimmy-core-preferences:** Section 7 - Token Economy Enforcement
+  - Pre-flight token checks before skill loads
+  - File loading discipline (index-only HUB_MAP loads)
+  - Response size targets (<1.5K standard, <3K complex)
+  - Automatic warnings (50%, 75%, 90% thresholds)
+- **MEMORY.md:** Token budget patterns
+  - DO/DON'T patterns
+  - Partial file read examples
+  - Context budget warnings
+
+#### Phase 3: Incremental Indexing Automation
+- **scripts/sync-versions.sh** - Version synchronization utility (~100 lines)
+  - Syncs .metadata, SKILL.md, HUB_MAP.md
+  - Updates last_updated date automatically
+  - Color-coded output
+- **scripts/update-skill.sh** - Incremental update procedure (~150 lines)
+  - Semver increment (patch/minor/major)
+  - CHANGELOG.md auto-update
+  - Git commit suggestions
+- **scripts/integrity-check.sh:** CHECK 6 - Version Synchronization
+  - Detects version drift across files
+  - Reports mismatches (.metadata vs SKILL.md vs HUB_MAP)
+  - Suggests fix command
+
+### Changed
+- **HUB_MAP.md:**
+  - Version: 1.7.0 → 1.8.0
+  - Production skills: 5 → 6 (added x-mem)
+  - Routing status: Module 2 → Module 3 Complete
+- **claude-session-registry/SKILL.md:**
+  - Version header synced: 1.0.0 → 1.1.0
+- **session-memoria/SKILL.md:**
+  - Version header synced: 1.1.0 → 1.2.0
+
+### Features
+- **X-MEM Protocol:**
+  - Prevents repeated errors across sessions
+  - NDJSON storage (Git-safe, append-only)
+  - Index-based search (~500 token overhead)
+  - 5 trigger commands: load, record, search, stats, compact
+  - Proactive recall on tool failures
+- **Token Economy:**
+  - 30-50% token reduction target
+  - <3K tokens per skill load (vs ~6K baseline)
+  - <1.5K tokens per response (vs ~3K baseline)
+  - Automatic budget warnings
+- **Incremental Indexing:**
+  - Zero version drift enforcement
+  - <1KB commits per update
+  - Automated last_updated tracking
+
+### Technical
+- **Token Budget Enforcement:**
+  - Hard limits: 3K response, 15K X-MEM query
+  - File loading discipline (offset/limit)
+  - Pre-flight checks before skill loads
+- **Version Synchronization:**
+  - .metadata as source of truth
+  - Automated sync scripts
+  - Drift detection in CHECK 6
+- **NDJSON Protocol:**
+  - Append-only (no file rewrites)
+  - Git-friendly (no merge conflicts)
+  - Atomic index updates
+
+### Validation
+- ✅ CHECK 6: All versions synchronized
+- ✅ X-MEM Protocol tested (failure capture, proactive recall)
+- ✅ Token economy enforced (budget warnings, file discipline)
+- ✅ Incremental indexing automated (sync-versions, update-skill)
+
+### Migration Notes
+- No breaking changes - fully backward compatible
+- X-MEM auto-load disabled (manual trigger or proactive recall)
+- Token economy enforced via Section 7 (jimmy-core-preferences)
+- Version synchronization automatic (via scripts)
+
+---
+
 ## [1.7.1] - 2026-02-14
 
 ### Changed - Module 2 Governance Complete

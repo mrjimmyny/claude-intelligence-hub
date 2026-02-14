@@ -176,8 +176,8 @@ echo "════════════════════════�
 
 missing_skill_md=0
 for skill_dir in */; do
-    # Skip non-skill directories
-    if [[ "$skill_dir" == "." || "$skill_dir" == ".git/" || "$skill_dir" == ".claude/" || "$skill_dir" == "scripts/" ]]; then
+    # Skip non-skill directories (infrastructure, scripts, documentation)
+    if [[ "$skill_dir" == "." || "$skill_dir" == ".git/" || "$skill_dir" == ".claude/" || "$skill_dir" == "scripts/" || "$skill_dir" == "token-economy/" || "$skill_dir" == "docs/" ]]; then
         continue
     fi
 
@@ -207,8 +207,8 @@ echo "════════════════════════�
 
 sync_issues=0
 for skill_dir in */; do
-    # Skip non-skill directories
-    if [[ "$skill_dir" == ".git/" ]] || [[ "$skill_dir" == "scripts/" ]] || [[ "$skill_dir" == "token-economy/" ]] || [[ "$skill_dir" == ".claude/" ]]; then
+    # Skip non-skill directories (infrastructure, scripts, documentation)
+    if [[ "$skill_dir" == ".git/" ]] || [[ "$skill_dir" == "scripts/" ]] || [[ "$skill_dir" == "token-economy/" ]] || [[ "$skill_dir" == ".claude/" ]] || [[ "$skill_dir" == "docs/" ]]; then
         continue
     fi
 
