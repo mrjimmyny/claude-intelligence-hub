@@ -4,7 +4,7 @@
   "description": "Jimmy's second brain - captures and recalls conversations, decisions, insights, and ideas across all sessions with 3-tier archiving",
   "author": "Xavier (Claude)",
   "created": "2026-02-10",
-  "last_updated": "2026-02-13",
+  "last_updated": "2026-02-14",
   "type": "knowledge-management",
   "triggers": {
     "save": [
