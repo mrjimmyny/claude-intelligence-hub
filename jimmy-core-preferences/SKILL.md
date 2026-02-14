@@ -848,6 +848,148 @@ Is file:
 
 **End of Pattern 6**
 
+### Pattern 7: Golden Close Protocol (MANDATORY)
+
+**Purpose:** Mandatory 7-step checklist Xavier MUST execute before ending any session.
+
+**Trigger Phrases:**
+- User goodbye: "tchau", "até mais", "obrigado xavier", "bye", "thanks"
+- User signals end: "that's all", "we're done", "finaliza sessão"
+- User explicitly: "/close" or "golden close"
+
+**CRITICAL:** Golden Close is NOT optional. Xavier MUST execute this protocol before ending session.
+
+---
+
+#### STEP 1: Session Memoria Consistency Check
+
+**Action:** Verify session-memoria is in sync
+
+```bash
+cd claude-intelligence-hub/session-memoria
+git fetch origin main && git pull origin main
+git status
+```
+
+**Validation:**
+- ✅ No uncommitted changes
+- ✅ Local up to date with remote
+
+**If FAIL:** BLOCKING - Commit and push changes before continuing
+
+---
+
+#### STEP 2: HUB_MAP Consistency Check
+
+**Action:** Verify HUB_MAP reflects current skill state
+
+```bash
+actual=$(find . -maxdepth 1 -type d ! -name "." ! -name ".git" ! -name ".claude" | wc -l)
+documented=$(grep -c "^### [0-9]\." HUB_MAP.md)
+if [ $actual -ne $documented ]; then echo "MISMATCH"; fi
+```
+
+**Validation:**
+- ✅ Skill count matches
+- ✅ No orphaned/ghost skills
+
+**If FAIL:** BLOCKING - Update HUB_MAP or remove orphaned directories
+
+---
+
+#### STEP 3: Git Status Check
+
+**Action:** Ensure ALL work committed
+
+```bash
+cd claude-intelligence-hub
+git status
+```
+
+**Validation:**
+- ✅ Working tree clean
+- ✅ No untracked files
+
+**If FAIL:** BLOCKING - Commit all work before ending session (Ciclope Rule)
+
+---
+
+#### STEP 4: CHANGELOG Verification
+
+**Action:** Verify CHANGELOG reflects today's work
+
+```bash
+today=$(date +%Y-%m-%d)
+if ! grep -q "$today" claude-intelligence-hub/CHANGELOG.md; then
+    echo "No CHANGELOG entry for today"
+fi
+```
+
+**Validation:**
+- ✅ CHANGELOG current
+
+**If FAIL:** ADVISORY - Add CHANGELOG entry if work was done
+
+---
+
+#### STEP 5: Session Registry Backup (OPTIONAL)
+
+**Prompt:**
+```
+💾 Session Backup - Save to session-memoria? [Y/n]
+```
+
+**If YES:** Create session-memoria entry with session summary
+**If NO:** Skip
+
+---
+
+#### STEP 6: Final Git Push Confirmation
+
+**Action:** Verify all changes pushed
+
+```bash
+cd claude-intelligence-hub
+git fetch origin main
+status=$(git status -sb | head -1)
+if echo "$status" | grep -q "ahead\|behind"; then echo "NOT IN SYNC"; fi
+```
+
+**Validation:**
+- ✅ Local == remote
+
+**If FAIL:** BLOCKING - Push changes to remote
+
+---
+
+#### STEP 7: Summary Report
+
+**Output:**
+```
+✅ GOLDEN CLOSE COMPLETE
+
+Session Summary:
+- Duration: [time]
+- Token Usage: [X/200000] ([%])
+- Modules Completed: [list]
+- Files Modified: [count]
+- Commits: [count]
+
+Integrity:
+✓ Session-memoria synced
+✓ HUB_MAP consistent
+✓ Git status clean
+✓ CHANGELOG current
+✓ Git pushed
+
+Session: C:\Users\...\[session-id].jsonl
+Resume: claude --resume [session-id]
+
+👋 Até logo, Jimmy!
+```
+
+**End of Pattern 7**
+
 ---
 
 ## 🎛️ Context Management Rules

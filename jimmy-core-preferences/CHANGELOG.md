@@ -48,10 +48,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Existing skills continue working as before
 - New routing logic is additive, not disruptive
 
+### Added (Pattern 7)
+- **Golden Close Protocol** - Mandatory 7-step checklist before ending sessions
+  - STEP 1: Session Memoria consistency check (git sync)
+  - STEP 2: HUB_MAP consistency check (orphaned/ghost skills)
+  - STEP 3: Git status check (no uncommitted changes)
+  - STEP 4: CHANGELOG verification
+  - STEP 5: Session registry backup (optional)
+  - STEP 6: Final git push confirmation
+  - STEP 7: Summary report generation
+- BLOCKING enforcement: Session cannot end with uncommitted work or sync issues
+
 ### Migration Notes
 - Zero Tolerance will warn/block on first session if hub is inconsistent (orphaned skills or loose files)
 - Users may see new notifications when skills auto-activate (Ciclope #2: Proactive Transparency)
 - Veto warnings will appear if trying to create overlapping functionality (Ciclope #3)
+- Golden Close Protocol will now execute before session end (mandatory)
 
 ---
 
