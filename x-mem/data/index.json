@@ -1,11 +1,19 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-02-14T00:00:00Z",
+  "last_updated": "2026-02-14T18:00:44Z",
   "total_entries": {
-    "failures": 0,
+    "failures": 1,
     "successes": 0
   },
-  "tool_index": {},
-  "tag_index": {},
-  "ctx_hash_index": {}
+  "tool_index": {
+    "rclone": {"failures": 1, "successes": 0}
+  },
+  "tag_index": {
+    "rclone": 1,
+    "config": 1,
+    "remote-not-found": 1
+  },
+  "ctx_hash_index": {
+    "rclone-ls-config-not-found": ["2026-02-14-001"]
+  }
 }
