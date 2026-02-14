@@ -1,0 +1,31 @@
+name: Hub Integrity Check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  integrity-check:
+    name: Validate Hub Consistency
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Make integrity script executable
+        run: chmod +x scripts/integrity-check.sh
+
+      - name: Run integrity validation
+        run: bash scripts/integrity-check.sh
+
+      - name: Report results
+        if: failure()
+        run: |
+          echo "❌ Integrity check failed - Zero Tolerance violation detected"
+          echo "Review the logs above to identify the issue"
+          exit 1
