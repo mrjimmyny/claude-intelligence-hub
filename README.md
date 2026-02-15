@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-1.8.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.9.0-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -58,18 +58,64 @@ For complete trigger list and routing patterns, see **[HUB_MAP.md](HUB_MAP.md)**
 
 ---
 
-## ⚡ Quick Start
+## ⚡ Quick Start (15-Minute Setup)
+
+> **✨ New:** Automated setup scripts for fresh machine deployment! See [HANDOVER_GUIDE.md](docs/HANDOVER_GUIDE.md) for detailed instructions.
+
+### Option A: Automated Setup (Recommended)
+
+**Windows (PowerShell):**
+```powershell
+# Clone the hub
+git clone https://github.com/mrjimmyny/claude-intelligence-hub.git
+cd claude-intelligence-hub
+
+# Run automated setup (installs 5 mandatory skills + prompts for optional)
+.\scripts\setup_local_env.ps1
+
+# Force recreate existing junctions (if needed)
+.\scripts\setup_local_env.ps1 -Force
+```
+
+**macOS/Linux (Bash):**
+```bash
+# Clone the hub
+git clone https://github.com/mrjimmyny/claude-intelligence-hub.git
+cd claude-intelligence-hub
+
+# Make script executable
+chmod +x scripts/setup_local_env.sh
+
+# Run automated setup
+bash scripts/setup_local_env.sh
+
+# Force recreate existing symlinks (if needed)
+bash scripts/setup_local_env.sh --force
+```
+
+**What it does:**
+- ✅ Auto-installs 5 mandatory core skills
+- ✅ Creates junctions/symlinks (auto-sync with Git)
+- ✅ Prompts for optional skills (pbi-claude-skills)
+- ✅ Validates installation with integrity checks
+- ✅ Takes ~15 minutes from zero to production
+
+**See also:** [HANDOVER_GUIDE.md](docs/HANDOVER_GUIDE.md) for comprehensive setup documentation.
+
+---
+
+### Option B: Manual Setup (Advanced Users)
 
 > **⚠️ Windows Users**: See [WINDOWS_JUNCTION_SETUP.md](WINDOWS_JUNCTION_SETUP.md) for junction point setup (required for auto-sync)
 
-### 1. Clone the Hub
+#### 1. Clone the Hub
 
 ```bash
 git clone https://github.com/mrjimmyny/claude-intelligence-hub.git
 cd claude-intelligence-hub
 ```
 
-### 2. Choose Your Setup
+#### 2. Choose Your Setup
 
 <details>
 <summary><b>🧠 Jimmy Core Preferences</b> (Universal AI behavior)</summary>

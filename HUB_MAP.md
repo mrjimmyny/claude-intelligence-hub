@@ -1,9 +1,9 @@
 # 🗺️ Claude Intelligence Hub - Skill Router Map
 
-**Version:** 1.8.0
-**Last Updated:** 2026-02-14
+**Version:** 1.9.0
+**Last Updated:** 2026-02-15
 **Purpose:** Central routing dictionary for all skills, triggers, and workflows
-**Routing Status:** 🟢 Active (Module 3 Complete)
+**Routing Status:** 🟢 Active (Module 4 Complete - Deployment & CI/CD)
 
 ---
 
@@ -726,9 +726,63 @@ touch CHANGELOG.md             # Version history
 
 ---
 
-**Version:** 1.7.1
-**Status:** ✅ Complete and Active
-**Last Updated:** 2026-02-14
+## 📜 Version History
+
+### v1.9.0 (2026-02-15) - Module 4: Deployment & CI/CD
+**Major Release - Enterprise Deployment System**
+
+**New Features:**
+- ✅ Idempotent setup scripts (Windows PowerShell + Unix Bash)
+- ✅ 15-minute fresh machine deployment (down from 2-4 hours)
+- ✅ Enhanced CI/CD pipeline (5-job workflow)
+  - Version sync validation
+  - Mandatory skills validation
+  - Breaking change detection
+- ✅ Comprehensive handover documentation (HANDOVER_GUIDE.md)
+- ✅ Project final report (PROJECT_FINAL_REPORT.md)
+- ✅ Golden close checklist (GOLDEN_CLOSE_CHECKLIST.md)
+
+**Scripts Added:**
+- `scripts/setup_local_env.ps1` - Windows automated setup
+- `scripts/setup_local_env.sh` - macOS/Linux automated setup
+- `.github/workflows/ci-integrity.yml` - Enhanced CI/CD (5 jobs)
+
+**Documentation:**
+- `docs/HANDOVER_GUIDE.md` - 15-minute deployment guide
+- `docs/PROJECT_FINAL_REPORT.md` - Comprehensive project report
+- `docs/GOLDEN_CLOSE_CHECKLIST.md` - Sign-off validation
+
+### v1.8.0 (2026-02-14) - Module 3: Advanced Governance
+**Major Release - Zero-Breach Policy Enforcement**
+
+**New Features:**
+- ✅ integrity-check.sh (6 governance rules)
+- ✅ sync-versions.sh (3-source version synchronization)
+- ✅ update-skill.sh (automated skill versioning)
+- ✅ GitHub Actions CI/CD (integrity.yml)
+- ✅ Token Economy Framework (30-50% savings)
+
+### v1.7.0 (2025-12-01) - Module 2: Memory & Knowledge
+**Major Release - Permanent Memory System**
+
+**Skills Added:**
+- session-memoria v1.2.0 (3-tier archiving)
+- x-mem v1.0.0 (self-learning protocol)
+- gdrive-sync-memoria v1.0.0 (ChatLLM integration)
+- claude-session-registry v1.1.0 (session tracking)
+
+### v1.0.0 (2025-02-09) - Module 1: Foundation
+**Initial Release**
+
+**Skills Added:**
+- jimmy-core-preferences v1.0.0
+- pbi-claude-skills v1.0.0
+
+---
+
+**Version:** 1.9.0
+**Status:** ✅ Production - Enterprise-Ready
+**Last Updated:** 2026-02-15
 **Maintained by:** Xavier & Jimmy
 
 *This is the single source of truth for skill routing in the Claude Intelligence Hub*

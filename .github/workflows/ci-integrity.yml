@@ -1,0 +1,367 @@
+name: Hub CI/CD - Integrity & Governance
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # ═══════════════════════════════════════════════════════════════
+  # JOB 1: Hub Integrity Validation (Existing)
+  # ═══════════════════════════════════════════════════════════════
+  integrity-check:
+    name: Hub Integrity Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Make integrity script executable
+        run: chmod +x scripts/integrity-check.sh
+
+      - name: Run integrity validation
+        id: integrity
+        run: |
+          echo "Running integrity checks..."
+          if bash scripts/integrity-check.sh; then
+            echo "result=passed" >> $GITHUB_OUTPUT
+          else
+            echo "result=failed" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+      - name: Report results
+        if: failure()
+        run: |
+          echo "❌ Integrity check failed - Zero Tolerance violation detected"
+          echo ""
+          echo "Common issues:"
+          echo "  • Orphaned directories (not in HUB_MAP.md)"
+          echo "  • Ghost skills (in HUB_MAP.md but no directory)"
+          echo "  • Missing .metadata or SKILL.md files"
+          echo ""
+          echo "Fix: Review the logs above and run integrity-check.sh locally"
+          exit 1
+
+  # ═══════════════════════════════════════════════════════════════
+  # JOB 2: Version Synchronization Check (NEW)
+  # ═══════════════════════════════════════════════════════════════
+  version-sync-check:
+    name: Version Sync Validation
+    runs-on: ubuntu-latest
+    needs: integrity-check
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check version consistency
+        id: version_check
+        run: |
+          echo "Checking version synchronization across all skills..."
+          echo ""
+
+          VERSION_DRIFT=0
+          DRIFT_SKILLS=()
+
+          # Get all skill directories (exclude special directories)
+          for skill_dir in */; do
+            skill=$(basename "$skill_dir" /)
+
+            # Skip non-skill directories
+            if [[ "$skill" == "." || "$skill" == ".git" || "$skill" == ".github" || "$skill" == ".claude" || "$skill" == "scripts" || "$skill" == "token-economy" || "$skill" == "docs" ]]; then
+              continue
+            fi
+
+            # Check if .metadata exists
+            if [ ! -f "$skill/.metadata" ]; then
+              echo "⚠️  $skill: No .metadata file (skipping)"
+              continue
+            fi
+
+            # Extract version from .metadata
+            METADATA_VER=$(grep '"version"' "$skill/.metadata" | sed 's/.*"version": *"\([^"]*\)".*/\1/')
+
+            # Check SKILL.md if it exists
+            if [ -f "$skill/SKILL.md" ]; then
+              SKILLMD_VER=$(grep '^\*\*Version:\*\*' "$skill/SKILL.md" | sed 's/\*\*Version:\*\* //')
+
+              if [ "$METADATA_VER" != "$SKILLMD_VER" ]; then
+                echo "❌ VERSION DRIFT: $skill"
+                echo "   .metadata: v$METADATA_VER"
+                echo "   SKILL.md:  $SKILLMD_VER"
+                echo ""
+                VERSION_DRIFT=1
+                DRIFT_SKILLS+=("$skill")
+              else
+                echo "✅ $skill: Versions synced (v$METADATA_VER)"
+              fi
+            fi
+
+            # Check HUB_MAP.md reference
+            if [ -f "HUB_MAP.md" ]; then
+              HUBMAP_VER=$(grep -i "$skill" HUB_MAP.md | grep -o 'v[0-9]\+\.[0-9]\+\.[0-9]\+' | head -1 | sed 's/v//')
+
+              if [ -n "$HUBMAP_VER" ] && [ "$METADATA_VER" != "$HUBMAP_VER" ]; then
+                echo "❌ VERSION DRIFT: $skill (HUB_MAP)"
+                echo "   .metadata: v$METADATA_VER"
+                echo "   HUB_MAP:   v$HUBMAP_VER"
+                echo ""
+                VERSION_DRIFT=1
+                if [[ ! " ${DRIFT_SKILLS[@]} " =~ " $skill " ]]; then
+                  DRIFT_SKILLS+=("$skill")
+                fi
+              fi
+            fi
+          done
+
+          echo ""
+          if [ $VERSION_DRIFT -eq 1 ]; then
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "❌ VERSION DRIFT DETECTED"
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo ""
+            echo "Affected skills: ${DRIFT_SKILLS[*]}"
+            echo ""
+            echo "FIX: Run sync-versions.sh for each skill:"
+            for drift_skill in "${DRIFT_SKILLS[@]}"; do
+              echo "  bash scripts/sync-versions.sh $drift_skill"
+            done
+            echo ""
+            echo "This ensures .metadata, SKILL.md, and HUB_MAP.md are in sync."
+            echo ""
+            exit 1
+          else
+            echo "✅ All skill versions are synchronized"
+          fi
+
+  # ═══════════════════════════════════════════════════════════════
+  # JOB 3: Mandatory Skills Validation (NEW)
+  # ═══════════════════════════════════════════════════════════════
+  mandatory-skills-check:
+    name: Mandatory Skills Validation
+    runs-on: ubuntu-latest
+    needs: integrity-check
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate mandatory skills
+        id: mandatory_check
+        run: |
+          echo "Validating mandatory core skills structure..."
+          echo ""
+
+          MANDATORY_SKILLS=(
+            "jimmy-core-preferences"
+            "session-memoria"
+            "x-mem"
+            "gdrive-sync-memoria"
+            "claude-session-registry"
+          )
+
+          VALIDATION_FAILED=0
+
+          for skill in "${MANDATORY_SKILLS[@]}"; do
+            echo "Checking: $skill"
+
+            # Check directory exists
+            if [ ! -d "$skill" ]; then
+              echo "  ❌ Directory not found"
+              VALIDATION_FAILED=1
+              continue
+            fi
+
+            # Check .metadata exists
+            if [ ! -f "$skill/.metadata" ]; then
+              echo "  ❌ .metadata file missing"
+              VALIDATION_FAILED=1
+            else
+              echo "  ✅ .metadata exists"
+
+              # Check auto_load is true
+              AUTO_LOAD=$(grep '"auto_load"' "$skill/.metadata" | grep -o 'true\|false')
+              if [ "$AUTO_LOAD" != "true" ]; then
+                echo "  ⚠️  Warning: auto_load is not true (should be true for mandatory skills)"
+              fi
+            fi
+
+            # Check SKILL.md exists
+            if [ ! -f "$skill/SKILL.md" ]; then
+              echo "  ❌ SKILL.md file missing"
+              VALIDATION_FAILED=1
+            else
+              echo "  ✅ SKILL.md exists"
+            fi
+
+            # Check version format
+            if [ -f "$skill/.metadata" ]; then
+              VERSION=$(grep '"version"' "$skill/.metadata" | sed 's/.*"version": *"\([^"]*\)".*/\1/')
+              if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+                echo "  ❌ Invalid version format: $VERSION (should be X.Y.Z)"
+                VALIDATION_FAILED=1
+              else
+                echo "  ✅ Version: v$VERSION"
+              fi
+            fi
+
+            echo ""
+          done
+
+          if [ $VALIDATION_FAILED -eq 1 ]; then
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "❌ MANDATORY SKILLS VALIDATION FAILED"
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo ""
+            echo "All 5 mandatory skills must have:"
+            echo "  • Directory in hub root"
+            echo "  • .metadata file with valid version"
+            echo "  • SKILL.md file"
+            echo "  • auto_load: true in .metadata"
+            echo ""
+            exit 1
+          else
+            echo "✅ All mandatory skills validated successfully"
+          fi
+
+  # ═══════════════════════════════════════════════════════════════
+  # JOB 4: Breaking Change Detection (NEW - Warning Only)
+  # ═══════════════════════════════════════════════════════════════
+  breaking-change-detection:
+    name: Breaking Change Detection
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for comparison
+
+      - name: Detect breaking changes
+        id: breaking_check
+        continue-on-error: true  # Don't fail the build, just warn
+        run: |
+          echo "Checking for breaking changes (major version bumps)..."
+          echo ""
+
+          git fetch origin main:main
+
+          BREAKING_CHANGES=0
+          BREAKING_SKILLS=()
+
+          # Get all changed .metadata files
+          CHANGED_METADATA=$(git diff --name-only origin/main...HEAD | grep '.metadata$' || true)
+
+          if [ -z "$CHANGED_METADATA" ]; then
+            echo "No .metadata files changed in this PR"
+            exit 0
+          fi
+
+          for metadata_file in $CHANGED_METADATA; do
+            skill=$(dirname "$metadata_file")
+
+            # Get version from main branch
+            OLD_VER=$(git show origin/main:"$metadata_file" 2>/dev/null | grep '"version"' | sed 's/.*"version": *"\([^"]*\)".*/\1/' || echo "0.0.0")
+
+            # Get version from PR branch
+            NEW_VER=$(grep '"version"' "$metadata_file" | sed 's/.*"version": *"\([^"]*\)".*/\1/')
+
+            OLD_MAJOR=$(echo "$OLD_VER" | cut -d. -f1)
+            NEW_MAJOR=$(echo "$NEW_VER" | cut -d. -f1)
+
+            if [ "$NEW_MAJOR" -gt "$OLD_MAJOR" ]; then
+              echo "⚠️  BREAKING CHANGE: $skill"
+              echo "   Version: v$OLD_VER → v$NEW_VER (major bump)"
+              echo ""
+              BREAKING_CHANGES=1
+              BREAKING_SKILLS+=("$skill")
+            else
+              echo "✅ $skill: v$OLD_VER → v$NEW_VER (non-breaking)"
+            fi
+          done
+
+          echo ""
+          if [ $BREAKING_CHANGES -eq 1 ]; then
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "⚠️  WARNING: BREAKING CHANGES DETECTED"
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo ""
+            echo "Skills with major version bumps:"
+            for skill in "${BREAKING_SKILLS[@]}"; do
+              echo "  • $skill"
+            done
+            echo ""
+            echo "ACTION REQUIRED:"
+            echo "  1. Update CHANGELOG.md with breaking changes"
+            echo "  2. Update migration guide if needed"
+            echo "  3. Notify users before merge"
+            echo ""
+            echo "This is a WARNING only - build will continue"
+          fi
+
+      - name: Comment on PR (if breaking changes)
+        if: steps.breaking_check.outcome == 'success' && steps.breaking_check.conclusion != 'skipped'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '⚠️ **Breaking changes detected** in this PR. Please review the CI logs and update documentation accordingly.'
+            })
+
+  # ═══════════════════════════════════════════════════════════════
+  # JOB 5: Final Summary (NEW)
+  # ═══════════════════════════════════════════════════════════════
+  ci-summary:
+    name: CI/CD Summary
+    runs-on: ubuntu-latest
+    needs: [integrity-check, version-sync-check, mandatory-skills-check, breaking-change-detection]
+    if: always()  # Run even if previous jobs failed
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate summary
+        run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "  CLAUDE INTELLIGENCE HUB - CI/CD SUMMARY"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+
+          # Check job results
+          INTEGRITY_RESULT="${{ needs.integrity-check.result }}"
+          VERSION_RESULT="${{ needs.version-sync-check.result }}"
+          MANDATORY_RESULT="${{ needs.mandatory-skills-check.result }}"
+          BREAKING_RESULT="${{ needs.breaking-change-detection.result }}"
+
+          echo "Job Results:"
+          echo "  Hub Integrity Check:      $INTEGRITY_RESULT"
+          echo "  Version Sync Check:       $VERSION_RESULT"
+          echo "  Mandatory Skills Check:   $MANDATORY_RESULT"
+          echo "  Breaking Change Detection: $BREAKING_RESULT (warning only)"
+          echo ""
+
+          # Determine overall status
+          if [ "$INTEGRITY_RESULT" != "success" ] || [ "$VERSION_RESULT" != "success" ] || [ "$MANDATORY_RESULT" != "success" ]; then
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "❌ CI/CD FAILED - ZERO-BREACH POLICY VIOLATION"
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo ""
+            echo "Fix the issues above before merging to main."
+            echo ""
+            exit 1
+          else
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "✅ ALL CHECKS PASSED - READY TO MERGE"
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo ""
+          fi
