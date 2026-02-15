@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-1.9.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -281,6 +281,19 @@ claude-intelligence-hub/
 │   ├── SETUP_GUIDE.md               # Installation instructions
 │   ├── registry/                    # Session entries storage
 │   └── templates/                   # Entry templates
+│
+├── 📁 x-mem/                        # ⭐ Self-Learning Protocol (v1.0.0)
+│   ├── SKILL.md                     # Self-learning workflows (8KB)
+│   ├── README.md                    # User guide
+│   ├── CHANGELOG.md                 # Version history
+│   ├── data/                        # NDJSON storage
+│   │   ├── failures.jsonl           # Failure patterns (append-only)
+│   │   ├── successes.jsonl          # Success patterns (append-only)
+│   │   └── index.json               # Fast search index (~500 tokens)
+│   └── scripts/                     # Utilities
+│       ├── xmem-search.sh           # Search utility
+│       ├── xmem-compact.sh          # Compaction utility
+│       └── xmem-stats.sh            # Statistics generator
 │
 ├── 📁 pbi-claude-skills/            # ⭐ Power BI Optimization (v1.3.0)
 │   ├── skills/                      # 5 parametrized skills
@@ -663,8 +676,8 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 
 ### Major Milestones
 
-- **v1.0.0** (2025-02-09): Module 1 - Foundation (jimmy-core-preferences created)
-- **v1.1.0** (2026-02-08): Power BI skills added + GitHub Hub created
+- **v1.0.0** (2026-02-08): Module 1 - Foundation (Power BI skills, GitHub Hub created)
+- **v1.1.0** (2026-02-10): jimmy-core-preferences added
 - **v1.2.0** (2026-02-10): Session-memoria v1.0.0 - knowledge management
 - **v1.3.0** (2026-02-10): Session-memoria v1.1.0 - lifecycle tracking
 - **v1.4.0** (2026-02-10): Critical git strategy - data loss prevention
