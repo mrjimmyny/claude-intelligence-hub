@@ -129,7 +129,7 @@ For complete trigger list and routing patterns, see **[HUB_MAP.md](HUB_MAP.md)**
 git clone https://github.com/mrjimmyny/claude-intelligence-hub.git
 cd claude-intelligence-hub
 
-# Run automated setup (installs 5 mandatory skills + prompts for optional)
+# Run automated setup (installs 8 production skills)
 .\scripts\setup_local_env.ps1
 
 # Force recreate existing junctions (if needed)
@@ -153,9 +153,8 @@ bash scripts/setup_local_env.sh --force
 ```
 
 **What it does:**
-- ✅ Auto-installs 5 mandatory core skills
+- ✅ Auto-installs 8 production skills (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills)
 - ✅ Creates junctions/symlinks (auto-sync with Git)
-- ✅ Prompts for optional skills (pbi-claude-skills)
 - ✅ Validates installation with integrity checks
 - ✅ Takes ~15 minutes from zero to production
 
@@ -339,6 +338,17 @@ claude-intelligence-hub/
 │   ├── docs/                        # 4 comprehensive guides
 │   └── README.md                    # Main documentation
 │
+├── 📁 xavier-memory/                # ⭐ Global Memory Infrastructure (v1.0.0)
+│   ├── MEMORY.md                    # Master memory file (single source of truth)
+│   ├── README.md                    # User guide
+│   ├── setup_memory_junctions.bat   # Hard link setup script (Windows)
+│   ├── sync-to-gdrive.sh            # Google Drive sync automation
+│   └── backups/                     # Local timestamped backups
+│
+├── 📁 xavier-memory-sync/           # ⭐ Memory Sync Automation (v1.0.0)
+│   ├── SKILL.md                     # Trigger phrases & workflows (5KB)
+│   └── README.md                    # User guide
+│
 ├── 📁 python-claude-skills/         # 📋 Placeholder (future)
 ├── 📁 git-claude-skills/            # 📋 Placeholder (future)
 │
@@ -348,8 +358,8 @@ claude-intelligence-hub/
 │
 ├── README.md                        # ⭐ This file
 ├── CHANGELOG.md                     # Version history
-├── EXECUTIVE_SUMMARY.md             # Comprehensive hub overview (v1.9.0)
-├── HUB_MAP.md                       # Skill routing dictionary (v1.9.0)
+├── EXECUTIVE_SUMMARY.md             # Comprehensive hub overview (v2.0.0)
+├── HUB_MAP.md                       # Skill routing dictionary (v2.0.0)
 ├── WINDOWS_JUNCTION_SETUP.md        # Junction setup guide (Windows)
 ├── scripts/                         # Automation & deployment scripts
 │   ├── setup_local_env.ps1          # Windows automated setup (15-min)
@@ -497,7 +507,7 @@ git pull origin main
 
 | Metric | Value |
 |--------|-------|
-| **Production Skills** | 6 collections (5 mandatory + 1 optional, 15+ individual skills) |
+| **Production Skills** | 8 collections (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills) |
 | **Total Documentation** | ~280KB (executive summaries, guides, changelogs, handover docs) |
 | **Version History** | 30+ commits (tracked in CHANGELOG.md) |
 | **Setup Time** | 15 minutes (Windows/macOS/Linux automated deployment) |
@@ -510,7 +520,7 @@ git pull origin main
 
 ### Skills by Status
 
-- ✅ **Production Ready:** 6 (jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills)
+- ✅ **Production Ready:** 8 (jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills, xavier-memory, xavier-memory-sync)
 - 🚧 **In Development:** 0
 - 📋 **Planned:** 2 (python-claude-skills, git-claude-skills)
 
@@ -707,9 +717,9 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 
 ## 📈 Version History
 
-**Current Version:** v2.0.0 ✅ **Enterprise-Ready Production System**
+**Current Version:** v2.1.0 ✅ **Xavier Global Memory System**
 **Last Updated:** February 15, 2026
-**Status:** Production | Enterprise Deployment System | Actively Maintained
+**Status:** Production | Cross-Project Memory + Cloud Backup | Actively Maintained
 
 ### Major Milestones
 
@@ -724,6 +734,7 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 - **v1.8.0** (2026-02-14): Module 3 - Advanced Governance (X-MEM, Token Economy, 6 integrity checks, GitHub Actions CI/CD)
 - **v1.9.0** (2026-02-15): Module 4 - Deployment & CI/CD (15-minute setup, 5-job pipeline, comprehensive documentation)
 - **v2.0.0** (2026-02-15): **ZERO TO HERO COMPLETE** - Enterprise-grade deployment system ready for production
+- **v2.1.0** (2026-02-15): Xavier Global Memory System - Cross-project persistent memory with Git + Hard Links + Google Drive (3-layer protection, disaster recovery, zero-duplicate sync)
 
 See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
 
