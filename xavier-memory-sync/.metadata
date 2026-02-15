@@ -1,0 +1,19 @@
+{
+  "name": "xavier-memory-sync",
+  "version": "1.0.0",
+  "description": "Xavier Memory sync skill - manages global memory backup and cross-project synchronization",
+  "type": "infrastructure",
+  "triggers": [
+    "sync memory",
+    "backup memory",
+    "restore memory",
+    "memory status"
+  ],
+  "dependencies": {
+    "xavier-memory": ">=1.0.0",
+    "rclone": ">=1.73.0",
+    "gdrive-jimmy": "configured"
+  },
+  "created": "2026-02-15",
+  "author": "Xavier (Claude Code)"
+}
