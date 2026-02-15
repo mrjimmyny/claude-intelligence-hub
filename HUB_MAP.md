@@ -1,6 +1,6 @@
 # 🗺️ Claude Intelligence Hub - Skill Router Map
 
-**Version:** 1.9.0
+**Version:** 2.0.0
 **Last Updated:** 2026-02-15
 **Purpose:** Central routing dictionary for all skills, triggers, and workflows
 **Routing Status:** 🟢 Active (Module 4 Complete - Deployment & CI/CD)
@@ -11,7 +11,7 @@
 
 | Metric | Count | Status |
 |--------|-------|--------|
-| **Production Skills** | 6 | ✅ Active |
+| **Production Skills** | 8 | ✅ Active |
 | **Planned Skills** | 2 | 📋 Roadmap |
 | **Documented Triggers** | 20+ | ✅ Complete |
 | **Skill Tiers** | 3 | ✅ Defined |
@@ -233,6 +233,77 @@ Machine-oriented memory buffer that captures tool failures and success patterns 
 - `x-mem/data/index.json` (fast search index, ~500 tokens)
 - `x-mem/data/failures.jsonl` (append-only NDJSON)
 - `x-mem/data/successes.jsonl` (append-only NDJSON)
+
+---
+
+### 7. xavier-memory
+**Type:** Infrastructure (Global Memory System)
+**Location:** `claude-intelligence-hub/xavier-memory/`
+**Auto-load:** ✅ Always (via hard links to all projects)
+
+#### Purpose
+Master memory repository that provides cross-project persistent memory with disaster recovery capability. Foundation for X-MEM protocol and all learned patterns.
+
+#### Key Features
+- Single source of truth (MEMORY.md master file)
+- Hard link sync to all project memory folders (instant, zero-latency)
+- 3-layer protection: Git + Hard Links + Google Drive
+- No duplicates (always ONE latest file per location)
+- Survives machine crashes and formats
+
+#### Triggers
+**NO manual triggers** - Memory auto-loads in ALL projects via hard links
+
+#### Dependencies
+- None (infrastructure layer)
+- Used by: jimmy-core-preferences, x-mem protocol
+
+#### Loading Tier
+**Tier 1: Always-Load** (via hard link mechanism)
+
+#### Related Files
+- `xavier-memory/MEMORY.md` (master memory file, ~200 lines)
+- `xavier-memory/README.md` (system documentation)
+- `xavier-memory/GOVERNANCE.md` (X-MEM protocol rules)
+- `xavier-memory/setup_memory_junctions.bat` (hard link setup)
+- `xavier-memory/sync-to-gdrive.sh` (Google Drive backup)
+
+---
+
+### 8. xavier-memory-sync
+**Type:** Automation (Memory Sync Skill)
+**Location:** `claude-intelligence-hub/xavier-memory-sync/`
+**Auto-load:** ❌ Explicit invocation
+
+#### Purpose
+Automation skill for managing Xavier Global Memory System - handles backup, restore, status checks, and sync operations.
+
+#### Key Features
+- One-command backup to Google Drive
+- Hard link verification across all projects
+- Restore from backups (local or cloud)
+- System health monitoring
+- Zero-duplicate guarantee (always overwrites, never creates duplicates)
+
+#### Triggers (Commands)
+- `"Xavier, sync memory"` - Full sync (all projects + Google Drive)
+- `"Xavier, backup memory"` - Google Drive backup only
+- `"Xavier, restore memory"` - Restore from backups (interactive)
+- `"Xavier, memory status"` - System health report
+- `"X, sync mem"` - Short alias for sync
+
+#### Dependencies
+- **Required:** xavier-memory (master infrastructure)
+- **Required:** rclone (Google Drive sync)
+- **Required:** gdrive-jimmy remote (configured)
+
+#### Loading Tier
+**Tier 2: On-Demand** (explicit trigger phrases)
+
+#### Related Files
+- `xavier-memory-sync/SKILL.md` (execution instructions, ~300 lines)
+- `xavier-memory/backups/` (local backup snapshots)
+- Google Drive: `Claude/_claude_intelligence_hub/_critical_bkp_xavier_local_persistent_memory/`
 
 ---
 

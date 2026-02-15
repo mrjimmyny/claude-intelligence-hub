@@ -4,6 +4,58 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.1.0] - 2026-02-15
+
+### 🧠 Xavier Global Memory System
+
+**Focus:** Cross-project persistent memory with disaster recovery capability
+
+### Added
+
+#### Infrastructure
+- **xavier-memory/** - Global memory infrastructure (v1.0.0)
+  - Master MEMORY.md file (single source of truth for all learned patterns)
+  - Hard link sync mechanism (instant, zero-latency cross-project sync)
+  - Windows junction point setup script (setup_memory_junctions.bat)
+  - Google Drive backup script (sync-to-gdrive.sh)
+  - 3-layer protection: Git + Hard Links + Google Drive
+  - Zero-duplicate guarantee (always overwrites, never creates duplicates)
+  - Comprehensive documentation (README.md, GOVERNANCE.md)
+
+- **xavier-memory-sync/** - Memory sync automation skill (v1.0.0)
+  - Trigger phrases: "sync memory", "backup memory", "restore memory", "memory status"
+  - Automated Google Drive sync integration
+  - Hard link verification across all projects
+  - System health monitoring
+  - Interactive restore from backups (local or cloud)
+  - Backup retention management (keep last 10 local snapshots)
+
+#### Features
+- **Universal Memory**: Works across ALL Claude Code projects automatically
+- **Survives Machine Crashes**: Multiple backup layers ensure zero data loss
+- **New Machine Ready**: `git clone` + run setup script = instant memory restoration
+- **Always Latest**: ONE file per location (local/GitHub/GDrive), never duplicates
+- **Instant Sync**: Hard links provide zero-latency cross-project updates
+
+#### Documentation Updates
+- Updated README.md with Xavier Global Memory System section
+- Added xavier-memory and xavier-memory-sync to skill collections table
+- Updated HUB_MAP.md with skills #7 and #8 (comprehensive routing documentation)
+- Updated version badges to 2.1.0
+- Added Google Drive folder: `Claude/_claude_intelligence_hub/_critical_bkp_xavier_local_persistent_memory/`
+
+### Changed
+- Incremented production skills count from 6 to 8
+- Updated HUB_MAP.md version from 1.9.0 to 2.0.0
+- Google Drive sync now targets correct folder structure (not root level)
+
+### Fixed
+- Google Drive sync path corrected to proper folder location
+- Eliminated duplicate folder creation at root level
+- Verified rclone copy behavior (overwrites, no duplicates)
+
+---
+
 ## [1.9.0] - 2026-02-15
 
 ### 🚀 Module 4: Deployment, CI/CD & Final Handover

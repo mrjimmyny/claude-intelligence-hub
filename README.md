@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -47,6 +47,41 @@ See [HANDOVER_GUIDE.md](docs/HANDOVER_GUIDE.md) for complete deployment document
 
 ---
 
+## 🧠 Xavier Global Memory System (NEW!)
+
+**Cross-project persistent memory with disaster recovery capability:**
+
+- 🌍 **Universal Memory** - Works across ALL Claude Code projects automatically
+- 🔗 **Hard Link Sync** - Instant, zero-latency sync via Windows junction points
+- ☁️ **Cloud Backup** - Auto-sync to Google Drive + Git version control
+- 🔐 **3-Layer Protection** - Git + Hard Links + Google Drive = zero data loss
+- 🚀 **One-Command Operations** - Simple trigger phrases for all memory tasks
+
+**How it works:**
+```
+Local Master (claude-intelligence-hub/xavier-memory/MEMORY.md)
+    ↓ (hard links)
+All Projects (.claude/projects/*/memory/MEMORY.md)
+    ↓ (git + rclone)
+GitHub + Google Drive (always latest, never duplicates)
+```
+
+**Available commands:**
+- `"Xavier, sync memory"` - Full sync to all locations
+- `"Xavier, memory status"` - Check system health
+- `"Xavier, backup memory"` - Google Drive backup only
+- `"Xavier, restore memory"` - Restore from backups
+
+**Key features:**
+- ✅ **Survives machine crashes** - Multiple backup layers
+- ✅ **Works on new machines** - `git clone` + run setup script = instant memory
+- ✅ **No duplicates** - Always ONE latest file in each location
+- ✅ **Instant cross-project sync** - Edit once, applies everywhere
+
+See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/SKILL.md](xavier-memory-sync/SKILL.md) for complete documentation.
+
+---
+
 ## 📦 Available Skill Collections
 
 | Collection | Version | Status | Description | Key Features |
@@ -57,6 +92,8 @@ See [HANDOVER_GUIDE.md](docs/HANDOVER_GUIDE.md) for complete deployment document
 | **[claude-session-registry](claude-session-registry/)** | v1.1.0 | ✅ Production | Session tracking & backup | Resume ID tracking, Git context, Golden Close protocol, **automatic backup to GitHub**. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
 | **[pbi-claude-skills](pbi-claude-skills/)** | v1.3.0 | ✅ Production | Power BI PBIP optimization | 50-97% token savings, 5 specialized skills, auto-indexing. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
 | **[x-mem](x-mem/)** | v1.0.0 | ✅ Production | Self-learning protocol | Failure/success capture, proactive recall, NDJSON storage, 15K token budget. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
+| **[xavier-memory](xavier-memory/)** | v1.0.0 | ✅ Production | Global memory infrastructure | Master MEMORY.md, cross-project sync, 3-layer backup (Git/Hard links/GDrive). Foundation for X-MEM protocol. |
+| **[xavier-memory-sync](xavier-memory-sync/)** | v1.0.0 | ✅ Production | Memory sync automation | Trigger phrases for backup/restore/status, Google Drive integration, zero-duplicate guarantee. |
 
 ---
 
