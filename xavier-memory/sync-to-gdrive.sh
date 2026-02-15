@@ -7,7 +7,7 @@ set -euo pipefail
 
 # Configuration
 RCLONE_REMOTE="gdrive-jimmy"
-GDRIVE_FOLDER="_critical_bkp_xavier_local_persistent_memory"
+GDRIVE_FOLDER="Claude/_claude_intelligence_hub/_critical_bkp_xavier_local_persistent_memory"
 LOCAL_MEMORY="$HOME/Downloads/claude-intelligence-hub/xavier-memory/MEMORY.md"
 BACKUP_DIR="$HOME/Downloads/claude-intelligence-hub/xavier-memory/backups"
 
