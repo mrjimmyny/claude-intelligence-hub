@@ -1,12 +1,17 @@
 # Session Memoria - HOT Tier Index
 
 **Tier:** Active & Recent (<30 days OR status=open/in_progress OR priority=high/critical)
-**Last updated:** 2026-02-13 22:40
-**Total entries:** 11
+**Last updated:** 2026-02-15 21:10
+**Total entries:** 12
 
 ---
 
 ## 2026-02
+
+**[2026-02-15-001]** 21:05 | Gestão | alta | resolvido
+Sistema de Governança 3 Camadas - Prevenção de README Drift
+Tags: governance, documentation, automation, readme-drift, validation, release-workflow, regex-failures, grep-patterns
+→ [Read](../entries/2026/02/2026-02-15_governance-readme-drift-prevention.md)
 
 **[2026-02-13-001]** 05:05 | Other | alta | aberto
 X-MEM Protocol - Sistema de Memória de Experiências para Xavier
