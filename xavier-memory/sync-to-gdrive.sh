@@ -46,6 +46,49 @@ echo -e "${GREEN}✓${NC} Master MEMORY.md found"
 echo -e "${GREEN}✓${NC} Remote '$RCLONE_REMOTE' configured"
 echo ""
 
+# Step 0: Check for uncommitted changes in Git
+echo "Checking Git status..."
+cd "$HOME/Downloads/claude-intelligence-hub" || exit 1
+
+if [[ -n $(git status --porcelain xavier-memory/MEMORY.md) ]]; then
+    echo -e "${YELLOW}⚠${NC}  Uncommitted changes detected in MEMORY.md"
+    echo ""
+    echo "Git requires commit before backup. Please provide:"
+    read -p "Commit message: " COMMIT_MSG
+
+    if [[ -z "$COMMIT_MSG" ]]; then
+        echo -e "${RED}ERROR: Commit message required${NC}"
+        exit 1
+    fi
+
+    echo ""
+    echo "Committing changes..."
+    git add xavier-memory/MEMORY.md
+    git commit -m "feat(xavier-memory): $COMMIT_MSG"
+
+    if [[ $? -eq 0 ]]; then
+        echo -e "${GREEN}✓${NC} Git commit successful"
+    else
+        echo -e "${RED}ERROR: Git commit failed${NC}"
+        exit 1
+    fi
+
+    echo ""
+    echo "Pushing to GitHub..."
+    git push origin main
+
+    if [[ $? -eq 0 ]]; then
+        echo -e "${GREEN}✓${NC} Git push successful"
+    else
+        echo -e "${RED}ERROR: Git push failed${NC}"
+        exit 1
+    fi
+else
+    echo -e "${GREEN}✓${NC} No uncommitted changes (Git is clean)"
+fi
+
+echo ""
+
 # Create local backup before sync
 echo "Creating local backup..."
 TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")

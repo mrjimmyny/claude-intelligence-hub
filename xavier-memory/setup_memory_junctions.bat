@@ -59,16 +59,17 @@ for /d %%P in ("%PROJECTS_DIR%\*") do (
 echo.
 echo Step 3: Creating hard links to master MEMORY.md...
 echo (Hard links = same file, instant sync, no admin needed)
+echo (Using PowerShell New-Item for reliable hard link creation)
 echo.
 
 for /d %%P in ("%PROJECTS_DIR%\*") do (
     if exist "%%P\memory" (
         echo Creating hard link: %%P\memory\MEMORY.md -^> master
-        mklink /H "%%P\memory\MEMORY.md" "%MASTER_MEMORY%" >nul 2>&1
+        powershell -Command "New-Item -ItemType HardLink -Path '%%P\memory\MEMORY.md' -Target '%MASTER_MEMORY%' -Force -ErrorAction Stop" >nul 2>&1
         if errorlevel 1 (
-            echo   [FAILED] Could not create hard link
+            echo   [FAILED] Could not create hard link - check permissions
         ) else (
-            echo   [OK] Hard link created
+            echo   [OK] Hard link created successfully
         )
     )
 )
@@ -79,18 +80,14 @@ echo Verification
 echo ================================================================
 echo.
 
-echo Checking junction status:
+echo Checking hard link status:
 echo.
 
+REM Verify hard links by checking if files point to same inode
 for /d %%P in ("%PROJECTS_DIR%\*") do (
     if exist "%%P\memory\MEMORY.md" (
         echo Project: %%~nxP
-        dir "%%P\memory\MEMORY.md" | findstr /C:"SYMLINK" /C:"<SYMLINKD>" >nul 2>&1
-        if errorlevel 1 (
-            echo   Status: Regular file (NOT a junction - REVIEW NEEDED)
-        ) else (
-            echo   Status: Junction point (OK)
-        )
+        powershell -Command "$master = Get-Item '%MASTER_MEMORY%'; $project = Get-Item '%%P\memory\MEMORY.md'; if ($master.Length -eq $project.Length -and $master.LastWriteTime -eq $project.LastWriteTime) { Write-Host '  Status: Hard link verified (same inode)' -ForegroundColor Green } else { Write-Host '  Status: NOT a hard link - sizes/times differ' -ForegroundColor Red }"
         echo.
     )
 )

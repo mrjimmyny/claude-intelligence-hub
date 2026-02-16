@@ -68,13 +68,20 @@ Each entry MUST follow this structure:
 
 ### Automatic Sync (via Hard Links)
 - **Trigger**: Every edit to master MEMORY.md
-- **Mechanism**: Hard links ensure instant sync
-- **Verification**: Check inode numbers match
+- **Mechanism**: Hard links (PowerShell New-Item) ensure instant sync
+- **Verification**: Check file sizes and timestamps match exactly
 - **Target**: All ~/.claude/projects/*/memory/ folders
+- **Platform**: Windows - uses NTFS hard links (same inode)
+- **Setup**: Run `setup_memory_junctions.bat` to create hard links
 
 ### Manual Sync (Google Drive)
-- **Trigger**: User command "Xavier, sync memory"
+- **Trigger**: User command "Xavier, sync memory" or "Xavier, backup memory"
 - **Frequency**: After significant updates or before important ops
+- **Pre-sync checks**:
+  1. Verify no uncommitted Git changes
+  2. If uncommitted → prompt for commit message → commit → push to GitHub
+  3. Create timestamped local backup
+  4. Sync to Google Drive via rclone
 - **Backup**: Creates timestamped local copy before sync
 - **Retention**: Keep last 10 local backups
 
@@ -98,9 +105,11 @@ Each entry MUST follow this structure:
 
 #### Layer 2: Hard Links (Real-time Sync)
 - **Location**: All project memory folders
-- **Frequency**: Instant (same inode)
+- **Frequency**: Instant (same inode - changes propagate immediately)
 - **Retention**: While projects exist
 - **Recovery**: Re-run setup_memory_junctions.bat
+- **Implementation**: PowerShell `New-Item -ItemType HardLink` (reliable)
+- **Verification**: `fsutil hardlink list MEMORY.md` shows multiple paths
 
 #### Layer 3: Google Drive Backup
 - **Location**: `_critical_bkp_xavier_local_persistent_memory`
@@ -240,6 +249,7 @@ Each entry MUST follow this structure:
 | Date | Version | Change | Author |
 |------|---------|--------|--------|
 | 2026-02-15 | 1.0.0 | Initial governance document | Xavier |
+| 2026-02-16 | 1.1.0 | Fixed hard link implementation (PowerShell), added Git pre-sync checks | Xavier |
 
 ---
 
