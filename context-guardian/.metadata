@@ -1,0 +1,48 @@
+{
+  "name": "context-guardian",
+  "version": "1.0.0",
+  "description": "Complete context preservation system for Xavier ↔ Magneto account switching",
+  "type": "system-skill",
+  "owner": "jimmy-xavier",
+  "created": "2026-02-16",
+  "status": "in-development",
+  "triggers": [
+    "backup global config",
+    "backup claude settings",
+    "backup this project",
+    "backup current project",
+    "restore global config",
+    "restore claude settings",
+    "restore project",
+    "verify context backup",
+    "check backup health"
+  ],
+  "dependencies": {
+    "rclone": ">=1.73.0",
+    "powershell": ">=5.1",
+    "git": "optional"
+  },
+  "requirements": {
+    "os": ["Windows 10", "Windows 11"],
+    "developer_mode": "recommended",
+    "google_drive": "required"
+  },
+  "scripts": [
+    "scripts/backup-global.sh",
+    "scripts/backup-project.sh",
+    "scripts/restore-global.sh",
+    "scripts/restore-project.sh",
+    "scripts/bootstrap-magneto.ps1",
+    "scripts/verify-backup.sh"
+  ],
+  "templates": [
+    "templates/LATEST_GLOBAL.json.template",
+    "templates/PROJECTS_INDEX.json.template",
+    "templates/project-metadata.json.template",
+    "templates/.contextignore.template"
+  ],
+  "related_skills": [
+    "xavier-memory"
+  ],
+  "backup_location": "Google Drive/Claude/_claude_intelligence_hub/_critical_bkp_xavier_local_persistent_memory/"
+}

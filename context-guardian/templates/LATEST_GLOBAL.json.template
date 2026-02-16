@@ -1,0 +1,69 @@
+{
+  "backup_by": "xavier",
+  "last_backup": "2026-02-16T10:30:00Z",
+  "format_version": "1.0",
+  "files": {
+    "settings_json": {
+      "path": "~/.claude/settings.json",
+      "sha256": "",
+      "size_bytes": 0
+    },
+    "plugins_config": {
+      "path": "~/.claude/plugins/config.json",
+      "sha256": "",
+      "size_bytes": 0
+    },
+    "plugins_installed": {
+      "path": "~/.claude/plugins/installed_plugins.json",
+      "sha256": "",
+      "size_bytes": 0
+    },
+    "plugins_marketplaces": {
+      "path": "~/.claude/plugins/known_marketplaces.json",
+      "sha256": "",
+      "size_bytes": 0
+    },
+    "plugins_cache": {
+      "path": "~/.claude/plugins/cache/",
+      "included": false,
+      "reason": "size_exceeds_50mb_or_empty"
+    }
+  },
+  "skills": [
+    {
+      "skill_name": "session-memoria",
+      "is_symlink": true,
+      "link_type": "hub_skill",
+      "hub_path": "session-memoria",
+      "absolute_target": "/c/Users/jaderson.almeida/Downloads/claude-intelligence-hub/session-memoria"
+    },
+    {
+      "skill_name": "gdrive-sync-memoria",
+      "is_symlink": true,
+      "link_type": "hub_skill",
+      "hub_path": "gdrive-sync-memoria",
+      "absolute_target": "/c/Users/jaderson.almeida/Downloads/claude-intelligence-hub/gdrive-sync-memoria"
+    },
+    {
+      "skill_name": "claude-session-registry",
+      "is_symlink": true,
+      "link_type": "hub_skill",
+      "hub_path": "claude-session-registry",
+      "absolute_target": "/c/Users/jaderson.almeida/Downloads/claude-intelligence-hub/claude-session-registry"
+    },
+    {
+      "skill_name": "jimmy-core-preferences",
+      "is_symlink": true,
+      "link_type": "hub_skill",
+      "hub_path": "jimmy-core-preferences",
+      "absolute_target": "/c/Users/jaderson.almeida/Downloads/claude-intelligence-hub/jimmy-core-preferences"
+    }
+  ],
+  "total_size_bytes": 0,
+  "skill_count": 4,
+  "skill_breakdown": {
+    "hub_symlinks": 4,
+    "external_symlinks": 0,
+    "directories": 0
+  }
+}

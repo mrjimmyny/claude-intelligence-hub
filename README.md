@@ -94,6 +94,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[x-mem](x-mem/)** | v1.0.0 | ✅ Production | Self-learning protocol | Failure/success capture, proactive recall, NDJSON storage, 15K token budget. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
 | **[xavier-memory](xavier-memory/)** | v1.0.0 | ✅ Production | Global memory infrastructure | Master MEMORY.md, cross-project sync, 3-layer backup (Git/Hard links/GDrive). Foundation for X-MEM protocol. |
 | **[xavier-memory-sync](xavier-memory-sync/)** | v1.0.0 | ✅ Production | Memory sync automation | Trigger phrases for backup/restore/status, Google Drive integration, zero-duplicate guarantee. |
+| **[context-guardian](context-guardian/)** | v1.0.0 | ✅ Production | Context preservation system | Xavier ↔ Magneto account switching, 3-strategy symlinks, rollback protection, .contextignore support, dry-run mode. |
 
 ---
 
@@ -129,7 +130,7 @@ For complete trigger list and routing patterns, see **[HUB_MAP.md](HUB_MAP.md)**
 git clone https://github.com/mrjimmyny/claude-intelligence-hub.git
 cd claude-intelligence-hub
 
-# Run automated setup (installs 8 production skills)
+# Run automated setup (installs 9 production skills)
 .\scripts\setup_local_env.ps1
 
 # Force recreate existing junctions (if needed)
@@ -153,7 +154,7 @@ bash scripts/setup_local_env.sh --force
 ```
 
 **What it does:**
-- ✅ Auto-installs 8 production skills (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills)
+- ✅ Auto-installs 9 production skills (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian)
 - ✅ Creates junctions/symlinks (auto-sync with Git)
 - ✅ Validates installation with integrity checks
 - ✅ Takes ~15 minutes from zero to production

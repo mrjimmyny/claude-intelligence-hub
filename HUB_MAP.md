@@ -1,7 +1,7 @@
 # 🗺️ Claude Intelligence Hub - Skill Router Map
 
-**Version:** 2.0.0
-**Last Updated:** 2026-02-15
+**Version:** 2.1.0
+**Last Updated:** 2026-02-16
 **Purpose:** Central routing dictionary for all skills, triggers, and workflows
 **Routing Status:** 🟢 Active (Module 4 Complete - Deployment & CI/CD)
 
@@ -11,7 +11,7 @@
 
 | Metric | Count | Status |
 |--------|-------|--------|
-| **Production Skills** | 8 | ✅ Active |
+| **Production Skills** | 9 | ✅ Active |
 | **Planned Skills** | 2 | 📋 Roadmap |
 | **Documented Triggers** | 20+ | ✅ Complete |
 | **Skill Tiers** | 3 | ✅ Defined |
@@ -304,6 +304,71 @@ Automation skill for managing Xavier Global Memory System - handles backup, rest
 - `xavier-memory-sync/SKILL.md` (execution instructions, ~300 lines)
 - `xavier-memory/backups/` (local backup snapshots)
 - Google Drive: `Claude/_claude_intelligence_hub/_critical_bkp_xavier_local_persistent_memory/`
+
+---
+
+### 9. context-guardian
+**Type:** Infrastructure (Context Preservation System)
+**Location:** `claude-intelligence-hub/context-guardian/`
+**Auto-load:** ❌ Explicit invocation
+
+#### Purpose
+Complete context preservation system enabling seamless Xavier ↔ Magneto account switching by backing up and restoring global config, project contexts, and symlink relationships.
+
+#### Key Features
+- **3-Layer Backup**: Global config + Project contexts + Metadata
+- **3-Strategy Symlinks**: Developer Mode / Administrator / Copy fallback
+- **Rollback Protection**: Auto-rollback on restore failure
+- **Post-Restore Validation**: 5 comprehensive checks
+- **`.contextignore` Support**: Exclude node_modules, .git, etc.
+- **Dry-Run Mode**: Preview changes without modifying files
+- **Structured Logging**: All operations logged to `~/.claude/context-guardian/logs/`
+
+#### What Gets Backed Up
+**Global Config:**
+- `~/.claude/settings.json`
+- `~/.claude/plugins/` (all config files + cache if <50 MB)
+- `~/.claude/skills/user/*` (metadata for symlinks, full copy for directories)
+
+**Project Context:**
+- `CLAUDE.md` (if exists)
+- `MEMORY.md` (if exists and NOT hard-linked to xavier-memory)
+- `.claude/skills/` (project-local skills)
+- `.claude/commands/` (custom commands)
+
+#### Triggers (Commands)
+**Backup:**
+- `"backup global config"` / `"backup claude settings"`
+- `"backup this project"` / `"backup current project"`
+
+**Restore:**
+- `"restore global config"` / `"restore claude settings"`
+- `"restore project [name]"`
+
+**Status:**
+- `"verify context backup"` / `"check backup health"`
+
+#### Dependencies
+- **Required:** rclone (with `gdrive-jimmy:` remote configured)
+- **Required:** Windows 10/11 + PowerShell 5.1+
+- **Recommended:** Developer Mode enabled (for symlinks)
+- **Optional:** Git (for automatic commits)
+
+#### Loading Tier
+**Tier 3: Explicit** - Only loads when manual triggers detected
+
+#### Related Files
+- `context-guardian/SKILL.md` (workflows and troubleshooting, ~600 lines)
+- `context-guardian/README.md` (architecture overview)
+- `context-guardian/GOVERNANCE.md` (backup policies and safety rules)
+- `context-guardian/scripts/backup-global.sh` (global config backup)
+- `context-guardian/scripts/backup-project.sh` (project context backup)
+- `context-guardian/scripts/restore-global.sh` (global config restore)
+- `context-guardian/scripts/restore-project.sh` (project context restore)
+- `context-guardian/scripts/bootstrap-magneto.ps1` (Magneto self-contained restore)
+- `context-guardian/scripts/verify-backup.sh` (health checks)
+- Google Drive: `Claude/_claude_intelligence_hub/_critical_bkp_xavier_local_persistent_memory/global/`
+- Google Drive: `Claude/_claude_intelligence_hub/_critical_bkp_xavier_local_persistent_memory/projects/`
 
 ---
 

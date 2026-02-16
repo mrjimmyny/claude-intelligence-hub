@@ -1,0 +1,19 @@
+{
+  "format_version": "1.0",
+  "last_updated": "2026-02-16T10:30:00Z",
+  "projects": [
+    {
+      "name": "example-project",
+      "path": "/c/Users/jaderson.almeida/Projects/example-project",
+      "last_backup": "2026-02-16T10:30:00Z",
+      "backup_by": "xavier",
+      "size_bytes": 1024000,
+      "size_human": "1.0M",
+      "has_claude_md": true,
+      "has_memory_md": true,
+      "memory_md_is_hard_link": true,
+      "has_local_skills": false,
+      "backup_location": "projects/example-project/"
+    }
+  ]
+}

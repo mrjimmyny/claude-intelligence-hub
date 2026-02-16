@@ -1,0 +1,40 @@
+{
+  "project_name": "example-project",
+  "project_path": "/c/Users/jaderson.almeida/Projects/example-project",
+  "backup_timestamp": "2026-02-16T10:30:00Z",
+  "backup_by": "xavier",
+  "format_version": "1.0",
+  "files": {
+    "CLAUDE_md": {
+      "exists": true,
+      "sha256": "",
+      "size_bytes": 2048
+    },
+    "MEMORY_md": {
+      "exists": true,
+      "is_hard_link": true,
+      "hard_link_target": "/c/Users/jaderson.almeida/Downloads/claude-intelligence-hub/xavier-memory/MEMORY.md",
+      "hard_link_count": 3,
+      "sha256": "",
+      "size_bytes": 4096
+    }
+  },
+  "local_skills": {
+    "exists": false,
+    "count": 0,
+    "skills": []
+  },
+  "exclusions": {
+    "contextignore_used": true,
+    "excluded_patterns": [
+      "node_modules/",
+      ".git/",
+      "__pycache__/",
+      "dist/",
+      "build/"
+    ],
+    "excluded_bytes": 52428800
+  },
+  "total_size_bytes": 1024000,
+  "total_size_human": "1.0M"
+}

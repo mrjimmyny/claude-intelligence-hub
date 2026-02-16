@@ -4,6 +4,89 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.1.0] - 2026-02-16
+
+### 🔄 Context Guardian - Complete Context Preservation System
+
+**Focus:** Enable seamless Xavier ↔ Magneto account switching with full context preservation
+
+### Added
+
+#### New Production Skill: context-guardian
+- **Complete 3-layer backup system**:
+  - Global config: `~/.claude/` (settings.json, plugins, skills metadata)
+  - Project contexts: CLAUDE.md, MEMORY.md, local skills
+  - Metadata: Checksums, timestamps, symlink relationships
+
+- **6 Core Scripts**:
+  - `backup-global.sh` - Global config backup with symlink detection
+  - `backup-project.sh` - Project context backup with .contextignore support
+  - `restore-global.sh` - Global restore with rollback protection
+  - `restore-project.sh` - Project restore with hard link handling
+  - `bootstrap-magneto.ps1` - Self-contained PowerShell restore for Magneto
+  - `verify-backup.sh` - 6-check health monitoring
+
+- **Key Features**:
+  - **3-Strategy Symlink Handling**: Developer Mode / Administrator / Copy fallback
+  - **Rollback Protection**: Auto-rollback on restore failure
+  - **Post-Restore Validation**: 5 comprehensive checks (JSON validation, symlink integrity, checksums)
+  - **`.contextignore` Support**: Exclude node_modules, .git, large files
+  - **Dry-Run Mode**: All scripts support `--dry-run` for safe previews
+  - **Structured Logging**: All operations logged to `~/.claude/context-guardian/logs/`
+  - **Size Warnings**: >100 MB global, >500 MB project
+  - **Hard Link Detection**: MEMORY.md hard link protection
+
+- **Bootstrap Features** (Magneto):
+  - Self-contained PowerShell script (no Claude Code required)
+  - 3-permission strategies (Developer Mode / Admin / Copy fallback)
+  - `--fix-symlinks` command to convert copied skills to symlinks later
+  - Interactive menus for restore options
+  - Comprehensive error handling and logging
+
+- **Documentation**:
+  - `context-guardian/SKILL.md` - Complete workflows and troubleshooting (~600 lines)
+  - `context-guardian/README.md` - Architecture overview
+  - `context-guardian/GOVERNANCE.md` - Backup policies, retention, safety rules
+  - `context-guardian/docs/PHASE0_DISCOVERY_REPORT.md` - Environment baseline
+
+- **Templates**:
+  - `LATEST_GLOBAL.json.template` - Global config metadata schema
+  - `PROJECTS_INDEX.json.template` - Project inventory schema
+  - `project-metadata.json.template` - Per-project metadata schema
+  - `.contextignore.template` - Exclusion patterns template
+
+#### Natural Language Triggers
+- **Backup**: "backup global config", "backup this project"
+- **Restore**: "restore global config", "restore project [name]"
+- **Status**: "verify context backup", "check backup health"
+
+#### Technical Implementation
+- **Logging Infrastructure**: `scripts/logging-lib.sh` with color-coded output
+- **Symlink Metadata**: Detects 3 types (hub_skill, external, directory)
+- **Expanded Plugins Backup**: config.json, installed_plugins.json, known_marketplaces.json, cache/
+- **Checksum Verification**: SHA256 for all files
+- **Rollback Mechanism**: Pre-restore backups with auto-rollback on errors
+- **Google Drive Integration**: Uses existing rclone `gdrive-jimmy:` remote
+
+### Changed
+- **HUB_MAP.md**: Added context-guardian as 9th production skill
+- **README.md**: Updated skill count (8 → 9), added context-guardian to collections table
+- **Production Skills**: Now 9 active skills (was 8)
+
+### Technical Details
+- **Platform**: Windows 10/11 (PowerShell 5.1+)
+- **Dependencies**: rclone, Git (optional), Developer Mode (recommended)
+- **Backup Location**: Google Drive `Claude/_claude_intelligence_hub/_critical_bkp_xavier_local_persistent_memory/`
+- **Risk Level**: Low (no changes to existing systems, full rollback protection)
+- **Implementation Time**: 26 days across 8 phases (includes discovery, testing, documentation)
+
+### Compatibility
+- ✅ **Backward Compatible**: xavier-memory unchanged, no impact on existing skills
+- ✅ **Coexistence**: Runs alongside xavier-memory (different scope - global config vs. MEMORY.md only)
+- ✅ **Safe**: All scripts support dry-run mode, rollback protection, comprehensive validation
+
+---
+
 ## [2.1.1] - 2026-02-15
 
 ### 🛡️ Documentation Governance Enhancement
