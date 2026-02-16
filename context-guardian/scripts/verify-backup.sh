@@ -180,7 +180,7 @@ if [ -d "$CLAUDE_DIR/skills/user" ]; then
     BROKEN_COUNT=0
     BROKEN_SKILLS=""
 
-    for skill in "$CLAUDE_DIR/skills/user"/* 2>/dev/null; do
+    for skill in "$CLAUDE_DIR/skills/user"/*; do
         [ -e "$skill" ] || continue
         if [ -L "$skill" ]; then
             if [ ! -e "$skill" ]; then
@@ -189,7 +189,7 @@ if [ -d "$CLAUDE_DIR/skills/user" ]; then
                 BROKEN_COUNT=$((BROKEN_COUNT + 1))
             fi
         fi
-    done
+    done 2>/dev/null
 
     if [ $BROKEN_COUNT -eq 0 ]; then
         echo -e "${GREEN}✅ ALL VALID${NC}"
