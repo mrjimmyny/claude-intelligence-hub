@@ -137,6 +137,36 @@ Bash: powershell -Command "Invoke-Item 'C:\Workspaces\file.md'"
 → Opens reliably
 ```
 
+### Erro comum #6: README Drift (Documentation Lag)
+- **Sintoma**: After implementing new feature, README has outdated skill counts, versions, or missing sections
+- **Causa**: Updating CHANGELOG/HUB_MAP but forgetting to update README's multiple cross-references
+- **Erro típico**: README says "5 mandatory skills" but we have 8 production skills
+- **Fix**: ALWAYS run `docs/FEATURE_RELEASE_CHECKLIST.md` before ANY release
+
+```
+❌ MAU exemplo:
+User: "create v2.1.0 release"
+Xavier: [Updates CHANGELOG] → [Creates release] → DONE
+→ README still says v2.0.0, skill counts outdated
+
+✅ BOM exemplo:
+User: "create v2.1.0 release"
+Xavier: [Reads docs/FEATURE_RELEASE_CHECKLIST.md]
+        → [Runs bash scripts/validate-readme.sh]
+        → [Validates ALL sections in README]
+        → [Updates CHANGELOG + README + HUB_MAP]
+        → [Creates release]
+        → "✅ Release complete, README 100% current"
+```
+
+**Trigger**: ANY release creation, version bump, new skill addition, or folder structure change
+**Action**: MANDATORY consultation of `docs/FEATURE_RELEASE_CHECKLIST.md` FIRST
+
+**Prevention Tools:**
+- Checklist: `docs/FEATURE_RELEASE_CHECKLIST.md` (comprehensive pre-release steps)
+- Validation: `bash scripts/validate-readme.sh` (automated consistency checks)
+- Never skip validation - user frustration quote: "I don't want to keep reminding you to maintain these documents all fully 100% updated"
+
 ---
 
 ## 🪙 Token Budget Discipline (Module 3)
