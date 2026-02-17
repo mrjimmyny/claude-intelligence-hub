@@ -169,6 +169,15 @@ if [ -f "$PROJECT_DIR/MEMORY.md" ]; then
     fi
 fi
 
+# Check AUDIT_TRAIL.md
+HAS_AUDIT_TRAIL=false
+if [ -f "$PROJECT_DIR/AUDIT_TRAIL.md" ]; then
+    HAS_AUDIT_TRAIL=true
+    AUDIT_TRAIL_SIZE=$(stat -c%s "$PROJECT_DIR/AUDIT_TRAIL.md" 2>/dev/null || stat -f%z "$PROJECT_DIR/AUDIT_TRAIL.md" 2>/dev/null)
+    AUDIT_TRAIL_SHA=$(sha256sum "$PROJECT_DIR/AUDIT_TRAIL.md" | cut -d' ' -f1)
+    log_success "Found AUDIT_TRAIL.md ($(numfmt --to=iec-i --suffix=B $AUDIT_TRAIL_SIZE))"
+fi
+
 # Check local skills
 if [ -d "$PROJECT_DIR/.claude/skills" ]; then
     SKILL_COUNT=$(ls -1 "$PROJECT_DIR/.claude/skills" 2>/dev/null | wc -l)
@@ -179,7 +188,7 @@ if [ -d "$PROJECT_DIR/.claude/skills" ]; then
 fi
 
 # Check if anything to backup
-if [ "$HAS_CLAUDE_MD" = false ] && [ "$HAS_MEMORY_MD" = false ] && [ "$HAS_LOCAL_SKILLS" = false ]; then
+if [ "$HAS_CLAUDE_MD" = false ] && [ "$HAS_MEMORY_MD" = false ] && [ "$HAS_LOCAL_SKILLS" = false ] && [ "$HAS_AUDIT_TRAIL" = false ]; then
     log_warn "No project context files found (CLAUDE.md, MEMORY.md, or .claude/skills/)"
     log_warn "Nothing to backup for this project"
     exit 0
@@ -212,6 +221,12 @@ if [ "$HAS_LOCAL_SKILLS" = true ]; then
     mkdir -p "$TEMP_DIR/project/local-skills"
     cp -r "$PROJECT_DIR/.claude/skills"/* "$TEMP_DIR/project/local-skills/" 2>/dev/null || true
     log_info "Collected local skills"
+fi
+
+# Copy AUDIT_TRAIL.md
+if [ "$HAS_AUDIT_TRAIL" = true ]; then
+    cp "$PROJECT_DIR/AUDIT_TRAIL.md" "$TEMP_DIR/project/"
+    log_info "Collected AUDIT_TRAIL.md"
 fi
 
 # ==============================================================================
@@ -257,6 +272,20 @@ if [ "$HAS_MEMORY_MD" = true ]; then
 else
     FILES_JSON="$FILES_JSON,
     \"MEMORY_md\": {
+      \"exists\": false
+    }"
+fi
+
+if [ "$HAS_AUDIT_TRAIL" = true ]; then
+    FILES_JSON="$FILES_JSON,
+    \"AUDIT_TRAIL_md\": {
+      \"exists\": true,
+      \"sha256\": \"$AUDIT_TRAIL_SHA\",
+      \"size_bytes\": $AUDIT_TRAIL_SIZE
+    }"
+else
+    FILES_JSON="$FILES_JSON,
+    \"AUDIT_TRAIL_md\": {
       \"exists\": false
     }"
 fi
