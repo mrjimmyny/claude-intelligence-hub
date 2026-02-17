@@ -760,6 +760,7 @@ See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
 
 ## 🎯 Quick Links
 
+- 🗺️ [**CIH-ROADMAP**](CIH-ROADMAP.md) ← **Start here if you are new**
 - 🏠 [Repository Home](https://github.com/mrjimmyny/claude-intelligence-hub)
 - 📊 [Executive Summaries](#documentation)
 - ⚡ [Quick Start](#-quick-start)
