@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.2.0-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -350,6 +350,14 @@ claude-intelligence-hub/
 │   ├── SKILL.md                     # Trigger phrases & workflows (5KB)
 │   └── README.md                    # User guide
 │
+├── 📁 context-guardian/             # ⭐ Context Preservation System (v1.0.0)
+│   ├── SKILL.md                     # Complete workflows and troubleshooting (~600 lines)
+│   ├── README.md                    # Architecture overview
+│   ├── GOVERNANCE.md                # Backup policies, retention, safety rules
+│   ├── scripts/                     # 6 backup/restore/verify scripts
+│   ├── templates/                   # Config metadata schema templates
+│   └── docs/                        # Phase 0 discovery report
+│
 ├── 📁 python-claude-skills/         # 📋 Placeholder (future)
 ├── 📁 git-claude-skills/            # 📋 Placeholder (future)
 │
@@ -359,8 +367,8 @@ claude-intelligence-hub/
 │
 ├── README.md                        # ⭐ This file
 ├── CHANGELOG.md                     # Version history
-├── EXECUTIVE_SUMMARY.md             # Comprehensive hub overview (v2.0.0)
-├── HUB_MAP.md                       # Skill routing dictionary (v2.0.0)
+├── EXECUTIVE_SUMMARY.md             # Comprehensive hub overview (v2.2.0)
+├── HUB_MAP.md                       # Skill routing dictionary (v2.2.0)
 ├── WINDOWS_JUNCTION_SETUP.md        # Junction setup guide (Windows)
 ├── scripts/                         # Automation & deployment scripts
 │   ├── setup_local_env.ps1          # Windows automated setup (15-min)
@@ -508,7 +516,7 @@ git pull origin main
 
 | Metric | Value |
 |--------|-------|
-| **Production Skills** | 8 collections (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills) |
+| **Production Skills** | 9 collections (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian) |
 | **Total Documentation** | ~280KB (executive summaries, guides, changelogs, handover docs) |
 | **Version History** | 30+ commits (tracked in CHANGELOG.md) |
 | **Setup Time** | 15 minutes (Windows/macOS/Linux automated deployment) |
@@ -521,7 +529,7 @@ git pull origin main
 
 ### Skills by Status
 
-- ✅ **Production Ready:** 8 (jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills, xavier-memory, xavier-memory-sync)
+- ✅ **Production Ready:** 9 (jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills, xavier-memory, xavier-memory-sync, context-guardian)
 - 🚧 **In Development:** 0
 - 📋 **Planned:** 2 (python-claude-skills, git-claude-skills)
 
@@ -718,9 +726,9 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 
 ## 📈 Version History
 
-**Current Version:** v2.1.0 ✅ **Xavier Global Memory System**
-**Last Updated:** February 15, 2026
-**Status:** Production | Cross-Project Memory + Cloud Backup | Actively Maintained
+**Current Version:** v2.2.0 ✅ **Context Guardian System + Complete Audit**
+**Last Updated:** February 16, 2026
+**Status:** Production | Context Preservation + Cloud Backup | Actively Maintained
 
 ### Major Milestones
 
@@ -736,6 +744,9 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 - **v1.9.0** (2026-02-15): Module 4 - Deployment & CI/CD (15-minute setup, 5-job pipeline, comprehensive documentation)
 - **v2.0.0** (2026-02-15): **ZERO TO HERO COMPLETE** - Enterprise-grade deployment system ready for production
 - **v2.1.0** (2026-02-15): Xavier Global Memory System - Cross-project persistent memory with Git + Hard Links + Google Drive (3-layer protection, disaster recovery, zero-duplicate sync)
+- **v2.1.1** (2026-02-15): Documentation Governance - Feature Release Checklist, validate-readme.sh, X-MEM Error Pattern #6 (README Drift prevention)
+- **v2.1.0** (2026-02-16): Context Guardian System - Complete Xavier ↔ Magneto account switching with full context preservation (bootstrap script, 3-strategy symlinks, rollback protection)
+- **v2.2.0** (2026-02-16): **COMPLETE AUDIT** - Repository audit v2.1.0 → v2.2.0, all documentation updated, 9 production skills, version consistency enforced
 
 See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
 
