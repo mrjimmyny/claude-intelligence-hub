@@ -52,12 +52,12 @@ function New-SkillSymlink {
 
     if ($IsFallbackMode) {
         # Strategy 3: Copy fallback
-        Write-Host "  📁 Copying skill: $SkillName (fallback mode)" -ForegroundColor Yellow
+        Write-Host "  [COPY] Copying skill: $SkillName (fallback mode)" -ForegroundColor Yellow
         if (Test-Path $LinkPath) {
             Remove-Item -Path $LinkPath -Recurse -Force
         }
         Copy-Item -Path $TargetPath -Destination $LinkPath -Recurse -Force
-        $global:SYMLINK_WARNINGS += "⚠️  $SkillName was copied instead of symlinked. Updates to hub won't sync automatically."
+        $global:SYMLINK_WARNINGS += "[WARN] $SkillName was copied instead of symlinked. Updates to hub won't sync automatically."
         return $true
     }
 
@@ -67,10 +67,10 @@ function New-SkillSymlink {
             Remove-Item -Path $LinkPath -Recurse -Force
         }
         New-Item -ItemType SymbolicLink -Path $LinkPath -Target $TargetPath -Force -ErrorAction Stop | Out-Null
-        Write-Host "  ✅ Created symlink: $SkillName" -ForegroundColor Green
+        Write-Host "  [OK] Created symlink: $SkillName" -ForegroundColor Green
         return $true
     } catch {
-        Write-Host "  ❌ Failed to create symlink: $SkillName" -ForegroundColor Red
+        Write-Host "  [ERROR] Failed to create symlink: $SkillName" -ForegroundColor Red
         Write-Host "     Error: $_" -ForegroundColor Red
         Write-Host "     Falling back to directory copy..." -ForegroundColor Yellow
 
@@ -79,7 +79,7 @@ function New-SkillSymlink {
             Remove-Item -Path $LinkPath -Recurse -Force
         }
         Copy-Item -Path $TargetPath -Destination $LinkPath -Recurse -Force
-        $global:SYMLINK_WARNINGS += "⚠️  $SkillName was copied instead of symlinked."
+        $global:SYMLINK_WARNINGS += "[WARN] $SkillName was copied instead of symlinked."
         return $false
     }
 }
@@ -89,7 +89,7 @@ function New-SkillSymlink {
 # ==============================================================================
 
 if ($FixSymlinks) {
-    Write-Host "🔧 Converting copied skills to symlinks..." -ForegroundColor Cyan
+    Write-Host "[FIX] Converting copied skills to symlinks..." -ForegroundColor Cyan
     Write-Host ""
 
     $metadataPath = Join-Path $env:USERPROFILE ".claude\context-guardian\LATEST_GLOBAL.json"
@@ -105,7 +105,7 @@ if ($FixSymlinks) {
         $metadataPath = Join-Path $tempDir "LATEST_GLOBAL.json"
 
         if (-not (Test-Path $metadataPath)) {
-            Write-Host "❌ ERROR: Metadata not found" -ForegroundColor Red
+            Write-Host "[ERROR] ERROR: Metadata not found" -ForegroundColor Red
             Write-Host "   Run full bootstrap first" -ForegroundColor Red
             Stop-Transcript
             exit 1
@@ -131,19 +131,19 @@ if ($FixSymlinks) {
 
                 try {
                     New-Item -ItemType SymbolicLink -Path $skillPath -Target $targetPath -Force -ErrorAction Stop | Out-Null
-                    Write-Host "✅ Fixed: $($skill.skill_name) now symlinked" -ForegroundColor Green
+                    Write-Host "[OK] Fixed: $($skill.skill_name) now symlinked" -ForegroundColor Green
                     $fixedCount++
                 } catch {
-                    Write-Host "❌ Failed: $($skill.skill_name) - $_" -ForegroundColor Red
+                    Write-Host "[ERROR] Failed: $($skill.skill_name) - $_" -ForegroundColor Red
                 }
             } else {
-                Write-Host "⏭️  Skipped: $($skill.skill_name) (already symlink)" -ForegroundColor Gray
+                Write-Host "[SKIP] Skipped: $($skill.skill_name) (already symlink)" -ForegroundColor Gray
             }
         }
     }
 
     Write-Host ""
-    Write-Host "✅ Symlink fix complete! Fixed $fixedCount skill(s)" -ForegroundColor Green
+    Write-Host "[OK] Symlink fix complete! Fixed $fixedCount skill(s)" -ForegroundColor Green
     Stop-Transcript
     exit 0
 }
@@ -155,7 +155,7 @@ if ($FixSymlinks) {
 # Step 1: Check rclone
 Write-Host "Checking dependencies..." -ForegroundColor Cyan
 if (-not (Get-Command rclone -ErrorAction SilentlyContinue)) {
-    Write-Host "❌ ERROR: rclone is not installed or not in PATH" -ForegroundColor Red
+    Write-Host "[ERROR] ERROR: rclone is not installed or not in PATH" -ForegroundColor Red
     Write-Host ""
     Write-Host "Install rclone:" -ForegroundColor Yellow
     Write-Host "  1. Download from: https://rclone.org/install/" -ForegroundColor Yellow
@@ -165,12 +165,12 @@ if (-not (Get-Command rclone -ErrorAction SilentlyContinue)) {
     Stop-Transcript
     exit 1
 }
-Write-Host "✅ rclone found" -ForegroundColor Green
+Write-Host "[OK] rclone found" -ForegroundColor Green
 
 # Step 2: Check rclone remote
 $remotes = rclone listremotes 2>&1
 if ($remotes -notmatch "$($global:RCLONE_REMOTE):") {
-    Write-Host "❌ ERROR: rclone remote '$($global:RCLONE_REMOTE)' not configured" -ForegroundColor Red
+    Write-Host "[ERROR] ERROR: rclone remote '$($global:RCLONE_REMOTE)' not configured" -ForegroundColor Red
     Write-Host ""
     Write-Host "Configure rclone:" -ForegroundColor Yellow
     Write-Host "  1. Run: rclone config" -ForegroundColor Yellow
@@ -182,7 +182,7 @@ if ($remotes -notmatch "$($global:RCLONE_REMOTE):") {
     Stop-Transcript
     exit 1
 }
-Write-Host "✅ rclone remote '$($global:RCLONE_REMOTE)' configured" -ForegroundColor Green
+Write-Host "[OK] rclone remote '$($global:RCLONE_REMOTE)' configured" -ForegroundColor Green
 Write-Host ""
 
 # Step 3: Check permissions (Developer Mode / Admin)
@@ -192,17 +192,17 @@ $isAdmin = Test-Administrator
 Write-Host "Permission Check:" -ForegroundColor Cyan
 
 if ($developerMode) {
-    Write-Host "✅ Developer Mode: ENABLED" -ForegroundColor Green
+    Write-Host "[OK] Developer Mode: ENABLED" -ForegroundColor Green
     Write-Host "   Symlinks will work without admin privileges" -ForegroundColor Gray
     $SYMLINK_STRATEGY = "developer"
 } elseif ($isAdmin) {
-    Write-Host "⚠️  Developer Mode: DISABLED" -ForegroundColor Yellow
-    Write-Host "✅ Running as: Administrator" -ForegroundColor Green
+    Write-Host "[WARN] Developer Mode: DISABLED" -ForegroundColor Yellow
+    Write-Host "[OK] Running as: Administrator" -ForegroundColor Green
     Write-Host "   Symlinks will work with admin privileges" -ForegroundColor Gray
     $SYMLINK_STRATEGY = "admin"
 } else {
-    Write-Host "⚠️  Developer Mode: DISABLED" -ForegroundColor Yellow
-    Write-Host "⚠️  Running as: Standard User" -ForegroundColor Yellow
+    Write-Host "[WARN] Developer Mode: DISABLED" -ForegroundColor Yellow
+    Write-Host "[WARN] Running as: Standard User" -ForegroundColor Yellow
     Write-Host ""
     Write-Host "Options:" -ForegroundColor Cyan
     Write-Host "  [D] Enable Developer Mode (recommended)" -ForegroundColor Cyan
@@ -235,7 +235,7 @@ if ($developerMode) {
         }
         "C" {
             Write-Host ""
-            Write-Host "⚠️  Using copy fallback mode (no symlinks)" -ForegroundColor Yellow
+            Write-Host "[WARN] Using copy fallback mode (no symlinks)" -ForegroundColor Yellow
             $SYMLINK_STRATEGY = "copy"
         }
         default {
@@ -260,7 +260,7 @@ $metadataLocal = Join-Path $tempDir "LATEST_GLOBAL.json"
 rclone copy $metadataRemote $tempDir --verbose 2>&1 | Out-Null
 
 if (-not (Test-Path $metadataLocal)) {
-    Write-Host "❌ ERROR: Failed to fetch metadata from Google Drive" -ForegroundColor Red
+    Write-Host "[ERROR] ERROR: Failed to fetch metadata from Google Drive" -ForegroundColor Red
     Write-Host "   Check network connection and rclone configuration" -ForegroundColor Red
     Stop-Transcript
     exit 1
@@ -268,7 +268,7 @@ if (-not (Test-Path $metadataLocal)) {
 
 $metadata = Get-Content $metadataLocal | ConvertFrom-Json
 
-Write-Host "✅ Metadata fetched" -ForegroundColor Green
+Write-Host "[OK] Metadata fetched" -ForegroundColor Green
 Write-Host ""
 Write-Host "Last Backup Information:" -ForegroundColor Cyan
 Write-Host "  By: $($metadata.backup_by)" -ForegroundColor Gray
@@ -316,13 +316,13 @@ switch ($choice) {
             # Copy settings.json
             if (Test-Path "$globalDest\settings.json") {
                 Copy-Item -Path "$globalDest\settings.json" -Destination "$env:USERPROFILE\.claude\" -Force
-                Write-Host "✅ Restored settings.json" -ForegroundColor Green
+                Write-Host "[OK] Restored settings.json" -ForegroundColor Green
             }
 
             # Copy plugins
             if (Test-Path "$globalDest\plugins") {
                 Copy-Item -Path "$globalDest\plugins\*" -Destination "$env:USERPROFILE\.claude\plugins\" -Recurse -Force
-                Write-Host "✅ Restored plugins" -ForegroundColor Green
+                Write-Host "[OK] Restored plugins" -ForegroundColor Green
             }
 
             # Recreate symlinks
@@ -338,8 +338,8 @@ switch ($choice) {
                     if (Test-Path $targetPath) {
                         New-SkillSymlink -SkillName $skill.skill_name -TargetPath $targetPath -LinkPath $skillPath -IsFallbackMode $isFallback
                     } else {
-                        Write-Host "  ⚠️  Target not found: $($skill.skill_name) → $targetPath" -ForegroundColor Yellow
-                        $global:SYMLINK_WARNINGS += "⚠️  $($skill.skill_name) target not found: $targetPath"
+                        Write-Host "  [WARN] Target not found: $($skill.skill_name) -> $targetPath" -ForegroundColor Yellow
+                        $global:SYMLINK_WARNINGS += "[WARN] $($skill.skill_name) target not found: $targetPath"
                     }
                 } elseif (-not $skill.is_symlink) {
                     # Copy directory skill
@@ -348,13 +348,13 @@ switch ($choice) {
 
                     if (Test-Path $sourcePath) {
                         Copy-Item -Path $sourcePath -Destination $destPath -Recurse -Force
-                        Write-Host "  📁 Restored skill directory: $($skill.skill_name)" -ForegroundColor Green
+                        Write-Host "  [DIR] Restored skill directory: $($skill.skill_name)" -ForegroundColor Green
                     }
                 }
             }
 
             Write-Host ""
-            Write-Host "✅ Global config restored successfully!" -ForegroundColor Green
+            Write-Host "[OK] Global config restored successfully!" -ForegroundColor Green
         }
     }
 
@@ -384,13 +384,13 @@ switch ($choice) {
 # Display symlink warnings
 if ($global:SYMLINK_WARNINGS.Count -gt 0) {
     Write-Host ""
-    Write-Host "⚠️  SYMLINK WARNINGS:" -ForegroundColor Yellow
+    Write-Host "[WARN] SYMLINK WARNINGS:" -ForegroundColor Yellow
     foreach ($warning in $global:SYMLINK_WARNINGS) {
         Write-Host $warning -ForegroundColor Yellow
     }
     Write-Host ""
     Write-Host "To convert copied skills to symlinks later:" -ForegroundColor Cyan
-    Write-Host "  1. Enable Developer Mode (Settings > Privacy & Security > For Developers)" -ForegroundColor Cyan
+    Write-Host "  1. Enable Developer Mode (Settings - Privacy and Security - For Developers)" -ForegroundColor Cyan
     Write-Host "  2. Run: .\bootstrap-magneto.ps1 -FixSymlinks" -ForegroundColor Cyan
 }
 
