@@ -10,6 +10,11 @@ A comprehensive repository of Claude Code skills, knowledge systems, and automat
 
 ---
 
+> **New here?** → Read **[CIH-ROADMAP.md](CIH-ROADMAP.md)** first.
+> It tells you exactly which path to follow, in what order, based on your situation — setup, exploration, Power BI, contributing, or recovery.
+
+---
+
 ## 🎯 What is This?
 
 The **Claude Intelligence Hub** is a centralized system that:
