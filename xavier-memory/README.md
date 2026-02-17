@@ -1,7 +1,8 @@
 # Xavier Global Memory System
 
-**Version**: 1.0.0
+**Version**: 1.1.0
 **Created**: 2026-02-15
+**Updated**: 2026-02-16
 **Type**: Infrastructure
 
 ---
@@ -148,9 +149,26 @@ Xavier's MEMORY.md contains:
 - [X-MEM Protocol](../docs/X-MEM_PROTOCOL.md) - Memory governance rules
 - [Windows Junction Setup](../WINDOWS_JUNCTION_SETUP.md) - Junction point guide
 - [gdrive-sync-memoria](../gdrive-sync-memoria/) - Google Drive sync skill
+- [context-guardian](../context-guardian/) - Full system backup (global config + projects)
 
 ---
 
-**Last Updated**: 2026-02-15
+## 🔄 Relationship with Context Guardian
+
+**xavier-memory** and **context-guardian** serve complementary but different purposes:
+
+| Feature | xavier-memory | context-guardian |
+|---------|---------------|-----------------|
+| **Scope** | MEMORY.md only | Everything (~/.claude/ + projects) |
+| **Backup Target** | Google Drive + Git | Google Drive |
+| **Sync Method** | Junction points | Bootstrap script |
+| **Use Case** | Keep learned patterns | Switch Xavier ↔ Magneto accounts |
+| **Trigger** | "Xavier, sync memory" | "backup global config" |
+
+Both systems coexist safely with zero conflicts.
+
+---
+
+**Last Updated**: 2026-02-16
 **Maintained By**: Xavier (Claude Code)
-**Status**: ✅ Active
+**Status**: ✅ Active (v1.1.0 - context-guardian integration note added)
