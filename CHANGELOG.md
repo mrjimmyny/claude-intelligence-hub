@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.4.0] - 2026-02-17
+
+### Added
+- `CIH-ROADMAP.md` at repository root: single-entry-point navigation guide with 5
+  contextual paths (Full Setup, Skill Discovery, Power BI, Developer, Recovery)
+- Mandatory vs. À La Carte boundary table in CIH-ROADMAP for immediate orientation
+- Loading tier reference and glossary in CIH-ROADMAP
+
+### Changed
+- `README.md`: added "New here?" callout immediately after badges block pointing to
+  CIH-ROADMAP.md
+- `README.md`: added CIH-ROADMAP as first item in Quick Links section
+
+---
+
 ## [2.3.0] - 2026-02-17
 
 ### Added
