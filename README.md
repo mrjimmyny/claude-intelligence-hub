@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.2.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.3.0-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -95,6 +95,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[xavier-memory](xavier-memory/)** | v1.0.0 | ✅ Production | Global memory infrastructure | Master MEMORY.md, cross-project sync, 3-layer backup (Git/Hard links/GDrive). Foundation for X-MEM protocol. |
 | **[xavier-memory-sync](xavier-memory-sync/)** | v1.0.0 | ✅ Production | Memory sync automation | Trigger phrases for backup/restore/status, Google Drive integration, zero-duplicate guarantee. |
 | **[context-guardian](context-guardian/)** | v1.0.0 | ✅ Production | Context preservation system | Xavier ↔ Magneto account switching, 3-strategy symlinks, rollback protection, .contextignore support, dry-run mode. |
+| **[repo-auditor](repo-auditor/)** | v1.0.0 | ✅ Production | End-to-end audit skill | Mandatory proof-of-read fingerprinting, accumulative AUDIT_TRAIL.md, adversarial spot-checks, validate-trail.sh for CI. |
 
 ---
 

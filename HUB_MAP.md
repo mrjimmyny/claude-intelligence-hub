@@ -1,7 +1,7 @@
 # 🗺️ Claude Intelligence Hub - Skill Router Map
 
-**Version:** 2.2.0
-**Last Updated:** 2026-02-16
+**Version:** 2.3.0
+**Last Updated:** 2026-02-17
 **Purpose:** Central routing dictionary for all skills, triggers, and workflows
 **Routing Status:** 🟢 Active (Module 4 Complete - Deployment & CI/CD)
 
@@ -11,7 +11,7 @@
 
 | Metric | Count | Status |
 |--------|-------|--------|
-| **Production Skills** | 9 | ✅ Active |
+| **Production Skills** | 10 | ✅ Active |
 | **Planned Skills** | 2 | 📋 Roadmap |
 | **Documented Triggers** | 20+ | ✅ Complete |
 | **Skill Tiers** | 3 | ✅ Defined |
@@ -369,6 +369,41 @@ Complete context preservation system enabling seamless Xavier ↔ Magneto accoun
 - `context-guardian/scripts/verify-backup.sh` (health checks)
 - Google Drive: `Claude/_claude_intelligence_hub/_critical_bkp_xavier_local_persistent_memory/global/`
 - Google Drive: `Claude/_claude_intelligence_hub/_critical_bkp_xavier_local_persistent_memory/projects/`
+
+---
+
+### 10. repo-auditor
+**Type:** Quality/Governance
+**Location:** `claude-intelligence-hub/repo-auditor/`
+**Auto-load:** ❌ Explicit invocation
+
+#### Purpose
+End-to-end repository audit skill with mandatory proof-of-read fingerprinting per file. Ensures all documentation, skills, and metadata are up-to-date — no claims without evidence.
+
+#### Key Features
+- **Mandatory fingerprinting**: total_lines + first_line + last_line per file audited
+- **Accumulative AUDIT_TRAIL.md**: never overwritten, grows append-only
+- **Adversarial spot-checks**: per phase and global (minimum 5 total)
+- **Anti-bluffing protocol**: fingerprints are machine-verifiable at any time
+- **validate-trail.sh**: scope vs. trail comparison, CI-ready (exit 0/1)
+- **Context-guardian integration**: AUDIT_TRAIL.md included in critical backups
+
+#### Triggers
+- `"audit"` / `"repo audit"` / `"run audit"`
+- `"repo-auditor"` / `@repo-auditor`
+- Any mention of "documentação desatualizada" or "release pendente"
+
+#### Dependencies
+- **Optional:** context-guardian (for backup integration)
+- **Optional:** Git (for delta detection since last audit)
+
+#### Loading Tier
+**Tier 3: Explicit** - Only loads when audit triggers detected
+
+#### Related Files
+- `repo-auditor/SKILL.md` (full protocol, ~260 lines)
+- `repo-auditor/AUDIT_TRAIL.md` (accumulative audit history)
+- `repo-auditor/scripts/validate-trail.sh` (CI validation script)
 
 ---
 

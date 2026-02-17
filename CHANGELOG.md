@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.3.0] - 2026-02-17
+
+### Added
+- `repo-auditor` global skill v1.0.0: end-to-end repository audit with mandatory
+  proof-of-read fingerprinting, accumulative AUDIT_TRAIL.md, adversarial
+  spot-checks per phase and global, and validate-trail.sh for CI integration
+- Anti-bluffing protocol: agents must provide line count + first/last line
+  fingerprint for every file declared as audited
+- Integration with context-guardian: AUDIT_TRAIL.md included in critical backups
+
+---
+
 ## [2.2.0] - 2026-02-16
 
 ### Added - Context Guardian System

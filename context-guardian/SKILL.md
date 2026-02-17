@@ -85,6 +85,7 @@ bash scripts/backup-global.sh --dry-run
 **What gets backed up:**
 - `CLAUDE.md` (if exists)
 - `MEMORY.md` (if exists and NOT hard-linked to xavier-memory)
+- `AUDIT_TRAIL.md` (if exists — critical file from repo-auditor skill)
 - `.claude/skills/` (project-local skills)
 - `.claude/commands/` (custom commands)
 
