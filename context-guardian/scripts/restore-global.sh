@@ -243,18 +243,36 @@ if [ -n "$HUB_SKILLS" ]; then
         fi
 
         if [ "$DRY_RUN" = false ]; then
-            # Remove existing if present
-            rm -rf "$link_path"
+            # Remove existing if present (use PowerShell on Windows to avoid deleting junction target content)
+            if [ -d "$link_path" ] || [ -L "$link_path" ]; then
+                if [[ "$OSTYPE" == "msys" ]] || [[ "$OS" == "Windows_NT" ]]; then
+                    powershell -Command "Remove-Item -Path '$(cygpath -w "$link_path")' -Force" 2>/dev/null || rm -rf "$link_path"
+                else
+                    rm -rf "$link_path"
+                fi
+            fi
 
-            # Create symlink
-            ln -s "$absolute_target" "$link_path"
-
-            if [ -L "$link_path" ]; then
-                log_success "Created symlink: $skill_name → $hub_path"
-                SYMLINK_COUNT=$((SYMLINK_COUNT + 1))
+            # Create junction (Windows) or symlink (Unix)
+            if [[ "$OSTYPE" == "msys" ]] || [[ "$OS" == "Windows_NT" ]]; then
+                win_link=$(cygpath -w "$link_path")
+                win_target=$(cygpath -w "$absolute_target")
+                powershell -Command "New-Item -ItemType Junction -Path '$win_link' -Target '$win_target'" > /dev/null 2>&1
+                if [ -d "$link_path" ] || [ -L "$link_path" ]; then
+                    log_success "Created junction: $skill_name → $hub_path"
+                    SYMLINK_COUNT=$((SYMLINK_COUNT + 1))
+                else
+                    log_error "Failed to create junction: $skill_name"
+                    SYMLINK_WARNINGS="${SYMLINK_WARNINGS}\n❌ Failed to create junction: $skill_name"
+                fi
             else
-                log_error "Failed to create symlink: $skill_name"
-                SYMLINK_WARNINGS="${SYMLINK_WARNINGS}\n❌ Failed to create symlink: $skill_name"
+                ln -s "$absolute_target" "$link_path"
+                if [ -L "$link_path" ]; then
+                    log_success "Created symlink: $skill_name → $hub_path"
+                    SYMLINK_COUNT=$((SYMLINK_COUNT + 1))
+                else
+                    log_error "Failed to create symlink: $skill_name"
+                    SYMLINK_WARNINGS="${SYMLINK_WARNINGS}\n❌ Failed to create symlink: $skill_name"
+                fi
             fi
         else
             log_info "[DRY-RUN] Would create symlink: $skill_name → $absolute_target"
@@ -295,16 +313,25 @@ if [ "$DRY_RUN" = false ]; then
         VALIDATION_FAILED=true
     fi
 
-    # Check 3: Symlinks valid
+    # Check 3: Symlinks/junctions valid
     BROKEN_SYMLINKS=0
-    for skill in "$CLAUDE_DIR/skills/user"/* 2>/dev/null; do
+    for skill in "$CLAUDE_DIR/skills/user"/*; do
         [ -e "$skill" ] || continue
         if [ -L "$skill" ]; then
+            # Unix symlink: check target is accessible
             if [ ! -e "$skill" ]; then
                 skill_name=$(basename "$skill")
                 log_error "Check 3: Broken symlink: $skill_name"
                 BROKEN_SYMLINKS=$((BROKEN_SYMLINKS + 1))
                 VALIDATION_FAILED=true
+            fi
+        elif [ -d "$skill" ] && ([[ "$OSTYPE" == "msys" ]] || [[ "$OS" == "Windows_NT" ]]); then
+            # Windows junction: verify it is a ReparsePoint (not a plain dir copy)
+            skill_name=$(basename "$skill")
+            win_path=$(cygpath -w "$skill")
+            is_junction=$(powershell -Command "(Get-Item -Force '$win_path' -ErrorAction SilentlyContinue).Attributes -match 'ReparsePoint'" 2>/dev/null)
+            if [ "$is_junction" != "True" ]; then
+                log_warn "Check 3: $skill_name is a DIR copy, not a junction — run restore to fix"
             fi
         fi
     done
