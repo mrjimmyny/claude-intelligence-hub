@@ -73,6 +73,9 @@ Check 6 greps for `^\*\*Version:\*\*` in SKILL.md. If absent, shows `SKILL.md: v
 **#11: New Root Document Not in `integrity-check.sh` Approved List**
 Check 3 flags intentional root docs (e.g. `CIH-ROADMAP.md`, `AUDIT_TRAIL.md`) as "CLUTTER" if not in the `approved_files` array. Rule: update `approved_files` in `scripts/integrity-check.sh` in the same commit as adding any new root-level file.
 
+**#12: git commit Breaks NTFS Hard Links**
+`git commit` replaces files atomically (write new → rename), which severs the NTFS inode connection. After ANY commit touching `xavier-memory/` files, all hard links in `.claude/projects/*/memory/` are silently broken. Fix: re-run `setup_memory_junctions.bat` (or the PS1 equivalent) immediately after committing. Rule: Backup protocol must include a relink step AFTER the git push.
+
 ---
 
 ## 🪙 Token Budget Discipline (Module 3)

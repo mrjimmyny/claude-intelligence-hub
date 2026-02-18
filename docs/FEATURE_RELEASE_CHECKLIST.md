@@ -153,6 +153,20 @@ gh release create vX.X.X \
 - **Fix:** Add the new filename to the `approved_files` array in `scripts/integrity-check.sh` (around line 93) at the same time you add the file to the repo.
 - **Rule:** Every time a new document is intentionally added to the repo root, update `approved_files` in the same commit. Never let the approval list drift behind the actual root contents.
 
+### Pattern #11: git commit Breaks NTFS Hard Links (memory desync after push)
+- **Symptom:** After committing `xavier-memory/MEMORY.md`, all hard links in `.claude/projects/*/memory/` are silently broken. Memory changes made in the hub stop appearing in active Claude sessions.
+- **Root cause:** `git commit` does not edit files in-place. It writes a new file to a temp path and renames it over the old one, creating a new inode. All existing hard links still point to the original inode, which is now orphaned.
+- **Fix:** Immediately after any `git push` that touches `xavier-memory/` files, re-run the junction setup script to restore hard links:
+  ```
+  powershell -ExecutionPolicy Bypass -File xavier-memory\setup_memory_junctions.bat
+  ```
+- **Rule:** Backup protocol order is non-negotiable:
+  1. Edit `xavier-memory/MEMORY.md`
+  2. `git add` + `commit` + `push`
+  3. **Re-run hard link setup** ← must not be skipped
+  4. Verify links (PowerShell size/time check)
+  5. `rclone sync` to Google Drive
+
 ---
 
 ## 📊 Validation Script Output Examples
@@ -254,4 +268,4 @@ If you discover README is already outdated:
 
 **REMEMBER:** This checklist exists because we identified a pattern of README drift causing user frustration. Don't let it happen again.
 
-**Last Updated:** February 18, 2026 (v2.5.0 — added Patterns #6–#10 from validator and integrity-check post-mortems)
+**Last Updated:** February 18, 2026 (v2.5.0 — added Patterns #6–#11 from validator, integrity-check, and backup protocol post-mortems)

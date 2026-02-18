@@ -154,3 +154,35 @@ Add filename to approved_files in scripts/integrity-check.sh (~line 93)
 IN THE SAME COMMIT as adding the root file
 Rule: approved_files = every intentional root .md file, always kept current
 ```
+
+---
+
+## #12: git commit Breaks NTFS Hard Links
+```
+SYMPTOM:
+After committing xavier-memory/MEMORY.md to git, hard links in all
+.claude/projects/*/memory/ folders silently break.
+Verification shows [BROKEN] even though setup ran successfully earlier.
+
+ROOT CAUSE:
+git commit does NOT edit files in-place.
+It writes a NEW file to a temp location, then renames it over the old one.
+This creates a NEW inode — all hard links point to the OLD inode (now orphaned).
+
+PROOF:
+Before commit: master inode == project link inode  (hard link works)
+After commit:  master inode != project link inode  (new inode from rename)
+
+FIX:
+After every git push to xavier-memory/, immediately re-run junction setup:
+  powershell -ExecutionPolicy Bypass -File setup_memory_links.ps1
+  (or: xavier-memory\setup_memory_junctions.bat)
+
+RULE:
+Backup protocol order must be:
+  1. Edit MEMORY.md
+  2. git add + commit + push
+  3. Re-run hard link setup       <-- this step is non-negotiable
+  4. Verify links (PowerShell)
+  5. rclone sync to Google Drive
+```
