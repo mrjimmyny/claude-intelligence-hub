@@ -1,6 +1,6 @@
 # Xavier Memory Management - Skill Workflows
 
-**Version:** 1.0.0
+**Version:** 1.1.0
 **Type:** Memory Sync & Backup
 **Language:** pt-BR (Brazilian Portuguese)
 **Platform:** Windows (NTFS hard links)
@@ -367,7 +367,7 @@ rclone config reconnect gdrive-jimmy:
 ## 🎯 SKILL METADATA
 
 **Name:** xavier-memory
-**Version:** 1.0.0
+**Version:** 1.1.0
 **Author:** Xavier (Claude)
 **Created:** 2026-02-16
 **Type:** Memory Management
