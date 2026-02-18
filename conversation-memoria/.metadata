@@ -1,0 +1,23 @@
+{
+  "name": "conversation-memoria",
+  "version": "1.0.0",
+  "type": "system-skill",
+  "status": "production",
+  "owner": "Jimmy",
+  "description": "Persistent conversation storage system for ELITE LEAGUE",
+  "triggers": [
+    "save this conversation",
+    "save conversation",
+    "list conversations",
+    "search conversations",
+    "load conversation"
+  ],
+  "dependencies": [],
+  "settings": {
+    "auto_push": true,
+    "summary_max_length": 200,
+    "summary_min_length": 100,
+    "max_tags": 7
+  },
+  "tier": "explicit"
+}
