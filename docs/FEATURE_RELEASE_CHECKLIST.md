@@ -123,6 +123,24 @@ gh release create vX.X.X \
 - **Symptom:** Setup script still says "installs 5 mandatory skills" but we have 8
 - **Fix:** Update README line ~132 and ~156
 
+### Pattern #6: Architecture Tree Missing Real Folder (validate-readme.sh false-green)
+- **Symptom:** New skill folder exists on disk but is absent from the `## 🏗️ Hub Architecture` tree. `validate-readme.sh` reports ✅ anyway.
+- **Root cause:** The old Check 5 ran `grep "$DIR_NAME/" README.md` against the **entire file**. Any mention of the folder (skills table, prose, etc.) was enough to pass — even if the tree section itself was missing the entry.
+- **Fix:** The validator now extracts the architecture section via `awk` and checks only within that block. If you ever see this pattern recur, re-audit `validate-readme.sh` Check 5 to confirm it's still using the scoped `awk` extraction.
+- **Manual check:** Search for the folder name only inside the ` ``` ` block under `## 🏗️ Hub Architecture`.
+
+### Pattern #7: Governance/Non-Skill Folder Silently Excluded from Architecture Check
+- **Symptom:** A folder exists on disk (e.g. `token-economy/`) but is never flagged as undocumented because it was hardcoded as an exception in `validate-readme.sh`.
+- **Root cause:** The old Check 5 had `[[ "$skill_dir" == "token-economy/" ]]` as an explicit skip. The folder was never validated, so it could go undocumented indefinitely.
+- **Fix:** The skip list in Check 5 now only contains true infrastructure directories (`scripts/`, `docs/`, `.git/`, `.github/`, `.claude/`). Every other folder — including governance modules — must appear in the architecture tree or the check fails.
+- **Rule:** Never add a skill or governance folder to the skip list. If it lives in the repo root, it belongs in the architecture tree.
+
+### Pattern #8: Ghost Folder in Architecture Tree
+- **Symptom:** The architecture tree documents a folder (e.g. `python-claude-skills/`, `git-claude-skills/`) that does not exist on disk. Validator previously had no ghost detection.
+- **Root cause:** Placeholder entries added for "future" skills were never cleaned up when those skills stayed unbuilt.
+- **Fix:** `validate-readme.sh` Check 5 now scans the tree for `📁 folder-name/` entries and verifies each one exists on disk. Non-existent entries raise a WARNING.
+- **Rule:** Do not add placeholder folder entries to the architecture tree. Use the `📋 Planned:` line in the Skills by Status section instead.
+
 ---
 
 ## 📊 Validation Script Output Examples
@@ -224,4 +242,4 @@ If you discover README is already outdated:
 
 **REMEMBER:** This checklist exists because we identified a pattern of README drift causing user frustration. Don't let it happen again.
 
-**Last Updated:** February 15, 2026 (v2.1.1)
+**Last Updated:** February 18, 2026 (v2.5.0 — added Patterns #6, #7, #8 from validator bug post-mortem)
