@@ -67,6 +67,12 @@ SEMPRE rodar `docs/FEATURE_RELEASE_CHECKLIST.md` + `bash scripts/validate-readme
 **#9: Ghost Folders in Architecture Tree**
 Placeholder entries (`python-claude-skills/`, `git-claude-skills/`) lived in the tree for multiple versions with no detection. Fix: Check 5b scans `📁 folder/` entries in the tree and verifies each exists on disk. Rule: planned skills go in `📋 Planned:` line, NOT the tree.
 
+**#10: SKILL.md Missing `**Version:**` Header (integrity-check false failure)**
+Check 6 greps for `^\*\*Version:\*\*` in SKILL.md. If absent, shows `SKILL.md: v` (blank) and reports drift even though `.metadata` is correct. Rule: every SKILL.md needs `**Version:** X.X.X` as its second line.
+
+**#11: New Root Document Not in `integrity-check.sh` Approved List**
+Check 3 flags intentional root docs (e.g. `CIH-ROADMAP.md`, `AUDIT_TRAIL.md`) as "CLUTTER" if not in the `approved_files` array. Rule: update `approved_files` in `scripts/integrity-check.sh` in the same commit as adding any new root-level file.
+
 ---
 
 ## 🪙 Token Budget Discipline (Module 3)

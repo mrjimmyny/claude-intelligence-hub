@@ -119,3 +119,38 @@ Scans tree for "📁 folder-name/" entries → verifies each exists on disk
 Non-existent entries → WARNING
 Rule: planned skills go in "📋 Planned:" status line, NOT the tree
 ```
+
+---
+
+## #10: SKILL.md Missing Version Header
+```
+❌ BUG:
+xavier-memory-sync/SKILL.md had no **Version:** line
+integrity-check.sh Check 6 output:
+  ❌ VERSION DRIFT: xavier-memory-sync
+     .metadata: v1.0.0
+     SKILL.md:  v          ← blank, not actually drifted
+
+✅ FIX:
+Add to SKILL.md (line 2, after # Title):
+  **Version:** 1.0.0
+Check 6 greps for ^\*\*Version:\*\* — if absent, extracts empty string
+Rule: every SKILL.md must have **Version:** X.X.X as its second line
+```
+
+---
+
+## #11: New Root Document Not in Approved List
+```
+❌ BUG:
+Added CIH-ROADMAP.md, AUDIT_TRAIL.md, DEVELOPMENT_IMPACT_ANALYSIS.md to root
+integrity-check.sh Check 3 output:
+  🗑️ CLUTTER: CIH-ROADMAP.md (unauthorized root file)
+  🗑️ CLUTTER: AUDIT_TRAIL.md (unauthorized root file)
+  → Files are legitimate, just not in the hardcoded approved_files array
+
+✅ FIX:
+Add filename to approved_files in scripts/integrity-check.sh (~line 93)
+IN THE SAME COMMIT as adding the root file
+Rule: approved_files = every intentional root .md file, always kept current
+```
