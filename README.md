@@ -51,7 +51,7 @@ This hub represents **9 production-ready skills, 280KB of documentation, 160 aut
 
 ### What Got Built in 17 Days
 
-- ✅ **9 Production Skills** — jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills, xavier-memory, xavier-memory-sync, context-guardian
+- ✅ **10 Production Skills** — jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills, xavier-memory, xavier-memory-sync, context-guardian, repo-auditor
 - ✅ **Complete Documentation** — ~280KB across README, executive summaries, changelogs, governance docs
 - ✅ **Automated Testing** — 160 tests with 99% pass rate (158/160)
 - ✅ **CI/CD Pipeline** — 5-job GitHub Actions with 6 integrity checks
@@ -189,7 +189,7 @@ For complete trigger list and routing patterns, see **[HUB_MAP.md](HUB_MAP.md)**
 git clone https://github.com/mrjimmyny/claude-intelligence-hub.git
 cd claude-intelligence-hub
 
-# Run automated setup (installs 9 production skills)
+# Run automated setup (installs 10 production skills)
 .\scripts\setup_local_env.ps1
 
 # Force recreate existing junctions (if needed)
@@ -213,7 +213,7 @@ bash scripts/setup_local_env.sh --force
 ```
 
 **What it does:**
-- ✅ Auto-installs 9 production skills (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian)
+- ✅ Auto-installs 10 production skills (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor)
 - ✅ Creates junctions/symlinks (auto-sync with Git)
 - ✅ Validates installation with integrity checks
 - ✅ Takes ~15 minutes from zero to production
