@@ -9,12 +9,17 @@
       "backup_date": "2026-02-13T05:19:14Z",
       "status": "success",
       "is_critical": false
+    },
+    "d5a7912e-aff9-4216-929b-85581cb90512": {
+      "backup_date": "2026-02-16T01:06:47Z",
+      "status": "success",
+      "is_critical": false
     }
   },
   "stats": {
-    "total_backups": 2,
+    "total_backups": 3,
     "total_critical": 1,
-    "last_backup": "2026-02-13T05:19:14Z",
+    "last_backup": "2026-02-16T01:06:47Z",
     "failed_backups": 0
   }
 }

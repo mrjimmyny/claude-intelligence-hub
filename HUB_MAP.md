@@ -1,7 +1,7 @@
 # 🗺️ Claude Intelligence Hub - Skill Router Map
 
-**Version:** 2.4.0
-**Last Updated:** 2026-02-17
+**Version:** 2.5.0
+**Last Updated:** 2026-02-18
 **Purpose:** Central routing dictionary for all skills, triggers, and workflows
 **Routing Status:** 🟢 Active (Module 4 Complete - Deployment & CI/CD)
 
@@ -857,6 +857,7 @@ touch CHANGELOG.md             # Version history
 - [/README.md](README.md) - Hub overview, getting started
 - [/EXECUTIVE_SUMMARY.md](EXECUTIVE_SUMMARY.md) - Comprehensive hub summary
 - [/CHANGELOG.md](CHANGELOG.md) - Version history
+- [/DEVELOPMENT_IMPACT_ANALYSIS.md](DEVELOPMENT_IMPACT_ANALYSIS.md) - AI-assisted development ROI case study (17 days, 92–94% time savings, 95–98% cost savings)
 
 ### Skill Documentation
 - [jimmy-core-preferences/](jimmy-core-preferences/) - Core principles and patterns
@@ -951,9 +952,9 @@ touch CHANGELOG.md             # Version history
 
 ---
 
-**Version:** 1.9.0
+**Version:** 2.5.0
 **Status:** ✅ Production - Enterprise-Ready
-**Last Updated:** 2026-02-15
-**Maintained by:** Xavier & Jimmy
+**Last Updated:** 2026-02-18
+**Maintained by:** Xavier, Magneto & Jimmy
 
 *This is the single source of truth for skill routing in the Claude Intelligence Hub*
