@@ -417,8 +417,14 @@ claude-intelligence-hub/
 │   ├── templates/                   # Config metadata schema templates
 │   └── docs/                        # Phase 0 discovery report
 │
-├── 📁 python-claude-skills/         # 📋 Placeholder (future)
-├── 📁 git-claude-skills/            # 📋 Placeholder (future)
+├── 📁 repo-auditor/                 # ⭐ End-to-End Audit Skill (v1.0.0)
+│   ├── SKILL.md                     # Audit workflows & proof-of-read fingerprinting
+│   ├── AUDIT_TRAIL.md               # Accumulative audit log (append-only)
+│   └── scripts/                     # validate-trail.sh for CI enforcement
+│
+├── 📁 token-economy/                # 📊 Token Budget Governance (v1.0.0)
+│   ├── README.md                    # Budget discipline rules & overview
+│   └── budget-rules.md              # Strict token enforcement rules (30-50% savings)
 │
 ├── 📁 .claude/                      # Project-level config
 │   ├── project-instructions.md      # Mandatory initialization protocol
@@ -589,6 +595,7 @@ git pull origin main
 ### Skills by Status
 
 - ✅ **Production Ready:** 10 (jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills, xavier-memory, xavier-memory-sync, context-guardian, repo-auditor)
+- 📊 **Governance Modules:** 1 (token-economy)
 - 🚧 **In Development:** 0
 - 📋 **Planned:** 2 (python-claude-skills, git-claude-skills)
 

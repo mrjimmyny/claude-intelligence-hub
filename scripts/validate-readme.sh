@@ -117,41 +117,67 @@ else
 fi
 
 # ============================================================================
-# Check 5: Architecture Section vs Actual Folders
+# Check 5: Architecture Section vs Actual Folders (exact tree match)
 # ============================================================================
 
 echo -n "🏗️  Checking architecture section... "
 
+# Extract only the architecture tree section (from heading to next ---)
+ARCH_SECTION=$(awk '/Hub Architecture/{found=1} found{print} /^---$/{if(found && printed>0){exit} printed++}' README.md)
+
 MISSING_DOCS=()
+GHOST_FOLDERS=()
+
+# 5a: Every real top-level folder (except infra dirs) must appear in the tree section
 for skill_dir in */; do
-    # Skip non-skill directories and governance tools
+    # Skip infrastructure-only directories (not skills or governance)
     if [[ "$skill_dir" == "node_modules/" ]] || \
        [[ "$skill_dir" == "scripts/" ]] || \
        [[ "$skill_dir" == "docs/" ]] || \
        [[ "$skill_dir" == ".git/" ]] || \
        [[ "$skill_dir" == ".github/" ]] || \
-       [[ "$skill_dir" == ".claude/" ]] || \
-       [[ "$skill_dir" == "token-economy/" ]]; then
+       [[ "$skill_dir" == ".claude/" ]]; then
         continue
     fi
 
-    # Check if folder is documented in Architecture section (with or without emoji)
     DIR_NAME="${skill_dir%/}"
-    if ! grep -q "$DIR_NAME/" README.md; then
+    # Check specifically within the architecture tree section
+    if ! echo "$ARCH_SECTION" | grep -q "${DIR_NAME}/"; then
         MISSING_DOCS+=("$DIR_NAME")
     fi
 done
 
-if [[ ${#MISSING_DOCS[@]} -eq 0 ]]; then
-    echo -e "${GREEN}✓${NC} All skill folders documented"
-else
-    echo -e "${YELLOW}⚠${NC}"
-    echo -e "${YELLOW}WARNING: Folders not documented in Architecture section:${NC}"
+# 5b: No ghost folders (documented in tree but don't exist on disk)
+while IFS= read -r folder_name; do
+    [[ -z "$folder_name" ]] && continue
+    if [[ ! -d "$folder_name" ]]; then
+        GHOST_FOLDERS+=("$folder_name")
+    fi
+done < <(echo "$ARCH_SECTION" | grep '📁 ' | grep -oE '[a-z][a-z0-9_-]+/' | tr -d '/' || true)
+
+ARCH_OK=true
+if [[ ${#MISSING_DOCS[@]} -gt 0 ]]; then
+    ARCH_OK=false
+    echo -e "${RED}✗${NC}"
+    echo -e "${RED}ERROR: Folders exist on disk but are missing from the architecture tree:${NC}"
     for folder in "${MISSING_DOCS[@]}"; do
-        echo "   - $folder/"
+        echo "   - $folder/ (exists on disk, not in tree)"
     done
-    echo "   Fix: Add missing folders to README.md line ~285-367 (Architecture section)"
+    echo "   Fix: Add missing entries to README.md ## 🏗️ Hub Architecture section"
+    ERRORS=$((ERRORS + 1))
+fi
+if [[ ${#GHOST_FOLDERS[@]} -gt 0 ]]; then
+    ARCH_OK=false
+    echo -e "${YELLOW}⚠${NC}"
+    echo -e "${YELLOW}WARNING: Ghost folders in architecture tree (documented but don't exist on disk):${NC}"
+    for folder in "${GHOST_FOLDERS[@]}"; do
+        echo "   - $folder/ (in tree, not on disk)"
+    done
+    echo "   Fix: Remove non-existent folder entries from the architecture tree"
     WARNINGS=$((WARNINGS + 1))
+fi
+if [[ "$ARCH_OK" == true ]]; then
+    echo -e "${GREEN}✓${NC} All folders documented in tree, no ghost entries"
 fi
 
 # ============================================================================
