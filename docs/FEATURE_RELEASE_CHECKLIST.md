@@ -141,6 +141,18 @@ gh release create vX.X.X \
 - **Fix:** `validate-readme.sh` Check 5 now scans the tree for `📁 folder-name/` entries and verifies each one exists on disk. Non-existent entries raise a WARNING.
 - **Rule:** Do not add placeholder folder entries to the architecture tree. Use the `📋 Planned:` line in the Skills by Status section instead.
 
+### Pattern #9: SKILL.md Missing Version Header (integrity-check.sh Check 6 false failure)
+- **Symptom:** `integrity-check.sh` reports `VERSION DRIFT: <skill>` with `.metadata: v1.0.0` and `SKILL.md: v` (blank). Skill version appears as empty even though `.metadata` is correct.
+- **Root cause:** Check 6 extracts the version from SKILL.md by grepping for `^\*\*Version:\*\*`. If the SKILL.md was created without this line, grep returns empty — producing the misleading drift error.
+- **Fix:** Add `**Version:** X.X.X` as the second line of the SKILL.md header (after the `# Skill Name` title). Running `bash scripts/sync-versions.sh <skill-name>` will then keep it in sync with `.metadata`.
+- **Rule:** Every SKILL.md must have a `**Version:** X.X.X` line. Check when creating new skills or the integrity check will false-fail on Check 6.
+
+### Pattern #10: New Root Document Not in integrity-check.sh Approved List
+- **Symptom:** `integrity-check.sh` Check 3 flags a legitimate root-level file (e.g. `CIH-ROADMAP.md`, `AUDIT_TRAIL.md`, `DEVELOPMENT_IMPACT_ANALYSIS.md`) as "CLUTTER: unauthorized root file" even though it was intentionally added.
+- **Root cause:** `scripts/integrity-check.sh` has a hardcoded `approved_files` array. Any new `.md` file added to the repo root that isn't in that list triggers a false clutter warning.
+- **Fix:** Add the new filename to the `approved_files` array in `scripts/integrity-check.sh` (around line 93) at the same time you add the file to the repo.
+- **Rule:** Every time a new document is intentionally added to the repo root, update `approved_files` in the same commit. Never let the approval list drift behind the actual root contents.
+
 ---
 
 ## 📊 Validation Script Output Examples
@@ -242,4 +254,4 @@ If you discover README is already outdated:
 
 **REMEMBER:** This checklist exists because we identified a pattern of README drift causing user frustration. Don't let it happen again.
 
-**Last Updated:** February 18, 2026 (v2.5.0 — added Patterns #6, #7, #8 from validator bug post-mortem)
+**Last Updated:** February 18, 2026 (v2.5.0 — added Patterns #6–#10 from validator and integrity-check post-mortems)
