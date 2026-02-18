@@ -98,6 +98,9 @@ approved_files=(
     "LICENSE"
     "WINDOWS_JUNCTION_SETUP.md"
     ".gitignore"
+    "AUDIT_TRAIL.md"
+    "CIH-ROADMAP.md"
+    "DEVELOPMENT_IMPACT_ANALYSIS.md"
 )
 
 loose_found=0

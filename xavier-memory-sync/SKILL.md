@@ -1,5 +1,7 @@
 # Xavier Memory Sync Skill
 
+**Version:** 1.0.0
+
 **Trigger Phrases**:
 - "Xavier, sync memory"
 - "Xavier, backup memory"
