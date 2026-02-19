@@ -2,7 +2,7 @@
 
 **Version:** 1.2.0
 **Purpose:** Capture, store, and recall conversations, decisions, insights, and ideas across all sessions
-**Language:** Portuguese (pt-BR)
+**Language:** Portuguese triggers / English documentation
 
 ---
 
@@ -153,13 +153,13 @@ Generate suggestions for:
 Present suggestion in this format:
 
 ```
-Vou registrar na Session Memoria:
+About to save to Session Memoria:
 
-📁 Categoria: [category]
+📁 Category: [category]
 🏷️  Tags: [tag1, tag2, tag3]
-📝 Resumo: [summary]
+📝 Summary: [summary]
 
-Confirma? (ou sugira alterações)
+Confirm? (or suggest changes)
 ```
 
 ### Step 4: Generate Entry ID
@@ -252,11 +252,11 @@ git push origin main
 
 ### Step 10: Confirm to Jimmy
 ```
-✅ Registrado na Session Memoria!
+✅ Saved to Session Memoria!
 
 📋 Entry ID: YYYY-MM-DD-NNN
-📂 Localização: knowledge/entries/YYYY/MM/YYYY-MM-DD_topic-slug.md
-📊 Total de entradas: N
+📂 Location: knowledge/entries/YYYY/MM/YYYY-MM-DD_topic-slug.md
+📊 Total entries: N
 
 [Growth alert if applicable]
 ```
@@ -296,7 +296,7 @@ Search pattern: case-insensitive, partial matches OK
 Show top 5-10 results:
 
 ```
-🔍 Encontrei N resultados para "[query]":
+🔍 Found N results for "[query]":
 
 1. [YYYY-MM-DD-NNN] | Category | Summary
    Tags: tag1, tag2, tag3
@@ -306,7 +306,7 @@ Show top 5-10 results:
    Tags: tag1, tag2, tag3
    📅 DD/MM/YYYY
 
-Quer ver algum completo? (digite o número ou entry ID)
+Want to read any in full? (type the number or entry ID)
 ```
 
 ### Step 5: Full Entry Display
@@ -351,14 +351,14 @@ If Jimmy doesn't specify an entry ID, search for the entry first (use Search Wor
 3. Display current values to Jimmy:
 
 ```
-Vou atualizar a entry [YYYY-MM-DD-NNN]:
+About to update entry [YYYY-MM-DD-NNN]:
 
-📋 Título: [title]
-📊 Status atual: [current_status] → [new_status]
-📝 Resolução atual: [current_resolution] → [new_resolution]
-🔢 Prioridade atual: [current_priority] → [new_priority]
+📋 Title: [title]
+📊 Current status: [current_status] → [new_status]
+📝 Current resolution: [current_resolution] → [new_resolution]
+🔢 Current priority: [current_priority] → [new_priority]
 
-Confirma?
+Confirm?
 ```
 
 ### Step 4: Update Entry File
@@ -392,12 +392,12 @@ git push origin main
 
 ### Step 7: Confirm to Jimmy
 ```
-✅ Entry atualizada!
+✅ Entry updated!
 
 📋 Entry ID: YYYY-MM-DD-NNN
 📊 Status: [old] → [new]
-📝 Resolução: [resolution text]
-📅 Última discussão: DD/MM/YYYY
+📝 Resolution: [resolution text]
+📅 Last discussed: DD/MM/YYYY
 ```
 
 ---
@@ -445,7 +445,7 @@ For each entry, extract:
 Present in this format:
 
 ```
-📋 Recap Session Memoria - Últimos N registros
+📋 Recap Session Memoria - Last N entries
 
 ═══════════════════════════════════════════════
 [Filter applied, if any]
@@ -453,21 +453,21 @@ Present in this format:
 
 1. [YYYY-MM-DD-NNN] | DD/MM/YYYY | Category
    📝 Summary text here
-   📊 Status: 🔴 aberto | Prioridade: media
-   📅 Última discussão: DD/MM/YYYY
+   📊 Status: 🔴 aberto | Priority: media
+   📅 Last discussed: DD/MM/YYYY
 
 2. [YYYY-MM-DD-NNN] | DD/MM/YYYY | Category
    📝 Summary text here
-   📊 Status: 🟢 resolvido | Prioridade: alta
-   📅 Última discussão: DD/MM/YYYY
-   📌 Desfecho: [resolution text]
+   📊 Status: 🟢 resolvido | Priority: alta
+   📅 Last discussed: DD/MM/YYYY
+   📌 Resolution: [resolution text]
 
 ═══════════════════════════════════════════════
-📊 Resumo: N abertos | N em discussão | N resolvidos
+📊 Summary: N open | N in discussion | N resolved
 ═══════════════════════════════════════════════
 
-Quer ver algum em detalhe? (digite o número ou entry ID)
-Quer atualizar o status de algum? (ex: "marca o 1 como resolvido")
+Want to read any in detail? (type the number or entry ID)
+Want to update the status of any? (e.g. "marca o 1 como resolvido")
 ```
 
 ### Status Visual Indicators
@@ -592,10 +592,12 @@ When Jimmy shares:
 - A valuable insight → "Isso parece importante. Salvo na memoria?"
 - A project idea → "Posso guardar essa ideia para depois?"
 
+> These prompts are intentionally in Portuguese — Jimmy's working language.
+
 ### Proactive Recall
 When Jimmy asks about a topic you recognize:
 - "Já conversamos sobre isso! Busco na Session Memoria?"
-- Reference previous entry: "Em [YYYY-MM-DD-NNN] você decidiu X porque Y"
+- Reference previous entry: "In [YYYY-MM-DD-NNN] you decided X because Y"
 
 ### Two-Tier Memory
 - **MEMORY.md:** Short-term, patterns, learnings (< 200 lines)
@@ -627,19 +629,19 @@ When Jimmy asks about a topic you recognize:
 
 ---
 
-## Portuguese Language Support
+## Language Notes
 
 ### Metadata Fields
 - All frontmatter in English (YAML standard)
-- Content in Portuguese (titles, context, details)
+- Entry content in Portuguese (titles, context, details) — Jimmy's working language
 
 ### Date Formatting
 - File names: YYYY-MM-DD (ISO standard)
 - Display to Jimmy: DD/MM/YYYY (Brazilian format)
 
 ### Category Names
-- "Gestão" (not "Management" in files)
-- "Pessoal" (not "Personal" in files)
+- Use `"Gestão"` (not `"Management"`) in files
+- Use `"Pessoal"` (not `"Personal"`) in files
 
 ---
 
@@ -669,9 +671,9 @@ When Jimmy asks about a topic you recognize:
 
 ### Summary Guidelines
 - One line, max 120 chars
-- Start with verb (Decidido, Criado, Aprendido, etc.)
+- Start with a verb (Decidido, Criado, Aprendido, etc. — entries are written in Portuguese)
 - Be specific, not generic
-- Examples:
+- Examples (in Portuguese, as entries are):
   - ✅ "Decidido usar DAX variables para melhorar performance de medidas"
   - ❌ "Conversa sobre DAX"
 
