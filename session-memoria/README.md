@@ -2,168 +2,168 @@
 
 **Version:** 1.2.0
 **Status:** Active
-**Language:** Portuguese (pt-BR)
+**Language:** Portuguese triggers / English documentation
 
 ---
 
-## O que é?
+## What is it?
 
-Session Memoria é o sistema de gestão de conhecimento permanente do Jimmy. Transforma conversas efêmeras em conhecimento durável, pesquisável e organizado.
+Session Memoria is Jimmy's permanent knowledge management system. It transforms ephemeral conversations into durable, searchable, and organized knowledge.
 
-### Funcionalidades Principais
+### Core Features
 
-- 💾 **Captura:** Salva conversas, decisões, insights e ideias com metadados ricos
-- 🔍 **Busca:** Sistema de índice triplo (data, categoria, tag)
-- 📊 **Monitor:** Acompanha crescimento e alerta sobre limites
-- 🔄 **Sync:** Integração automática com Git (commit + push)
-- 🗂️ **Organização:** Estrutura por ano/mês, múltiplos índices
+- 💾 **Capture:** Saves conversations, decisions, insights, and ideas with rich metadata
+- 🔍 **Search:** Triple-index system (by date, category, and tag)
+- 📊 **Monitor:** Tracks growth and alerts on size thresholds
+- 🔄 **Sync:** Automatic Git integration (commit + push)
+- 🗂️ **Organization:** Year/month directory structure with multiple indexes
 
 ---
 
-## Como Usar
+## How to Use
 
-### Salvar Informação
+### Saving Information
 
-Diga para Xavier:
+Tell Xavier (in Portuguese — these are the recognized triggers):
 - "Xavier, registre isso"
 - "X, salve essa conversa"
 - "Registre isso"
 - "Salvar essa decisão"
 
-Xavier vai:
-1. Analisar o contexto da conversa
-2. Sugerir categoria, tags e resumo
-3. Pedir confirmação
-4. Criar entrada com ID único
-5. Atualizar índices
-6. Fazer commit no Git
+Xavier will:
+1. Analyze the conversation context
+2. Suggest category, tags, and summary
+3. Ask for confirmation
+4. Create an entry with a unique ID
+5. Update all indexes
+6. Commit and push to Git
 
-### Buscar Informação
+### Searching Information
 
-Diga para Xavier:
+Tell Xavier (Portuguese triggers):
 - "Xavier, já falamos sobre X?"
 - "X, busca tema Y"
 - "Procure na memoria"
 - "O que já conversamos sobre X?"
 
-Xavier vai mostrar:
-- Top 5-10 resultados relevantes
-- Preview (ID, data, categoria, resumo, tags)
-- Opção de ler entrada completa
+Xavier will display:
+- Top 5–10 relevant results
+- Preview (ID, date, category, summary, tags)
+- Option to read the full entry
 
-### Ver Estatísticas
+### Viewing Statistics
 
-Digite: `/session-memoria stats`
+Type: `/session-memoria stats`
 
-Mostra:
-- Total de entradas e tamanho
-- Distribuição por categoria
-- Distribuição por mês
+Displays:
+- Total entries and total size
+- Distribution by category
+- Distribution by month
 - Top 10 tags
-- Projeção de crescimento
+- Growth projection
 
 ---
 
-## Estrutura de Arquivos
+## File Structure
 
 ```
 session-memoria/
-├── .metadata                      # Configuração do skill
-├── SKILL.md                        # Instruções para Claude
-├── README.md                       # Esta documentação
-├── CHANGELOG.md                    # Histórico de versões
-├── SETUP_GUIDE.md                  # Guia de instalação
+├── .metadata                      # Skill configuration
+├── SKILL.md                        # Instructions for Claude
+├── README.md                       # This documentation
+├── CHANGELOG.md                    # Version history
+├── SETUP_GUIDE.md                  # Installation guide
 ├── templates/
-│   ├── entry.template.md           # Template de entrada
-│   └── index.template.md           # Template de índice
-└── knowledge/                      # Repositório de conhecimento
+│   ├── entry.template.md           # Entry template
+│   └── index.template.md           # Index template
+└── knowledge/                      # Knowledge repository
     ├── index/
-    │   ├── by-date.md              # Índice cronológico
-    │   ├── by-category.md          # Índice por categoria
-    │   └── by-tag.md               # Índice por tag
+    │   ├── by-date.md              # Chronological index
+    │   ├── by-category.md          # Category index
+    │   └── by-tag.md               # Tag index
     ├── entries/
     │   └── YYYY/
     │       └── MM/
     │           └── YYYY-MM-DD_topic-slug.md
-    └── metadata.json               # Estatísticas e contadores
+    └── metadata.json               # Statistics and counters
 ```
 
 ---
 
-## Formato de Entrada
+## Entry Format
 
-Cada entrada tem:
+Each entry contains:
 
 ### Frontmatter (YAML)
 ```yaml
 ---
-entry_id: YYYY-MM-DD-NNN          # ID único auto-gerado
+entry_id: YYYY-MM-DD-NNN          # Auto-generated unique ID
 date: YYYY-MM-DD
 time: HH:MM
-category: Power BI                # Categoria predefinida
+category: Power BI                # Predefined category
 tags: [dax, optimization, perf]   # Max 5 tags
-project: opcional
-conversation_id: opcional
-summary: Resumo em uma linha (max 120 chars)
+project: optional
+conversation_id: optional
+summary: One-line summary (max 120 chars)
 ---
 ```
 
-### Conteúdo (Markdown)
-- **Context:** O que levou a essa conversa
-- **Decision/Insight/Idea:** O ponto principal
-- **Key Details:** Detalhes técnicos, exemplos, código
-- **Next Steps:** Tasks opcionais
-- **References:** Links e referências
+### Body (Markdown)
+- **Context:** What led to this conversation
+- **Decision/Insight/Idea:** The main point
+- **Key Details:** Technical details, examples, code
+- **Next Steps:** Optional follow-up tasks
+- **References:** Links and references
 
 ---
 
-## Sistema de Índice Triplo
+## Triple-Index System
 
-### 1. by-date.md (Índice Primário)
-- Organização cronológica por YYYY-MM
-- Mais usado (pessoas lembram "semana passada")
-- Entradas mais recentes primeiro
+### 1. by-date.md (Primary Index)
+- Chronological organization by YYYY-MM
+- Most used (people remember "last week")
+- Most recent entries first
 
 ### 2. by-category.md
-- Agrupamento por domínio
-- Categorias:
+- Grouped by domain
+- Categories:
   - Power BI
   - Python
-  - Gestão
-  - Pessoal
+  - Gestão (Management)
+  - Pessoal (Personal)
   - Git
   - Other
 
 ### 3. by-tag.md
-- Temas transversais
-- Tag cloud (por frequência)
-- Permite busca cross-domain
+- Cross-domain themes
+- Tag cloud (by frequency)
+- Enables cross-domain searching
 
-**Todos os índices se auto-atualizam** a cada save.
-
----
-
-## Monitoramento de Crescimento
-
-### Limites de Alerta
-
-| Nível | Entradas | Tamanho | Ação |
-|-------|----------|---------|------|
-| Info | < 500 | < 5MB | Nenhuma |
-| Warning | 500-1000 | 5-10MB | Revisar e consolidar |
-| Critical | > 1000 | > 10MB | Arquivamento recomendado |
-
-### Projeção
-- **Uso esperado:** 3-7 entradas/dia
-- **6 meses:** ~540-1260 entradas (~3-6 MB)
-- **Alerta automático** ao atingir thresholds
+**All indexes self-update** on every save.
 
 ---
 
-## Integração com Git
+## Growth Monitoring
 
-### Commit Automático
-Após cada save:
+### Alert Thresholds
+
+| Level    | Entries   | Size     | Action                      |
+|----------|-----------|----------|-----------------------------|
+| Info     | < 500     | < 5MB    | None                        |
+| Warning  | 500–1000  | 5–10MB   | Review and consolidate      |
+| Critical | > 1000    | > 10MB   | Archiving recommended       |
+
+### Projection
+- **Expected usage:** 3–7 entries/day
+- **6 months:** ~540–1260 entries (~3–6 MB)
+- **Automatic alert** when thresholds are reached
+
+---
+
+## Git Integration
+
+### Automatic Commit
+After each save:
 ```bash
 git add knowledge/entries/YYYY/MM/YYYY-MM-DD_slug.md
 git add knowledge/index/*.md
@@ -172,117 +172,117 @@ git commit -m "feat(session-memoria): add entry YYYY-MM-DD-NNN - [summary]"
 git push origin main
 ```
 
-### Formato de Commit
+### Commit Format
 ```
-feat(session-memoria): add entry YYYY-MM-DD-NNN - [resumo]
+feat(session-memoria): add entry YYYY-MM-DD-NNN - [summary]
 
-Category: [categoria]
+Category: [category]
 Tags: [tag1, tag2, tag3]
-Summary: [resumo completo]
+Summary: [full summary]
 ```
 
 ---
 
-## Categorias e Tags
+## Categories and Tags
 
-### Categorias Predefinidas
-- **Power BI:** DAX, modelagem, relatórios, performance
-- **Python:** Scripts, automação, bibliotecas, patterns
-- **Gestão:** Decisões, processos, planejamento, pessoas
-- **Pessoal:** Aprendizados, reflexões, objetivos
-- **Git:** Workflows, comandos, estratégias
-- **Other:** Tudo que não se encaixa acima
+### Predefined Categories
+- **Power BI:** DAX, modeling, reports, performance
+- **Python:** Scripts, automation, libraries, patterns
+- **Gestão:** Decisions, processes, planning, people
+- **Pessoal:** Learnings, reflections, goals
+- **Git:** Workflows, commands, strategies
+- **Other:** Anything that doesn't fit above
 
-### Boas Práticas para Tags
-- Use tags existentes quando possível
-- Max 5 tags por entrada
-- Formato: kebab-case (`dax-optimization`, `git-workflow`)
-- Prefira específico sobre genérico
-- Exemplos:
+### Tag Best Practices
+- Reuse existing tags when possible
+- Max 5 tags per entry
+- Format: kebab-case (`dax-optimization`, `git-workflow`)
+- Prefer specific over generic
+- Examples:
   - ✅ `power-query`, `python-async`, `dax-time-intelligence`
-  - ❌ `código`, `trabalho`, `importante`
+  - ❌ `code`, `work`, `important`
 
 ---
 
-## O que Salvar?
+## What to Save?
 
-### ✅ Salvar
-- Decisões importantes com raciocínio
-- Insights técnicos e aprendizados
-- Ideias de projetos (atuais ou futuros)
-- Abordagens de resolução de problemas
-- Descobertas de configuração
-- Padrões de código úteis
+### ✅ Save
+- Important decisions with reasoning
+- Technical insights and learnings
+- Project ideas (current or future)
+- Problem-solving approaches
+- Configuration discoveries
+- Useful code patterns
 
-### ❌ Não Salvar
-- Conclusão de tarefas rotineiras
-- Perguntas/respostas simples
-- Iterações de teste/debug
-- Notas temporárias
-
----
-
-## Integração com jimmy-core-preferences
-
-Session Memoria trabalha em conjunto com a personalidade core do Jimmy:
-
-### Oferecimento Proativo
-Xavier vai oferecer salvar quando você:
-- Tomar uma decisão significativa
-- Compartilhar um insight valioso
-- Mencionar uma ideia de projeto
-
-### Recall Proativo
-Xavier vai referenciar memórias anteriores quando relevante:
-- "Já conversamos sobre isso em [YYYY-MM-DD-NNN]"
-- "Você decidiu X porque Y"
-
-### Memória em Dois Níveis
-- **MEMORY.md:** Curto prazo, padrões, aprendizados (< 200 linhas)
-- **Session Memoria:** Longo prazo, pesquisável, arquivo detalhado
+### ❌ Don't Save
+- Completion of routine tasks
+- Simple questions and answers
+- Test/debug iterations
+- Temporary notes
 
 ---
 
-## Estatísticas (v1.2.0)
+## Integration with jimmy-core-preferences
 
-- **Total de entradas:** 11
-- **Tamanho total:** ~56KB
-- **Última entrada:** 2026-02-13-001
-- **Status:** Produção ativa (3-tier archiving system)
+Session Memoria works together with Jimmy's core personality:
+
+### Proactive Offering
+Xavier will offer to save when you:
+- Make a significant decision
+- Share a valuable insight
+- Mention a project idea
+
+### Proactive Recall
+Xavier will reference past memories when relevant:
+- "We already discussed this on [YYYY-MM-DD-NNN]"
+- "You decided X because Y"
+
+### Two-Level Memory
+- **MEMORY.md:** Short-term, patterns, learnings (< 200 lines)
+- **Session Memoria:** Long-term, searchable, detailed archive
+
+---
+
+## Statistics (v1.2.0)
+
+- **Total entries:** 11
+- **Total size:** ~56KB
+- **Last entry:** 2026-02-13-001
+- **Status:** Active production (3-tier archiving system)
 - **Tiers:** HOT (11), WARM (0), COLD (0)
-- **Categorias:** Projects, Power BI, Architecture, Security, Other
-- **Cross-device:** Desktop + Mobile sync ativo
+- **Categories:** Projects, Power BI, Architecture, Security, Other
+- **Cross-device:** Desktop + Mobile sync active
 - **Performance:** O(1) incremental indexing, 97% token savings at scale
 
 ---
 
-## Exemplos de Uso
+## Usage Examples
 
-### Exemplo 1: Salvar Decisão Técnica
+### Example 1: Saving a Technical Decision
 ```
-Você: "Decidi usar DAX variables ao invés de calculated columns para melhorar performance"
+You: "Decidi usar DAX variables ao invés de calculated columns para melhorar performance"
 Xavier: "Quer que eu registre essa decisão?"
-Você: "Xavier, registre isso"
-Xavier: [analisa e sugere metadados]
-Você: "Confirma"
-Xavier: ✅ Registrado! Entry ID: 2026-02-10-001
+You: "Xavier, registre isso"
+Xavier: [analyzes and suggests metadata]
+You: "Confirma"
+Xavier: ✅ Registered! Entry ID: 2026-02-10-001
 ```
 
-### Exemplo 2: Buscar Conversa Anterior
+### Example 2: Searching a Previous Conversation
 ```
-Você: "Xavier, já falamos sobre otimização de DAX?"
-Xavier: 🔍 Encontrei 3 resultados para "otimização de DAX":
-1. [2026-02-10-001] | Power BI | Decisão usar variables...
-2. [2026-02-05-002] | Power BI | Insight sobre CALCULATE...
+You: "Xavier, já falamos sobre otimização de DAX?"
+Xavier: 🔍 Found 3 results for "otimização de DAX":
+1. [2026-02-10-001] | Power BI | Decision to use variables...
+2. [2026-02-05-002] | Power BI | Insight about CALCULATE...
 ...
-Você: "Mostra o 1"
-Xavier: [exibe entrada completa]
+You: "Mostra o 1"
+Xavier: [displays full entry]
 ```
 
-### Exemplo 3: Ver Progresso
+### Example 3: Viewing Progress
 ```
-Você: /session-memoria stats
-Xavier: [exibe estatísticas completas]
+You: /session-memoria stats
+Xavier: [displays full statistics]
 ```
 
 ---
@@ -290,9 +290,9 @@ Xavier: [exibe estatísticas completas]
 ## Roadmap
 
 ### v1.0.0 (Released 2026-02-10)
-- ✅ Save workflow com Git
+- ✅ Save workflow with Git
 - ✅ Triple index system
-- ✅ Search multi-index
+- ✅ Multi-index search
 - ✅ Growth monitoring
 - ✅ Portuguese support
 
@@ -327,11 +327,11 @@ Xavier: [exibe estatísticas completas]
 
 **One-time setup:**
 1. Download [MOBILE_SESSION_STARTER.md](MOBILE_SESSION_STARTER.md) to your mobile device
-2. Save in an accessible location
+2. Save it in an accessible location
 
 **Every mobile Code session:**
-1. Start new Claude Code session on mobile
-2. Attach MOBILE_SESSION_STARTER.md file
+1. Start a new Claude Code session on mobile
+2. Attach the MOBILE_SESSION_STARTER.md file
 3. Claude will load all necessary context
 4. Use session-memoria normally
 
@@ -341,7 +341,7 @@ Xavier: [exibe estatísticas completas]
 - ✅ Entry templates and formats
 - ✅ Git sync protocol
 - ✅ Xavier identity and behavior
-- ✅ All valid statuses, categories, tags
+- ✅ All valid statuses, categories, and tags
 - ✅ Step-by-step operation guides
 
 **Mobile workflow:**
@@ -356,28 +356,28 @@ Desktop: Skills auto-updated with mobile changes ✅
 **Limitations on mobile:**
 - ❌ No auto-triggers ("xavier, registre isso")
 - ❌ No automatic skill loading
-- ✅ Manual operations work perfectly with starter file
+- ✅ Manual operations work perfectly with the starter file
 - ✅ Full Git sync with desktop
 
 See [MOBILE_SESSION_STARTER.md](MOBILE_SESSION_STARTER.md) for complete mobile instructions.
 
 ---
 
-## Suporte
+## Support
 
-- **Repositório:** https://github.com/mrjimmyny/claude-intelligence-hub
+- **Repository:** https://github.com/mrjimmyny/claude-intelligence-hub
 - **Issues:** GitHub Issues
 - **Skill directory:** `~/.claude/skills/user/session-memoria`
 
 ---
 
-## Licença
+## License
 
-MIT License - Sinta-se livre para usar e modificar.
+MIT License — Feel free to use and modify.
 
 ---
 
-**Criado por Xavier para Jimmy**
-**Data:** 2026-02-10
-**Versão:** 1.1.0
-**Última atualização:** 2026-02-11
+**Created by Xavier for Jimmy**
+**Date:** 2026-02-10
+**Version:** 1.2.0
+**Last updated:** 2026-02-19
