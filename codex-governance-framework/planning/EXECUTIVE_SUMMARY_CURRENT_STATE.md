@@ -8,7 +8,9 @@ Canonical HUB Compatibility Commit: e138718
 
 This document states the current institutional state of the Codex governance architecture after Phase 5 baseline completion.
 
-## What Has Been Built (Chronological)
+## What Has Been Built (Chronological Snapshot)
+
+Detailed timeline ownership remains in `../playbook/ROADMAP_CHRONOLOGICAL.md`.
 
 1. Phase 0: Skill contract standardization.
 2. Route A: Centralization of core skill authority in HUB.

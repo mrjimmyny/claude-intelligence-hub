@@ -1,4 +1,4 @@
-﻿---
+---
 name: codex-governance-orchestrator
 description: Deterministic documentation orchestrator for codex governance framework packaging, auditing, and extension planning. Use when asked to build or audit governance bundle documents, prepare phase-by-phase implementation playbooks, define CI-ready governance contracts, or summarize codex governance maturity and boundaries without changing runtime behavior.
 ---
@@ -64,10 +64,10 @@ Before any mutation action:
 - `./STEP_BY_STEP_IMPLEMENTATION_GUIDE.md`
 - `./GOVERNANCE_PRINCIPLES.md`
 - `./ARCHITECTURE_OVERVIEW.md`
-- `../_planning-implementation-bundle/EXECUTIVE_SUMMARY_CURRENT_STATE.md`
-- `../_planning-implementation-bundle/MATURITY_MAP_CORPORATE_COMPARISON.md`
-- `../_planning-implementation-bundle/IMPLEMENTATION_SCOPE_BOUNDARIES.md`
-- `../_next_steps/CONTRACT_v1.0.1_CI_READY_SCRIPT.md`
+- `../planning/EXECUTIVE_SUMMARY_CURRENT_STATE.md`
+- `../planning/MATURITY_MAP_CORPORATE_COMPARISON.md`
+- `../planning/IMPLEMENTATION_SCOPE_BOUNDARIES.md`
+- `../next-steps/CONTRACT_v1.0.1_CI_READY_SCRIPT.md`
 
 ## Guided Reimplementation Flow
 

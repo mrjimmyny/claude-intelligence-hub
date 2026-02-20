@@ -1,4 +1,7 @@
-﻿# Phase Summaries
+# Phase Summaries
+
+Scope note: this document is responsibility-oriented by phase and is not the primary timeline source.
+Chronological sequence ownership remains in `./ROADMAP_CHRONOLOGICAL.md`.
 
 ## Phase 0: Skill Contract Standardization
 

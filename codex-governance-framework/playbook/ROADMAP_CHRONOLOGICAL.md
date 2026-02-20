@@ -3,6 +3,9 @@
 ## Timeline Overview
 
 This roadmap follows the actual architecture evolution from Phase 0 to Phase 5.
+It is timeline-only by design.
+Per-phase objective/input/output ownership remains in `./PHASE_SUMMARIES.md`.
+Current-state executive posture remains in `../planning/EXECUTIVE_SUMMARY_CURRENT_STATE.md`.
 
 ### Phase 0: Skill Contract Standardization
 
