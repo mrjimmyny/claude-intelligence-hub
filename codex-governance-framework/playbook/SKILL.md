@@ -7,7 +7,8 @@ description: Deterministic documentation orchestrator for codex governance frame
 
 ## Purpose
 
-Provide a deterministic operator workflow for governance documentation packaging and governance-audit reporting.
+Provide a deterministic operator workflow for governance
+documentation packaging and governance-audit reporting.
 
 ## Trigger Phrases
 

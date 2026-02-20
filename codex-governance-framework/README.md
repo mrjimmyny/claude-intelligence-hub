@@ -13,7 +13,8 @@ changing runtime behavior by itself.
 - Baseline governance version: `v1.0.0`
 - HUB compatibility reference commit: `e138718`
 
-These references define the validated baseline used by this bundle.
+These references define the validated baseline used by this
+bundle.
 
 ## Relationship to codex-skill-adapter
 
@@ -45,7 +46,8 @@ These references define the validated baseline used by this bundle.
 
 - Phase 5 baseline is complete.
 - Phase 5.1 is deferred by governance decision.
-- Skill remains passive and not catalog-activated in this state.
+- Skill remains passive and not catalog-activated in this
+  state.
 
 ## Next Milestone
 
