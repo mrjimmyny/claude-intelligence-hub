@@ -1,4 +1,4 @@
-﻿---
+---
 name: token-economy
 version: 1.0.0
 description: Adapter skill exposing token governance rules from HUB sources.
