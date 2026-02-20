@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "catalog_version": "1.0.0",
+  "bootstrap_compatibility": {
+    "min_bootstrap_version": "1.0.0",
+    "max_bootstrap_version": "1.0.0"
+  },
+  "mode_policy": {
+    "on": "ENFORCE",
+    "off": "BYPASS",
+    "sync": "ENFORCE",
+    "audit": "ENFORCE",
+    "onboard": "ENFORCE"
+  }
+}
