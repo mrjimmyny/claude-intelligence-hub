@@ -2,9 +2,11 @@
 
 ## Purpose
 
-`codex-governance-framework` is the institutional documentation bundle for deterministic governance of the codex bootstrap architecture.
+`codex-governance-framework` is the institutional documentation bundle for
+deterministic governance of the codex bootstrap architecture.
 
-It defines structure, operating boundaries, and controlled next steps without changing runtime behavior by itself.
+It defines structure, operating boundaries, and controlled next steps without
+changing runtime behavior by itself.
 
 ## Baseline and Compatibility Reference
 
@@ -16,14 +18,17 @@ These references define the validated baseline used by this bundle.
 ## Relationship to codex-skill-adapter
 
 - `codex-skill-adapter` is the runtime and packaging execution surface.
-- This framework provides the governance contracts and operator guidance used to control that execution surface.
+- This framework provides the governance contracts and operator guidance used to
+  control that execution surface.
 - This bundle is documentation-governance, not runtime activation.
 
 ## Folder Map
 
 - `planning/`: institutional analysis and governance boundary documents.
-- `next-steps/`: deferred but contract-defined milestone documents (including the `v1.0.1` CI-ready contract).
-- `playbook/`: operator-facing execution references, phase summaries, architecture principles, and passive skill definition.
+- `next-steps/`: deferred but contract-defined milestone documents (including
+  the `v1.0.1` CI-ready contract).
+- `playbook/`: operator-facing execution references, phase summaries,
+  architecture principles, and passive skill definition.
 
 ## Recommended Reading Order
 
@@ -44,4 +49,6 @@ These references define the validated baseline used by this bundle.
 
 ## Next Milestone
 
-- `v1.0.1`: CI-ready governance check script contract implementation (`run-full-governance-check.ps1`) with deterministic output markers and stable exit semantics.
+- `v1.0.1`: CI-ready governance check script contract implementation
+  (`run-full-governance-check.ps1`) with deterministic output markers and
+  stable exit semantics.
