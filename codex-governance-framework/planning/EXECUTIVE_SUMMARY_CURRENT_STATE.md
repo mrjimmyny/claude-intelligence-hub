@@ -1,4 +1,4 @@
-﻿# Executive Summary: Current State
+# Executive Summary: Current State
 
 Date: 2026-02-20
 Baseline Release: v1.0.0

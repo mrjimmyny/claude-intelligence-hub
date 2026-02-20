@@ -1,4 +1,4 @@
-﻿# Governance Principles
+# Governance Principles
 
 ## Principle 1: Canonical Authority
 

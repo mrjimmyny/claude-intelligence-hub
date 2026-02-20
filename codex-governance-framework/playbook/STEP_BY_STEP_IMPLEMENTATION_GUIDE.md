@@ -1,4 +1,4 @@
-﻿# Step-by-Step Implementation Guide
+# Step-by-Step Implementation Guide
 
 ## Purpose
 

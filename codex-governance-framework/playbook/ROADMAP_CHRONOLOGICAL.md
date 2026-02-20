@@ -1,4 +1,4 @@
-﻿# Roadmap Chronological
+# Roadmap Chronological
 
 ## Timeline Overview
 

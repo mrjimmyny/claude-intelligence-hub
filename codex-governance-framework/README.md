@@ -21,14 +21,9 @@ These references define the validated baseline used by this bundle.
 
 ## Folder Map
 
-- `planning/`
-- Institutional analysis and governance boundary documents.
-
-- `next-steps/`
-- Deferred but contract-defined milestone documents (including the `v1.0.1` CI-ready contract).
-
-- `playbook/`
-- Operator-facing execution references, phase summaries, architecture principles, and passive skill definition.
+- `planning/`: institutional analysis and governance boundary documents.
+- `next-steps/`: deferred but contract-defined milestone documents (including the `v1.0.1` CI-ready contract).
+- `playbook/`: operator-facing execution references, phase summaries, architecture principles, and passive skill definition.
 
 ## Recommended Reading Order
 

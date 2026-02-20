@@ -1,4 +1,4 @@
-﻿# Codex Governance Framework Playbook
+# Codex Governance Framework Playbook
 
 ## Purpose
 

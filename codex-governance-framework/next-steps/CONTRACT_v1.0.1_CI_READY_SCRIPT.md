@@ -1,4 +1,4 @@
-﻿# Contract v1.0.1: CI-Ready Governance Check Script
+# Contract v1.0.1: CI-Ready Governance Check Script
 
 Date: 2026-02-20
 Target Version: v1.0.1

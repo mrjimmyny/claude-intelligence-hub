@@ -1,4 +1,4 @@
-﻿# Maturity Map: Corporate Comparison
+# Maturity Map: Corporate Comparison
 
 Date: 2026-02-20
 Model: Level 1 to Level 5 maturity

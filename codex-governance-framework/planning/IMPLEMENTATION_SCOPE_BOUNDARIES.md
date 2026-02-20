@@ -1,4 +1,4 @@
-﻿# Implementation Scope Boundaries
+# Implementation Scope Boundaries
 
 Date: 2026-02-20
 
