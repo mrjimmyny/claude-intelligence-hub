@@ -23,7 +23,8 @@ Trigger this skill when requests include phrases such as:
 
 ## Passive Status in This Phase
 
-This skill is passive documentation-orchestrator in the current phase.
+This skill is passive documentation-orchestrator in the current
+phase.
 
 - It is defined in this playbook folder.
 - It is not added to `core_catalog/core_catalog.json` in this phase.
@@ -44,7 +45,8 @@ Strict authority boundaries:
 - Will not perform runtime refactors automatically.
 - Will not alter bootstrap mode behavior.
 - Will not perform remote governance setup.
-- Will not modify root hub docs unless explicitly approved in mission scope.
+- Will not modify root hub docs unless explicitly approved in
+  mission scope.
 
 ## Safe Mode Guidance
 
@@ -91,6 +93,8 @@ Before any mutation action:
 When extending this bundle:
 
 1. Propose extension in a separate scoped mission.
-2. Separate documentation expansion from runtime activation changes.
-3. If catalog activation is requested, require dedicated governance review and regression gate.
+2. Separate documentation expansion from runtime activation
+   changes.
+3. If catalog activation is requested, require dedicated governance
+   review and regression gate.
 4. Keep deterministic output markers and measurable acceptance criteria.
