@@ -1,6 +1,6 @@
 ---
 name: codex-governance-orchestrator
-description: Deterministic documentation orchestrator for codex governance framework packaging, auditing, and extension planning. Use when asked to build or audit governance bundle documents, prepare phase-by-phase implementation playbooks, define CI-ready governance contracts, or summarize codex governance maturity and boundaries without changing runtime behavior.
+description: Deterministic documentation orchestrator for codex governance framework packaging, auditing, and extension planning.
 ---
 
 # Codex Governance Orchestrator
