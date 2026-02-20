@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "catalog_version": "1.0.0",
+  "core_skills": [
+    {
+      "name": "claude-session-registry",
+      "path": "claude-session-registry"
+    },
+    {
+      "name": "conversation-memoria",
+      "path": "conversation-memoria"
+    },
+    {
+      "name": "jimmy-core-preferences",
+      "path": "jimmy-core-preferences"
+    },
+    {
+      "name": "token-economy",
+      "path": "token-economy"
+    },
+    {
+      "name": "x-mem",
+      "path": "x-mem"
+    }
+  ]
+}
