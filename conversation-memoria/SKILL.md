@@ -1,3 +1,9 @@
+---
+name: conversation-memoria
+version: 1.0.0
+description: Persistent conversation memory storage and retrieval workflows.
+---
+
 # Conversation Memoria - Skill Documentation
 
 > Persistent conversation storage system for the ELITE LEAGUE (Xavier, Magneto, Ciclope, Emma, Jimmy)

@@ -1,3 +1,9 @@
+---
+name: jimmy-core-preferences
+version: 1.5.0
+description: Core operating preferences and collaboration rules.
+---
+
 # Jimmy Core Preferences - Master Skill
 
 **Version:** 1.5.0

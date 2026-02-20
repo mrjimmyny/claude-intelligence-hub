@@ -1,3 +1,9 @@
+---
+name: claude-session-registry
+version: 1.1.0
+description: Session registry workflows with git-aware tracking and close protocol.
+---
+
 # Claude Session Registry - Skill Workflows
 
 **Version:** 1.1.0
