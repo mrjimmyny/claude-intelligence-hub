@@ -1,3 +1,14 @@
+﻿---
+# 🚀 New Here?
+
+If you are new to this framework and want a simple,
+non-technical explanation of how everything works,
+start here:
+
+👉 See START_HERE.md
+
+---
+
 # Claude Intelligence Hub
 
 > 🧠 **Centralized intelligence system for Claude Code** - Master skills, knowledge management, and reusable patterns
