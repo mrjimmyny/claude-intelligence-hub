@@ -1,3 +1,13 @@
+﻿---
+# 🚀 New Here?
+
+If you are new to this framework and want a simple,
+non-technical explanation of how everything works,
+start here:
+
+👉 See [START_HERE.md](START_HERE.md)
+
+---
 # Codex Governance Framework
 
 ## Purpose
@@ -54,3 +64,4 @@ These references define the validated baseline used by this bundle.
 - `v1.0.1`: CI-ready governance check script contract implementation
   (`run-full-governance-check.ps1`) with deterministic output markers and
   stable exit semantics.
+
