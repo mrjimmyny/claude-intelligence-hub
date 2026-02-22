@@ -135,3 +135,28 @@ Step 3: Start the AOP Polling protocol. Check if the directory C:\ai\claude-inte
 Step 4: Once you physically detect that the directory is now correctly placed at the root, AND Magneto finishes its execution (meaning the git push is done), report SUCCESS to me.
 ```
 **Analysis:** This prompt is a prime example of using AOP for repository maintenance and enforcing architectural standards. It heavily relies on **Pillar 5 (Integrity Verification)** by checking the git log for the specific commit message, ensuring the task is not just done locally but integrated into the `main` branch. This confirms the loop is closed via VCS.
+
+---
+
+### Prompt 9: Advanced Hybrid AOP Workflow
+
+**Objective:** To execute an advanced hybrid AOP workflow, where the orchestrator acts as an initial worker, then delegates a sub-task to another agent (Codex/Emma), and finally polls git history to verify the delegated task's completion and commit.
+
+```prompt
+Forge, we are executing an advanced hybrid AOP workflow. You are the Orchestrator and the initial Worker (YOLO Mode).
+
+Phase 1: Forge's Hands-on Task
+Step 1: Read the source file containing our 8 successful prompts at C:\Workspaces\llms_projects\agent-orchestration-protocol\aop-worked-prompts.txt.
+Step 2: Read the target file C:\ai\claude-intelligence-hub\agent-orchestration-protocol\AOP_WORKED_EXAMPLES.md.
+Step 3: Update the AOP_WORKED_EXAMPLES.md file by intelligently integrating the 8 successful prompts from the .txt file into the markdown structure. Save the updated AOP_WORKED_EXAMPLES.md file.
+
+Phase 2: Delegation to Emma (Codex)
+Step 4: Open a powershell -NoProfile -Command terminal in HEADLESS mode.
+Step 5: Call Codex CLI using the exact AOP bypass protocol with the pipe injection for full permissions (Option 3):
+echo "3" | codex exec --dangerously-bypass-approvals-and-sandbox "Emma, you are taking over the AOP workflow in C:\ai\claude-intelligence-hub. FIRST: Review the file 'agent-orchestration-protocol/AOP_WORKED_EXAMPLES.md'. SECOND: Verify if ALL the content is in English. If any part is in Portuguese, you MUST translate it to English and save the file. THIRD: Once verified and 100% in English, commit the changes with a semantic message like 'docs(aop): update worked examples with 8 successful prompts and enforce english translation', and push directly to the 'main' branch. Do not wait for human confirmation. Job done."
+
+Phase 3: The AOP Polling
+Step 6: Start the AOP Polling protocol. Since Emma is updating an existing file and pushing, do NOT poll for file creation. Instead, poll the git history. Check git log -1 --pretty=%B in C:\ai\claude-intelligence-hub every 60 seconds.
+Step 7: Once you detect Emma's semantic commit message in the git log (meaning the push is successful), report SUCCESS to me.
+```
+**Analysis:** This is a meta-example that demonstrates the very workflow I am currently executing. It highlights the Orchestrator's capability to perform initial tasks directly and then seamlessly integrate with other Executor Agents, verifying the complete cycle through version control system polling. It effectively covers multiple AOP pillars, including direct work, delegation, and robust verification.
