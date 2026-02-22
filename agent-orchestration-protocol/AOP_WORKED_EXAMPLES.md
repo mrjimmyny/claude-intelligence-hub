@@ -93,3 +93,45 @@ Forge, execute the following document engineering operation with a focus on inte
 * If the timeout is reached or a CLI error occurs: Return 'STATUS: FAIL' with the terminal error log.
 ```
 **Analysis:** Considered the "gold standard" for AOP delegation. It explicitly and robustly covers **Pillars 1, 2, 3, 4, 5, and 6**.
+
+---
+
+### Prompt 7: Full Lifecycle Feature Delegation
+
+**Objective:** To orchestrate the creation of a new skill, including directory structure, documentation, and version control, by delegating a multi-step plan to another agent.
+
+```prompt
+Forge, we are executing Phase 1 of PLAN-AOP-CIH-V1.2. You are the Orchestrator (YOLO Mode).
+
+Step 1: Read the full PLAN-AOP-CIH-V1.2 document to understand the deliverables: C:\Workspaces\llms_projects\plan-aop-agent-orchestration-protocol_forge_v2.md.
+
+Step 2: Open a powershell -NoProfile -Command terminal in HEADLESS mode.
+
+Step 3: Call Claude CLI using this exact command to delegate Task 1.1 to 1.7 to Magneto:
+claude --dangerously-skip-permissions -p "Magneto, you are executing Phase 1 of PLAN-AOP-CIH-V1.2 in C:\ai\claude-intelligence-hub. FIRST: Verify if the local repository is synchronized with the remote (run git status and git pull). SECOND: Create the folder 'skills/agent-orchestration-protocol/'. THIRD: read C:\Workspaces\llms_projects\plan-aop-agent-orchestration-protocol_forge_v2.md and C:\Workspaces\llms_projects\AOP_WORKED_EXAMPLES.md. Translate the concepts into English and create the following files inside that folder: SKILL.md (with Security Boundaries), README.md (with Fallback & Recovery), and ROADMAP.md. Also, translate and save AOP_WORKED_EXAMPLES.md inside this new folder. FOURTH: You MUST commit all new files with a pertinent and professional commit message, and then push them directly to the 'main' branch. Do not wait for human confirmation. Report back when the push is successful."
+
+Step 4: Start the AOP Polling protocol. Check the target directory C:\ai\claude-intelligence-hub\skills\agent-orchestration-protocol\ every 60 seconds.
+
+Step 5: Once you physically detect that SKILL.md and README.md have been created, AND Magneto finishes its execution (meaning the git push is done), report SUCCESS to me. Provide a brief summary of the commit if possible.
+```
+**Analysis:** This prompt demonstrates a full lifecycle delegation for a feature. It combines **Pillar 2 (Absolute Referencing)** for source documents, **Pillar 4 (Active Vigilance/Polling)** to check for artifacts, and **Pillar 6 (Reliable Closeout)** by verifying the final git push. It's a complex, real-world project execution command.
+
+---
+
+### Prompt 8: VCS-Verified Structural Fix
+
+**Objective:** To execute a structural repository fix by delegating directory move and deletion operations to an executor agent and verifying completion via version control.
+
+```prompt
+Forge, we are executing a structural fix using the AOP framework. You are the Orchestrator (YOLO Mode).
+
+Step 1: Open a powershell -NoProfile -Command terminal in HEADLESS mode.
+
+Step 2: Call Claude CLI using this exact command to delegate the fix to Magneto:
+claude --dangerously-skip-permissions -p "Magneto, we have a structural issue in the repository at C:\ai\claude-intelligence-hub. You previously created a nested folder 'skills/agent-orchestration-protocol/', but our standard is to place skills directly in the root directory. FIRST: Move the folder 'agent-orchestration-protocol' to the root of the repository. SECOND: Delete the now-empty 'skills' directory. THIRD: Commit these structural changes with a semantic message like 'fix(skills): move agent-orchestration-protocol to repo root to match architecture standard', and push the changes directly to the 'main' branch. Do not wait for human confirmation. Report back when the push is successful."
+
+Step 3: Start the AOP Polling protocol. Check if the directory C:\ai\claude-intelligence-hub\agent-orchestration-protocol\ exists in the root every 60 seconds.
+
+Step 4: Once you physically detect that the directory is now correctly placed at the root, AND Magneto finishes its execution (meaning the git push is done), report SUCCESS to me.
+```
+**Analysis:** This prompt is a prime example of using AOP for repository maintenance and enforcing architectural standards. It heavily relies on **Pillar 5 (Integrity Verification)** by checking the git log for the specific commit message, ensuring the task is not just done locally but integrated into the `main` branch. This confirms the loop is closed via VCS.
