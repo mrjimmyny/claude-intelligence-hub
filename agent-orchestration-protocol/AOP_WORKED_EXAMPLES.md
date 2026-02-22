@@ -90,7 +90,7 @@ Forge, execute the following document engineering operation with a focus on inte
 * If the file is detected and validated, perform a quick `read_file` to confirm content integrity.
 5- Cycle Completion:
 * If the file is generated successfully: Return 'STATUS: SUCCESS' and a brief summary of the critical sections added.
-* If the timeout is reached or a CLI error occurs: Return 'STATUS: FAIL' with the terminal error log.
+* If the timeout is reached or an error occurs in the CLI: Return 'STATUS: FAIL' with the terminal error log.
 ```
 **Analysis:** Considered the "gold standard" for AOP delegation. It explicitly and robustly covers **Pillars 1, 2, 3, 4, 5, and 6**.
 
@@ -160,3 +160,23 @@ Step 6: Start the AOP Polling protocol. Since Emma is updating an existing file 
 Step 7: Once you detect Emma's semantic commit message in the git log (meaning the push is successful), report SUCCESS to me.
 ```
 **Analysis:** This is a meta-example that demonstrates the very workflow I am currently executing. It highlights the Orchestrator's capability to perform initial tasks directly and then seamlessly integrate with other Executor Agents, verifying the complete cycle through version control system polling. It effectively covers multiple AOP pillars, including direct work, delegation, and robust verification.
+
+---
+
+### Prompt 10: Executive Content Generation Workflow
+
+**Objective:** To orchestrate a content generation workflow where an Executor Agent (Magneto) autonomously searches for a specific skill directory, analyzes its `README.md`, and then generates a human-friendly executive summary (`AOP-EXECUTIVE-SUMMARY.md`) in the same directory, specifically structured for ingestion by NotebookLM for further content creation. The Orchestrator verifies completion by polling the git history for Magneto's semantic commit.
+
+```prompt
+Forge, we are executing an Executive Content Generation workflow using AOP. You are the Orchestrator (YOLO Mode).
+
+Step 1: Open a powershell -NoProfile -Command terminal in HEADLESS mode.
+
+Step 2: Call Claude CLI using the exact AOP bypass protocol:
+claude --dangerously-skip-permissions -p "Magneto, you have a content analysis mission in the local repository at C:\ai\claude-intelligence-hub. FIRST: Run a git pull to ensure you are synced. SECOND: Do not assume the exact path. Autonomously search the repository to locate the skill directory named 'agent-orchestration-protocol'. THIRD: Once located, read and critically analyze its 'README.md' file. FOURTH: Based strictly on that README, generate a new file called 'AOP-EXECUTIVE-SUMMARY.md' and save it in the exact same directory (alongside the README). The content MUST transform the technical jargon into a highly accessible, human-friendly, and engaging executive summary. Structure it specifically so it can be ingested by NotebookLM later to create infographics, slide decks, and audio/video content (use clear analogies, high-level benefits, bullet points, and a visionary tone). FIFTH: Commit this new file with a semantic message like 'docs(aop): add human-friendly executive summary for NotebookLM' and push it directly to the 'main' branch. Do not wait for human confirmation."
+
+Step 3: Start the AOP Polling protocol. Since Magneto has to search for the directory autonomously, you will poll the git history instead of a hardcoded file path to avoid path mismatch errors. Check git log -1 --pretty=%B in C:\ai\claude-intelligence-hub every 60 seconds.
+
+Step 4: Once you detect Magneto's semantic commit message in the git log (meaning the file was created and the push is successful), report SUCCESS to me.
+```
+**Analysis:** This prompt exemplifies advanced AOP capabilities by requiring the Executor Agent to perform an autonomous search for a target directory (`Autonomously search... to locate the skill directory`), rather than relying on a hardcoded path. It leverages **Pillar 2 (Absolute Referencing)** with intelligent discovery, **Pillar 4 (Active Vigilance/Polling)** for completion verification via git history, and demonstrates content transformation and generation suitable for downstream AI tools. This highlights the flexibility and intelligence required from Executor Agents in an AOP framework.
