@@ -1,4 +1,4 @@
-﻿# Claude Intelligence Hub
+# Claude Intelligence Hub
 
 > 🧠 **Centralized intelligence system for Claude Code** - Master skills, knowledge management, and reusable patterns
 
@@ -19,12 +19,12 @@ A comprehensive repository of Claude Code skills, knowledge systems, and automat
 
 The **Claude Intelligence Hub** is a centralized system that:
 
-- ✅ **Eliminates repetition** - Define preferences once, use everywhere
+- ✅ **Eliminates repetition** - Define preferences once, use everywhere        
 - ✅ **Maintains consistency** - Same AI behavior across all projects
-- ✅ **Enables learning** - AI remembers and evolves with your working style
+- ✅ **Enables learning** - AI remembers and evolves with your working style    
 - ✅ **Preserves knowledge** - Conversations become permanent, searchable memory
 - ✅ **Maximizes efficiency** - Reusable skills save 50-97% tokens
-- ✅ **Ensures continuity** - Perfect sync across devices (Mobile + Desktop)
+- ✅ **Ensures continuity** - Perfect sync across devices (Mobile + Desktop)    
 
 **Think of it as:** Claude's permanent memory, personality layer, and skill library - all in one Git-backed system.
 
@@ -49,26 +49,20 @@ This hub represents **9 production-ready skills, 280KB of documentation, 160 aut
 
 \*Same quality means equivalent production-grade output with 99% test pass rate, comprehensive documentation, and full CI/CD coverage — achieved in 92–94% less time.
 
-### What Got Built in 17 Days
+### The Elite League: Agents & Models
 
-- ✅ **11 Production Skills** — jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills, xavier-memory, xavier-memory-sync, context-guardian, repo-auditor
-- ✅ **Complete Documentation** — ~280KB across README, executive summaries, changelogs, governance docs
-- ✅ **Automated Testing** — 160 tests with 99% pass rate (158/160)
-- ✅ **CI/CD Pipeline** — 5-job GitHub Actions with 6 integrity checks
-- ✅ **Deployment Automation** — 15-minute setup scripts (Windows/macOS/Linux)
-- ✅ **Cross-Platform Support** — Full Windows/macOS/Linux compatibility
+This project is maintained by a multi-agent team, where each agent is powered by a specific Large Language Model to leverage its unique strengths.
 
-### The AI Team
+| Agent Name | Alias | Underlying Model | Role |
+| :--- | :--- | :--- | :--- |
+| **Jimmy** | N/A | Human | Architect & Product Owner |
+| **Forge** | Gemini Pro | Google Gemini | Sr. Software Engineer & Tooling |
+| **Xavier** | Claude | Anthropic Claude | Lead Developer |
+| **Magneto** | Claude | Anthropic Claude | Sr. Developer & QA |
+| **Emma** | Codex | OpenAI Codex/o1 | Strategic Advisor |
+| **Ciclope** | Abacus | Abacus.AI | Specialist & Strategist |
 
-This wasn't built by AI alone — it was built by **human expertise amplified by AI**:
-
-- **Jimmy** — Architect & Product Owner (human expertise, final decisions)
-- **Xavier** (Claude Sonnet 4.5) — Lead Developer
-- **Magneto** (Claude Sonnet 4.5) — Secondary Developer & QA
-- **Ciclope** (Claude Sonnet 4.5) — Specialist Support
-- **Emma** (OpenAI o1) — Strategic Advisor
-
-**Key Insight:** AI didn't replace expertise — it **accelerated execution** while maintaining quality.
+This structure allows for a robust, multi-faceted approach to development, combining different AI architectures for optimal results.
 
 ### Why This Matters
 
@@ -79,7 +73,7 @@ Traditional development wisdom says "you can't have fast, cheap, and good — pi
 - ✅ **Cheap** — $5k–$10k vs $230k–$500k
 - ✅ **Good** — 99% test pass rate, production-grade quality
 
-📄 **Read the full analysis:** [DEVELOPMENT_IMPACT_ANALYSIS.md](./DEVELOPMENT_IMPACT_ANALYSIS.md)
+📄 **Read the full analysis:** [DEVELOPMENT_IMPACT_ANALYSIS.md](./DEVELOPMENT_IMMPACT_ANALYSIS.md)
 
 ---
 
@@ -87,10 +81,10 @@ Traditional development wisdom says "you can't have fast, cheap, and good — pi
 
 **The Claude Intelligence Hub is now production-ready with enterprise-grade deployment automation:**
 
-- 🚀 **15-Minute Setup** - Automated scripts for Windows, macOS, and Linux (88% time reduction)
-- 🔒 **Zero-Breach CI/CD** - 5-job enforcement pipeline with version sync validation
-- 📚 **Comprehensive Docs** - HANDOVER_GUIDE.md, PROJECT_FINAL_REPORT.md, GOLDEN_CLOSE_CHECKLIST.md
-- ✅ **6 Integrity Checks** - Automated governance (orphaned dirs, ghost skills, version drift, etc.)
+- 🚀 **15-Minute Setup** - Automated scripts for Windows, macOS, and Linux (88%  time reduction)
+- 🔒 **Zero-Breach CI/CD** - 5-job enforcement pipeline with version sync validaation
+- 📚 **Comprehensive Docs** - HANDOVER_GUIDE.md, PROJECT_FINAL_REPORT.md, GOLDENN_CLOSE_CHECKLIST.md
+- ✅ **6 Integrity Checks** - Automated governance (orphaned dirs, ghost skills,, version drift, etc.)
 - 💰 **ROI Proven** - $3,700-$7,200/year value, < 1 week payback period
 
 **Fresh machine deployment:**
@@ -144,17 +138,17 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 
 | Collection | Version | Status | Description | Key Features |
 |------------|---------|--------|-------------|--------------|
-| **[jimmy-core-preferences](jimmy-core-preferences/)** | v1.5.0 | ✅ Production | Master intelligence framework | Radical honesty, self-learning, context management, identity (Xavier + Jimmy). See [HUB_MAP.md](HUB_MAP.md) for triggers. |
-| **[session-memoria](session-memoria/)** | v1.2.0 | ✅ Production | Knowledge management system | 100% conversation retention, triple-index search, lifecycle tracking, Git-synced. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
-| **[gdrive-sync-memoria](gdrive-sync-memoria/)** | v1.0.0 | ✅ Production | Google Drive integration | ChatLLM Teams sync, auto-import to session-memoria, zero-friction automation. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
-| **[claude-session-registry](claude-session-registry/)** | v1.1.0 | ✅ Production | Session tracking & backup | Resume ID tracking, Git context, Golden Close protocol, **automatic backup to GitHub**. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
-| **[pbi-claude-skills](pbi-claude-skills/)** | v1.3.0 | ✅ Production | Power BI PBIP optimization | 50-97% token savings, 5 specialized skills, auto-indexing. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
-| **[x-mem](x-mem/)** | v1.0.0 | ✅ Production | Self-learning protocol | Failure/success capture, proactive recall, NDJSON storage, 15K token budget. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
-| **[xavier-memory](xavier-memory/)** | v1.0.0 | ✅ Production | Global memory infrastructure | Master MEMORY.md, cross-project sync, 3-layer backup (Git/Hard links/GDrive). Foundation for X-MEM protocol. |
-| **[xavier-memory-sync](xavier-memory-sync/)** | v1.0.0 | ✅ Production | Memory sync automation | Trigger phrases for backup/restore/status, Google Drive integration, zero-duplicate guarantee. |
-| **[context-guardian](context-guardian/)** | v1.0.0 | ✅ Production | Context preservation system | Xavier ↔ Magneto account switching, 3-strategy symlinks, rollback protection, .contextignore support, dry-run mode. |
-| **[repo-auditor](repo-auditor/)** | v1.0.0 | ✅ Production | End-to-end audit skill | Mandatory proof-of-read fingerprinting, accumulative AUDIT_TRAIL.md, adversarial spot-checks, validate-trail.sh for CI. |
-| **[conversation-memoria](conversation-memoria/)** | v1.0.0 | ✅ Production | Persistent conversation storage | Intelligent metadata extraction, 95-98% token savings, week-based organization, natural language triggers, cross-agent memory sharing. |
+| **[jimmy-core-preferences](jimmy-core-preferences/)** | v1.5.0 | ✅ Productionn | Master intelligence framework | Radiccal honesty, self-learning, context management, identity (Xavier + Jimmy). See [HUB_MAP.md](HUB_MAP.md) for triggers. |  
+| **[session-memoria](session-memoria/)** | v1.2.0 | ✅ Production | Knowledge mmanagement system | 100% conversation rettention, triple-index search, lifecycle tracking, Git-synced. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
+| **[gdrive-sync-memoria](gdrive-sync-memoria/)** | v1.0.0 | ✅ Production | Gooogle Drive integration | ChatLLM Teams syync, auto-import to session-memoria, zero-friction automation. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
+| **[claude-session-registry](claude-session-registry/)** | v1.1.0 | ✅ Productiion | Session tracking & backup | Resume  ID tracking, Git context, Golden Close protocol, **automatic backup to GitHub**. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
+| **[pbi-claude-skills](pbi-claude-skills/)** | v1.3.0 | ✅ Production | Power BBI PBIP optimization | 50-97% token savinngs, 5 specialized skills, auto-indexing. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
+| **[x-mem](x-mem/)** | v1.0.0 | ✅ Production | Self-learning protocol | Failurre/success capture, proactive recall, NDJJSON storage, 15K token budget. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
+| **[xavier-memory](xavier-memory/)** | v1.0.0 | ✅ Production | Global memory iinfrastructure | Master MEMORY.md, cross--project sync, 3-layer backup (Git/Hard links/GDrive). Foundation for X-MEM protocol. |
+| **[xavier-memory-sync](xavier-memory-sync/)** | v1.0.0 | ✅ Production | Memorry sync automation | Trigger phrases for  backup/restore/status, Google Drive integration, zero-duplicate guarantee. |
+| **[context-guardian](context-guardian/)** | v1.0.0 | ✅ Production | Context ppreservation system | Xavier ↔ Magneto acccount switching, 3-strategy symlinks, rollback protection, .contextignore support, dry-run mode. |
+| **[repo-auditor](repo-auditor/)** | v1.0.0 | ✅ Production | End-to-end audit  skill | Mandatory proof-of-read fingerprrinting, accumulative AUDIT_TRAIL.md, validate-trail.sh for CI. |
+| **[conversation-memoria](conversation-memoria/)** | v1.0.0 | ✅ Production | PPersistent conversation storage | Intelliigent metadata extraction, 95-98% token savings, week-based organization, natural language triggers, cross-agent memory sharing. |
 
 ---
 
@@ -180,7 +174,7 @@ For complete trigger list and routing patterns, see **[HUB_MAP.md](HUB_MAP.md)**
 
 ## ⚡ Quick Start (15-Minute Setup)
 
-> **✨ New:** Automated setup scripts for fresh machine deployment! See [HANDOVER_GUIDE.md](docs/HANDOVER_GUIDE.md) for detailed instructions.
+> **✨ New:** Automated setup scripts for fresh machine deployment! See [HANDOVEER_GUIDE.md](docs/HANDOVER_GUIDE.md) for  detailed instructions.
 
 ### Option A: Automated Setup (Recommended)
 
@@ -197,7 +191,7 @@ cd claude-intelligence-hub
 .\scripts\setup_local_env.ps1 -Force
 ```
 
-**macOS/Linux (Bash):**
+**macOS/Linux (Bash):
 ```bash
 # Clone the hub
 git clone https://github.com/mrjimmyny/claude-intelligence-hub.git
@@ -214,7 +208,7 @@ bash scripts/setup_local_env.sh --force
 ```
 
 **What it does:**
-- ✅ Auto-installs 11 production skills (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria)
+- ✅ Auto-installs 11 production skills (jimmy-core-preferences, session-memoriaa, gdrive-sync-memoria, claude-session-reegistry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria)
 - ✅ Creates junctions/symlinks (auto-sync with Git)
 - ✅ Validates installation with integrity checks
 - ✅ Takes ~15 minutes from zero to production
@@ -225,7 +219,7 @@ bash scripts/setup_local_env.sh --force
 
 ### Option B: Manual Setup (Advanced Users)
 
-> **⚠️ Windows Users**: See [WINDOWS_JUNCTION_SETUP.md](WINDOWS_JUNCTION_SETUP.md) for junction point setup (required for auto-sync)
+> **⚠️ Windows Users**: See [WINDOWS_JUNCTION_SETUP.md](WINDOWS_JUNCTION_SETUP.mmd) for junction point setup (required foor auto-sync)
 
 #### 1. Clone the Hub
 
@@ -324,10 +318,10 @@ Stats: /session-memoria stats
 ```powershell
 # Windows (PowerShell)
 cd claude-intelligence-hub\pbi-claude-skills
-.\scripts\setup_new_project.ps1 -ProjectPath "C:\path\to\your\pbi\project"
+.\scripts\setup_new_project.ps1 -ProjectPath "C:\path	o\your\pbi\project"      
 
 # Verify
-cd C:\path\to\your\pbi\project
+cd C:\path	o\your\pbi\project
 claude
 /pbi-discover
 ```
@@ -336,7 +330,7 @@ claude
 - [Power BI Skills Guide](pbi-claude-skills/README.md)
 - [Installation Guide](pbi-claude-skills/docs/INSTALLATION.md)
 - [Configuration Reference](pbi-claude-skills/docs/CONFIGURATION.md)
-- Executive Summary: See Downloads folder (EXECUTIVE_SUMMARY_PBI_SKILLS.md)
+- Executive Summary: See Downloads folder (EXECUTIVE_SUMMARY_PBI_SKILLS.md)     
 
 </details>
 
@@ -348,14 +342,14 @@ claude
 claude-intelligence-hub/
 │
 ├── 📁 jimmy-core-preferences/       # ⭐ Master Skill (v1.5.0)
-│   ├── SKILL.md                     # Universal AI behavior rules (15KB)
-│   ├── EXECUTIVE_SUMMARY.md         # 49KB comprehensive doc
+│   ├── SKILL.md                     # Universal AI behavior rules (15KB)       
+│   ├── EXECUTIVE_SUMMARY.MD         # 49KB comprehensive doc
 │   ├── CHANGELOG.md                 # v1.0 → v1.5 evolution
 │   └── README.md                    # User guide
 │
 ├── 📁 session-memoria/              # ⭐ Knowledge System (v1.2.0)
 │   ├── SKILL.md                     # Capture/recall workflows (22KB)
-│   ├── EXECUTIVE_SUMMARY.md         # 39KB comprehensive doc
+│   ├── EXECUTIVE_SUMMARY.MD         # 39KB comprehensive doc
 │   ├── knowledge/                   # Storage
 │   │   ├── entries/                 # 8 entries (YYYY/MM structure)
 │   │   ├── index/                   # Triple-index (date/category/tag)
@@ -363,7 +357,7 @@ claude-intelligence-hub/
 │   ├── templates/                   # Entry templates
 │   └── README.md                    # User guide
 │
-├── 📁 gdrive-sync-memoria/          # ⭐ Google Drive Integration (v1.0.0)
+├── 📁 gdrive-sync-memoria/          # ⭐ Google Drive Integration (v1.0.0)     
 │   ├── SKILL.md                     # 8-step sync workflow (21KB)
 │   ├── README.md                    # User guide (12KB)
 │   ├── QUICK_REFERENCE.md           # Quick ref & troubleshooting
@@ -413,15 +407,15 @@ claude-intelligence-hub/
 ├── 📁 context-guardian/             # ⭐ Context Preservation System (v1.0.0)
 │   ├── SKILL.md                     # Complete workflows and troubleshooting (~600 lines)
 │   ├── README.md                    # Architecture overview
-│   ├── GOVERNANCE.md                # Backup policies, retention, safety rules
+│   ├── GOVERNANCE.md                # Backup policies, retention, safety rules 
 │   ├── scripts/                     # 6 backup/restore/verify scripts
 │   ├── templates/                   # Config metadata schema templates
 │   └── docs/                        # Phase 0 discovery report
 │
-├── 📁 repo-auditor/                 # ⭐ End-to-End Audit Skill (v1.0.0)
+├── 📁 repo-auditor/                 # ⭐ End-to-End Audit Skill (v1.0.0)       
 │   ├── SKILL.md                     # Audit workflows & proof-of-read fingerprinting
 │   ├── AUDIT_TRAIL.md               # Accumulative audit log (append-only)
-│   └── scripts/                     # validate-trail.sh for CI enforcement
+│   └── scripts/                     # validate-trail.sh for CI enforcement     
 │
 ├── 📁 token-economy/                # 📊 Token Budget Governance (v1.0.0)
 │   ├── README.md                    # Budget discipline rules & overview
@@ -439,7 +433,7 @@ claude-intelligence-hub/
 ├── scripts/                         # Automation & deployment scripts
 │   ├── setup_local_env.ps1          # Windows automated setup (15-min)
 │   ├── setup_local_env.sh           # Unix/macOS automated setup (15-min)
-│   ├── integrity-check.sh           # Hub validation (6 governance checks)
+│   ├── integrity-check.sh           # Hub validation (6 governance checks)     
 │   ├── sync-versions.sh             # Version synchronization
 │   └── update-skill.sh              # Skill versioning automation
 ├── .github/workflows/               # CI/CD automation (Zero-Breach policy)
@@ -459,7 +453,7 @@ claude-intelligence-hub/
 
 **Core Principles:**
 - ✅ **Radical Honesty** - AI challenges bad ideas professionally
-- ✅ **Proactive Intelligence** - Suggests improvements without prompting
+- ✅ **Proactive Intelligence** - Suggests improvements without prompting       
 - ✅ **Context Awareness** - Alerts at 70%/85%/95% capacity
 
 **Self-Learning System:**
@@ -519,7 +513,7 @@ claude-intelligence-hub/
 **Skills:**
 1. **pbi-query-structure** - Instant structure queries (85-97% token savings)
 2. **pbi-discover** - Ultra-fast discovery (50-70% savings)
-3. **pbi-add-measure** - Add DAX measures with validation (27-50% savings)
+3. **pbi-add-measure** - Add DAX measures with validation (27-50% savings)      
 4. **pbi-index-update** - Regenerate index automatically (60-80% savings)
 5. **pbi-context-check** - Monitor context & create snapshots
 
@@ -535,7 +529,7 @@ claude-intelligence-hub/
 - 100% success rate (20/20 tests)
 - 1 project migrated (8 more planned)
 
-[📄 Executive Summary in Downloads](../Downloads/EXECUTIVE_SUMMARY_PBI_SKILLS.md)
+[📄 Executive Summary in Downloads](../Downloads/EXECUTIVE_SUMMARY_PBI_SKILLS.mdd)
 
 ---
 
@@ -586,16 +580,16 @@ git pull origin main
 | **Total Documentation** | ~280KB (executive summaries, guides, changelogs, handover docs) |
 | **Version History** | 30+ commits (tracked in CHANGELOG.md) |
 | **Setup Time** | 15 minutes (Windows/macOS/Linux automated deployment) |
-| **CI/CD Coverage** | 6 integrity checks + 5-job enforcement pipeline |
+| **CI/CD Coverage** | 6 integrity checks + 5-job enforcement pipeline |        
 | **Session Memoria Entries** | 11 entries (~56KB knowledge base) |
 | **Token Savings (Power BI)** | 50-97% per operation |
-| **Time Savings (Deployment)** | 88% reduction (2-4 hours → 15 minutes) |
+| **Time Savings (Deployment)** | 88% reduction (2-4 hours → 15 minutes) |      
 | **Annual ROI** | $3,700-$7,200/year (< 1 week payback) |
 | **Test Success Rate** | 99% (158/160 total tests) |
 
 ### Skills by Status
 
-- ✅ **Production Ready:** 10 (jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills, xavier-memory, xavier-memory-sync, context-guardian, repo-auditor)
+- ✅ **Production Ready:** 10 (jimmy-core-preferences, session-memoria, x-mem, ggdrive-sync-memoria, claude-session-regisstry, pbi-claude-skills, xavier-memory, xavier-memory-sync, context-guardian, repo-auditor)
 - 📊 **Governance Modules:** 1 (token-economy)
 - 🚧 **In Development:** 0
 - 📋 **Planned:** 2 (python-claude-skills, git-claude-skills)
@@ -608,7 +602,7 @@ git pull origin main
 
 - [Jimmy Core Preferences](jimmy-core-preferences/)
   - [User Guide](jimmy-core-preferences/README.md)
-  - [Executive Summary](jimmy-core-preferences/EXECUTIVE_SUMMARY.md) (49KB)
+  - [Executive Summary](jimmy-core-preferences/EXECUTIVE_SUMMARY.md) (49KB)     
   - [Setup Guide](jimmy-core-preferences/SETUP_GUIDE.md)
   - [Changelog](jimmy-core-preferences/CHANGELOG.md)
 
@@ -719,8 +713,8 @@ Contributions are welcome! This is a public repository designed to help the Clau
 ### ✅ Completed (Modules 1-4)
 
 - ✅ **v1.0-1.7.0** - Foundation & Memory Systems (Modules 1-2)
-- ✅ **v1.8.0** - Advanced Governance (Module 3: X-MEM, Token Economy, 6 integrity checks)
-- ✅ **v1.9.0** - Deployment & CI/CD (Module 4: 15-min setup, 5-job pipeline, comprehensive docs)
+- ✅ **v1.8.0** - Advanced Governance (Module 3: X-MEM, Token Economy, 6 integriity checks)
+- ✅ **v1.9.0** - Deployment & CI/CD (Module 4: 15-min setup, 5-job pipeline, coomprehensive docs)
 - ✅ **v2.0.0** - Enterprise-Ready Production System (**ZERO TO HERO COMPLETE**)
 
 ### Future Enhancements (Post-v2.0.0)
@@ -799,9 +793,9 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 
 ### Major Milestones
 
-- **v1.0.0** (2026-02-08): Module 1 - Foundation (Power BI skills, GitHub Hub created)
+- **v1.0.0** (2026-02-08): Module 1 - Foundation & Memory Systems (Power BI skills, GitHub Hub created)
 - **v1.1.0** (2026-02-10): jimmy-core-preferences added
-- **v1.2.0** (2026-02-10): Session-memoria v1.0.0 - knowledge management
+- **v1.2.0** (2026-02-10): Session-memoria v1.0.0 - knowledge management        
 - **v1.3.0** (2026-02-10): Session-memoria v1.1.0 - lifecycle tracking
 - **v1.4.0** (2026-02-10): Critical git strategy - data loss prevention
 - **v1.5.0** (2026-02-11): Google Drive sync + token monitoring
