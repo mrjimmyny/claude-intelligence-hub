@@ -225,3 +225,40 @@ This section documents a real-world orchestration failure and the recovery steps
 -   For simple, repetitive polling, prefer a **boolean check** over requesting raw data to avoid conversational drift from sub-agents.
 -   If a polling agent becomes unresponsive or "stale," instantiate a new one with a different persona name (e.e., `Forge C` -> `Forge D`) to ensure a clean execution context.
 
+---
+
+Markdown
+Prompt 12: Hybrid AOP Workflow & Autonomous Sub-Agent Spawning
+**Summary & Key Learning:** This prompt demonstrates advanced Orchestrator resilience. During execution, if the Orchestrator (Forge A) hits a workspace directory boundary (e.g., cannot directly access `C:\ai\claude-intelligence-hub` to read a git log), it autonomously adapts by spawning a temporary proxy sub-agent ("Forge C") with the correct `--include-directories` flag solely to perform the polling task. This proves the AOP framework supports dynamic sub-agent routing to bypass host-machine path restrictions.
+The Prompt:
+Forge, we are executing an advanced hybrid AOP workflow to document Forge-to-Forge orchestration. Please proceed as follows.
+
+** Phase 1: Preparation
+Step 1: Create a temporary file at C:\ai	emp
+ew_aop_prompts.txt (create the directory if it doesn't exist). Write the exact following content into this file:
+
+Forge-to-Forge Basic Execution (Using --approval-mode yolo)
+Forge, please execute as follows:
+Step 1: Open a powershell -NoProfile -Command terminal in HEADLESS mode;
+Step 2: Execute powershell comand 'cd C:\Workspaces\llms_projects';
+Step 3: Call gemini CLI using the command: gemini --approval-mode yolo and aks gemini this way 'Forge, create a folder at C:\Workspaces\llms_projects called _temp and inside this folder create a file called forge_file_creation_test.md with content "This is a simple test requested by Jimmy"';
+Step 4: Monitoring and Validation Protocol (Polling):
+
+Implement a verification loop (polling) of up to 10 minutes.
+
+Every 60 seconds, check for the existence of file creation and validate that the file is not empty;
+
+If the file is detected and validated, perform a quick read_file to confirm content integrity;
+Step 5: Once you see file was created and validated, report SUCCESS to me. Provide a brief summary of the commit if possible.
+
+** Phase 2: Job Delegation
+Step 2: Open a powershell -NoProfile -Command terminal in HEADLESS mode.
+Step 3: Call another Agent, using the Gemini CLI. Execute exactly this command:
+gemini -y --include-directories "C:\ai\claude-intelligence-hub" -p "Forge B, you have a documentation mission in the local repository at C:\ai\claude-intelligence-hub. FIRST: Run a git pull to sync. SECOND: Read the file 'C:\ai	emp
+ew_aop_prompts.txt'. THIRD: Locate the file 'agent-orchestration-protocol/AOP_WORKED_EXAMPLES.md' and intelligently append the contents of the temp file to the end of it. FOURTH: Commit the changes with the semantic message 'docs(aop): add Forge-to-Forge orchestration examples (Prompts 11 and 12)' and push directly to the 'main' branch. Do not wait for human confirmation."
+
+** Phase 3: The AOP Polling & Cleanup
+Step 4: Start the AOP Polling protocol. Check git log -1 --pretty=%B in C:\ai\claude-intelligence-hub every 60 seconds.
+Step 5: Once you detect Forge B's semantic commit message in the git log, report SUCCESS to me.
+Step 6: Clean up your workspace by deleting the temporary file C:\ai	emp
+ew_aop_prompts.txt.
