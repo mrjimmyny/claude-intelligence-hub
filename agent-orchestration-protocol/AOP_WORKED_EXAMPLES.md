@@ -200,3 +200,28 @@ Step 5: Once you see file was created and validated, report SUCCESS to me. Provi
 ```
 **Analysis:** This prompt tests a direct, non-interactive delegation between two instances of the same agent (Forge). The use of `gemini --approval-mode yolo` is a critical part of the test, ensuring that the Executor Forge can operate without human intervention for a predefined, safe task. It's a foundational test for building more complex, nested agent workflows.
 
+## Troubleshooting & Debugging: A Case Study
+
+This section documents a real-world orchestration failure and the recovery steps taken. It serves as a valuable guide for debugging AOP workflows.
+
+### Case: Failure in Delegated Task Execution
+
+- **Orchestrator:** Forge (Gemini)
+- **Executor:** Magneto (Claude)
+- **Mission:** Update AOP documentation with new examples.
+- **Outcome:** **FAILURE** (Executor task timed out).
+
+### Execution Analysis
+
+1.  **Delegation (Success):** The Orchestrator successfully used a nested command (`gemini` calling `claude`) to delegate the task, following the documented protocol.
+2.  **Monitoring (Initial Instability):** The Orchestrator's initial polling mechanism, which asked a sub-agent to return the raw output of `git log`, proved unstable. The polling sub-agents (`Forge C`, `Forge D`) began returning conversational, empty, or cached responses instead of the fresh command output.
+3.  **Recovery - Polling Strategy (Success):** The Orchestrator adapted by switching to a **boolean polling strategy**.
+    -   **New Prompt:** `"Check the latest commit message. Return ONLY 'YES' if the message is '...', otherwise return ONLY 'NO'."`
+    -   **Result:** This method proved highly reliable and is now the recommended best practice for polling.
+4.  **Monitoring - Executor Timeout (Root Cause):** Using the stable boolean poll, the Orchestrator monitored the task for over 5 minutes. The poll consistently returned `NO`. The root cause of the mission failure was identified: the Executor Agent (Magneto/Claude) never completed its assigned task and never produced the expected git commit.
+
+### Key Takeaways for Future Orchestration
+
+-   For simple, repetitive polling, prefer a **boolean check** over requesting raw data to avoid conversational drift from sub-agents.
+-   If a polling agent becomes unresponsive or "stale," instantiate a new one with a different persona name (e.e., `Forge C` -> `Forge D`) to ensure a clean execution context.
+

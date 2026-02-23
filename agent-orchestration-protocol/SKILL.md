@@ -178,7 +178,22 @@ To make the "Fallback & Recovery" more robust, AOP defines a standardized JSON f
 
 - [README.md](./README.md) - Complete onboarding guide and best practices
 - [ROADMAP.md](./ROADMAP.md) - Visual overview and future direction
-- [AOP_WORKED_EXAMPLES.md](./AOP_WORKED_EXAMPLES.md) - Production-validated prompt cookbook
+- [AOP_WORKED_EXAMPLES.md](./AOP_WORKED_EXAMPLES.md) - Production-validated prompt cookbook and troubleshooting guides.
+- [Cross-LLM Command Reference](#cross-llm-command-reference) - A quick reference for equivalent commands across different agent CLIs.
+
+---
+
+### Cross-LLM Command Reference
+
+Different agent CLIs may have different syntax for the same fundamental operations. An Orchestrator must be aware of these differences when delegating tasks across different LLMs.
+
+| Task | Gemini CLI (`gemini`) | Claude CLI (`claude`) |
+| :--- | :--- | :--- |
+| **Add Directory** | `--include-directories <path>` | `/add-dir <path>` |
+| **Non-Interactive** | `-y` or `--approval-mode yolo` | `-y` or `--dangerously-skip-permissions` |
+| **Prompt** | `-p "<prompt>"` | `-p "<prompt>"` |
+
+*This reference should be updated as more agents and commands are integrated into the AOP.*
 
 ---
 
