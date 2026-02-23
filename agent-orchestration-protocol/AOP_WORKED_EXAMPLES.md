@@ -180,3 +180,23 @@ Step 3: Start the AOP Polling protocol. Since Magneto has to search for the dire
 Step 4: Once you detect Magneto's semantic commit message in the git log (meaning the file was created and the push is successful), report SUCCESS to me.
 ```
 **Analysis:** This prompt exemplifies advanced AOP capabilities by requiring the Executor Agent to perform an autonomous search for a target directory (`Autonomously search... to locate the skill directory`), rather than relying on a hardcoded path. It leverages **Pillar 2 (Absolute Referencing)** with intelligent discovery, **Pillar 4 (Active Vigilance/Polling)** for completion verification via git history, and demonstrates content transformation and generation suitable for downstream AI tools. This highlights the flexibility and intelligence required from Executor Agents in an AOP framework.
+
+---
+
+### Prompt 11: Forge-to-Forge Basic Execution (Using --approval-mode yolo)
+
+**Objective:** To test a Forge-to-Forge orchestration where one Forge agent (Orchestrator) delegates a simple, non-interactive file creation task to another Forge agent (Executor) using the Gemini CLI with a YOLO approval flag.
+
+```prompt
+Forge, please execute as follows:
+Step 1: Open a powershell -NoProfile -Command terminal in HEADLESS mode;
+Step 2: Execute powershell comand 'cd C:\Workspaces\llms_projects';
+Step 3: Call gemini CLI using the command: gemini --approval-mode yolo and aks gemini this way 'Forge, create a folder at C:\Workspaces\llms_projects called _temp and inside this folder create a file called forge_file_creation_test.md with content "This is a simple test requested by Jimmy"';
+Step 4: Monitoring and Validation Protocol (Polling):
+* Implement a verification loop (polling) of up to 10 minutes.
+* Every 60 seconds, check for the existence of file creation and validate that the file is not empty;
+* If the file is detected and validated, perform a quick `read_file` to confirm content integrity;
+Step 5: Once you see file was created and validated, report SUCCESS to me. Provide a brief summary of the commit if possible.
+```
+**Analysis:** This prompt tests a direct, non-interactive delegation between two instances of the same agent (Forge). The use of `gemini --approval-mode yolo` is a critical part of the test, ensuring that the Executor Forge can operate without human intervention for a predefined, safe task. It's a foundational test for building more complex, nested agent workflows.
+
