@@ -66,13 +66,16 @@ AOP breaks these barriers by introducing **orchestration as a first-class capabi
 
 ### 🎯 Present: Production Phase (AOP v1.x)
 
-**Current State (v1.2):**
+**Current State (v1.3):**
 
 ```
 ┌──────────────────────────────────────────────────┐
 │          AOP Production Capabilities             │
 ├──────────────────────────────────────────────────┤
-│  ✅ Six-Pillar Framework                         │
+│  ✅ Seven-Pillar Framework                       │
+│  ✅ Constraint Adaptation & Delegation           │
+│  ✅ File-Based State Handover                    │
+│  ✅ Standardized JSON Error Reporting            │
 │  ✅ Security Boundaries & Trusted Workspaces     │
 │  ✅ Headless Agent Execution                     │
 │  ✅ Polling & Integrity Validation               │
@@ -174,7 +177,7 @@ Intelligent Features:
 
 ---
 
-## The Six Pillars: Expansion Vision
+## The Seven Pillars: Expansion Vision
 
 ### Pillar 1: Environment Isolation
 **Current:** Headless terminals with absolute paths
@@ -197,8 +200,12 @@ Intelligent Features:
 **Future:** Content-aware validation with AI-based quality scoring
 
 ### Pillar 6: Closeout Protocol
-**Current:** Text-based status reports
-**Future:** Structured JSON reports with machine-readable metadata
+**Current:** Text-based status reports & Standardized JSON Error reports
+**Future:** Fully structured JSON reports with rich, machine-readable metadata
+
+### Pillar 7: Constraint Adaptation
+**Current:** Delegate verification tasks to other agents when sandboxed.
+**Future:** Proactive environment scanning and capability detection.
 
 ---
 

@@ -42,95 +42,57 @@ Traditional AI workflows hit a wall when facing:
 
 ---
 
-## The Six Pillars of AOP: A Simple Framework
+## The Seven Pillars of AOP: A Simple Framework
 
 Think of these as the **"ground rules"** that make AI teamwork seamless:
 
 ### 🏛️ Pillar 1: Environment Isolation
 **Analogy**: Each agent gets a clean, private workspace—like giving each musician a soundproof practice room.
-
 **Why It Matters**: Prevents agents from interfering with each other's work.
-
 **Benefit**: Predictable, reproducible results every time.
 
 ---
 
 ### 🎯 Pillar 2: Absolute Referencing
 **Analogy**: Using GPS coordinates instead of "turn left at the red barn."
-
 **Why It Matters**: Eliminates confusion about file locations across different agent contexts.
-
 **Benefit**: Zero ambiguity—agents always find the right files.
-
-**Example**:
-- ✅ **Good**: `C:\Workspaces\llms_projects\report.md`
-- ❌ **Bad**: `./report.md` (Where's "here"?)
 
 ---
 
 ### 🔓 Pillar 3: Permission Bypass (Trusted Zones Only)
 **Analogy**: VIP backstage passes for trusted team members in secure areas.
-
 **Why It Matters**: Eliminates constant "Are you sure?" prompts in pre-approved workspaces.
-
 **Benefit**: Fully automated workflows with enterprise-grade safety.
-
-**Security Note**: Only enabled in explicitly trusted directories—never in sensitive system areas.
 
 ---
 
 ### 👁️ Pillar 4: Active Vigilance (Polling)
 **Analogy**: A stage manager checking every 60 seconds: "Is the prop ready yet?"
-
 **Why It Matters**: Headless agents don't send "I'm done!" notifications—you have to check.
-
 **Benefit**: Real-time progress tracking and timeout protection.
-
-**How It Works**:
-1. Check for output file every minute
-2. Validate it's complete (not empty or corrupted)
-3. Report success or timeout after max wait time
 
 ---
 
 ### ✅ Pillar 5: Integrity Verification
 **Analogy**: Quality control inspectors checking every product off the assembly line.
-
 **Why It Matters**: Automated agents can fail silently—validation catches issues early.
-
 **Benefit**: Confidence that outputs meet quality standards.
-
-**Checks Performed**:
-- Does the file exist?
-- Is it larger than 0 bytes?
-- Does it contain expected content markers?
-- (Optional) Does the file hash match expectations?
 
 ---
 
 ### 📋 Pillar 6: Closeout Protocol
-**Analogy**: The conductor's final bow—a clear signal that the performance succeeded (or needs an encore).
+**Analogy**: A clear, standardized end-of-task report.
+**Why It Matters**: Enables automated debugging and decision-making.
+**Benefit**: Every task ends with machine-readable, actionable intelligence.
+**Success/Failure Report**: Standardized JSON output for robust error handling.
 
-**Why It Matters**: Enables debugging and automated decision-making.
+---
 
-**Benefit**: Every task ends with actionable intelligence.
-
-**Success Report Example**:
-```
-STATUS: SUCCESS
-Agent: Emma (Codex CLI)
-Artifact: C:\Workspaces\llms_projects\market_analysis.md
-Size: 15.3 KB
-Completion Time: 3m 42s
-```
-
-**Failure Report Example**:
-```
-STATUS: FAIL
-Agent: Magneto
-Error: Timeout after 10 minutes
-Suggested Action: Retry with extended timeout
-```
+### 🧠 Pillar 7: Constraint Adaptation
+**Analogy**: A manager realizing they can't see inside a secure room, so they send a trusted employee with clearance to check.
+**Why It Matters**: Allows orchestrators to manage tasks even when their own sandboxes prevent direct access.
+**Benefit**: Overcomes environmental limitations through intelligent delegation.
 
 ---
 

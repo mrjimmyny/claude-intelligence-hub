@@ -27,7 +27,7 @@ AOP represents a paradigm shift from single-agent workflows to a distributed, hi
 
 ---
 
-## The Six Pillars of AOP
+## The Seven Pillars of AOP
 
 ### Pillar 1: Environment Isolation
 Launch Executor Agents in isolated, headless terminal sessions with explicit working directories.
@@ -68,6 +68,14 @@ Validate generated artifacts through content checks, size validation, and option
 ### Pillar 6: Closeout Protocol
 Always return explicit status reports: `SUCCESS` with summary or `FAIL` with error logs.
 
+### Pillar 7: Constraint Adaptation
+If an Orchestrator's own environmental constraints prevent it from directly monitoring a resource (e.g., due to sandbox limitations), it must attempt to fulfill the monitoring requirement by delegating the verification task to a new, properly-scoped agent.
+
+---
+
+## State Handover Best Practices
+For complex instructions, prefer file-based handover to ensure clarity and avoid overly long CLI commands that are prone to character escaping errors. The Orchestrator agent is responsible for the creation and subsequent cleanup of these temporary instruction files.
+
 ---
 
 ## Security Boundaries
@@ -105,6 +113,7 @@ Is target directory in trusted workspace list?
    │  └─ YES → ABORT, request user approval
    └─ NO → Use interactive mode (-p) or request user approval
 ```
+
 
 ---
 
@@ -150,6 +159,19 @@ Step 6: Report consolidated status
 
 See the [README.md](./README.md#fallback--recovery) for detailed recovery protocols.
 
+### Standardized Error Reporting
+To make the "Fallback & Recovery" more robust, AOP defines a standardized JSON format for error reporting. Executor Agents should output an `error.json` file in the root of their workspace upon failure.
+
+**`error.json` format:**
+```json
+{
+  "failed_step": "Step 3: Writing to file '...'",
+  "reason": "Permission denied",
+  "details": "The agent did not have write access to the specified directory.",
+  "executor_agent_id": "Forge B" 
+}
+```
+
 ---
 
 ## Related Documentation
@@ -162,6 +184,7 @@ See the [README.md](./README.md#fallback--recovery) for detailed recovery protoc
 
 ## Changelog
 
+- **v1.3 (In Progress)** - Enhanced protocol with Constraint Adaptation, State Handover Best Practices, and Standardized Error Reporting.
 - **v1.2** - Added Security Boundaries section, clarified trusted workspace rules
 - **v1.1** - Initial production release with all six pillars documented
 - **v1.0** - Beta release for internal testing
