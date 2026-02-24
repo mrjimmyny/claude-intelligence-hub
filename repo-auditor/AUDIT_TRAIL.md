@@ -41,10 +41,10 @@ spot_check_passed: <pending>
 spot_check_warnings: 0
 spot_check_failures: 0
 
-release_published: <pending>
-release_url: <pending>
-release_tag: <pending>
-release_tag_verified: <pending>
+release_published: YES
+release_url: https://github.com/mrjimmyny/claude-intelligence-hub/releases/tag/v2.6.0
+release_tag: v2.6.0
+release_tag_verified: YES
 
 phase_0_status: PASS
 phase_1_status: PASS
@@ -52,10 +52,10 @@ phase_1_2_status: PASS
 phase_1_5_status: PASS
 phase_2_status: <pending>
 phase_3_status: <pending>
-phase_3_6_status: <pending>
+phase_3_6_status: PASS
 
 audit_start: 2026-02-24 19:20
-audit_end: <pending>
+audit_end: 2026-02-24 19:35
 
 fingerprints:
 
