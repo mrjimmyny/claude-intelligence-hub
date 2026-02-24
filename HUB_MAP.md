@@ -1,6 +1,6 @@
 # 🗺️ Claude Intelligence Hub - Skill Router Map
 
-**Version:** 2.5.1
+**Version:** 2.6.0
 **Last Updated:** 2026-02-24
 **Purpose:** Central routing dictionary for all skills, triggers, and workflows
 **Routing Status:** 🟢 Active (Module 4 Complete - Deployment & CI/CD)
@@ -1009,7 +1009,7 @@ touch CHANGELOG.md             # Version history
 
 ---
 
-**Version:** 2.5.1
+**Version:** 2.6.0
 **Status:** ✅ Production - Enterprise-Ready
 **Last Updated:** 2026-02-24
 **Maintained by:** Xavier, Magneto & Jimmy
