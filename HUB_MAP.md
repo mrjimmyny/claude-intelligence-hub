@@ -11,7 +11,7 @@
 
 | Metric | Count | Status |
 |--------|-------|--------|
-| **Production Skills** | 10 | ✅ Active |
+| **Production Skills** | 12 | ✅ Active |
 | **Planned Skills** | 2 | 📋 Roadmap |
 | **Documented Triggers** | 20+ | ✅ Complete |
 | **Skill Tiers** | 3 | ✅ Defined |
@@ -404,6 +404,63 @@ End-to-end repository audit skill with mandatory proof-of-read fingerprinting pe
 - `repo-auditor/SKILL.md` (full protocol, ~260 lines)
 - `repo-auditor/AUDIT_TRAIL.md` (accumulative audit history)
 - `repo-auditor/scripts/validate-trail.sh` (CI validation script)
+
+---
+
+### 11. conversation-memoria
+**Type:** Knowledge Management
+**Location:** `claude-intelligence-hub/conversation-memoria/`
+**Auto-load:** ❌ Explicit invocation
+
+#### Purpose
+Persistent conversation storage system for keeping historical context and ELITE LEAGUE session history.
+
+#### Key Features
+- Centralized storage for multi-turn sessions
+- Integrated tagging and categorization
+- Metadata-driven search and retrieval
+- Git-backed persistence
+
+#### Triggers
+- `"save this conversation"` / `"save conversation"`
+- `"list conversations"`
+- `"search conversations"`
+- `"load conversation"`
+
+#### Dependencies
+- None (independent storage skill)
+
+#### Loading Tier
+**Tier 3: Explicit** - Only loads when manual triggers detected
+
+---
+
+### 12. agent-orchestration-protocol
+**Type:** Orchestration
+**Location:** `claude-intelligence-hub/agent-orchestration-protocol/`
+**Auto-load:** ❌ Context-aware invocation
+
+#### Purpose
+The Agent Orchestration Protocol (AOP) is a revolutionary framework for multi-agent coordination, enabling a single Orchestrator to lead multiple Executor agents (Claude, Codex, etc.).
+
+#### Key Features
+- The Six Pillars of AOP Mastery (Isolation, Absolute Paths, Bypass, Polling, Integrity, Closeout)
+- Multi-agent workflow patterns (Creator-Reviewer-Finalizer)
+- Recursive and parallel orchestration support
+- Extensive cookbook of production-validated prompts
+
+#### Triggers
+- `"execute multi agent workflow"`
+- `"aop workflow"`
+- `"orchestrate"`
+- `"delegate to"`
+
+#### Dependencies
+- Requires Gemini CLI (for Orchestrator)
+- Requires Claude Code or Codex CLI (for Executors)
+
+#### Loading Tier
+**Tier 2: Context-Aware** - Suggests when complex, multi-agent tasks are requested
 
 ---
 

@@ -1,0 +1,21 @@
+{
+  "name": "repo-auditor",
+  "version": "1.0.0",
+  "type": "governance-skill",
+  "status": "production",
+  "owner": "Jimmy",
+  "description": "End-to-end repository audit skill with mandatory fingerprinting",
+  "triggers": [
+    "audit",
+    "repo audit",
+    "run audit",
+    "repo-auditor",
+    "@repo-auditor"
+  ],
+  "dependencies": [],
+  "settings": {
+    "mandatory_fingerprinting": true,
+    "append_only_trail": true
+  },
+  "tier": "explicit"
+}

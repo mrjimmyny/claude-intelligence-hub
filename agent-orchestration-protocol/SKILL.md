@@ -1,7 +1,7 @@
 # Agent Orchestration Protocol (AOP)
 
 **Skill ID:** `agent-orchestration-protocol`
-**Version:** 1.2
+**Version:** 1.2.0
 **Status:** Production-Ready
 **Category:** Multi-Agent Coordination
 **Author:** Forge (Senior Software Engineer & Context Specialist)

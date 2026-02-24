@@ -5,9 +5,9 @@
 **Repository:** https://github.com/mrjimmyny/claude-intelligence-hub
 **Developed by:** Xavier (Claude Sonnet 4.5) & Jimmy
 **Purpose:** Centralized AI intelligence system - Skills, memory, automation, and routing
-**Version:** 2.4.0 (Hub v2.4.0 + CIH-ROADMAP Navigation Guide)
-**Component Versions:** Preferences v1.5.0, Memoria v1.2.0, PBI v1.3.0, GDrive v1.0.0, Registry v1.1.0, X-MEM v1.0.0, Xavier-Memory v1.1.0, Context-Guardian v1.0.0
-**Status:** ✅ Production - Enterprise-Ready - **ZERO TO HERO COMPLETE** (Modules 1-4) + Context Preservation + Repo Auditor + Navigation Roadmap
+**Version:** 2.5.0 (Hub v2.5.0 + CIH-ROADMAP Navigation Guide)
+**Component Versions:** Preferences v1.5.0, Memoria v1.2.0, PBI v1.3.0, GDrive v1.0.0, Registry v1.1.0, X-MEM v1.0.0, Xavier-Memory v1.1.0, Context-Guardian v1.0.0, Repo-Auditor v1.0.0, Conv-Memoria v1.0.0, AOP v1.2.0
+**Status:** ✅ Production - Enterprise-Ready - **ZERO TO HERO COMPLETE** (Modules 1-4) + Context Preservation + Repo Auditor + Navigation Roadmap + AOP
 
 ---
 
@@ -19,7 +19,7 @@ Successfully developed and deployed a **complete AI intelligence system** that t
 
 | Component | Version | Status | Key Metric |
 |-----------|---------|--------|------------|
-| **Hub Repository** | 2.4.0 | ✅ Production | 10 skill collections, HUB_MAP routing, CIH-ROADMAP |
+| **Hub Repository** | 2.5.0 | ✅ Production | 12 skill collections, HUB_MAP routing, CIH-ROADMAP |
 | **Jimmy Core Preferences** | 1.5.0 | ✅ Production | Master AI + Skill Router + Token Economy |
 | **Session Memoria** | 1.2.0 | ✅ Production | 3-tier archiving, 200x faster indexing |
 | **PBI Claude Skills** | 1.3.0 | ✅ Production | 50-97% token savings |
@@ -31,6 +31,8 @@ Successfully developed and deployed a **complete AI intelligence system** that t
 | **Xavier Memory Sync** | 1.0.0 | ✅ Production | Memory sync automation, Google Drive integration |
 | **Context Guardian** | 1.0.0 | ✅ Production | Xavier ↔ Magneto account switching, full context preservation |
 | **Repo Auditor** | 1.0.0 | ✅ Production | Mandatory proof-of-read, fingerprint anti-bluffing |
+| **Conversation Memoria** | 1.0.0 | ✅ Production | Persistent session storage |
+| **Agent Orchestration** | 1.2.0 | ✅ Production | Multi-agent coordination (AOP) |
 | **Windows Junction Setup** | 1.0.0 | ✅ Production | Auto-sync to Git |
 | **Mobile Support** | 1.0.0 | ✅ Production | MOBILE_SESSION_STARTER.md |
 | **Cross-Device Sync** | - | ✅ Active | Desktop ↔ Mobile via Git |

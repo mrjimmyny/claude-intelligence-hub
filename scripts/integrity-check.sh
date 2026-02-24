@@ -31,7 +31,7 @@ echo "════════════════════════�
 orphans_found=0
 for dir in */; do
     # Skip hidden, special, and infrastructure directories
-    if [[ "$dir" == "." || "$dir" == ".git/" || "$dir" == ".claude/" || "$dir" == "scripts/" || "$dir" == "token-economy/" || "$dir" == "docs/" ]]; then
+    if [[ "$dir" == "." || "$dir" == ".git/" || "$dir" == ".claude/" || "$dir" == "scripts/" || "$dir" == "token-economy/" || "$dir" == "docs/" || "$dir" == "extra-executive-docs/" || "$dir" == "codex-governance-framework/" ]]; then
         continue
     fi
 
@@ -141,7 +141,7 @@ echo "════════════════════════�
 drift_found=0
 for skill_dir in */; do
     # Skip non-skill directories (infrastructure, scripts, documentation)
-    if [[ "$skill_dir" == "." || "$skill_dir" == ".git/" || "$skill_dir" == ".claude/" || "$skill_dir" == "scripts/" || "$skill_dir" == "token-economy/" || "$skill_dir" == "docs/" ]]; then
+    if [[ "$skill_dir" == "." || "$skill_dir" == ".git/" || "$skill_dir" == ".claude/" || "$skill_dir" == "scripts/" || "$skill_dir" == "token-economy/" || "$skill_dir" == "docs/" || "$skill_dir" == "extra-executive-docs/" || "$skill_dir" == "codex-governance-framework/" ]]; then
         continue
     fi
 
@@ -183,7 +183,7 @@ echo "════════════════════════�
 missing_skill_md=0
 for skill_dir in */; do
     # Skip non-skill directories (infrastructure, scripts, documentation)
-    if [[ "$skill_dir" == "." || "$skill_dir" == ".git/" || "$skill_dir" == ".claude/" || "$skill_dir" == "scripts/" || "$skill_dir" == "token-economy/" || "$skill_dir" == "docs/" ]]; then
+    if [[ "$skill_dir" == "." || "$skill_dir" == ".git/" || "$skill_dir" == ".claude/" || "$skill_dir" == "scripts/" || "$skill_dir" == "token-economy/" || "$skill_dir" == "docs/" || "$skill_dir" == "extra-executive-docs/" || "$skill_dir" == "codex-governance-framework/" ]]; then
         continue
     fi
 
@@ -214,7 +214,7 @@ echo "════════════════════════�
 sync_issues=0
 for skill_dir in */; do
     # Skip non-skill directories (infrastructure, scripts, documentation)
-    if [[ "$skill_dir" == ".git/" ]] || [[ "$skill_dir" == "scripts/" ]] || [[ "$skill_dir" == "token-economy/" ]] || [[ "$skill_dir" == ".claude/" ]] || [[ "$skill_dir" == "docs/" ]]; then
+    if [[ "$skill_dir" == ".git/" ]] || [[ "$skill_dir" == "scripts/" ]] || [[ "$skill_dir" == "token-economy/" ]] || [[ "$skill_dir" == ".claude/" ]] || [[ "$skill_dir" == "docs/" ]] || [[ "$skill_dir" == "extra-executive-docs/" ]] || [[ "$skill_dir" == "codex-governance-framework/" ]]; then
         continue
     fi
 

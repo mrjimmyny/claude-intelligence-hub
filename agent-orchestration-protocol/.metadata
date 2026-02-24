@@ -1,0 +1,21 @@
+{
+  "name": "agent-orchestration-protocol",
+  "version": "1.2.0",
+  "type": "orchestration-protocol",
+  "status": "production",
+  "owner": "Forge",
+  "description": "Multi-agent coordination framework (AOP)",
+  "triggers": [
+    "execute multi agent workflow",
+    "aop workflow",
+    "orchestrate",
+    "delegate to"
+  ],
+  "dependencies": [],
+  "settings": {
+    "default_timeout": 600,
+    "polling_interval": 60,
+    "headless_mode": true
+  },
+  "tier": "context-aware"
+}
