@@ -1,4 +1,4 @@
-﻿---
+---
 # 🚀 New Here?
 
 If you are new to this framework and want a simple,
