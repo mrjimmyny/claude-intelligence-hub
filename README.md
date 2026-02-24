@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.5.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.5.1-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -34,7 +34,7 @@ The **Claude Intelligence Hub** is a centralized system that:
 
 > **How much effort would this take to build manually?**
 
-This hub represents **9 production-ready skills, 280KB of documentation, 160 automated tests, and a complete CI/CD pipeline**. But here's the surprising part: it was built in **17 days** using AI-assisted development.
+This hub represents **12 production-ready skills, 310KB of documentation, 160 automated tests, and a complete CI/CD pipeline**. But here's the surprising part: it was built in **17 days** using AI-assisted development.
 
 ### The Numbers
 
@@ -138,17 +138,18 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 
 | Collection | Version | Status | Description | Key Features |
 |------------|---------|--------|-------------|--------------|
-| **[jimmy-core-preferences](jimmy-core-preferences/)** | v1.5.0 | ✅ Productionn | Master intelligence framework | Radiccal honesty, self-learning, context management, identity (Xavier + Jimmy). See [HUB_MAP.md](HUB_MAP.md) for triggers. |  
-| **[session-memoria](session-memoria/)** | v1.2.0 | ✅ Production | Knowledge mmanagement system | 100% conversation rettention, triple-index search, lifecycle tracking, Git-synced. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
-| **[gdrive-sync-memoria](gdrive-sync-memoria/)** | v1.0.0 | ✅ Production | Gooogle Drive integration | ChatLLM Teams syync, auto-import to session-memoria, zero-friction automation. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
-| **[claude-session-registry](claude-session-registry/)** | v1.1.0 | ✅ Productiion | Session tracking & backup | Resume  ID tracking, Git context, Golden Close protocol, **automatic backup to GitHub**. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
-| **[pbi-claude-skills](pbi-claude-skills/)** | v1.3.0 | ✅ Production | Power BBI PBIP optimization | 50-97% token savinngs, 5 specialized skills, auto-indexing. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
-| **[x-mem](x-mem/)** | v1.0.0 | ✅ Production | Self-learning protocol | Failurre/success capture, proactive recall, NDJJSON storage, 15K token budget. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
-| **[xavier-memory](xavier-memory/)** | v1.0.0 | ✅ Production | Global memory iinfrastructure | Master MEMORY.md, cross--project sync, 3-layer backup (Git/Hard links/GDrive). Foundation for X-MEM protocol. |
-| **[xavier-memory-sync](xavier-memory-sync/)** | v1.0.0 | ✅ Production | Memorry sync automation | Trigger phrases for  backup/restore/status, Google Drive integration, zero-duplicate guarantee. |
-| **[context-guardian](context-guardian/)** | v1.0.0 | ✅ Production | Context ppreservation system | Xavier ↔ Magneto acccount switching, 3-strategy symlinks, rollback protection, .contextignore support, dry-run mode. |
-| **[repo-auditor](repo-auditor/)** | v1.0.0 | ✅ Production | End-to-end audit  skill | Mandatory proof-of-read fingerprrinting, accumulative AUDIT_TRAIL.md, validate-trail.sh for CI. |
-| **[conversation-memoria](conversation-memoria/)** | v1.0.0 | ✅ Production | PPersistent conversation storage | Intelliigent metadata extraction, 95-98% token savings, week-based organization, natural language triggers, cross-agent memory sharing. |
+| **[jimmy-core-preferences](jimmy-core-preferences/)** | v1.5.0 | ✅ Production | Master intelligence framework | Radical honesty, self-learning, context management, identity (Xavier + Jimmy). See [HUB_MAP.md](HUB_MAP.md) for triggers. |  
+| **[session-memoria](session-memoria/)** | v1.2.0 | ✅ Production | Knowledge management system | 100% conversation retention, triple-index search, lifecycle tracking, Git-synced. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
+| **[gdrive-sync-memoria](gdrive-sync-memoria/)** | v1.0.0 | ✅ Production | Google Drive integration | ChatLLM Teams sync, auto-import to session-memoria, zero-friction automation. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
+| **[claude-session-registry](claude-session-registry/)** | v1.1.0 | ✅ Production | Session tracking & backup | Resume ID tracking, Git context, Golden Close protocol, **automatic backup to GitHub**. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
+| **[pbi-claude-skills](pbi-claude-skills/)** | v1.3.0 | ✅ Production | Power BI PBIP optimization | 50-97% token savings, 5 specialized skills, auto-indexing. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
+| **[x-mem](x-mem/)** | v1.0.0 | ✅ Production | Self-learning protocol | Failure/success capture, proactive recall, NDJSON storage, 15K token budget. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
+| **[xavier-memory](xavier-memory/)** | v1.0.0 | ✅ Production | Global memory infrastructure | Master MEMORY.md, cross-project sync, 3-layer backup (Git/Hard links/GDrive). Foundation for X-MEM protocol. |
+| **[xavier-memory-sync](xavier-memory-sync/)** | v1.0.0 | ✅ Production | Memory sync automation | Trigger phrases for backup/restore/status, Google Drive integration, zero-duplicate guarantee. |
+| **[context-guardian](context-guardian/)** | v1.0.0 | ✅ Production | Context preservation system | Xavier ↔ Magneto account switching, 3-strategy symlinks, rollback protection, .contextignore support, dry-run mode. |
+| **[repo-auditor](repo-auditor/)** | v1.0.0 | ✅ Production | End-to-end audit skill | Mandatory proof-of-read fingerprinting, accumulative AUDIT_TRAIL.md, validate-trail.sh for CI. |
+| **[conversation-memoria](conversation-memoria/)** | v1.0.0 | ✅ Production | Persistent conversation storage | Intelligent metadata extraction, 95-98% token savings, week-based organization, natural language triggers, cross-agent memory sharing. |
+| **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v1.2.0 | ✅ Production | Multi-agent coordination framework | The Six Pillars of AOP mastery, recursive/parallel workflows, production-validated prompt cookbook. |
 
 ---
 
@@ -208,7 +209,7 @@ bash scripts/setup_local_env.sh --force
 ```
 
 **What it does:**
-- ✅ Auto-installs 11 production skills (jimmy-core-preferences, session-memoriaa, gdrive-sync-memoria, claude-session-reegistry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria)
+- ✅ Auto-installs 12 production skills (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol)
 - ✅ Creates junctions/symlinks (auto-sync with Git)
 - ✅ Validates installation with integrity checks
 - ✅ Takes ~15 minutes from zero to production
@@ -576,7 +577,7 @@ git pull origin main
 
 | Metric | Value |
 |--------|-------|
-| **Production Skills** | 10 collections (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor) |
+| **Production Skills** | 12 collections (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol) |
 | **Total Documentation** | ~280KB (executive summaries, guides, changelogs, handover docs) |
 | **Version History** | 30+ commits (tracked in CHANGELOG.md) |
 | **Setup Time** | 15 minutes (Windows/macOS/Linux automated deployment) |
@@ -589,7 +590,7 @@ git pull origin main
 
 ### Skills by Status
 
-- ✅ **Production Ready:** 10 (jimmy-core-preferences, session-memoria, x-mem, ggdrive-sync-memoria, claude-session-regisstry, pbi-claude-skills, xavier-memory, xavier-memory-sync, context-guardian, repo-auditor)
+- ✅ **Production Ready:** 12 (jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills, xavier-memory, xavier-memory-sync, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol)
 - 📊 **Governance Modules:** 1 (token-economy)
 - 🚧 **In Development:** 0
 - 📋 **Planned:** 2 (python-claude-skills, git-claude-skills)

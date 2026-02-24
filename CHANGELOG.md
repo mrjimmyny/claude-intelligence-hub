@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.5.1] - 2026-02-24
+
+### Added
+- `agent-orchestration-protocol` (AOP) v1.2.0: Multi-agent coordination framework officially integrated into hub
+- `conversation-memoria` v1.0.0: Persistent conversation storage system officially integrated into hub
+- `.metadata` files for `agent-orchestration-protocol` and `repo-auditor` to ensure governance compliance
+
+### Changed
+- `HUB_MAP.md`: Version 2.5.0. Added skills #11 (conversation-memoria) and #12 (agent-orchestration-protocol). Updated production skills count to 12.
+- `EXECUTIVE_SUMMARY.md`: Version 2.5.0. Updated with new skills and performance metrics.
+- `scripts/integrity-check.sh`: Added `extra-executive-docs/` and `codex-governance-framework/` to skip list to prevent false positives.
+- `agent-orchestration-protocol/SKILL.md`: Version synced to v1.2.0.
+
+### Fixed
+- **CI/CD Failure (Zero-Breach Policy Violation):** Resolved "Orphaned Directory" and "Missing SKILL.md" errors in GitHub Actions by properly registering new folders and skipping documentation-only directories.
+
+---
+
 ## [2.5.0] - 2026-02-18
 
 ### Added - Development Impact Analysis
