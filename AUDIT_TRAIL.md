@@ -1249,3 +1249,14 @@ find . -name "*.md" -o -name "*.sh" -o -name "*.json" -o -name "*.ps1" | grep -v
 - ./context-guardian/scripts/backup-global.sh: CLEAN
 - ./x-mem/scripts/xmem-search.sh: CLEAN
 
+
+---
+
+### RELEASE PUBLICATION
+- release_published: YES
+- release_url: https://github.com/mrjimmyny/claude-intelligence-hub/releases/tag/v2.6.0
+- published_at: 2026-02-24 19:36:33 UTC
+- verified_on_github: YES
+
+**NOTE:** This step was MISSING from initial audit protocol - identified as CRITICAL GAP in repo-auditor skill.
+
