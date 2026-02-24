@@ -1,91 +1,82 @@
-# AUDIT_TRAIL.md
-# claude-intelligence-hub — Histórico Acumulativo de Auditorias
-#
-# REGRA: Novas sessões são ADICIONADAS NO TOPO (mais recente primeiro).
-# Este arquivo nunca é sobrescrito — apenas cresce.
-# É arquivo crítico: deve ser incluído em todo backup do context-guardian.
-# ============================================================
+# ===========================================
+# AUDIT_TRAIL - repo-auditor v2.0.0
+# ===========================================
 
----
+audit_version: <X.Y.Z>
+audit_date: <YYYY-MM-DD>
+audit_agent: <AGENT_NAME> (<MODEL_ID>)
+audit_session: <SESSION_ID or N/A>
+audit_mode: <AUDIT_AND_FIX | AUDIT_ONLY | DRY_RUN>
 
-## AUDIT SESSION: [YYYY-MM-DD HH:MM]
-- triggered_by: [usuário/automático]
-- agent: [Magneto/Xavier]
-- previous_audit: [data da sessão anterior ou "PRIMEIRA AUDITORIA"]
-- delta_since_last: [N commits desde última auditoria / "FULL AUDIT"]
-- files_in_scope: [N]
+target_repo: <name>
+target_branch: <branch>
+target_version: <vX.Y.Z>
+git_status_clean: <YES/NO>
+git_sync_status: <SYNCED/DIVERGED/N/A>
 
-### SCOPE DECLARATION
-```
-[output completo do find . -name "*.md" -o -name "*.sh" ... | sort]
-```
+total_files_tracked: <N>
+critical_files_count: <N>
+files_fingerprinted: <N>
 
----
+audit_result: <PASS | PASS_WITH_WARNINGS | FAIL>
+critical_errors_found: <N>
+critical_errors_resolved: <N>
+critical_errors_open: <N>
+warnings_found: <N>
+files_corrected: <N>
+files_orphaned: <N>
+links_broken: <N>
 
-### FILE: [caminho/relativo/ao/arquivo.md]
-- total_lines: [N]
-- first_line: "[conteúdo exato da linha 1]"
-- last_line: "[conteúdo exato da última linha não-vazia]"
-- issues_found: [lista de problemas ou NONE]
-- action_taken: [descrição da mudança ou NO CHANGE]
-- post_action_verified: YES
+skill_count_validation: <PASS/FAIL>
+skill_count_real: <N>
+skill_count_declared: <N>
+version_crosscheck: <PASS/FAIL>
+version_crosscheck_failures: <N>
+architecture_completeness: <PASS/FAIL>
+reference_accuracy: <PASS/FAIL>
+changelog_completeness: <PASS/FAIL>
 
-### FILE: [próximo arquivo...]
-- total_lines: [N]
-- first_line: "[...]"
-- last_line: "[...]"
-- issues_found: NONE
-- action_taken: NO CHANGE
-- post_action_verified: YES
+spot_check_sample_size: <N>
+spot_check_passed: <N>
+spot_check_warnings: <N>
+spot_check_failures: <N>
 
----
+release_published: <YES/NO/SKIPPED>
+release_url: <URL or N/A>
+release_tag: <vX.Y.Z or N/A>
+release_tag_verified: <YES/NO/N/A>
 
-### SPOT-CHECK LOG — [nome da fase]
-- [caminho/arquivo.md]: CLEAN
-- [caminho/arquivo.md]: ISSUE FOUND → [descrição] → FIXED → RE-CHECK: CLEAN
-- [caminho/arquivo.md]: CLEAN
+phase_0_status: <PASS/FAIL/BLOCKED>
+phase_1_status: <PASS/FAIL/PASS_WITH_WARNINGS/BLOCKED>
+phase_1_2_status: <PASS/FAIL/PASS_WITH_WARNINGS/BLOCKED>
+phase_1_5_status: <PASS/FAIL/PASS_WITH_WARNINGS/BLOCKED>
+phase_2_status: <PASS/FAIL/PASS_WITH_WARNINGS/BLOCKED>
+phase_3_status: <PASS/FAIL/PASS_WITH_WARNINGS/BLOCKED>
+phase_3_6_status: <PASS/FAIL/SKIPPED/BLOCKED>
 
----
+audit_start: <YYYY-MM-DD HH:MM>
+audit_end: <YYYY-MM-DD HH:MM>
 
-### PHASE SUMMARY: [nome da fase / pasta auditada]
-- files_covered: N
-- changes_made: N
-- spot_checks_run: N
-- spot_checks_issues: N
+fingerprints:
+  - file: <PATH>
+    total_lines: <N>
+    first_line: "<TEXT>"
+    last_line: "<TEXT>"
+    content_hash: <SHA>
 
----
+warnings:
+  - phase: <N>
+    description: "<TEXT>"
+    file: "<PATH>"
+    recommended_action: "<TEXT>"
 
-### SPOT-CHECK GLOBAL (pré-encerramento)
-```bash
-# Comando rodado:
-find . -name "*.md" | grep -v ".git" | grep -v "AUDIT_TRAIL" | shuf -n 5
-# Output:
-[arquivo 1]
-[arquivo 2]
-[arquivo 3]
-[arquivo 4]
-[arquivo 5]
-```
-- [arquivo 1]: CLEAN
-- [arquivo 2]: CLEAN
-- [arquivo 3]: ISSUE FOUND → [descrição] → FIXED → RE-CHECK: CLEAN
-- [arquivo 4]: CLEAN
-- [arquivo 5]: CLEAN
+corrections:
+  - file: <PATH>
+    description: "<TEXT>"
+    status: <RECOVERED/REVERTED>
+    hash_before: <SHA>
+    hash_after: <SHA>
 
----
-
-## AUDIT COMPLETE
-- date_start: YYYY-MM-DD HH:MM
-- date_end: YYYY-MM-DD HH:MM
-- files_in_scope: N
-- files_audited: N
-- files_changed: N
-- spot_checks_run: N
-- spot_checks_issues_found: N
-- validate_trail_result: PENDING
-- release_created: vX.Y.Z (ou N/A)
-- backed_up_by: context-guardian YYYY-MM-DD HH:MM
-
----
-<!-- ↑ Sessões anteriores ficam abaixo desta linha ↑ -->
-<!-- ============================================================ -->
+out_of_scope:
+  - description: "<TEXT>"
+    file: "<PATH>"

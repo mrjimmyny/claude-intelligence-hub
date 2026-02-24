@@ -1,183 +1,180 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # ============================================================
 # validate-trail.sh
-# repo-auditor — Script de Validação do AUDIT_TRAIL
+# repo-auditor - AUDIT_TRAIL structural validator
 #
-# Compara o escopo declarado na Fase 0 com os arquivos
-# efetivamente auditados (entries ### FILE: no trail).
-# Retorna exit 0 (VALID) ou exit 1 (INVALID) para uso em CI.
+# Usage:
+#   bash scripts/validate-trail.sh [path/to/AUDIT_TRAIL.md]
+#
+# Returns:
+#   0 when structure is valid
+#   1 when required fields or gate constraints are invalid
 # ============================================================
 
 set -euo pipefail
 
-TRAIL_FILE="AUDIT_TRAIL.md"
-REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+TRAIL_FILE="${1:-AUDIT_TRAIL.md}"
 
-# Cores
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-echo ""
-echo "=================================================="
-echo "  REPO-AUDITOR — validate-trail.sh"
-echo "=================================================="
-echo ""
+errors=0
+warnings=0
 
-# ── 1. Verificar existência do AUDIT_TRAIL ──────────────────
-if [ ! -f "$TRAIL_FILE" ]; then
-  echo -e "${RED}✗ AUDIT_TRAIL.md não encontrado em: $REPO_ROOT${NC}"
-  echo -e "${RED}  Rode a auditoria antes de validar.${NC}"
-  exit 1
-fi
-
-echo -e "${BLUE}Trail encontrado:${NC} $TRAIL_FILE"
-echo ""
-
-# ── 2. Extrair dados da sessão mais recente ─────────────────
-LAST_SESSION=$(grep -n "^## AUDIT SESSION:" "$TRAIL_FILE" | head -1 | cut -d: -f1)
-if [ -z "$LAST_SESSION" ]; then
-  echo -e "${RED}✗ Nenhuma sessão de auditoria encontrada no trail.${NC}"
-  exit 1
-fi
-
-SESSION_DATE=$(grep "^## AUDIT SESSION:" "$TRAIL_FILE" | head -1 | sed 's/## AUDIT SESSION: //')
-echo -e "${BLUE}Sessão mais recente:${NC} $SESSION_DATE"
-
-# ── 3. Extrair files_in_scope declarado ────────────────────
-DECLARED_SCOPE=$(grep "^- files_in_scope:" "$TRAIL_FILE" | head -1 | awk '{print $2}')
-if [ -z "$DECLARED_SCOPE" ] || [ "$DECLARED_SCOPE" = "N" ]; then
-  echo -e "${YELLOW}⚠ files_in_scope não declarado ou não numérico.${NC}"
-  echo -e "${YELLOW}  A Fase 0 foi completada corretamente?${NC}"
-  DECLARED_SCOPE=0
-fi
-
-echo -e "${BLUE}Escopo declarado (Fase 0):${NC} $DECLARED_SCOPE arquivos"
-
-# ── 4. Contar entries FILE no trail ────────────────────────
-AUDITED_COUNT=$(grep -c "^### FILE:" "$TRAIL_FILE" 2>/dev/null || echo 0)
-echo -e "${BLUE}Arquivos com entry no trail:${NC} $AUDITED_COUNT"
-
-# ── 5. Gerar lista real de arquivos auditáveis ─────────────
-REAL_FILES=$(find "$REPO_ROOT" \( -name "*.md" -o -name "*.sh" -o -name "*.json" -o -name "*.ps1" \) \
-  | grep -v "\.git" \
-  | grep -v "AUDIT_TRAIL" \
-  | grep -v "node_modules" \
-  | sort)
-
-REAL_COUNT=$(echo "$REAL_FILES" | grep -c . 2>/dev/null || echo 0)
-echo -e "${BLUE}Arquivos auditáveis no repo agora:${NC} $REAL_COUNT"
-echo ""
-
-# ── 6. Extrair arquivos declarados no trail ────────────────
-TRAIL_FILES=$(grep "^### FILE:" "$TRAIL_FILE" | sed 's/### FILE: //' | sort)
-
-# ── 7. Verificar divergências ──────────────────────────────
-echo "── VERIFICAÇÕES ──────────────────────────────────"
-ERRORS=0
-WARNINGS=0
-
-# 7a. Escopo declarado vs. auditados no trail
-if [ "$DECLARED_SCOPE" -ne "$AUDITED_COUNT" ] 2>/dev/null; then
-  echo -e "${RED}✗ DIVERGÊNCIA: Escopo declarado ($DECLARED_SCOPE) ≠ Auditados no trail ($AUDITED_COUNT)${NC}"
-  ERRORS=$((ERRORS + 1))
-else
-  echo -e "${GREEN}✓ Escopo declarado bate com entries no trail ($AUDITED_COUNT)${NC}"
-fi
-
-# 7b. Verificar se AUDIT COMPLETE existe
-if grep -q "^## AUDIT COMPLETE" "$TRAIL_FILE"; then
-  echo -e "${GREEN}✓ Seção AUDIT COMPLETE encontrada${NC}"
-else
-  echo -e "${RED}✗ Seção AUDIT COMPLETE ausente — auditoria não foi encerrada${NC}"
-  ERRORS=$((ERRORS + 1))
-fi
-
-# 7c. Verificar se validate_trail_result está preenchido
-TRAIL_RESULT=$(grep "^- validate_trail_result:" "$TRAIL_FILE" | head -1 | awk '{print $2}')
-if [ "$TRAIL_RESULT" = "VALID" ]; then
-  echo -e "${GREEN}✓ validate_trail_result: VALID${NC}"
-elif [ "$TRAIL_RESULT" = "PENDING" ] || [ -z "$TRAIL_RESULT" ]; then
-  echo -e "${YELLOW}⚠ validate_trail_result ainda PENDING (normal se rodando agora)${NC}"
-  WARNINGS=$((WARNINGS + 1))
-else
-  echo -e "${RED}✗ validate_trail_result: $TRAIL_RESULT${NC}"
-  ERRORS=$((ERRORS + 1))
-fi
-
-# 7d. Verificar spot-checks obrigatórios
-SPOTCHECK_COUNT=$(grep -c "^- \[.*\]: \(CLEAN\|ISSUE\)" "$TRAIL_FILE" 2>/dev/null || echo 0)
-if [ "$SPOTCHECK_COUNT" -ge 5 ]; then
-  echo -e "${GREEN}✓ Spot-checks registrados: $SPOTCHECK_COUNT${NC}"
-elif [ "$SPOTCHECK_COUNT" -gt 0 ]; then
-  echo -e "${YELLOW}⚠ Spot-checks registrados: $SPOTCHECK_COUNT (mínimo esperado: 5 no global)${NC}"
-  WARNINGS=$((WARNINGS + 1))
-else
-  echo -e "${RED}✗ Nenhum spot-check registrado no trail${NC}"
-  ERRORS=$((ERRORS + 1))
-fi
-
-# 7e. Verificar fingerprints — todas as entries devem ter total_lines
-ENTRIES_WITH_FINGERPRINT=$(grep -c "^- total_lines:" "$TRAIL_FILE" 2>/dev/null || echo 0)
-if [ "$ENTRIES_WITH_FINGERPRINT" -eq "$AUDITED_COUNT" ]; then
-  echo -e "${GREEN}✓ Fingerprints presentes em todas as entries ($AUDITED_COUNT)${NC}"
-elif [ "$ENTRIES_WITH_FINGERPRINT" -gt 0 ]; then
-  MISSING=$((AUDITED_COUNT - ENTRIES_WITH_FINGERPRINT))
-  echo -e "${RED}✗ $MISSING entries sem fingerprint (total_lines ausente)${NC}"
-  ERRORS=$((ERRORS + 1))
-else
-  echo -e "${RED}✗ Nenhum fingerprint encontrado — entries são afirmações sem prova${NC}"
-  ERRORS=$((ERRORS + 1))
-fi
-
-# 7f. Verificar arquivos novos no repo não cobertos pelo trail
-echo ""
-echo "── ARQUIVOS NO REPO NÃO COBERTOS PELO TRAIL ──────"
-UNCOVERED=0
-while IFS= read -r real_file; do
-  # Normalizar para path relativo
-  rel_file="${real_file#$REPO_ROOT/}"
-  if ! echo "$TRAIL_FILES" | grep -qF "$rel_file"; then
-    echo -e "${YELLOW}  ⚠ Não coberto: $rel_file${NC}"
-    UNCOVERED=$((UNCOVERED + 1))
-  fi
-done <<< "$REAL_FILES"
-
-if [ "$UNCOVERED" -eq 0 ]; then
-  echo -e "${GREEN}  ✓ Todos os arquivos do repo estão cobertos pelo trail${NC}"
-else
-  echo -e "${YELLOW}  $UNCOVERED arquivo(s) no repo sem entry no trail${NC}"
-  if [ "$UNCOVERED" -gt 3 ]; then
-    echo -e "${RED}  ✗ Mais de 3 arquivos descobertos — possível auditoria incompleta${NC}"
-    ERRORS=$((ERRORS + 1))
-  else
-    WARNINGS=$((WARNINGS + 1))
-  fi
-fi
-
-# ── 8. Resultado Final ─────────────────────────────────────
-echo ""
-echo "=================================================="
-if [ "$ERRORS" -eq 0 ]; then
-  echo -e "${GREEN}✅ AUDIT VALID${NC}"
-  echo -e "   Erros: 0 | Avisos: $WARNINGS"
+print_header() {
   echo ""
-  # Atualizar validate_trail_result no trail para VALID
-  if [ -f "$TRAIL_FILE" ] && grep -q "validate_trail_result: PENDING" "$TRAIL_FILE"; then
-    sed -i 's/validate_trail_result: PENDING/validate_trail_result: VALID/' "$TRAIL_FILE"
-    echo -e "${GREEN}   Trail atualizado: validate_trail_result = VALID${NC}"
+  echo "=================================================="
+  echo "  REPO-AUDITOR - validate-trail.sh"
+  echo "=================================================="
+  echo ""
+}
+
+require_key() {
+  local key="$1"
+  if ! rg -q "^${key}:" "$TRAIL_FILE"; then
+    echo -e "${RED}x Missing required key: ${key}${NC}"
+    errors=$((errors + 1))
+  else
+    echo -e "${GREEN}ok ${key}${NC}"
   fi
+}
+
+warn() {
+  local message="$1"
+  echo -e "${YELLOW}! ${message}${NC}"
+  warnings=$((warnings + 1))
+}
+
+fail() {
+  local message="$1"
+  echo -e "${RED}x ${message}${NC}"
+  errors=$((errors + 1))
+}
+
+print_header
+
+if [ ! -f "$TRAIL_FILE" ]; then
+  echo -e "${RED}x AUDIT_TRAIL file not found: ${TRAIL_FILE}${NC}"
+  exit 1
+fi
+
+echo -e "${BLUE}Trail file:${NC} $TRAIL_FILE"
+echo ""
+
+echo "-- Required Keys --"
+required_keys=(
+  audit_version
+  audit_date
+  audit_agent
+  audit_mode
+  target_repo
+  target_branch
+  target_version
+  audit_result
+  critical_errors_open
+  warnings_found
+  phase_0_status
+  phase_1_status
+  phase_1_2_status
+  phase_1_5_status
+  phase_2_status
+  phase_3_status
+  phase_3_6_status
+)
+
+for key in "${required_keys[@]}"; do
+  require_key "$key"
+done
+
+echo ""
+echo "-- Status Validation --"
+
+check_status() {
+  local key="$1"
+  local allowed="$2"
+  local value
+  value=$(awk -F': ' -v k="$key" '$1==k {print $2; exit}' "$TRAIL_FILE")
+
+  if [ -z "$value" ]; then
+    fail "${key} has no value"
+    return
+  fi
+
+  if [[ "$value" == "<"* ]]; then
+    warn "${key} is still a template placeholder (${value})"
+    return
+  fi
+
+  if ! echo "$value" | rg -q "^(${allowed})$"; then
+    fail "${key} has invalid value '${value}'"
+  else
+    echo -e "${GREEN}ok ${key}=${value}${NC}"
+  fi
+}
+
+check_status "audit_result" "PASS|PASS_WITH_WARNINGS|FAIL"
+check_status "phase_0_status" "PASS|FAIL|BLOCKED"
+check_status "phase_1_status" "PASS|FAIL|PASS_WITH_WARNINGS|BLOCKED"
+check_status "phase_1_2_status" "PASS|FAIL|PASS_WITH_WARNINGS|BLOCKED"
+check_status "phase_1_5_status" "PASS|FAIL|PASS_WITH_WARNINGS|BLOCKED"
+check_status "phase_2_status" "PASS|FAIL|PASS_WITH_WARNINGS|BLOCKED"
+check_status "phase_3_status" "PASS|FAIL|PASS_WITH_WARNINGS|BLOCKED"
+check_status "phase_3_6_status" "PASS|FAIL|SKIPPED|BLOCKED"
+
+echo ""
+echo "-- Gate Consistency --"
+
+audit_result=$(awk -F': ' '$1=="audit_result" {print $2; exit}' "$TRAIL_FILE")
+critical_errors_open=$(awk -F': ' '$1=="critical_errors_open" {print $2; exit}' "$TRAIL_FILE")
+
+if [[ "$audit_result" == "PASS" || "$audit_result" == "PASS_WITH_WARNINGS" ]]; then
+  if [[ "$critical_errors_open" =~ ^[0-9]+$ ]]; then
+    if [ "$critical_errors_open" -ne 0 ]; then
+      fail "audit_result is ${audit_result} but critical_errors_open is ${critical_errors_open}"
+    else
+      echo -e "${GREEN}ok audit_result and critical_errors_open are consistent${NC}"
+    fi
+  else
+    warn "critical_errors_open is not numeric (${critical_errors_open})"
+  fi
+fi
+
+blocked_phases=$(rg -n "^phase_[0-9_]+_status:\s*BLOCKED$" "$TRAIL_FILE" | wc -l | tr -d ' ')
+if [ "$blocked_phases" -gt 0 ] && [ "$audit_result" != "FAIL" ] && [[ "$audit_result" != "<"* ]]; then
+  fail "One or more phases are BLOCKED but audit_result is ${audit_result}"
+fi
+
+echo ""
+echo "-- Fingerprint Structure --"
+
+fingerprint_entries=$(rg -n "^  - file:" "$TRAIL_FILE" | wc -l | tr -d ' ')
+line_entries=$(rg -n "^    total_lines:" "$TRAIL_FILE" | wc -l | tr -d ' ')
+hash_entries=$(rg -n "^    content_hash:" "$TRAIL_FILE" | wc -l | tr -d ' ')
+
+if [ "$fingerprint_entries" -gt 0 ]; then
+  if [ "$line_entries" -lt "$fingerprint_entries" ] || [ "$hash_entries" -lt "$fingerprint_entries" ]; then
+    fail "fingerprints block is incomplete for one or more entries"
+  else
+    echo -e "${GREEN}ok fingerprints entries are structurally complete${NC}"
+  fi
+else
+  warn "No fingerprint entries detected in current file"
+fi
+
+echo ""
+echo "=================================================="
+if [ "$errors" -eq 0 ]; then
+  echo -e "${GREEN}AUDIT VALID${NC}"
+  echo -e "Warnings: ${warnings}"
   echo "=================================================="
   echo ""
   exit 0
 else
-  echo -e "${RED}❌ AUDIT INVALID${NC}"
-  echo -e "   Erros: $ERRORS | Avisos: $WARNINGS"
-  echo ""
-  echo -e "${RED}   A auditoria NÃO pode ser declarada completa.${NC}"
-  echo -e "${RED}   Corrija os erros acima e rode novamente.${NC}"
+  echo -e "${RED}AUDIT INVALID${NC}"
+  echo -e "Errors: ${errors} | Warnings: ${warnings}"
   echo "=================================================="
   echo ""
   exit 1
