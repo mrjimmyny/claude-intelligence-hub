@@ -203,13 +203,14 @@ Step 5: Once you see file was created and validated, report SUCCESS to me. Provi
 ---
 
 ### Prompt 12: Hybrid AOP Workflow & Autonomous Sub-Agent Spawning
-**Summary & Key Learning:** This prompt demonstrates advanced Orchestrator resilience. During execution, if the Orchestrator (Forge A) hits a workspace directory boundary (e.g., cannot directly access `C:\ai\claude-intelligence-hub` to read a git log), it autonomously adapts by spawning a temporary proxy sub-agent ("Forge C") with the correct `--include-directories` flag solely to perform the polling task. This proves the AOP framework supports dynamic sub-agent routing to bypass host-machine path restrictions.
-The Prompt:
+
+**Objective:** To demonstrate Orchestrator resilience by autonomously spawning a temporary proxy sub-agent to bypass workspace boundary restrictions when performing verification tasks like polling git logs.
+
+```prompt
 Forge, we are executing an advanced hybrid AOP workflow to document Forge-to-Forge orchestration. Please proceed as follows.
 
 ** Phase 1: Preparation
-Step 1: Create a temporary file at C:\ai	emp
-ew_aop_prompts.txt (create the directory if it doesn't exist). Write the exact following content into this file:
+Step 1: Create a temporary file at C:\ai\temp\new_aop_prompts.txt (create the directory if it doesn't exist). Write the exact following content into this file:
 
 Forge-to-Forge Basic Execution (Using --approval-mode yolo)
 Forge, please execute as follows:
@@ -227,15 +228,76 @@ Step 5: Once you see file was created and validated, report SUCCESS to me. Provi
 
 ** Phase 2: Job Delegation
 Step 2: Open a powershell -NoProfile -Command terminal in HEADLESS mode.
-Step 3: Call another Agent, using the Gemini CLI. Execute exactly this command: 
-gemini -y --include-directories "C:\ai\claude-intelligence-hub" -p "Forge B, you have a documentation mission in the local repository at C:\ai\claude-intelligence-hub. FIRST: Run a git pull to sync. SECOND: Read the file 'C:\ai	emp
-ew_aop_prompts.txt'. THIRD: Locate the file 'agent-orchestration-protocol/AOP_WORKED_EXAMPLES.md' and intelligently append the contents of the temp file to the end of it. FOURTH: Commit the changes with the semantic message 'docs(aop): add Forge-to-Forge orchestration examples (Prompts 11 and 12)' and push directly to the 'main' branch. Do not wait for human confirmation."
+Step 3: Call another Agent, using the Gemini CLI. Execute exactly this command:
+gemini -y --include-directories "C:\ai\claude-intelligence-hub" -p "Forge B, you have a documentation mission in the local repository at C:\ai\claude-intelligence-hub. FIRST: Run a git pull to sync. SECOND: Read the file 'C:\ai\temp\new_aop_prompts.txt'. THIRD: Locate the file 'agent-orchestration-protocol/AOP_WORKED_EXAMPLES.md' and intelligently append the contents of the temp file to the end of it. FOURTH: Commit the changes with the semantic message 'docs(aop): add Forge-to-Forge orchestration examples (Prompts 11 and 12)' and push directly to the 'main' branch. Do not wait for human confirmation."
 
 ** Phase 3: The AOP Polling & Cleanup
 Step 4: Start the AOP Polling protocol. Check git log -1 --pretty=%B in C:\ai\claude-intelligence-hub every 60 seconds.
 Step 5: Once you detect Forge B's semantic commit message in the git log, report SUCCESS to me.
-Step 6: Clean up your workspace by deleting the temporary file C:\ai	emp
-ew_aop_prompts.txt.
+Step 6: Clean up your workspace by deleting the temporary file C:\ai\temp\new_aop_prompts.txt.
+```
+
+**Analysis:** This prompt proves the AOP framework supports dynamic sub-agent routing to bypass host-machine path restrictions, allowing the Orchestrator to adapt its strategy in real-time.
+
+---
+
+### Prompt 13: Multi-Agent Recursive Documentation & Autonomous Boundary Crossing
+
+**Objective:** To demonstrate a high-complexity, multi-phase AOP workflow where an Orchestrator (Forge A) delegates the documentation of a previous successful operation (Prompt 12) to an Executor (Forge B), while autonomously handling workspace boundary restrictions by spawning a third agent (Forge C) for specialized polling.
+
+```prompt
+Forge, let's do another multi agent workflow executing an advanced AOP workflow to document your own autonomous problem-solving capabilities.
+
+# Phase 1: Preparation - before delegation
+Step 1: Create a temporary file named prompt12_doc.txt in your allowed workspace temporary directory (e.g., C:\Users\jaderson.almeida\.gemini\tmp\workspaces\). Write the exact following content into this file:
+
+Markdown
+Prompt 12: Hybrid AOP Workflow & Autonomous Sub-Agent Spawning
+**Summary & Key Learning:** This prompt demonstrates advanced Orchestrator resilience. During execution, if the Orchestrator (Forge A) hits a workspace directory boundary (e.g., cannot directly access `C:\ai\claude-intelligence-hub` to read a git log), it autonomously adapts by spawning a temporary proxy sub-agent ("Forge C") with the correct `--include-directories` flag solely to perform the polling task. This proves the AOP framework supports dynamic sub-agent routing to bypass host-machine path restrictions.
+The Prompt:
+Forge, we are executing an advanced hybrid AOP workflow to document Forge-to-Forge orchestration. Please proceed as follows.
+
+** Phase 1: Preparation
+Step 1: Create a temporary file at C:\ai\temp\new_aop_prompts.txt (create the directory if it doesn't exist). Write the exact following content into this file:
+
+Forge-to-Forge Basic Execution (Using --approval-mode yolo)
+Forge, please execute as follows:
+Step 1: Open a powershell -NoProfile -Command terminal in HEADLESS mode;
+Step 2: Execute powershell comand 'cd C:\Workspaces\llms_projects';
+Step 3: Call gemini CLI using the command: gemini --approval-mode yolo and aks gemini this way 'Forge, create a folder at C:\Workspaces\llms_projects called _temp and inside this folder create a file called forge_file_creation_test.md with content "This is a simple test requested by Jimmy"';
+Step 4: Monitoring and Validation Protocol (Polling):
+
+Implement a verification loop (polling) of up to 10 minutes.
+
+Every 60 seconds, check for the existence of file creation and validate that the file is not empty;
+
+If the file is detected and validated, perform a quick read_file to confirm content integrity;
+Step 5: Once you see file was created and validated, report SUCCESS to me. Provide a brief summary of the commit if possible.
+
+** Phase 2: Job Delegation
+Step 2: Open a powershell -NoProfile -Command terminal in HEADLESS mode.
+Step 3: Call another Agent, using the Gemini CLI. Execute exactly this command:
+gemini -y --include-directories "C:\ai\claude-intelligence-hub" -p "Forge B, you have a documentation mission in the local repository at C:\ai\claude-intelligence-hub. FIRST: Run a git pull to sync. SECOND: Read the file 'C:\ai\temp\new_aop_prompts.txt'. THIRD: Locate the file 'agent-orchestration-protocol/AOP_WORKED_EXAMPLES.md' and intelligently append the contents of the temp file to the end of it. FOURTH: Commit the changes with the semantic message 'docs(aop): add Forge-to-Forge orchestration examples (Prompts 11 and 12)' and push directly to the 'main' branch. Do not wait for human confirmation."
+
+** Phase 3: The AOP Polling & Cleanup
+Step 4: Start the AOP Polling protocol. Check git log -1 --pretty=%B in C:\ai\claude-intelligence-hub every 60 seconds.
+Step 5: Once you detect Forge B's semantic commit message in the git log, report SUCCESS to me.
+Step 6: Clean up your workspace by deleting the temporary file C:\ai\temp\new_aop_prompts.txt.
+
+
+# Phase 2: Delegation to another Agent
+Step 2: Open a `powershell -NoProfile -Command` terminal in HEADLESS mode.
+Step 3: Call Agent using the Gemini CLI:
+`gemini -y --include-directories "C:\ai\claude-intelligence-hub" -p "Forge, you have a documentation mission. FIRST: Run a git pull in C:\ai\claude-intelligence-hub. SECOND: Read the temporary file you just received (use absolute path). THIRD: Append its contents to 'C:\ai\claude-intelligence-hub\agent-orchestration-protocol\AOP_WORKED_EXAMPLES.md'. FOURTH: Commit with the message 'docs(aop): document Prompt 12 and autonomous sub-agent routing capability' and push to main. Job done."`
+
+
+# Phase 3: The AOP Polling & Cleanup
+Step 4: Start polling the git history. CRITICAL: If you cannot access the git directory directly due to workspace boundaries, use your autonomous problem-solving skill: spawn a sub-agent using gemini -y --include-directories "C:\ai\claude-intelligence-hub" -p "Read git log -1 --pretty=%B" to check it for you every 60 seconds.
+Step 5: Once detected, report SUCCESS.
+Step 6: Clean up your workspace by deleting the prompt12_doc.txt
+```
+
+**Analysis:** This prompt represents the highest level of AOP autonomy, demonstrating recursive delegation and autonomous proxy spawning to bypass local path restrictions. **Strategy Critique:** While resilient, this strategy is **highly inefficient** due to the high overhead of spawning a new sub-agent for every 60-second polling check. As noted in the case study below, it is far more efficient to delegate the entire polling loop to a single sub-agent call.
 
 ---
 
