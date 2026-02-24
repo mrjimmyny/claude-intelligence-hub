@@ -1009,9 +1009,9 @@ touch CHANGELOG.md             # Version history
 
 ---
 
-**Version:** 2.5.0
+**Version:** 2.5.1
 **Status:** ✅ Production - Enterprise-Ready
-**Last Updated:** 2026-02-18
+**Last Updated:** 2026-02-24
 **Maintained by:** Xavier, Magneto & Jimmy
 
 *This is the single source of truth for skill routing in the Claude Intelligence Hub*

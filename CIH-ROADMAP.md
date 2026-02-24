@@ -2,7 +2,7 @@
 
 > **Not sure where to start?** This is the document you read first. It will tell you exactly which file to open next, in what order, and when you are done.
 
-**Version:** 1.0.0 · **Last Updated:** 2026-02-17
+**Version:** 1.0.1 · **Last Updated:** 2026-02-24
 
 ---
 
@@ -37,7 +37,7 @@ Before any path, internalize this distinction. It governs every decision in the 
 
 | Category | Skills | Rule |
 |----------|--------|------|
-| **Mandatory** | jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry | Install all five. Always. In this order. |
+| **Mandatory** | jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry, conversation-memoria, agent-orchestration-protocol | Install all seven. Always. In this order. |
 | **À La Carte** | pbi-claude-skills, context-guardian, repo-auditor | Install only if you need them. |
 
 ---
