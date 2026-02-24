@@ -2,6 +2,7 @@
   "name": "x-mem",
   "version": "1.0.0",
   "description": "Self-learning protocol - captures failures/successes to prevent repeated errors",
+  "status": "production",
   "author": "Xavier (Claude) & Jimmy",
   "created": "2026-02-14",
   "last_updated": "2026-02-14",

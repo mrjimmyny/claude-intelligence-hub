@@ -2,6 +2,7 @@
   "name": "gdrive-sync-memoria",
   "version": "1.0.0",
   "description": "Google Drive integration for ChatLLM Teams summaries - syncs .md files from ChatLLM Teams to session-memoria",
+  "status": "production",
   "author": "Jimmy's Claude Intelligence Hub",
   "created": "2026-02-11",
   "last_updated": "2026-02-11",

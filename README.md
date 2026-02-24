@@ -144,10 +144,10 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[claude-session-registry](claude-session-registry/)** | v1.1.0 | ✅ Production | Session tracking & backup | Resume ID tracking, Git context, Golden Close protocol, **automatic backup to GitHub**. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
 | **[pbi-claude-skills](pbi-claude-skills/)** | v1.3.0 | ✅ Production | Power BI PBIP optimization | 50-97% token savings, 5 specialized skills, auto-indexing. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
 | **[x-mem](x-mem/)** | v1.0.0 | ✅ Production | Self-learning protocol | Failure/success capture, proactive recall, NDJSON storage, 15K token budget. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
-| **[xavier-memory](xavier-memory/)** | v1.0.0 | ✅ Production | Global memory infrastructure | Master MEMORY.md, cross-project sync, 3-layer backup (Git/Hard links/GDrive). Foundation for X-MEM protocol. |
+| **[xavier-memory](xavier-memory/)** | v1.1.0 | ✅ Production | Global memory infrastructure | Master MEMORY.md, cross-project sync, 3-layer backup (Git/Hard links/GDrive). Foundation for X-MEM protocol. |
 | **[xavier-memory-sync](xavier-memory-sync/)** | v1.0.0 | ✅ Production | Memory sync automation | Trigger phrases for backup/restore/status, Google Drive integration, zero-duplicate guarantee. |
 | **[context-guardian](context-guardian/)** | v1.0.0 | ✅ Production | Context preservation system | Xavier ↔ Magneto account switching, 3-strategy symlinks, rollback protection, .contextignore support, dry-run mode. |
-| **[repo-auditor](repo-auditor/)** | v1.0.0 | ✅ Production | End-to-end audit skill | Mandatory proof-of-read fingerprinting, accumulative AUDIT_TRAIL.md, validate-trail.sh for CI. |
+| **[repo-auditor](repo-auditor/)** | v2.0.0 | ✅ Production | End-to-end audit skill | Mandatory proof-of-read fingerprinting, accumulative AUDIT_TRAIL.md, validate-trail.sh for CI. |
 | **[conversation-memoria](conversation-memoria/)** | v1.0.0 | ✅ Production | Persistent conversation storage | Intelligent metadata extraction, 95-98% token savings, week-based organization, natural language triggers, cross-agent memory sharing. |
 | **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v1.3.0 | ✅ Production | Multi-agent coordination framework | The Seven Pillars of AOP mastery, recursive/parallel workflows, production-validated prompt cookbook. |
 
@@ -413,7 +413,7 @@ claude-intelligence-hub/
 │   ├── templates/                   # Config metadata schema templates
 │   └── docs/                        # Phase 0 discovery report
 │
-├── 📁 repo-auditor/                 # ⭐ End-to-End Audit Skill (v1.0.0)
+├── 📁 repo-auditor/                 # ⭐ End-to-End Audit Skill (v2.0.0)
 │   ├── SKILL.md                     # Audit workflows & proof-of-read fingerprinting
 │   ├── AUDIT_TRAIL.md               # Accumulative audit log (append-only)
 │   └── scripts/                     # validate-trail.sh for CI enforcement

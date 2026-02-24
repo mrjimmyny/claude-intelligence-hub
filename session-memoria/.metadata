@@ -2,6 +2,7 @@
   "name": "session-memoria",
   "version": "1.2.0",
   "description": "Jimmy's second brain - captures and recalls conversations, decisions, insights, and ideas across all sessions with 3-tier archiving",
+  "status": "production",
   "author": "Xavier (Claude)",
   "created": "2026-02-10",
   "last_updated": "2026-02-14",

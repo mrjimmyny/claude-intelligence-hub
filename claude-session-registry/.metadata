@@ -2,6 +2,7 @@
   "name": "claude-session-registry",
   "version": "1.1.0",
   "description": "Track Claude sessions with Git context and automatic backup",
+  "status": "production",
   "author": "Xavier (Claude)",
   "created": "2026-02-12",
   "updated": "2026-02-13",

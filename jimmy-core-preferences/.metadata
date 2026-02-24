@@ -2,6 +2,7 @@
   "name": "jimmy-core-preferences",
   "version": "1.5.0",
   "description": "Master skill containing Jimmy's core preferences, working style, and permanent rules for Claude",
+  "status": "production",
   "author": "mrjimmyny",
   "created": "2025-02-09",
   "last_updated": "2026-02-10",

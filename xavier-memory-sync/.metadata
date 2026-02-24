@@ -2,6 +2,7 @@
   "name": "xavier-memory-sync",
   "version": "1.0.0",
   "description": "Xavier Memory sync skill - manages global memory backup and cross-project synchronization",
+  "status": "production",
   "type": "infrastructure",
   "triggers": [
     "sync memory",

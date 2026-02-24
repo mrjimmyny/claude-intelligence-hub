@@ -2,6 +2,7 @@
   "name": "pbi-claude-skills",
   "version": "1.3.0",
   "description": "Power BI PBIP project optimization - Token savings for large codebases",
+  "status": "production",
   "author": "Xavier (Claude) & Jimmy",
   "created": "2026-02-10",
   "last_updated": "2026-02-14",
