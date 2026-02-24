@@ -357,3 +357,25 @@ This section documents a real-world orchestration failure and the recovery steps
 
 -   For simple, repetitive polling, prefer a **boolean check** over requesting raw data to avoid conversational drift from sub-agents.
 -   If a polling agent becomes unresponsive or "stale," instantiate a new one with a different persona name (e.e., `Forge C` -> `Forge D`) to ensure a clean execution context.
+
+---
+# WARNING: Known Executor Agent Limitations
+This new section has been added based on the findings of the AOP Audit (Feb 2026). Orchestrators must review these limitations before delegating tasks to the specified agents.
+
+---
+
+## Codex (Emma) CLI Limitations
+
+### Critical Issue: `codex exec` Argument Parsing Failure
+
+-   **Problem:** The `codex exec` command is **non-compliant** with standard command-line argument parsing for string literals. It does not treat a prompt enclosed in double quotes as a single argument. Instead, it splits the prompt by spaces, causing the command to fail if the prompt contains more than one word.
+-   **Impact:** This makes it **impossible** to delegate tasks to Codex/Emma using the standard AOP natural language delegation pattern. Any complex instruction will fail.
+-   **Error Signature:** The command will fail with an error similar to `error: unexpected argument '<word>' found`.
+-   **Status:** **Awaiting Bug Fix.** A high-priority bug report should be filed against the `codex` CLI tool to correct its argument parser.
+
+### Orchestrator Guidance
+
+-   **DO NOT** attempt to delegate tasks to `codex exec` using multi-word, natural language prompts.
+-   **DO NOT** rely on the "State Handover via File" pattern as a workaround, as the command to read the file will also fail if it contains spaces.
+-   **RISK:** The existing examples in this document involving `codex exec` (e.g., Prompts 6, 9) should be considered **unreliable or environment-dependent**. They are preserved for historical context but are not guaranteed to work in all shell environments (e.g., PowerShell).
+-   **RECOMMENDATION:** Until the `codex` CLI is patched, its use in AOP workflows should be limited to tasks that can be triggered by a single-word command. For all other delegated tasks, use a compliant agent like `claude` or `gemini`.
