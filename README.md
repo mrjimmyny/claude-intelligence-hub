@@ -149,7 +149,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[context-guardian](context-guardian/)** | v1.0.0 | ✅ Production | Context preservation system | Xavier ↔ Magneto account switching, 3-strategy symlinks, rollback protection, .contextignore support, dry-run mode. |
 | **[repo-auditor](repo-auditor/)** | v1.0.0 | ✅ Production | End-to-end audit skill | Mandatory proof-of-read fingerprinting, accumulative AUDIT_TRAIL.md, validate-trail.sh for CI. |
 | **[conversation-memoria](conversation-memoria/)** | v1.0.0 | ✅ Production | Persistent conversation storage | Intelligent metadata extraction, 95-98% token savings, week-based organization, natural language triggers, cross-agent memory sharing. |
-| **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v1.2.0 | ✅ Production | Multi-agent coordination framework | The Six Pillars of AOP mastery, recursive/parallel workflows, production-validated prompt cookbook. |
+| **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v1.3.0 | ✅ Production | Multi-agent coordination framework | The Seven Pillars of AOP mastery, recursive/parallel workflows, production-validated prompt cookbook. |
 
 ---
 
@@ -413,10 +413,36 @@ claude-intelligence-hub/
 │   ├── templates/                   # Config metadata schema templates
 │   └── docs/                        # Phase 0 discovery report
 │
-├── 📁 repo-auditor/                 # ⭐ End-to-End Audit Skill (v1.0.0)       
+├── 📁 repo-auditor/                 # ⭐ End-to-End Audit Skill (v1.0.0)
 │   ├── SKILL.md                     # Audit workflows & proof-of-read fingerprinting
 │   ├── AUDIT_TRAIL.md               # Accumulative audit log (append-only)
-│   └── scripts/                     # validate-trail.sh for CI enforcement     
+│   └── scripts/                     # validate-trail.sh for CI enforcement
+│
+├── 📁 conversation-memoria/         # ⭐ Persistent Conversation Storage (v1.0.0)
+│   ├── SKILL.md                     # Intelligent metadata extraction workflows
+│   ├── README.md                    # User guide
+│   ├── CHANGELOG.md                 # Version history
+│   ├── conversations/               # Week-based organization
+│   │   ├── index/                   # by-agent, by-date, by-topic, by-week indexes
+│   │   └── templates/               # Conversation templates
+│   └── README.md                    # Main documentation
+│
+├── 📁 agent-orchestration-protocol/ # ⭐ Multi-Agent Coordination (v1.3.0)
+│   ├── SKILL.md                     # The Seven Pillars of AOP
+│   ├── README.md                    # Complete guide
+│   ├── AOP-EXECUTIVE-SUMMARY.md     # Executive summary
+│   ├── AOP_WORKED_EXAMPLES.md       # Production-validated cookbook
+│   └── ROADMAP.md                   # Development roadmap
+│
+├── 📁 codex-governance-framework/   # 🏛️ Codex Governance Framework
+│   ├── playbook/                    # Complete playbook documentation
+│   │   ├── SKILL.md                 # Framework orchestrator skill
+│   │   ├── README.md                # Playbook overview
+│   │   └── [other docs]             # Architecture, principles, guides
+│   ├── planning/                    # Planning documents
+│   ├── next-steps/                  # CI-ready contracts
+│   ├── README.md                    # Framework overview
+│   └── START_HERE.md                # Onboarding guide
 │
 ├── 📁 token-economy/                # 📊 Token Budget Governance (v1.0.0)
 │   ├── README.md                    # Budget discipline rules & overview
@@ -428,8 +454,8 @@ claude-intelligence-hub/
 │
 ├── README.md                        # ⭐ This file
 ├── CHANGELOG.md                     # Version history
-├── EXECUTIVE_SUMMARY.md             # Comprehensive hub overview (v2.2.0)
-├── HUB_MAP.md                       # Skill routing dictionary (v2.5.0)
+├── EXECUTIVE_SUMMARY.md             # Comprehensive hub overview (v2.5.1)
+├── HUB_MAP.md                       # Skill routing dictionary (v2.5.1)
 ├── WINDOWS_JUNCTION_SETUP.md        # Junction setup guide (Windows)
 ├── scripts/                         # Automation & deployment scripts
 │   ├── setup_local_env.ps1          # Windows automated setup (15-min)
