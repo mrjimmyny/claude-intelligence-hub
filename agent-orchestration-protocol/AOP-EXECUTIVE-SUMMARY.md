@@ -71,7 +71,7 @@ AOP includes built-in safeguards to ensure safe execution:
 ```mermaid
 graph LR
     A[Orchestrator] -->|Set-Location C:\ai| B(Workspace Verification)
-    B -->|Verified| C[Codex Exec + Bypass Flag]
+    B -->|Verified| C[Executor CLI + Bypass Flag]
     B -->|Denied| D[Halt Execution]
 ```
 

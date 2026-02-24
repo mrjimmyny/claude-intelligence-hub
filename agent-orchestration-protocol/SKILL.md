@@ -54,12 +54,13 @@ To guarantee reliable execution and resolve sandbox initialization issues, orche
 ### The Workspace Routing Rule
 Orchestrators can route executors to **ANY trusted, pre-configured project directory** (e.g., `C:\ai`, `C:\Workspaces`) using the `Set-Location` syntax, provided the orchestrator explicitly verifies the path before handover.
 
-### The Codex Execution Standard
-The `codex` executor agent is fully compliant. Failures are typically due to incorrect directory contexts. You MUST use one of the following patterns, utilizing the `--dangerously-bypass-approvals-and-sandbox` flag:
+### The Executor Agent Routing Standard
+The `codex` and `gemini` executor agents are fully compliant. Failures are typically due to incorrect directory contexts. You MUST use one of the following patterns, utilizing the appropriate bypass flag:
 
 <details>
 <summary><b>💻 View Mandatory PowerShell Execution Patterns</b></summary>
 
+**For Codex (Emma):**
 **Option A (Simple, reliable execution):**
 ```powershell
 Set-Location <Target_Path>
@@ -69,6 +70,12 @@ codex exec --dangerously-bypass-approvals-and-sandbox '<Complex_Instructions_Wra
 **Option B (One-liner - Highly Recommended for automated orchestration):**
 ```powershell
 Set-Location <Target_Path>; codex exec --dangerously-bypass-approvals-and-sandbox '<Complex_Instructions_Wrapped_In_Single_Quotes>'
+```
+
+**For Gemini (Forge):**
+**Option B (One-liner):**
+```powershell
+Set-Location <Target_Path>; gemini --approval-mode yolo -p "<Complex_Instructions_Wrapped_In_Double_Quotes>"
 ```
 
 **Option C (Spawn in a completely new terminal instance):**
@@ -114,10 +121,17 @@ Executor Agents should output an `error.json` file in the root of their workspac
 
 ### Cross-LLM Command Reference
 
-| Task | Gemini CLI (`gemini`) | Codex CLI (`codex`) |
-| :--- | :--- | :--- |
-| **Bypass Sandbox** | `--approval-mode yolo` | `--dangerously-bypass-approvals-and-sandbox` |
-| **Set Workspace** | `--include-directories <path>` | Handled via `Set-Location` prior to execution |
+| Task | Gemini CLI (`gemini`) | Codex CLI (`codex`) | Claude Code (`claude`) |
+| :--- | :--- | :--- | :--- |
+| **Execution (Standard)** | `gemini -p "..."` | `codex exec "..."` | `claude -p "..."` |
+| **Bypass Sandbox / Approval** | `--approval-mode yolo` or `-y` | `--dangerously-bypass-approvals-and-sandbox` | `--dangerously-skip-permissions` |
+| **Set Workspace / Context** | `--include-directories <path>` | Handled via `Set-Location` prior to execution | Handled via `Set-Location` prior to execution |
+| **Git Bypass** | *N/A (Works outside git)* | `--skip-git-repo-check` | *N/A* |
+
+**Example: Claude or Codex orchestrating Gemini (Forge):**
+```powershell
+Set-Location C:\ai\target_dir; gemini --approval-mode yolo -p "Forge, execute Phase 1: create file X. Output ONLY the word 'YES' upon completion."
+```
 
 ---
 

@@ -109,8 +109,9 @@ To ensure reliable execution, orchestrators must adhere to the **Flexible Securi
 **Rule:** Orchestrators can route executors to ANY trusted, pre-configured project directory (e.g., `C:\ai`, `C:\Workspaces`) using the `Set-Location` syntax, **provided the path is explicitly verified before handover.**
 
 <details>
-<summary><b>🛠️ View Execution Options for Codex</b></summary>
+<summary><b>🛠️ View Execution Options for Codex & Gemini</b></summary>
 
+**For Codex (Emma):**
 **Option A (Simple, reliable execution):**
 ```powershell
 Set-Location <Target_Path>
@@ -120,6 +121,12 @@ codex exec --dangerously-bypass-approvals-and-sandbox '<Complex_Instructions_Wra
 **Option B (One-liner - Highly Recommended for automated orchestration):**
 ```powershell
 Set-Location <Target_Path>; codex exec --dangerously-bypass-approvals-and-sandbox '<Complex_Instructions_Wrapped_In_Single_Quotes>'
+```
+
+**For Gemini (Forge):**
+**Option B (One-liner):**
+```powershell
+Set-Location <Target_Path>; gemini --approval-mode yolo -p "<Complex_Instructions_Wrapped_In_Double_Quotes>"
 ```
 
 **Option C (Spawn in a completely new terminal instance):**

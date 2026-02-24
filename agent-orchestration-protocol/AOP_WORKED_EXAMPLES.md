@@ -284,6 +284,27 @@ Step 6: Clean up your workspace by deleting the temporary file C:\ai\temp\new_ao
 
 ---
 
+### Prompt 13: Claude/Codex Orchestrating Gemini (Forge)
+
+**Objective:** To demonstrate a cross-LLM orchestration where Claude or Codex acts as the Orchestrator, calling Gemini (Forge) as the Executor using the `gemini` CLI with the YOLO bypass flag.
+
+<details>
+<summary><b>💻 View Prompt</b></summary>
+
+```prompt
+Emma (or Magneto), you are the Orchestrator for this AOP execution.
+
+Step 1: Open a terminal in HEADLESS mode.
+Step 2: Delegate Phase 1 to Forge using the Gemini CLI. Use the exact Option B routing syntax:
+`Set-Location C:\ai\temp; gemini --approval-mode yolo -p "Forge, Phase 1: create a file named aop-test-1.md with the text 'Phase 1 initialized.'. Output ONLY the word 'YES' upon completion."`
+Step 3: Monitor the output. Once Forge returns "YES", read the file `C:\ai\temp\aop-test-1.md` to verify its integrity.
+Step 4: Report 'STATUS: SUCCESS' to me.
+```
+
+</details>
+
+---
+
 ## ⚠️ Resolved Executor Agent Limitations
 
 Based on the AOP Audit (Feb 2026), earlier reports of `codex exec` argument parsing failures were misdiagnosed. 
