@@ -30,6 +30,7 @@ sequenceDiagram
     Forge->>Forge: Integrity Verification
     Forge->>User: Closeout (SUCCESS/FAIL)
 ```
+
 </details>
 
 ---
@@ -74,6 +75,7 @@ Set-Location <Target_Path>; codex exec --dangerously-bypass-approvals-and-sandbo
 ```powershell
 Start-Process powershell -WorkingDirectory <Target_Path>
 ```
+
 </details>
 
 ---
@@ -94,6 +96,7 @@ Executor Agents should output an `error.json` file in the root of their workspac
   "executor_agent_id": "Emma" 
 }
 ```
+
 </details>
 
 ### Polling Optimizations

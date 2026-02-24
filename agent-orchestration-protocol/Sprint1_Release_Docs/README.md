@@ -37,6 +37,7 @@ graph TD
     F --> G
     G -->|Status Report| A
 ```
+
 </details>
 
 ### Key Concepts
@@ -66,6 +67,7 @@ Forge, execute this basic test:
 5. Verify the file exists
 6. Report: SUCCESS or FAIL
 ```
+
 </details>
 
 ---
@@ -124,6 +126,7 @@ Set-Location <Target_Path>; codex exec --dangerously-bypass-approvals-and-sandbo
 ```powershell
 Start-Process powershell -WorkingDirectory <Target_Path>
 ```
+
 </details>
 
 ---
@@ -144,6 +147,7 @@ When an Executor Agent fails, it should generate an `error.json` file in its wor
   "executor_agent_id": "Forge B" 
 }
 ```
+
 </details>
 
 ### Polling Best Practices

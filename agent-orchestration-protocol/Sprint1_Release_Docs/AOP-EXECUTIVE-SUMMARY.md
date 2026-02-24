@@ -74,6 +74,7 @@ graph LR
     B -->|Verified| C[Codex Exec + Bypass Flag]
     B -->|Denied| D[Halt Execution]
 ```
+
 </details>
 
 ---

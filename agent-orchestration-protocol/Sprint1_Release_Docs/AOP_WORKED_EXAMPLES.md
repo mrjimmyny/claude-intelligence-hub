@@ -39,6 +39,7 @@ Forge, execute the following document engineering operation with a focus on inte
 * If generated successfully: Return 'STATUS: SUCCESS'.
 * If timeout or error: Return 'STATUS: FAIL' with the terminal error log.
 ```
+
 </details>
 
 ---
@@ -66,6 +67,7 @@ Phase 3: The AOP Polling
 Step 5: Start the AOP Polling protocol. Poll the git history. Check git log -1 --pretty=%B in C:\ai\claude-intelligence-hub every 60 seconds.        
 Step 6: Once you detect Emma's semantic commit message, report SUCCESS.
 ```
+
 </details>
 
 ---
@@ -86,4 +88,5 @@ Orchestrators must strictly adhere to the Flexible Security Routing and Executio
 ```powershell
 Set-Location C:\ai\claude-intelligence-hub; codex exec --dangerously-bypass-approvals-and-sandbox 'Your complex multi-word instruction here.'
 ```
+
 </details>
