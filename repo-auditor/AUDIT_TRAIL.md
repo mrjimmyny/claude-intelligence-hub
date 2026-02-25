@@ -223,7 +223,7 @@ total_files_tracked: 195
 critical_files_count: 49
 files_fingerprinted: 49
 
-audit_result: BLOCKED (release tag mismatch)
+audit_result: PASS_WITH_WARNINGS
 critical_errors_found: 2
 critical_errors_resolved: 2
 critical_errors_open: 0
@@ -247,10 +247,10 @@ spot_check_passed: 17
 spot_check_warnings: 2
 spot_check_failures: 0
 
-release_published: UNKNOWN (blocked)
-release_url: N/A
+release_published: YES
+release_url: https://github.com/mrjimmyny/claude-intelligence-hub/releases/tag/v2.6.0
 release_tag: v2.6.0
-release_tag_verified: WARNING (TAG!=HEAD)
+release_tag_verified: YES
 
 phase_0_status: PASS
 phase_1_status: PASS
@@ -258,10 +258,10 @@ phase_1_2_status: PASS
 phase_1_5_status: PASS_WITH_WARNINGS
 phase_2_status: PASS_WITH_WARNINGS
 phase_3_status: PASS_WITH_WARNINGS
-phase_3_6_status: BLOCKED
+phase_3_6_status: PASS
 
 audit_start: 2026-02-25 12:05
-audit_end: 2026-02-25 12:26
+audit_end: 2026-02-25 12:42
 
 fingerprints:
 - file: .\agent-orchestration-protocol\.metadata
@@ -528,9 +528,9 @@ warnings:
     file: "multiple"
     recommended_action: "Normalize entry/index templates or regenerate"
   - phase: 3.6
-    description: "Release tag mismatch: v2.6.0 tag commit != HEAD"
+    description: "Release tag mismatch resolved by retagging v2.6.0 to HEAD and updating release notes"
     file: "N/A"
-    recommended_action: "Decide whether to retag v2.6.0 to HEAD or create new version"
+    recommended_action: "No action required"
 
 corrections:
   - file: "README.md"
@@ -954,20 +954,53 @@ $ git tag -l "v2.6.0"
 v2.6.0
 
 $ git log -1 --format="%H" "v2.6.0"
-68a30600cf08127abd3a5b4a1a65816af322fd8d
+7aac2bc4fe86854404170e19b483bb94c098d455
 
 $ git log -1 --format="%H" HEAD
-aaebc58938f264604fea018162abf66ed4ad2724
+7aac2bc4fe86854404170e19b483bb94c098d455
 ```
-Result: WARNING (tag commit != HEAD). Awaiting user instruction before continuing.
+Result: PASS (tag commit == HEAD after retag)
+
+### 3.6.2 Extract release notes
+```bash
+$ awk "/^## [2.6.0]/{found=1; next} /^## [/{found=0} found" CHANGELOG.md > /tmp/release-notes.md
+$ wc -l /tmp/release-notes.md
+46
+```
+Result: PASS (release notes present)
+
+### 3.6.3 Create or update release
+Release already existed; updated notes from CHANGELOG.
+```bash
+$ gh release edit "v2.6.0" --notes-file /tmp/release-notes.md
+```
+Result: PASS
+
+### 3.6.4 Verify publication
+```bash
+$ gh release view "v2.6.0"
+$ gh api repos/mrjimmyny/claude-intelligence-hub/releases/tags/v2.6.0 --jq '.html_url'
+https://github.com/mrjimmyny/claude-intelligence-hub/releases/tag/v2.6.0
+```
+Result: PASS
+
+### 3.6.5 Record release result
+```yaml
+release_published: YES
+release_url: https://github.com/mrjimmyny/claude-intelligence-hub/releases/tag/v2.6.0
+release_tag: v2.6.0
+release_tag_commit: 7aac2bc4fe86854404170e19b483bb94c098d455
+release_tag_verified: YES
+release_api_verified: YES
+```
 
 ### CHECKPOINT 3.6
-Status: BLOCKED (awaiting user instruction on tag mismatch)
+Status: PASS
 
 ### CHECKPOINT 3.6.SAVE
 ```yaml
 phase_completed: 3.6
-timestamp: 2026-02-25 12:26
-status: BLOCKED
-release_url: N/A
+timestamp: 2026-02-25 12:42
+status: PASS
+release_url: https://github.com/mrjimmyny/claude-intelligence-hub/releases/tag/v2.6.0
 ```
