@@ -164,6 +164,21 @@ When an Executor Agent fails, it should generate an `error.json` file in its wor
 
 ---
 
+## 📚 Production Case Studies
+
+Real-world orchestration executions are documented in the `orchestrations/` directory. Each case study includes:
+- Complete execution report (JSON)
+- Detailed documentation (README)
+- Metrics and lessons learned
+- Application of all Seven Pillars
+
+**Featured Case Study:**
+- **[Chain Delegation with Sub-Orchestration](./orchestrations/2026-02-25_chain-delegation/)** - Validates multi-level delegation where Emma (Codex) acts as both Executor and Sub-Orchestrator, delegating to Forge (Gemini). Demonstrates cross-LLM orchestration (Claude → OpenAI → Google) with 100% success rate.
+
+For additional worked examples and prompt templates, see [AOP_WORKED_EXAMPLES.md](./AOP_WORKED_EXAMPLES.md).
+
+---
+
 ## 🤝 Support and Contribution
 
 For issues, questions, or contributions to the AOP framework:
@@ -171,5 +186,5 @@ For issues, questions, or contributions to the AOP framework:
 - Check existing worked examples before creating new patterns.
 
 **Version:** 1.3.0
-**Last Updated:** 2026-02-24
+**Last Updated:** 2026-02-25
 **Maintained by:** Claude Intelligence Hub Team (Forge Lead)

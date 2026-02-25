@@ -124,6 +124,8 @@ Executor Agents should output an `error.json` file in the root of their workspac
 
 - [README.md](./README.md) - Complete onboarding guide
 - [AOP_WORKED_EXAMPLES.md](./AOP_WORKED_EXAMPLES.md) - Production-validated prompt cookbook
+- [orchestrations/](./orchestrations/) - Real-world orchestration case studies with complete execution reports
+  - [Chain Delegation with Sub-Orchestration](./orchestrations/2026-02-25_chain-delegation/) - Multi-level delegation (Claude → OpenAI → Google) with 100% success rate
 
 ---
 

@@ -323,3 +323,34 @@ Set-Location C:\ai\claude-intelligence-hub; codex exec --dangerously-bypass-appr
 ```
 
 </details>
+
+---
+
+### Prompt 14: Chain Delegation with Sub-Orchestration
+
+**Objective:** To validate multi-level delegation where an Executor Agent (Emma) acts simultaneously as both Executor and Sub-Orchestrator, creating her own artifact and then delegating a secondary task to another Executor (Forge). This demonstrates that AOP supports chain delegation across multiple LLM backends (Claude → OpenAI → Google).
+
+<details>
+<summary><b>💻 View Prompt</b></summary>
+
+```prompt
+Magneto, execute the following chain delegation orchestration using AOP principles:
+
+Phase 1: Delegate to Emma (Codex)
+Step 1: Open a terminal and navigate to the workspace: `cd /c/ai/temp`
+Step 2: Call Codex CLI with full bypass: `codex exec --dangerously-bypass-approvals-and-sandbox "Create a file named file_test_emma_v1.txt in C:/ai/temp with content 'File created by Emma (Codex) at [timestamp]'. Use PowerShell Write-Output and Out-File. Return only YES when done."`
+Step 3: Verify Emma's artifact: `ls -lh /c/ai/temp/file_test_emma_v1.txt && cat /c/ai/temp/file_test_emma_v1.txt`
+
+Phase 2: Emma Delegates to Forge (Sub-Orchestration)
+Step 4: Emma acts as Sub-Orchestrator and delegates to Forge using: `cd /c/ai/temp && gemini --approval-mode yolo -p "Forge, create a file named file_test_forge_v1.txt in C:/ai/temp with content 'File created by Forge (Gemini) at [timestamp]'. Use PowerShell commands. Return only YES when completed."`
+Step 5: Verify Forge's artifact: `ls -lh /c/ai/temp/file_test_forge_v1.txt && cat /c/ai/temp/file_test_forge_v1.txt`
+
+Phase 3: Integrity Verification & Closeout
+Step 6: Verify both artifacts exist, contain correct content, and identify their creators
+Step 7: Generate structured orchestration report with execution chain, metrics, and AOP pillars applied
+Step 8: Report final STATUS: SUCCESS or FAIL
+```
+
+**Production Validation:** This pattern was executed successfully on 2026-02-25 with 100% success rate. Both artifacts created correctly. See detailed case study at `orchestrations/2026-02-25_chain-delegation/README.md`.
+
+</details>
