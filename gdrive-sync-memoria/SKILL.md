@@ -1,3 +1,11 @@
+---
+name: gdrive-sync-memoria
+version: 1.0.0
+description: Google Drive integration - Sync ChatLLM Teams content to session-memoria
+command: /gdrive-sync
+aliases: [/gdrive]
+---
+
 # Google Drive Sync for Session-Memoria
 
 **Skill ID:** `gdrive-sync-memoria`

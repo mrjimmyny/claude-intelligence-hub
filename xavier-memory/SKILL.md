@@ -1,3 +1,11 @@
+---
+name: xavier-memory
+version: 1.1.0
+description: Global memory infrastructure - Cross-project persistent memory
+command: /xavier-memory
+aliases: [/xmemory]
+---
+
 # Xavier Memory Management - Skill Workflows
 
 **Version:** 1.1.0

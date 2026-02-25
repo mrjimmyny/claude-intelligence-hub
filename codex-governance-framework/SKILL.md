@@ -1,3 +1,11 @@
+---
+name: codex-governance-framework
+version: 1.0.0
+description: Institutional governance framework for Codex bootstrap operations
+command: /governance
+aliases: [/codex]
+---
+
 # Codex Governance Framework
 **Version:** 1.0.0
 **Type:** Governance Documentation

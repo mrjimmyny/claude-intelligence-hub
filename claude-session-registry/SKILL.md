@@ -2,6 +2,8 @@
 name: claude-session-registry
 version: 1.1.0
 description: Session registry workflows with git-aware tracking and close protocol.
+command: /registry
+aliases: [/register-session]
 ---
 
 # Claude Session Registry - Skill Workflows

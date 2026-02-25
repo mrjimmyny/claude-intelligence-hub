@@ -2,6 +2,8 @@
 name: jimmy-core-preferences
 version: 1.5.0
 description: Core operating preferences and collaboration rules.
+command: /preferences
+aliases: [/prefs, /jimmy]
 ---
 
 # Jimmy Core Preferences - Master Skill

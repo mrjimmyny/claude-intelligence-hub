@@ -1,6 +1,8 @@
 ---
 name: repo-auditor
 description: Deterministic deep repository audit protocol for content, consistency, and completeness. Use when an audit must be reproducible across agents with literal bash commands, strict checkpoints, recovery gates, and verified release publication.
+command: /repo-auditor
+aliases: [/audit, /repo-audit, /validate]
 ---
 
 # Repo Auditor
@@ -301,11 +303,144 @@ Criteria:
 - Empty required file or invalid markdown header in required `.md` file => `CRITICAL ERROR`
 - Same issue in expected file => `WARNING`
 
+#### 1.2.5 Validate slash command definitions
+Objective: Ensure ALL skills have slash commands defined and command documentation is synchronized.
+
+**Critical Issue This Addresses:**
+This validation prevents skills from being created without slash command definitions, ensuring consistent CLI access across all skills.
+
+**Part A: Validate SKILL.md frontmatter contains command definitions**
+
+For each skill directory:
+```bash
+skill_dir="<SKILL_PATH>"
+skill_name=$(basename "$skill_dir")
+
+# Check if SKILL.md exists
+if [ ! -f "${skill_dir}/SKILL.md" ]; then
+  echo "❌ MISSING: ${skill_name}/SKILL.md does not exist"
+  exit 1
+fi
+
+# Check for frontmatter with command definition
+if ! grep -q "^command:" "${skill_dir}/SKILL.md"; then
+  echo "❌ MISSING COMMAND: ${skill_name}/SKILL.md lacks 'command:' in frontmatter"
+fi
+```
+
+Record missing commands:
+```bash
+: > /tmp/skills_missing_commands.txt
+for skill_dir in */; do
+  if [[ -f "${skill_dir}.metadata" ]]; then
+    skill_name=$(basename "$skill_dir" /)
+    if ! grep -q "^command:" "${skill_dir}SKILL.md" 2>/dev/null; then
+      echo "$skill_name" >> /tmp/skills_missing_commands.txt
+    fi
+  fi
+done
+
+MISSING_COMMANDS=$(wc -l < /tmp/skills_missing_commands.txt | tr -d ' ')
+```
+
+Criteria:
+- `PASS` if `MISSING_COMMANDS == 0`
+- Otherwise: `CRITICAL ERROR` => `BLOCKED`
+
+**Part B: Validate command mapping documentation synchronization**
+
+Extract commands from SKILL.md frontmatter:
+```bash
+: > /tmp/skill_commands_actual.tsv
+for skill_dir in */; do
+  if [[ -f "${skill_dir}.metadata" ]]; then
+    skill_name=$(basename "$skill_dir" /)
+    command=$(grep "^command:" "${skill_dir}SKILL.md" 2>/dev/null | sed 's/command: *//; s/"//g')
+
+    if [ -n "$command" ]; then
+      echo -e "${skill_name}\t${command}" >> /tmp/skill_commands_actual.tsv
+    fi
+  fi
+done
+```
+
+Extract commands from HUB_MAP.md:
+```bash
+grep "| \*\*" HUB_MAP.md | grep -o "| \`/[^`]*\`" | sed 's/| `//; s/`//' | sort > /tmp/hub_map_commands.txt
+```
+
+Extract commands from README.md Quick Commands section:
+```bash
+awk '/^## 🎮 Quick Commands/,/^---/' README.md | grep "| \*\*" | grep -o "| \`/[^`]*\`" | sed 's/| `//; s/`//' | sort > /tmp/readme_commands.txt
+```
+
+Extract commands from COMMANDS.md:
+```bash
+grep "| \`/" COMMANDS.md | grep -o "\`/[^`]*\`" | sed 's/`//g' | sort -u > /tmp/commands_md_list.txt
+```
+
+Cross-validate:
+```bash
+TOTAL_SKILLS=$(wc -l < /tmp/skill_commands_actual.tsv | tr -d ' ')
+HUB_MAP_COUNT=$(wc -l < /tmp/hub_map_commands.txt | tr -d ' ')
+README_COUNT=$(wc -l < /tmp/readme_commands.txt | tr -d ' ')
+COMMANDS_MD_COUNT=$(wc -l < /tmp/commands_md_list.txt | tr -d ' ')
+
+echo "Skill commands defined: ${TOTAL_SKILLS}"
+echo "HUB_MAP.md commands: ${HUB_MAP_COUNT}"
+echo "README.md commands: ${README_COUNT}"
+echo "COMMANDS.md commands: ${COMMANDS_MD_COUNT}"
+```
+
+Criteria:
+- `PASS` if all counts match: `TOTAL_SKILLS == HUB_MAP_COUNT == README_COUNT == COMMANDS_MD_COUNT`
+- Mismatch => `CRITICAL ERROR` (command documentation out of sync)
+
+**Part C: Validate command uniqueness (no duplicates)**
+
+```bash
+cut -f2 /tmp/skill_commands_actual.tsv | sort | uniq -d > /tmp/duplicate_commands.txt
+DUPLICATE_COUNT=$(wc -l < /tmp/duplicate_commands.txt | tr -d ' ')
+
+if [ "$DUPLICATE_COUNT" -gt 0 ]; then
+  echo "❌ DUPLICATE COMMANDS FOUND:"
+  cat /tmp/duplicate_commands.txt
+fi
+```
+
+Criteria:
+- `PASS` if `DUPLICATE_COUNT == 0`
+- Otherwise: `CRITICAL ERROR` (command collision)
+
+Recovery (if mode is `AUDIT_AND_FIX`):
+- For Part A (missing commands): Cannot auto-fix (requires human decision on command name)
+- For Part B (doc sync): Can auto-fix by regenerating command tables in HUB_MAP, README, COMMANDS.md
+- For Part C (duplicates): Cannot auto-fix (requires human resolution)
+
+Record:
+```yaml
+slash_command_validation:
+  skills_total: <N>
+  skills_missing_commands: <N>
+  missing_command_list:
+    - skill: <name>
+  command_doc_sync:
+    hub_map: <N>
+    readme: <N>
+    commands_md: <N>
+    status: <PASS | FAIL>
+  duplicate_commands: <N>
+  status: <PASS | FAIL>
+```
+
 #### CHECKPOINT 1.2
 Criteria:
 - `README.md` structure validated: `PASS` or `FAIL`
 - `CHANGELOG.md` target version entry exists: `PASS` or `FAIL`
 - `.metadata` mandatory fields complete for all skills: `PASS` or `FAIL`
+- Slash command definitions present in all skills: `PASS` or `FAIL`
+- Command documentation synchronized (HUB_MAP, README, COMMANDS.md): `PASS` or `FAIL`
+- No duplicate command definitions: `PASS` or `FAIL`
 Gate:
 - Any `FAIL` in required file => `CRITICAL ERROR` => `BLOCKED`
 
@@ -830,6 +965,9 @@ release_url: <URL | N/A>
 - Missing target entry in `CHANGELOG.md`
 - Failed release creation or release verification
 - Skills missing from `EXECUTIVE_SUMMARY.md` Component Versions line
+- Skills missing `command:` definition in SKILL.md frontmatter
+- Command documentation out of sync across HUB_MAP, README, COMMANDS.md
+- Duplicate slash command definitions (command collision)
 
 `WARNING` (non-blocking but mandatory to log):
 - Non-critical orphan files

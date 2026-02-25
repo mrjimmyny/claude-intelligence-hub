@@ -1,3 +1,11 @@
+---
+name: context-guardian
+version: 1.0.0
+description: Context preservation system for Xavier ↔ Magneto account switching
+command: /context-guardian
+aliases: [/guardian, /switch]
+---
+
 # Context Guardian - Skill Documentation
 
 > Complete context preservation system for Xavier ↔ Magneto account switching

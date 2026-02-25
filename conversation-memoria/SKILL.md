@@ -2,6 +2,8 @@
 name: conversation-memoria
 version: 1.0.0
 description: Persistent conversation memory storage and retrieval workflows.
+command: /conversation
+aliases: [/conv, /history]
 ---
 
 # Conversation Memoria - Skill Documentation

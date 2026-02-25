@@ -2,6 +2,8 @@
 name: x-mem
 version: 1.0.0
 description: Machine-oriented memory protocol for failures and success patterns.
+command: /xmem
+aliases: [/learn, /recall]
 ---
 
 # X-MEM Protocol - Skill Execution Instructions

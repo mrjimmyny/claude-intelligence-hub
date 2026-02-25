@@ -92,6 +92,7 @@ echo "════════════════════════�
 # Approved files in root
 approved_files=(
     "CHANGELOG.md"
+    "COMMANDS.md"
     "EXECUTIVE_SUMMARY.md"
     "HUB_MAP.md"
     "README.md"

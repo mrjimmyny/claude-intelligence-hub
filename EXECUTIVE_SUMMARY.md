@@ -389,7 +389,7 @@ bash scripts/update-skill.sh x-mem minor "Add compact command"
 # Automatic:
 # - .metadata: 1.0.0 → 1.1.0
 # - SKILL.md header: Updated to 1.1.0
-# - HUB_MAP.md reference: Updated to v1.1.0
+# - HUB_MAP.md reference: Updated to v2.6.0
 # - CHANGELOG.md: New [1.1.0] entry added
 # - last_updated: Auto-set to today
 ```

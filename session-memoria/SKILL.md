@@ -1,3 +1,11 @@
+---
+name: session-memoria
+version: 1.2.0
+description: Capture, store, and recall conversations, decisions, insights, and ideas across all sessions
+command: /memoria
+aliases: [/memory, /save]
+---
+
 # Session Memoria - Xavier's Second Brain
 
 **Version:** 1.2.0

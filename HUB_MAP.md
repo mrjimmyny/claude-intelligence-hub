@@ -21,35 +21,35 @@
 ### 🔵 Tier 1: Always-Load (Mandatory)
 *The foundation of the system. Loads at every session start.*
 
-| # | Skill Name | Version | Role |
-| :--- | :--- | :--- | :--- |
-| 1 | **jimmy-core-preferences** | v1.5.0 | Master AI Behavior |
-| 14 | **token-economy** | v1.0.0 | Budget Enforcement |
+| # | Skill Name | Version | Command | Role |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | **jimmy-core-preferences** | v1.5.0 | `/preferences` | Master AI Behavior |
+| 14 | **token-economy** | v1.0.0 | `/token-economy` | Budget Enforcement |
 
 ### 🟢 Tier 2: Context-Aware (Suggested)
 *Loads based on triggers or detected project type.*
 
-| # | Skill Name | Version | Triggers |
-| :--- | :--- | :--- | :--- |
-| 2 | **session-memoria** | v1.2.0 | "registre isso", "busca na memoria" |
-| 4 | **claude-session-registry** | v1.1.0 | "registra sessão", Golden Close |
-| 5 | **pbi-claude-skills** | v1.3.0 | `.pbip` project detection |
-| 7 | **xavier-memory** | v1.1.0 | Cross-project sync |
-| 12 | **agent-orchestration-protocol** | v1.3.0 | "orchestrate", "delegate" |
+| # | Skill Name | Version | Command | Triggers |
+| :--- | :--- | :--- | :--- | :--- |
+| 2 | **session-memoria** | v1.2.0 | `/memoria` | "registre isso", "busca na memoria" |
+| 4 | **claude-session-registry** | v1.1.0 | `/registry` | "registra sessão", Golden Close |
+| 5 | **pbi-claude-skills** | v1.3.0 | `/pbi` | `.pbip` project detection |
+| 7 | **xavier-memory** | v1.1.0 | `/xavier-memory` | Cross-project sync |
+| 12 | **agent-orchestration-protocol** | v1.3.0 | `/aop` | "orchestrate", "delegate" |
 
 ### 🟡 Tier 3: Explicit (On-Demand)
 *Only loads when manually invoked by the user.*
 
-| # | Skill Name | Version | Usage |
-| :--- | :--- | :--- | :--- |
-| 3 | **gdrive-sync-memoria** | v1.0.0 | Sync ChatLLM Team data |
-| 6 | **x-mem** | v1.0.0 | Failure/Success learning |
-| 8 | **xavier-memory-sync** | v1.0.0 | GDrive Memory Backup |
-| 9 | **context-guardian** | v1.0.0 | Account switching (Xavier/Magneto) |
-| 10 | **repo-auditor** | v2.0.0 | Manual repo integrity audit |
-| 11 | **conversation-memoria** | v1.0.0 | Save/Load session history |
-| 13 | **core_catalog** | v1.0.0 | Bootstrap system data |
-| 15 | **codex-governance-framework** | v1.0.0 | Institutional governance docs |
+| # | Skill Name | Version | Command | Usage |
+| :--- | :--- | :--- | :--- | :--- |
+| 3 | **gdrive-sync-memoria** | v1.0.0 | `/gdrive-sync` | Sync ChatLLM Team data |
+| 6 | **x-mem** | v1.0.0 | `/xmem` | Failure/Success learning |
+| 8 | **xavier-memory-sync** | v1.0.0 | `/xavier-sync` | GDrive Memory Backup |
+| 9 | **context-guardian** | v1.0.0 | `/context-guardian` | Account switching (Xavier/Magneto) |
+| 10 | **repo-auditor** | v2.0.0 | `/repo-auditor` | Manual repo integrity audit |
+| 11 | **conversation-memoria** | v1.0.0 | `/conversation` | Save/Load session history |
+| 13 | **core_catalog** | v1.0.0 | `/catalog` | Bootstrap system data |
+| 15 | **codex-governance-framework** | v1.0.0 | `/governance` | Institutional governance docs |
 
 ---
 

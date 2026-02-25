@@ -15,6 +15,39 @@ A comprehensive repository of Claude Code skills, knowledge systems, and automat
 
 ---
 
+## 🎮 Quick Commands
+
+All skills are available as **slash commands** for instant access. Just type `/command` in Claude Code:
+
+| Skill | Command | Aliases | Description |
+|---|---|---|---|
+| **jimmy-core-preferences** | `/preferences` | `/prefs`, `/jimmy` | Master AI behavior framework |
+| **session-memoria** | `/memoria` | `/memory`, `/save` | Permanent conversation storage |
+| **pbi-claude-skills** | `/pbi` | `/powerbi` | Power BI optimization (50-97% token savings) |
+| **repo-auditor** | `/repo-auditor` | `/audit`, `/validate` | Repository integrity audit |
+| **token-economy** | `/token-economy` | `/tokens`, `/budget` | Budget enforcement & token reduction |
+| **xavier-memory** | `/xavier-memory` | `/xmemory` | Cross-project persistent memory |
+| **xavier-memory-sync** | `/xavier-sync` | `/sync-memory` | Memory sync to Google Drive |
+| **context-guardian** | `/context-guardian` | `/guardian`, `/switch` | Account switching (Xavier ↔ Magneto) |
+| **conversation-memoria** | `/conversation` | `/conv`, `/history` | Save/Load session history |
+| **agent-orchestration** | `/aop` | `/orchestrate`, `/delegate` | Multi-agent coordination |
+| **gdrive-sync-memoria** | `/gdrive-sync` | `/gdrive` | Google Drive integration |
+| **claude-session-registry** | `/registry` | `/register-session` | Session tracking & backup |
+| **x-mem** | `/xmem` | `/learn`, `/recall` | Self-learning from failures/successes |
+| **core_catalog** | `/catalog` | `/core` | System configurations & bootstrap |
+| **codex-governance** | `/governance` | `/codex` | Institutional governance framework |
+
+**Example usage:**
+```bash
+/repo-auditor --mode AUDIT_AND_FIX
+/memoria search "project X"
+/pbi read-model
+```
+
+📚 **Full command reference:** [COMMANDS.md](COMMANDS.md)
+
+---
+
 ## 🎯 What is This?
 
 The **Claude Intelligence Hub** is a centralized system that:
@@ -443,6 +476,12 @@ claude-intelligence-hub/
 │   ├── next-steps/                  # CI-ready contracts
 │   ├── README.md                    # Framework overview
 │   └── START_HERE.md                # Onboarding guide
+??? ?? core_catalog/                 # ?? Core Catalog (v1.0.0)
+?   ??? SKILL.md                     # Core catalog skill definition
+?   ??? README.md                    # Catalog overview
+?   ??? core_catalog.json            # Core configurations catalog
+?   ??? bootstrap_compat.json        # Bootstrap compatibility map
+?
 │
 ├── 📁 token-economy/                # 📊 Token Budget Governance (v1.0.0)
 │   ├── README.md                    # Budget discipline rules & overview

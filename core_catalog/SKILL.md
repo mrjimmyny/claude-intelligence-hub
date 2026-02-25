@@ -1,3 +1,11 @@
+---
+name: core_catalog
+version: 1.0.0
+description: Centralized catalog of core system configurations and bootstrap data
+command: /catalog
+aliases: [/core]
+---
+
 # Core Catalog (Infrastructure Data)
 
 **Version:** 1.0.0

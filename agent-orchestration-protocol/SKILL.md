@@ -1,3 +1,11 @@
+---
+name: agent-orchestration-protocol
+version: 1.3.0
+description: Multi-agent coordination framework - The Seven Pillars of AOP
+command: /aop
+aliases: [/orchestrate, /delegate]
+---
+
 # 🤖 Agent Orchestration Protocol (AOP)
 
 **Skill ID:** `agent-orchestration-protocol`

@@ -1,3 +1,11 @@
+---
+name: xavier-memory-sync
+version: 1.0.0
+description: Memory sync automation - Google Drive integration
+command: /xavier-sync
+aliases: [/sync-memory]
+---
+
 # Xavier Memory Sync Skill
 
 **Version:** 1.0.0

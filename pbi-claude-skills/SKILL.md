@@ -1,3 +1,11 @@
+---
+name: pbi-claude-skills
+version: 1.3.0
+description: Power BI PBIP project optimization - Token savings for large codebases
+command: /pbi
+aliases: [/powerbi]
+---
+
 # PBI Claude Skills - Skill Execution Instructions
 
 **Version:** 1.3.0
