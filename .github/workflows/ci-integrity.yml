@@ -185,7 +185,7 @@ jobs:
               echo "  ✅ .metadata exists"
 
               # Check auto_load is true
-              AUTO_LOAD=$(grep '"auto_load"' "$skill/.metadata" | grep -o 'true\|false')
+              AUTO_LOAD=$(grep '"auto_load"' "$skill/.metadata" | grep -o 'true\|false' || echo "missing")
               if [ "$AUTO_LOAD" != "true" ]; then
                 echo "  ⚠️  Warning: auto_load is not true (should be true for mandatory skills)"
               fi
