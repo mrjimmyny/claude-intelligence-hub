@@ -1,4 +1,8 @@
-name: repo-auditor
-version: 2.0.0
-status: production
-description: Deterministic deep repository audit protocol with cross-file validation, strict checkpoint gates, recovery workflow, and verified release publication.
+{
+  "name": "repo-auditor",
+  "version": "2.0.0",
+  "status": "production",
+  "description": "Deterministic deep repository audit protocol with cross-file validation, strict checkpoint gates, recovery workflow, and verified release publication.",
+  "auto_load": false,
+  "priority": "low"
+}
