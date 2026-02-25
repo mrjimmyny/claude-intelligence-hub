@@ -480,6 +480,116 @@ Cross-check correction coverage:
 - If audit made corrections, ensure each correction is represented in target changelog section.
 - Record corrected-items count vs changelog-items count.
 
+#### 1.5.8 `EXECUTIVE_SUMMARY.md` Component Versions completeness
+Objective: Validate that ALL skills in repository are documented in `EXECUTIVE_SUMMARY.md` Component Versions line.
+
+**Critical Issue This Addresses:**
+This validation was the missing gap that allowed 3 skills (`xavier-memory-sync`, `token-economy`, `codex-governance-framework`) to be absent from EXECUTIVE_SUMMARY.md Component Versions, causing CI/CD failures.
+
+List all skills in repository:
+```bash
+find . -maxdepth 2 -name ".metadata" -not -path "./.git/*" | sed 's|/\.metadata||' | sed 's|^\./||' | sort > /tmp/repo_skills_list.txt
+REPO_SKILL_COUNT=$(wc -l < /tmp/repo_skills_list.txt | tr -d ' ')
+echo "Repository has ${REPO_SKILL_COUNT} skills"
+```
+
+Extract Component Versions line from EXECUTIVE_SUMMARY.md:
+```bash
+COMPONENT_LINE=$(grep "^\*\*Component Versions:\*\*" EXECUTIVE_SUMMARY.md)
+echo "Component Versions line: ${COMPONENT_LINE}"
+```
+
+For each skill, validate it appears in Component Versions:
+```bash
+: > /tmp/missing_skills_in_executive.txt
+while IFS= read -r skill_dir; do
+  metadata_file="${skill_dir}/.metadata"
+  if [ -f "$metadata_file" ]; then
+    skill_version=$(grep '"version"' "$metadata_file" | sed 's/.*"version": *"\([^"]*\)".*/\1/')
+    skill_name=$(basename "$skill_dir")
+
+    # Check if version appears in Component Versions line
+    if ! echo "$COMPONENT_LINE" | grep -q "v${skill_version}"; then
+      echo "${skill_name}|v${skill_version}" >> /tmp/missing_skills_in_executive.txt
+      echo "❌ MISSING: ${skill_name} v${skill_version} not in EXECUTIVE_SUMMARY Component Versions"
+    fi
+  fi
+done < /tmp/repo_skills_list.txt
+```
+
+Count missing skills:
+```bash
+MISSING_COUNT=$(wc -l < /tmp/missing_skills_in_executive.txt 2>/dev/null | tr -d ' ')
+echo "Missing skills in EXECUTIVE_SUMMARY: ${MISSING_COUNT}"
+```
+
+Criteria:
+- `PASS` if `MISSING_COUNT == 0`
+- Otherwise: `CRITICAL ERROR` => `BLOCKED`
+
+Recovery (if mode is `AUDIT_AND_FIX`):
+If missing skills detected:
+1. Read current Component Versions line
+2. For each missing skill, append formatted name and version
+3. Rewrite EXECUTIVE_SUMMARY.md with updated Component Versions line
+4. Re-validate to confirm all skills now present
+5. Log correction in AUDIT_TRAIL.md
+
+Recovery commands:
+```bash
+if [ "$MISSING_COUNT" -gt 0 ] && [ "$AUDIT_MODE" = "AUDIT_AND_FIX" ]; then
+  echo "Auto-fixing EXECUTIVE_SUMMARY.md Component Versions..."
+
+  # Build the additions string
+  ADDITIONS=""
+  while IFS='|' read -r skill_name skill_version; do
+    # Format skill name: convert hyphens to spaces and capitalize each word
+    formatted_name=$(echo "$skill_name" | sed 's/-/ /g' | sed 's/\b\(.\)/\u\1/g')
+    ADDITIONS="${ADDITIONS}, ${formatted_name} ${skill_version}"
+  done < /tmp/missing_skills_in_executive.txt
+
+  # Update the Component Versions line
+  OLD_LINE=$(grep "^\*\*Component Versions:\*\*" EXECUTIVE_SUMMARY.md)
+  NEW_LINE="${OLD_LINE}${ADDITIONS}"
+
+  # Create backup
+  cp EXECUTIVE_SUMMARY.md EXECUTIVE_SUMMARY.md.backup
+
+  # Apply fix
+  sed -i.bak "s|^\\*\\*Component Versions:\\*\\*.*|${NEW_LINE}|" EXECUTIVE_SUMMARY.md
+
+  # Re-validate
+  COMPONENT_LINE=$(grep "^\*\*Component Versions:\*\*" EXECUTIVE_SUMMARY.md)
+  STILL_MISSING=0
+  while IFS= read -r skill_dir; do
+    skill_version=$(grep '"version"' "${skill_dir}/.metadata" | sed 's/.*"version": *"\([^"]*\)".*/\1/')
+    if ! echo "$COMPONENT_LINE" | grep -q "v${skill_version}"; then
+      STILL_MISSING=$((STILL_MISSING + 1))
+    fi
+  done < /tmp/repo_skills_list.txt
+
+  if [ "$STILL_MISSING" -eq 0 ]; then
+    echo "✅ RECOVERED: All skills now in EXECUTIVE_SUMMARY Component Versions"
+    rm EXECUTIVE_SUMMARY.md.backup
+  else
+    echo "❌ RECOVERY FAILED: ${STILL_MISSING} skills still missing after fix"
+    mv EXECUTIVE_SUMMARY.md.backup EXECUTIVE_SUMMARY.md
+    exit 1
+  fi
+fi
+```
+
+Record:
+```yaml
+executive_summary_validation:
+  repo_skill_count: <N>
+  missing_in_component_versions: <N>
+  missing_skills:
+    - skill: <name>
+      version: <vX.Y.Z>
+  status: <PASS | FAIL | RECOVERED>
+```
+
 #### CHECKPOINT 1.5
 Criteria:
 - Skill count: `PASS` or `FAIL`
@@ -487,6 +597,7 @@ Criteria:
 - Architecture completeness: `PASS` or `FAIL`
 - Reference accuracy: `PASS` or `FAIL`
 - Internal links: `PASS` or `WARNING` or `FAIL`
+- EXECUTIVE_SUMMARY Component Versions completeness: `PASS` or `FAIL` or `RECOVERED`
 Gate:
 - Any `FAIL` => `CRITICAL ERROR` => `BLOCKED`
 
@@ -718,6 +829,7 @@ release_url: <URL | N/A>
 - Missing mandatory `.metadata` fields
 - Missing target entry in `CHANGELOG.md`
 - Failed release creation or release verification
+- Skills missing from `EXECUTIVE_SUMMARY.md` Component Versions line
 
 `WARNING` (non-blocking but mandatory to log):
 - Non-critical orphan files
