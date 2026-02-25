@@ -1,4 +1,3 @@
----
 # 🚀 New Here?
 
 If you are new to this framework and want a simple,
@@ -7,7 +6,6 @@ start here:
 
 👉 See [START_HERE.md](START_HERE.md)
 
----
 # Codex Governance Framework
 
 ## Purpose
