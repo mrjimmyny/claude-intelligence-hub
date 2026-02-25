@@ -93,8 +93,11 @@ echo "════════════════════════�
 approved_files=(
     "CHANGELOG.md"
     "COMMANDS.md"
+    "CONTRIBUTING.md"
+    "DEVELOPER_CHEATSHEET.md"
     "EXECUTIVE_SUMMARY.md"
     "HUB_MAP.md"
+    "QUICKSTART_NEW_SKILL.md"
     "README.md"
     "LICENSE"
     "WINDOWS_JUNCTION_SETUP.md"
