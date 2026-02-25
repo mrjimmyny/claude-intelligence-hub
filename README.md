@@ -618,8 +618,8 @@ To maintain the high quality and integrity of the Claude Intelligence Hub, all a
 
 | Metric | Value |
 |--------|-------|
-| **Production Skills** | 13 collections (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog) |
-| **Total Documentation** | ~280KB (executive summaries, guides, changelogs, handover docs) |
+| **Production Skills** | 14 collections (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy) |
+| **Total Documentation** | ~300KB (executive summaries, guides, changelogs, handover docs) |
 | **Version History** | 30+ commits (tracked in CHANGELOG.md) |
 | **Setup Time** | 15 minutes (Windows/macOS/Linux automated deployment) |
 | **CI/CD Coverage** | 6 integrity checks + 5-job enforcement pipeline |        
@@ -631,7 +631,7 @@ To maintain the high quality and integrity of the Claude Intelligence Hub, all a
 
 ### Skills by Status
 
-- ✅ **Production Ready:** 13 (jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills, xavier-memory, xavier-memory-sync, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog)
+- ✅ **Production Ready:** 14 (jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills, xavier-memory, xavier-memory-sync, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy)
 - 📊 **Governance Modules:** 1 (token-economy)
 - 🚧 **In Development:** 0
 - 📋 **Planned:** 2 (python-claude-skills, git-claude-skills)

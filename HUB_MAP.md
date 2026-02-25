@@ -11,7 +11,7 @@
 
 | Metric | Count | Status |
 |--------|-------|--------|
-| **Production Skills** | 13 | ✅ Active |
+| **Production Skills** | 14 | ✅ Active |
 | **Planned Skills** | 2 | 📋 Roadmap |
 | **Documented Triggers** | 20+ | ✅ Complete |
 | **Skill Tiers** | 3 | ✅ Defined |
@@ -485,6 +485,31 @@ Centralized catalog of core system configurations and bootstrap data for the Cla
 
 #### Loading Tier
 **Tier 3: Explicit** - Only used for system initialization
+
+---
+
+### 14. token-economy (v1.0.0)
+**Type:** Governance / Token Optimization
+**Location:** `claude-intelligence-hub/token-economy/`
+**Auto-load:** ✅ Always (for budget enforcement)
+
+#### Purpose
+Enforces token economy rules and budget discipline to prevent context window exhaustion and maximize API efficiency.
+
+#### Key Features
+- Pre-flight token checks
+- Automatic budget warnings (50%, 75%, 90%)
+- Targeted read enforcement (no full-file loads for large assets)
+- Response size limits
+
+#### Triggers
+**Internal governance** - Monitors all session activities
+
+#### Dependencies
+- Integrated with jimmy-core-preferences Pattern 7
+
+#### Loading Tier
+**Tier 1: Always-Load**
 
 ---
 

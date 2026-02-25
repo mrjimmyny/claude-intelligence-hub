@@ -1,0 +1,9 @@
+{
+  "name": "token-economy",
+  "version": "1.0.0",
+  "type": "governance-adapter",
+  "status": "production",
+  "description": "Token governance rules and budget enforcement adapter.",
+  "auto_load": true,
+  "priority": "medium"
+}
