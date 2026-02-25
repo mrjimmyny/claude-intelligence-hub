@@ -19,6 +19,28 @@ cd /c/ai/claude-intelligence-hub/scripts
 ./sync-skills-global.sh
 ```
 
+---
+
+## Validation and Governance (Windows PowerShell)
+
+Use these wrappers if you are on Windows without bash/WSL.
+
+**Integrity Check (Hub Consistency):**
+```powershell
+cd C:\ai\claude-intelligence-hub\scripts
+.\integrity-check.ps1
+```
+
+**Version Sync (Single Skill):**
+```powershell
+cd C:\ai\claude-intelligence-hub\scripts
+.\sync-versions.ps1 agent-orchestration-protocol
+```
+
+Notes:
+- These scripts mirror the behavior of `integrity-check.sh` and `sync-versions.sh`.
+- `sync-versions.ps1` preserves the original file encoding to avoid unintended changes.
+
 ### When to Use
 
 Run this script when:
