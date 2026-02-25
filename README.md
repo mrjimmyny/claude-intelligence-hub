@@ -603,7 +603,7 @@ git pull origin main
 
 | Metric | Value |
 |--------|-------|
-| **Production Skills** | 12 collections (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol) |
+| **Production Skills** | 13 collections (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog) |
 | **Total Documentation** | ~280KB (executive summaries, guides, changelogs, handover docs) |
 | **Version History** | 30+ commits (tracked in CHANGELOG.md) |
 | **Setup Time** | 15 minutes (Windows/macOS/Linux automated deployment) |
@@ -616,7 +616,7 @@ git pull origin main
 
 ### Skills by Status
 
-- ✅ **Production Ready:** 12 (jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills, xavier-memory, xavier-memory-sync, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol)
+- ✅ **Production Ready:** 13 (jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills, xavier-memory, xavier-memory-sync, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog)
 - 📊 **Governance Modules:** 1 (token-economy)
 - 🚧 **In Development:** 0
 - 📋 **Planned:** 2 (python-claude-skills, git-claude-skills)

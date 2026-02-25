@@ -11,7 +11,7 @@
 
 | Metric | Count | Status |
 |--------|-------|--------|
-| **Production Skills** | 12 | ✅ Active |
+| **Production Skills** | 13 | ✅ Active |
 | **Planned Skills** | 2 | 📋 Roadmap |
 | **Documented Triggers** | 20+ | ✅ Complete |
 | **Skill Tiers** | 3 | ✅ Defined |
@@ -21,7 +21,7 @@
 
 ## 🎯 Active Skills (Production)
 
-### 1. jimmy-core-preferences
+### 1. jimmy-core-preferences (v1.5.0)
 **Type:** Master/Universal
 **Location:** `~/.claude/skills/user/jimmy-core-preferences/`
 **Auto-load:** ✅ Always (Priority: Highest)
@@ -48,7 +48,7 @@ Defines universal AI behavior, communication style, and working principles for C
 
 ---
 
-### 2. session-memoria
+### 2. session-memoria (v1.2.0)
 **Type:** Knowledge Management
 **Location:** `~/.claude/skills/user/session-memoria/`
 **Auto-load:** ❌ Explicit invocation
@@ -96,7 +96,7 @@ Permanent knowledge management system - transforms conversations into searchable
 
 ---
 
-### 3. gdrive-sync-memoria
+### 3. gdrive-sync-memoria (v1.0.0)
 **Type:** Integration/Automation
 **Location:** `~/.claude/skills/user/gdrive-sync-memoria/`
 **Auto-load:** ❌ Explicit invocation
@@ -133,7 +133,7 @@ Automates import of summaries from ChatLLM Teams (via Google Drive) into session
 
 ---
 
-### 4. claude-session-registry
+### 4. claude-session-registry (v1.1.0)
 **Type:** Session Tracking
 **Location:** `~/.claude/skills/user/claude-session-registry/`
 **Auto-load:** ❌ Explicit invocation
@@ -161,7 +161,7 @@ Tracks and documents Claude Code sessions with metadata, summaries, and outcomes
 
 ---
 
-### 5. pbi-claude-skills
+### 5. pbi-claude-skills (v1.3.0)
 **Type:** Domain-Specific (Power BI)
 **Location:** Project-specific `.claude/skills/`
 **Auto-load:** ❌ Context-aware suggestion
@@ -196,7 +196,7 @@ Complete skill system for Power BI PBIP projects - optimizes DAX work, structure
 
 ---
 
-### 6. x-mem
+### 6. x-mem (v1.0.0)
 **Type:** Knowledge Management (Self-Learning Protocol)
 **Location:** `~/.claude/skills/user/x-mem/`
 **Auto-load:** ❌ No (manual trigger or proactive recall)
@@ -236,7 +236,7 @@ Machine-oriented memory buffer that captures tool failures and success patterns 
 
 ---
 
-### 7. xavier-memory
+### 7. xavier-memory (v1.1.0)
 **Type:** Infrastructure (Global Memory System)
 **Location:** `claude-intelligence-hub/xavier-memory/`
 **Auto-load:** ✅ Always (via hard links to all projects)
@@ -270,7 +270,7 @@ Master memory repository that provides cross-project persistent memory with disa
 
 ---
 
-### 8. xavier-memory-sync
+### 8. xavier-memory-sync (v1.0.0)
 **Type:** Automation (Memory Sync Skill)
 **Location:** `claude-intelligence-hub/xavier-memory-sync/`
 **Auto-load:** ❌ Explicit invocation
@@ -307,7 +307,7 @@ Automation skill for managing Xavier Global Memory System - handles backup, rest
 
 ---
 
-### 9. context-guardian
+### 9. context-guardian (v1.0.0)
 **Type:** Infrastructure (Context Preservation System)
 **Location:** `claude-intelligence-hub/context-guardian/`
 **Auto-load:** ❌ Explicit invocation
@@ -372,7 +372,7 @@ Complete context preservation system enabling seamless Xavier ↔ Magneto accoun
 
 ---
 
-### 10. repo-auditor
+### 10. repo-auditor (v2.0.0)
 **Type:** Quality/Governance
 **Location:** `claude-intelligence-hub/repo-auditor/`
 **Auto-load:** ❌ Explicit invocation
@@ -407,7 +407,7 @@ End-to-end repository audit skill with mandatory proof-of-read fingerprinting pe
 
 ---
 
-### 11. conversation-memoria
+### 11. conversation-memoria (v1.0.0)
 **Type:** Knowledge Management
 **Location:** `claude-intelligence-hub/conversation-memoria/`
 **Auto-load:** ❌ Explicit invocation
@@ -435,7 +435,7 @@ Persistent conversation storage system for keeping historical context and ELITE 
 
 ---
 
-### 12. agent-orchestration-protocol
+### 12. agent-orchestration-protocol (v1.3.0)
 **Type:** Orchestration
 **Location:** `claude-intelligence-hub/agent-orchestration-protocol/`
 **Auto-load:** ❌ Context-aware invocation
@@ -461,6 +461,30 @@ The Agent Orchestration Protocol (AOP) is a revolutionary framework for multi-ag
 
 #### Loading Tier
 **Tier 2: Context-Aware** - Suggests when complex, multi-agent tasks are requested
+
+---
+
+### 13. core_catalog (v1.0.0)
+**Type:** Infrastructure / Data
+**Location:** `claude-intelligence-hub/core_catalog/`
+**Auto-load:** ❌ No (internal data only)
+
+#### Purpose
+Centralized catalog of core system configurations and bootstrap data for the Claude Intelligence Hub environment.
+
+#### Key Features
+- Bootstrap compatibility data
+- Core system service mapping
+- Environment initialization data
+
+#### Triggers
+**Internal use only** - No manual triggers
+
+#### Dependencies
+- None (data layer)
+
+#### Loading Tier
+**Tier 3: Explicit** - Only used for system initialization
 
 ---
 
