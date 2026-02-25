@@ -19,7 +19,7 @@ Successfully developed and deployed a **complete AI intelligence system** that t
 
 | Component | Version | Status | Key Metric |
 |-----------|---------|--------|------------|
-| **Hub Repository** | 2.6.0 | ✅ Production | 14 skill collections, HUB_MAP routing, CIH-ROADMAP |
+| **Hub Repository** | 2.6.0 | ✅ Production | 15 skill collections, HUB_MAP routing, CIH-ROADMAP |
 | **Jimmy Core Preferences** | 1.5.0 | ✅ Production | Master AI + Skill Router + Token Economy |
 | **Session Memoria** | 1.2.0 | ✅ Production | 3-tier archiving, 200x faster indexing |
 | **PBI Claude Skills** | 1.3.0 | ✅ Production | 50-97% token savings |
@@ -34,6 +34,7 @@ Successfully developed and deployed a **complete AI intelligence system** that t
 | **Conversation Memoria** | 1.0.0 | ✅ Production | Persistent session storage |
 | **Agent Orchestration** | 1.3.0 | ✅ Production | Multi-agent coordination (AOP) |
 | **Core Catalog** | 1.0.0 | ✅ Production | Bootstrap & compatibility data |
+| **Codex Governance** | 1.0.0 | ✅ Production | Institutional governance bundle |
 | **Windows Junction Setup** | 1.0.0 | ✅ Production | Auto-sync to Git |
 | **Mobile Support** | 1.0.0 | ✅ Production | MOBILE_SESSION_STARTER.md |
 | **Cross-Device Sync** | - | ✅ Active | Desktop ↔ Mobile via Git |

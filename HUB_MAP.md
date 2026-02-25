@@ -2,7 +2,7 @@
 
 **Version:** 2.6.0
 **Status:** 🟢 Active & Synchronized
-**Registry:** 14 Production Skills
+**Registry:** 15 Production Skills
 
 ---
 
@@ -10,7 +10,7 @@
 
 | Metric | Count | Status |
 | :--- | :--- | :--- |
-| **Total Skills** | 14 | ✅ Verified |
+| **Total Skills** | 15 | ✅ Verified |
 | **Governance** | 100% | 🟢 Compliant |
 | **Architecture** | 3-Tier | 🏗️ Structured |
 
@@ -49,6 +49,7 @@
 | 10 | **repo-auditor** | v2.0.0 | Manual repo integrity audit |
 | 11 | **conversation-memoria** | v1.0.0 | Save/Load session history |
 | 13 | **core_catalog** | v1.0.0 | Bootstrap system data |
+| 15 | **codex-governance-framework** | v1.0.0 | Institutional governance docs |
 
 ---
 
@@ -111,6 +112,10 @@
 ### 14. token-economy (v1.0.0)
 - **Path:** `token-economy/`
 - **Governance:** Budget enforcement and token reduction rules.
+
+### 15. codex-governance-framework (v1.0.0)
+- **Path:** `codex-governance-framework/`
+- **Context:** Institutional bootstrap governance documentation.
 
 ---
 

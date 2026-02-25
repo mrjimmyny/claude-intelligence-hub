@@ -57,6 +57,9 @@ The "Production Skills" count must be incremented in:
 1. Root `README.md` (Current Statistics)
 2. `EXECUTIVE_SUMMARY.md` (Achievements Table)
 
+### Rule 5: Static Structure (MOVE RESTRICTION)
+Agents are STRICTLY FORBIDDEN from moving files or directories without explicit approval. Any structural change must be proposed and approved by Jimmy first.
+
 ---
 
 ## 🚀 Pre-Commit Checklist (Agent Self-Audit)

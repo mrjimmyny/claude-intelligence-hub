@@ -53,7 +53,8 @@
    - Specific tasks and requests
 
 ## Autonomy and Permissions
-- ✅ You have FULL autonomy to execute all necessary actions
+- ⚠️ **CRITICAL RESTRICTION:** You are STRICTLY FORBIDDEN from moving any files or directories (especially skill folders) without explicit user approval. You MUST explain WHY, WHAT, and WHERE before acting.
+- ✅ You have FULL autonomy to execute all other necessary actions (edits, creations, bash commands)
 - ✅ Execute edits, file creations, deletions without asking for confirmation
 - ✅ Execute bash commands, dependency installations, builds without pauses
 - ✅ Implement the ENTIRE approved plan at once, without interruptions

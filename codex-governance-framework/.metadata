@@ -1,0 +1,9 @@
+{
+  "name": "codex-governance-framework",
+  "version": "1.0.0",
+  "type": "governance-documentation",
+  "status": "production",
+  "description": "Institutional governance framework for Codex bootstrap operations.",
+  "auto_load": false,
+  "priority": "low"
+}
