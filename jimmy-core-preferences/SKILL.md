@@ -1317,6 +1317,14 @@ Remember: Jimmy wants a **professional AI partner**, not a yes-man or a cheerlea
 
 These domain-specific skills EXTEND (not replace) these core preferences.
 
+### Pattern 7: Mandatory Skill Governance (Zero-Tolerance)
+Whenever the task involves creating or updating a skill/module in the Hub:
+1. **Pre-flight:** Read `docs/SKILL_CREATION_PROTOCOL.md`.
+2. **Artifact Trio:** Ensure `.metadata`, `SKILL.md`, and `README.md` are present.
+3. **Version Sync:** Cross-verify version strings in 5 locations: skill files (3), `HUB_MAP.md` (1), and `EXECUTIVE_SUMMARY.md` (1).
+4. **Counter Integrity:** Increment the total production skill count in root `README.md` and `EXECUTIVE_SUMMARY.md`.
+5. **No Blind Commits:** Perform a local `git status` to ensure no orphaned files are included.
+
 ---
 
 **End of Master Skill**

@@ -597,6 +597,21 @@ git pull origin main
 
 ---
 
+## 🛠️ Development & Governance Standards
+
+To maintain the high quality and integrity of the Claude Intelligence Hub, all agents and contributors must follow our strict development protocols.
+
+- **[Skill Creation Protocol](./docs/SKILL_CREATION_PROTOCOL.md)** - **MANDATORY** checklist for new modules.
+- **[Zero Tolerance CI/CD]** - Automated integrity checks for versions, metadata, and directory structure.
+- **[Elite League Governance]** - Multi-agent peer review and audit trails.
+
+**Rules for Success:**
+1. ✅ **The Trio:** Every skill must have `.metadata`, `SKILL.md`, and `README.md`.
+2. ✅ **Sync:** Versions must match across 5 different repository locations.
+3. ✅ **Registry:** New skills must be numbered and added to `HUB_MAP.md`.
+
+---
+
 ## 📊 Current Statistics
 
 ### Repository Overview

@@ -43,6 +43,7 @@
    - Context and memory management
    - Snapshot/compaction warnings
    - Security rules and best practices
+   - **MANDATORY:** Before creating any new skill or module, you MUST read and strictly follow the `docs/SKILL_CREATION_PROTOCOL.md`. Failure to synchronize versions or include mandatory files (.metadata, SKILL.md, README.md) is a critical integrity breach.
 
 2. **Project Instructions** (this file) → Operational autonomy
    - How to execute approved tasks
