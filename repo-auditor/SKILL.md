@@ -433,6 +433,93 @@ slash_command_validation:
   status: <PASS | FAIL>
 ```
 
+#### 1.2.6 Validate root file authorization
+Objective: Ensure ALL files in repository root are explicitly approved to prevent clutter and maintain organization.
+
+**Critical Issue This Addresses:**
+This validation prevents unauthorized files from being added to the repository root, enforcing the Zero Tolerance policy for root file clutter. This is the same check performed by `scripts/integrity-check.sh` CHECK 3.
+
+**Part A: Extract approved files list from integrity-check.sh**
+
+```bash
+# Extract approved_files array from scripts/integrity-check.sh
+APPROVED_LIST=$(sed -n '/^approved_files=(/,/^)/p' scripts/integrity-check.sh | \
+  grep -v '^approved_files=(' | \
+  grep -v '^)' | \
+  sed 's/[" ]//g' | \
+  sort > /tmp/approved_root_files.txt)
+
+APPROVED_COUNT=$(wc -l < /tmp/approved_root_files.txt | tr -d ' ')
+echo "Approved root files: ${APPROVED_COUNT}"
+```
+
+**Part B: Find all actual root files**
+
+```bash
+# List all files in root (excluding directories and hidden files)
+: > /tmp/actual_root_files.txt
+for file in *.md *.txt LICENSE .gitignore; do
+  if [ -f "$file" ]; then
+    echo "$file" >> /tmp/actual_root_files.txt
+  fi
+done
+
+ACTUAL_COUNT=$(wc -l < /tmp/actual_root_files.txt | tr -d ' ')
+echo "Actual root files: ${ACTUAL_COUNT}"
+```
+
+**Part C: Detect unauthorized files**
+
+```bash
+: > /tmp/unauthorized_root_files.txt
+while IFS= read -r actual_file; do
+  if ! grep -q "^${actual_file}$" /tmp/approved_root_files.txt; then
+    echo "$actual_file" >> /tmp/unauthorized_root_files.txt
+    echo "❌ UNAUTHORIZED: ${actual_file} (not in scripts/integrity-check.sh approved_files)"
+  fi
+done < /tmp/actual_root_files.txt
+
+UNAUTHORIZED_COUNT=$(wc -l < /tmp/unauthorized_root_files.txt | tr -d ' ')
+```
+
+**Part D: Detect orphaned approved files**
+
+```bash
+: > /tmp/orphaned_approved_files.txt
+while IFS= read -r approved_file; do
+  if [ ! -f "$approved_file" ]; then
+    echo "$approved_file" >> /tmp/orphaned_approved_files.txt
+    echo "⚠️ ORPHAN: ${approved_file} (in approved list but file doesn't exist)"
+  fi
+done < /tmp/approved_root_files.txt
+
+ORPHANED_COUNT=$(wc -l < /tmp/orphaned_approved_files.txt | tr -d ' ')
+```
+
+Criteria:
+- `PASS` if `UNAUTHORIZED_COUNT == 0`
+- `WARNING` if `ORPHANED_COUNT > 0` (cleanup approved list)
+- Otherwise: `CRITICAL ERROR` (unauthorized root files)
+
+Recovery (if mode is `AUDIT_AND_FIX`):
+- Cannot auto-fix unauthorized files (requires human decision: approve or delete)
+- Can auto-fix orphaned entries by removing from approved_files array
+
+Record:
+```yaml
+root_file_validation:
+  approved_count: <N>
+  actual_count: <N>
+  unauthorized_count: <N>
+  unauthorized_files:
+    - file: <name>
+  orphaned_approved_count: <N>
+  orphaned_approved_files:
+    - file: <name>
+  status: <PASS | FAIL | WARNING>
+  fix_instruction: "Add to scripts/integrity-check.sh approved_files array"
+```
+
 #### CHECKPOINT 1.2
 Criteria:
 - `README.md` structure validated: `PASS` or `FAIL`
@@ -441,6 +528,7 @@ Criteria:
 - Slash command definitions present in all skills: `PASS` or `FAIL`
 - Command documentation synchronized (HUB_MAP, README, COMMANDS.md): `PASS` or `FAIL`
 - No duplicate command definitions: `PASS` or `FAIL`
+- Root file authorization validated: `PASS` or `FAIL` or `WARNING`
 Gate:
 - Any `FAIL` in required file => `CRITICAL ERROR` => `BLOCKED`
 
@@ -837,6 +925,211 @@ audit_summary:
   audit_result: <PASS | PASS_WITH_WARNINGS | FAIL>
 ```
 
+#### 3.5.1 Generate Visual Audit Report
+Objective: Create a clean, human-readable report summarizing audit results.
+
+**Part A: Build validation results table**
+
+```bash
+cat > /tmp/audit_report.md << 'EOF'
+# 📊 Repository Audit Report
+
+**Repository:** $(basename $(pwd))
+**Audit Date:** $(date '+%Y-%m-%d %H:%M')
+**Audit Mode:** ${AUDIT_MODE}
+**Audit Agent:** ${AUDIT_AGENT}
+
+---
+
+## ✅ Validation Results
+
+| Phase | Check | Status | Details |
+|-------|-------|--------|---------|
+EOF
+
+# Add each validation result
+# PHASE 0
+echo "| 0 | Branch Validation | ${PHASE0_BRANCH_STATUS} | Branch: ${CURRENT_BRANCH} |" >> /tmp/audit_report.md
+echo "| 0 | Repository State | ${PHASE0_REPO_STATUS} | Working tree: ${WORKING_TREE_STATUS} |" >> /tmp/audit_report.md
+
+# PHASE 1
+echo "| 1 | File Inventory | ${PHASE1_INVENTORY_STATUS} | ${TRACKED_FILE_COUNT} files tracked |" >> /tmp/audit_report.md
+echo "| 1 | Critical Files | ${PHASE1_CRITICAL_STATUS} | ${CRITICAL_FILES_EXIST}/${CRITICAL_FILES_TOTAL} exist |" >> /tmp/audit_report.md
+
+# PHASE 1.2
+echo "| 1.2 | README Structure | ${PHASE12_README_STATUS} | Version: ${README_VERSION} |" >> /tmp/audit_report.md
+echo "| 1.2 | CHANGELOG Entry | ${PHASE12_CHANGELOG_STATUS} | Version ${VERSION} entry found |" >> /tmp/audit_report.md
+echo "| 1.2 | Metadata Complete | ${PHASE12_METADATA_STATUS} | ${SKILLS_WITH_METADATA}/${TOTAL_SKILLS} skills |" >> /tmp/audit_report.md
+echo "| 1.2 | Slash Commands | ${PHASE12_COMMANDS_STATUS} | ${SKILLS_WITH_COMMANDS}/${TOTAL_SKILLS} defined |" >> /tmp/audit_report.md
+echo "| 1.2 | Command Docs Sync | ${PHASE12_CMDDOC_STATUS} | HUB_MAP/README/COMMANDS synchronized |" >> /tmp/audit_report.md
+echo "| 1.2 | Command Uniqueness | ${PHASE12_CMDDUP_STATUS} | ${DUPLICATE_COMMANDS_COUNT} duplicates found |" >> /tmp/audit_report.md
+echo "| 1.2 | Root File Authorization | ${PHASE12_ROOTFILES_STATUS} | ${UNAUTHORIZED_ROOT_COUNT} unauthorized |" >> /tmp/audit_report.md
+
+# PHASE 1.5
+echo "| 1.5 | Skill Count | ${PHASE15_SKILLCOUNT_STATUS} | Real: ${REAL_SKILL_COUNT}, Declared: ${DECLARED_SKILL_COUNT} |" >> /tmp/audit_report.md
+echo "| 1.5 | Version Cross-Check | ${PHASE15_VERSIONS_STATUS} | ${VERSION_MISMATCHES} mismatches |" >> /tmp/audit_report.md
+echo "| 1.5 | Architecture Complete | ${PHASE15_ARCH_STATUS} | All skills in tree |" >> /tmp/audit_report.md
+echo "| 1.5 | Reference Accuracy | ${PHASE15_REFS_STATUS} | ${BROKEN_REFS} broken references |" >> /tmp/audit_report.md
+echo "| 1.5 | Internal Links | ${PHASE15_LINKS_STATUS} | ${BROKEN_LINKS} broken links |" >> /tmp/audit_report.md
+echo "| 1.5 | CHANGELOG Complete | ${PHASE15_CHANGELOG_STATUS} | ${CHANGELOG_ENTRIES} entries |" >> /tmp/audit_report.md
+echo "| 1.5 | EXEC_SUMMARY Complete | ${PHASE15_EXECSUM_STATUS} | ${MISSING_IN_EXECSUM} skills missing |" >> /tmp/audit_report.md
+
+cat >> /tmp/audit_report.md << 'EOF'
+
+---
+
+## 🔧 Corrections Applied
+
+EOF
+
+# List corrections
+if [ ${FILES_CORRECTED} -gt 0 ]; then
+  echo "**Total Files Corrected:** ${FILES_CORRECTED}" >> /tmp/audit_report.md
+  echo "" >> /tmp/audit_report.md
+  while IFS='|' read -r file action; do
+    echo "- \`${file}\`: ${action}" >> /tmp/audit_report.md
+  done < /tmp/corrections_log.txt
+else
+  echo "*No corrections needed - repository already compliant*" >> /tmp/audit_report.md
+fi
+
+cat >> /tmp/audit_report.md << 'EOF'
+
+---
+
+## ⚠️ Warnings
+
+EOF
+
+# List warnings
+if [ ${WARNINGS_FOUND} -gt 0 ]; then
+  echo "**Total Warnings:** ${WARNINGS_FOUND}" >> /tmp/audit_report.md
+  echo "" >> /tmp/audit_report.md
+  while IFS='|' read -r phase description file; do
+    echo "- **Phase ${phase}**: ${description}" >> /tmp/audit_report.md
+    [ -n "$file" ] && echo "  - File: \`${file}\`" >> /tmp/audit_report.md
+  done < /tmp/warnings_log.txt
+else
+  echo "*No warnings - clean audit*" >> /tmp/audit_report.md
+fi
+
+cat >> /tmp/audit_report.md << 'EOF'
+
+---
+
+## 📈 Summary Statistics
+
+EOF
+
+cat >> /tmp/audit_report.md << EOF
+- **Total Files Audited:** ${TOTAL_FILES_AUDITED}
+- **Total Skills:** ${TOTAL_SKILLS}
+- **Critical Errors Found:** ${CRITICAL_ERRORS_FOUND}
+- **Critical Errors Resolved:** ${CRITICAL_ERRORS_RESOLVED}
+- **Critical Errors Open:** ${CRITICAL_ERRORS_OPEN}
+- **Warnings Found:** ${WARNINGS_FOUND}
+- **Files Corrected:** ${FILES_CORRECTED}
+
+---
+
+## 🎯 Final Result
+
+EOF
+
+# Final verdict
+if [ "${AUDIT_RESULT}" == "PASS" ]; then
+  cat >> /tmp/audit_report.md << 'EOF'
+```
+✅ AUDIT PASSED
+Repository meets all integrity requirements
+```
+EOF
+elif [ "${AUDIT_RESULT}" == "PASS_WITH_WARNINGS" ]; then
+  cat >> /tmp/audit_report.md << 'EOF'
+```
+⚠️ AUDIT PASSED WITH WARNINGS
+Repository passes but has non-blocking issues
+Review warnings above for recommended improvements
+```
+EOF
+else
+  cat >> /tmp/audit_report.md << 'EOF'
+```
+❌ AUDIT FAILED
+Critical errors must be resolved before proceeding
+See details above for required fixes
+```
+EOF
+fi
+
+cat >> /tmp/audit_report.md << 'EOF'
+
+---
+
+**Audit Protocol:** repo-auditor v2.0.0
+**Audit Trail:** See AUDIT_TRAIL.md for detailed evidence
+EOF
+```
+
+**Part B: Display report to user**
+
+```bash
+# Display visual report
+cat /tmp/audit_report.md
+
+# Save to AUDIT_TRAIL.md as appendix
+echo "" >> AUDIT_TRAIL.md
+echo "---" >> AUDIT_TRAIL.md
+echo "" >> AUDIT_TRAIL.md
+cat /tmp/audit_report.md >> AUDIT_TRAIL.md
+```
+
+**Part C: Generate summary banner**
+
+```bash
+if [ "${AUDIT_RESULT}" == "PASS" ]; then
+  echo ""
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "✅ AUDIT COMPLETE - ALL CHECKS PASSED"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo ""
+  echo "Repository: COMPLIANT"
+  echo "Total Checks: ${TOTAL_CHECKS}"
+  echo "Passed: ${CHECKS_PASSED}"
+  echo "Failed: 0"
+  echo "Warnings: ${WARNINGS_FOUND}"
+  echo ""
+elif [ "${AUDIT_RESULT}" == "PASS_WITH_WARNINGS" ]; then
+  echo ""
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "⚠️ AUDIT COMPLETE - PASSED WITH WARNINGS"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo ""
+  echo "Repository: COMPLIANT (with warnings)"
+  echo "Total Checks: ${TOTAL_CHECKS}"
+  echo "Passed: ${CHECKS_PASSED}"
+  echo "Failed: 0"
+  echo "Warnings: ${WARNINGS_FOUND}"
+  echo ""
+  echo "⚠️ Review warnings in report above"
+  echo ""
+else
+  echo ""
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "❌ AUDIT FAILED - CRITICAL ERRORS FOUND"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo ""
+  echo "Repository: NON-COMPLIANT"
+  echo "Total Checks: ${TOTAL_CHECKS}"
+  echo "Passed: ${CHECKS_PASSED}"
+  echo "Failed: ${CHECKS_FAILED}"
+  echo "Open Errors: ${CRITICAL_ERRORS_OPEN}"
+  echo ""
+  echo "❌ Fix critical errors before proceeding"
+  echo ""
+fi
+```
+
 #### CHECKPOINT 3
 Criteria:
 - All previous checkpoints passed: `YES` or `NO`
@@ -968,6 +1261,7 @@ release_url: <URL | N/A>
 - Skills missing `command:` definition in SKILL.md frontmatter
 - Command documentation out of sync across HUB_MAP, README, COMMANDS.md
 - Duplicate slash command definitions (command collision)
+- Unauthorized files in repository root (not in scripts/integrity-check.sh approved_files)
 
 `WARNING` (non-blocking but mandatory to log):
 - Non-critical orphan files
@@ -978,6 +1272,7 @@ release_url: <URL | N/A>
 - Non-UTF-8 encoding
 - Missing expected (non-required) files
 - Missing date format in changelog entry
+- Orphaned entries in approved_files list (files in list but don't exist)
 
 ## Resume Protocol for Interrupted Audits
 
