@@ -90,6 +90,16 @@ echo "CHECK 3: Loose Root Files"
 echo "═══════════════════════════════════════"
 
 # Approved files in root
+#
+# IMPORTANT: Adding new root files requires explicit approval
+#
+# To add a new file to the repository root:
+# 1. Add filename to this approved_files array (keep alphabetical)
+# 2. Test locally: bash scripts/integrity-check.sh
+# 3. Commit both the new file AND this script together
+# 4. CI/CD will validate and allow if in this list
+#
+# Why? Prevents root directory clutter and enforces organization
 approved_files=(
     "CHANGELOG.md"
     "COMMANDS.md"

@@ -150,4 +150,35 @@ After creating the skill:
 
 ---
 
+## ⚠️ Common Pitfalls
+
+### Adding Files to Repository Root
+
+**Problem:** CI/CD fails with "CLUTTER: YOUR_FILE.md (unauthorized root file)"
+
+**Cause:** Hub has Zero Tolerance policy for unauthorized root files
+
+**Solution:**
+```bash
+# 1. Edit scripts/integrity-check.sh
+# Add your file to approved_files array:
+
+approved_files=(
+    "CHANGELOG.md"
+    "YOUR_FILE.md"    # ← Add here
+    ...
+)
+
+# 2. Test locally
+bash scripts/integrity-check.sh
+
+# 3. Commit both files together
+git add YOUR_FILE.md scripts/integrity-check.sh
+git commit -m "docs: add YOUR_FILE.md with integrity approval"
+```
+
+**Why?** Keeps repository root clean and organized. Every root file must be explicitly approved.
+
+---
+
 **For detailed documentation, see:** `scripts/README.md`

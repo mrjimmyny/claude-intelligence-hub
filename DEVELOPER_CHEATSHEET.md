@@ -178,6 +178,26 @@ command: /my-skill  # ← Add this line!
 # Re-sync and validate
 ```
 
+### "CLUTTER: YOUR_FILE.md (unauthorized root file)"
+```bash
+# Fix: Add file to approved list in integrity-check.sh
+# Edit: scripts/integrity-check.sh
+
+# Add to approved_files array:
+approved_files=(
+    "CHANGELOG.md"
+    "YOUR_FILE.md"    # ← Add here
+    ...
+)
+
+# Test locally
+bash scripts/integrity-check.sh
+
+# Commit both files together
+git add YOUR_FILE.md scripts/integrity-check.sh
+git commit -m "docs: add YOUR_FILE.md with integrity approval"
+```
+
 ---
 
 ## 📊 Validation Rules

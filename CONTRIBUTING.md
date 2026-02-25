@@ -436,6 +436,74 @@ Want to see your impact? After your PR is merged:
 
 ---
 
+## ⚠️ Adding Files to Repository Root
+
+**CRITICAL:** The hub has a **Zero Tolerance policy** for unauthorized root files to maintain organization.
+
+### The Rule
+
+Only files explicitly listed in `scripts/integrity-check.sh` are allowed in the repository root.
+
+### If You Need to Add a Root File
+
+**Example:** Adding `NEW_GUIDE.md` to the root
+
+1. **Add to approved list:**
+   ```bash
+   # Edit scripts/integrity-check.sh
+   # Find the approved_files array and add your file:
+
+   approved_files=(
+       "CHANGELOG.md"
+       "COMMANDS.md"
+       "CONTRIBUTING.md"
+       "NEW_GUIDE.md"        # ← Add here (alphabetically)
+       ...
+   )
+   ```
+
+2. **Test locally:**
+   ```bash
+   bash scripts/integrity-check.sh
+   ```
+
+3. **Verify all checks pass:**
+   ```
+   ✅ Passed: 6
+   ❌ Failed: 0
+   ```
+
+4. **Commit both files together:**
+   ```bash
+   git add NEW_GUIDE.md scripts/integrity-check.sh
+   git commit -m "docs: add NEW_GUIDE.md with integrity approval"
+   git push
+   ```
+
+### Why This Matters
+
+- **Prevents clutter:** Keeps root directory clean
+- **Enforces organization:** Documents every root file explicitly
+- **Fails CI/CD:** Unauthorized files block merges
+- **Zero surprises:** Everyone knows what's allowed
+
+### Common Mistake
+
+❌ **Wrong:** Add file to root → Commit → Push → CI/CD fails
+
+✅ **Right:** Add file to root → Update approved_files → Test → Commit → Push → CI/CD passes
+
+### When CI/CD Fails with "CLUTTER"
+
+```
+🗑️ CLUTTER: YOUR_FILE.md (unauthorized root file)
+Fix: Move to skill directory or delete
+```
+
+**Solution:** Add to `scripts/integrity-check.sh` approved_files array
+
+---
+
 ## 🙏 Thank You!
 
 Every contribution makes Claude Code more powerful for the entire community. Whether you're adding a skill, fixing a bug, or improving docs — thank you for making this hub better! 🚀

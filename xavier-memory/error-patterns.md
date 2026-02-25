@@ -142,17 +142,41 @@ Rule: every SKILL.md must have **Version:** X.X.X as its second line
 
 ## #11: New Root Document Not in Approved List
 ```
-❌ BUG:
-Added CIH-ROADMAP.md, AUDIT_TRAIL.md, DEVELOPMENT_IMPACT_ANALYSIS.md to root
-integrity-check.sh Check 3 output:
-  🗑️ CLUTTER: CIH-ROADMAP.md (unauthorized root file)
-  🗑️ CLUTTER: AUDIT_TRAIL.md (unauthorized root file)
-  → Files are legitimate, just not in the hardcoded approved_files array
+❌ BUG (recurring pattern):
+Instance 1: Added CIH-ROADMAP.md, AUDIT_TRAIL.md, DEVELOPMENT_IMPACT_ANALYSIS.md
+Instance 2: Added CONTRIBUTING.md, DEVELOPER_CHEATSHEET.md, QUICKSTART_NEW_SKILL.md
 
-✅ FIX:
-Add filename to approved_files in scripts/integrity-check.sh (~line 93)
-IN THE SAME COMMIT as adding the root file
+integrity-check.sh Check 3 output:
+  🗑️ CLUTTER: CONTRIBUTING.md (unauthorized root file)
+  🗑️ CLUTTER: DEVELOPER_CHEATSHEET.md (unauthorized root file)
+  🗑️ CLUTTER: QUICKSTART_NEW_SKILL.md (unauthorized root file)
+  → Files are legitimate, just not in the hardcoded approved_files array
+  → CI/CD FAILS with Zero-Breach Policy violation
+
+✅ FIX (both file and script):
+1. Add filename to approved_files in scripts/integrity-check.sh (~line 93-108)
+2. Test locally: bash scripts/integrity-check.sh
+3. Commit BOTH files together (new doc + updated script)
+4. CI/CD will pass
+
+CORRECT WORKFLOW:
+  git add NEW_DOC.md scripts/integrity-check.sh
+  git commit -m "docs: add NEW_DOC.md with integrity approval"
+  git push
+
+WRONG WORKFLOW:
+  git add NEW_DOC.md          ← Missing script update!
+  git commit && push          ← CI/CD FAILS
+
 Rule: approved_files = every intentional root .md file, always kept current
+Location: Scripts/integrity-check.sh contains explicit approved_files array
+Policy: Zero Tolerance for unauthorized root files (prevents clutter)
+
+DOCUMENTED IN:
+- CONTRIBUTING.md (section: "Adding Files to Repository Root")
+- DEVELOPER_CHEATSHEET.md (section: Common Issues)
+- QUICKSTART_NEW_SKILL.md (section: Common Pitfalls)
+- scripts/integrity-check.sh (inline comments at approved_files)
 ```
 
 ---
