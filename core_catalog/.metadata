@@ -1,0 +1,9 @@
+{
+  "name": "core_catalog",
+  "version": "1.0.0",
+  "type": "infrastructure-data",
+  "status": "production",
+  "description": "Centralized catalog of core system configurations and bootstrap data for the Claude Intelligence Hub environment.",
+  "auto_load": false,
+  "priority": "low"
+}
