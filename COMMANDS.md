@@ -214,6 +214,56 @@ These skills only load when manually invoked:
 
 ---
 
+## 👨‍💻 Creating Your Own Slash Commands
+
+Want to add a new skill with its own slash command? Here's the quick process:
+
+### The 4-Step "Colinha" (Cheat Sheet)
+
+```bash
+# 1️⃣ Create skill with command: in SKILL.md frontmatter
+cd /c/ai/claude-intelligence-hub
+mkdir my-new-skill && cd my-new-skill
+# Add SKILL.md (with command: field), .metadata, README.md
+
+# 2️⃣ Sync to global skills directory
+cd ../scripts
+./sync-skills-global.ps1  # Windows
+# OR
+./sync-skills-global.sh   # Bash/WSL
+
+# 3️⃣ Restart Claude Code
+# Close and reopen Claude Code
+
+# 4️⃣ Validate with repo-auditor
+/repo-auditor --mode AUDIT_AND_FIX
+```
+
+**Done!** Your new command `/my-skill` is now available globally! ✅
+
+### Required SKILL.md Frontmatter
+
+```yaml
+---
+name: my-new-skill
+description: What this skill does
+command: /my-skill        # ← MANDATORY!
+aliases: [/alias1, /alias2]
+---
+```
+
+### Auto-Validation
+
+The repo-auditor automatically validates:
+- ✅ All skills have `command:` defined
+- ✅ Commands are documented in HUB_MAP, README, COMMANDS (auto-synced)
+- ✅ No duplicate commands
+- ✅ Skills appear in EXECUTIVE_SUMMARY
+
+**Full guide:** [CONTRIBUTING.md](CONTRIBUTING.md) | [QUICKSTART_NEW_SKILL.md](QUICKSTART_NEW_SKILL.md)
+
+---
+
 ## 📚 Further Reading
 
 - **[HUB_MAP.md](HUB_MAP.md)** - Visual skill router with detailed routing

@@ -770,22 +770,52 @@ See [project-instructions.md](.claude/project-instructions.md) for full protocol
 
 Contributions are welcome! This is a public repository designed to help the Claude Code community.
 
+### 💡 Quick Start: Adding a New Skill
+
+**The 4-Step "Colinha" (Cheat Sheet):**
+
+```bash
+# 1. Create skill with command: in SKILL.md frontmatter
+cd /c/ai/claude-intelligence-hub
+mkdir my-new-skill && cd my-new-skill
+# Add SKILL.md with command:, .metadata, README.md
+
+# 2. Sync to global skills directory
+cd ../scripts
+./sync-skills-global.ps1  # Windows
+# OR
+./sync-skills-global.sh   # Bash/WSL
+
+# 3. Restart Claude Code (close & reopen)
+
+# 4. Validate with repo-auditor
+/repo-auditor --mode AUDIT_AND_FIX
+```
+
+**Done!** Your skill is now available globally as `/my-skill` ✅
+
+📖 **Full guide:** [QUICKSTART_NEW_SKILL.md](QUICKSTART_NEW_SKILL.md)
+
+---
+
 ### How to Contribute
 
 1. **Fork** the repository
 2. **Create** your feature branch: `git checkout -b feature/new-skill`
-3. **Commit** your changes: `git commit -m 'feat: add new-skill for X'`
-4. **Push** to branch: `git push origin feature/new-skill`
-5. **Open** a Pull Request
+3. **Follow the 4-step process above** to add your skill
+4. **Commit** your changes: `git commit -m 'feat: add new-skill for X'`
+5. **Push** to branch: `git push origin feature/new-skill`
+6. **Open** a Pull Request
 
 ### Contribution Guidelines
 
-- Follow existing skill structure
+- **MANDATORY:** Include `command: /skill-name` in SKILL.md frontmatter
+- Follow existing skill structure (SKILL.md, README.md, .metadata)
 - Include comprehensive documentation
-- Add tests/validation examples
+- Run `/repo-auditor --mode AUDIT_AND_FIX` before submitting
 - Update CHANGELOG.md
 - Use semantic versioning
-- Keep README.md updated
+- Repo auditor will auto-validate and sync documentation
 
 ---
 
