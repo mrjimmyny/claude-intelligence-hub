@@ -55,65 +55,65 @@
 
 ## 🔗 Detailed Routing Map
 
-### 1. jimmy-core-preferences (v1.5.0)
+### 1. jimmy-core-preferences
 - **Path:** `jimmy-core-preferences/`
 - **Identity:** Master Framework for Claude's personality.
 - **Rules:** Radical Honesty, Proactivity, Git Safety.
 
-### 2. session-memoria (v1.2.0)
+### 2. session-memoria
 - **Path:** `session-memoria/`
 - **Identity:** Permanent searchable knowledge base.
 - **Language:** Portuguese Triggers / English Metadata.
 
-### 3. gdrive-sync-memoria (v1.0.0)
+### 3. gdrive-sync-memoria
 - **Path:** `gdrive-sync-memoria/`
 - **Integration:** rclone + Google Drive auto-import.
 
-### 4. claude-session-registry (v1.1.0)
+### 4. claude-session-registry
 - **Path:** `claude-session-registry/`
 - **Automation:** Session ID tracking & GitHub backups.
 
-### 5. pbi-claude-skills (v1.3.0)
+### 5. pbi-claude-skills
 - **Path:** `pbi-claude-skills/`
 - **Optimization:** Power BI PBIP project token savings (50-97%).
 
-### 6. x-mem (v1.0.0)
+### 6. x-mem
 - **Path:** `x-mem/`
 - **Learning:** Captures tool failures and proactively suggests fixes.
 
-### 7. xavier-memory (v1.1.0)
+### 7. xavier-memory
 - **Path:** `xavier-memory/`
 - **Global:** Cross-project persistent memory (MEMORY.md).
 
-### 8. xavier-memory-sync (v1.0.0)
+### 8. xavier-memory-sync
 - **Path:** `xavier-memory-sync/`
 - **Cloud:** Syncs global memory to Google Drive.
 
-### 9. context-guardian (v1.0.0)
+### 9. context-guardian
 - **Path:** `context-guardian/`
 - **Switching:** Manages account state between Xavier and Magneto.
 
-### 10. repo-auditor (v2.0.0)
+### 10. repo-auditor
 - **Path:** `repo-auditor/`
 - **Audit:** Mandatory proof-of-read and audit trails.
 
-### 11. conversation-memoria (v1.0.0)
+### 11. conversation-memoria
 - **Path:** `conversation-memoria/`
 - **Archive:** Persistent session storage for Elite League history.
 
-### 12. agent-orchestration-protocol (v1.3.0)
+### 12. agent-orchestration-protocol
 - **Path:** `agent-orchestration-protocol/`
 - **Workflow:** Multi-agent coordination framework (Seven Pillars).
 
-### 13. core_catalog (v1.0.0)
+### 13. core_catalog
 - **Path:** `core_catalog/`
 - **Data:** System initialization and compatibility data.
 
-### 14. token-economy (v1.0.0)
+### 14. token-economy
 - **Path:** `token-economy/`
 - **Governance:** Budget enforcement and token reduction rules.
 
-### 15. codex-governance-framework (v1.0.0)
+### 15. codex-governance-framework
 - **Path:** `codex-governance-framework/`
 - **Context:** Institutional bootstrap governance documentation.
 

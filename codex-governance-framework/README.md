@@ -6,6 +6,43 @@ start here:
 
 👉 See [START_HERE.md](START_HERE.md)
 
+---
+
+<details>
+<summary><b>📊 View Governance Flow Architecture</b></summary>
+
+```mermaid
+graph TD
+    subgraph HUB [Canonical HUB Authority]
+        CC[core_catalog.json]
+        BC[bootstrap_compat.json]
+    end
+
+    subgraph Runtime [Execution Surface]
+        M1[Mode: onboard]
+        M2[Mode: sync]
+        M3[Mode: audit]
+        M4[Mode: off]
+    end
+
+    HUB -->|Contract| M1
+    HUB -->|Reconcile| M2
+    HUB -->|Visibility| M3
+    HUB -->|Deprovision| M4
+
+    M1 -->|Audit-Sync-Audit| Log[Structured Execution Logs]
+    M2 -->|Converge| Log
+    M3 -->|Drift Detection| Log
+    
+    Log -->|Validation| Gate{Regression Gate}
+    Gate -->|FAIL_COUNT=0| Rel[Release Governance]
+    Gate -->|FAIL_COUNT>0| Fix[Remediation Required]
+```
+
+</details>
+
+---
+
 # Codex Governance Framework
 
 ## Purpose
