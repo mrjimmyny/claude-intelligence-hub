@@ -8,7 +8,7 @@ description: Persistent conversation memory storage and retrieval workflows.
 
 > Persistent conversation storage system for the ELITE LEAGUE (Xavier, Magneto, Ciclope, Emma, Jimmy)
 
-**Version:** 1.0.0  
+**Version:** 1.0.0
 **Type:** System Skill (On-Demand)  
 **Owner:** Jimmy  
 **Status:** ✅ Production

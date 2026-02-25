@@ -5,9 +5,8 @@ description: Adapter skill exposing token governance rules from HUB sources.
 ---
 
 # token-economy
-
-Version: 1.0.0-adapter
-Type: Codex adapter skill
+**Version:** 1.0.0
+**Type:** Governance Adapter
 Purpose: Expose Token Economy governance as a Codex-ready skill without modifying HUB source.
 
 ## Source of truth (read-only)

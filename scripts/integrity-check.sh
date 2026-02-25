@@ -31,7 +31,7 @@ echo "════════════════════════�
 orphans_found=0
 for dir in */; do
     # Skip hidden, special, and infrastructure directories
-    if [[ "$dir" == "." || "$dir" == ".git/" || "$dir" == ".claude/" || "$dir" == "scripts/" || "$dir" == "token-economy/" || "$dir" == "docs/" || "$dir" == "extra-executive-docs/" || "$dir" == "codex-governance-framework/" ]]; then
+    if [[ "$dir" == "." || "$dir" == ".git/" || "$dir" == ".claude/" || "$dir" == "scripts/" || "$dir" == "docs/" || "$dir" == "extra-executive-docs/" ]]; then
         continue
     fi
 
@@ -141,7 +141,7 @@ echo "════════════════════════�
 drift_found=0
 for skill_dir in */; do
     # Skip non-skill directories (infrastructure, scripts, documentation)
-    if [[ "$skill_dir" == "." || "$skill_dir" == ".git/" || "$skill_dir" == ".claude/" || "$skill_dir" == "scripts/" || "$skill_dir" == "token-economy/" || "$skill_dir" == "docs/" || "$skill_dir" == "extra-executive-docs/" || "$skill_dir" == "codex-governance-framework/" ]]; then
+    if [[ "$skill_dir" == "." || "$skill_dir" == ".git/" || "$skill_dir" == ".claude/" || "$skill_dir" == "scripts/" || "$skill_dir" == "docs/" || "$skill_dir" == "extra-executive-docs/" ]]; then
         continue
     fi
 
@@ -183,7 +183,7 @@ echo "════════════════════════�
 missing_skill_md=0
 for skill_dir in */; do
     # Skip non-skill directories (infrastructure, scripts, documentation)
-    if [[ "$skill_dir" == "." || "$skill_dir" == ".git/" || "$skill_dir" == ".claude/" || "$skill_dir" == "scripts/" || "$skill_dir" == "token-economy/" || "$skill_dir" == "docs/" || "$skill_dir" == "extra-executive-docs/" || "$skill_dir" == "codex-governance-framework/" ]]; then
+    if [[ "$skill_dir" == "." || "$skill_dir" == ".git/" || "$skill_dir" == ".claude/" || "$skill_dir" == "scripts/" || "$skill_dir" == "docs/" || "$skill_dir" == "extra-executive-docs/" ]]; then
         continue
     fi
 
@@ -214,7 +214,7 @@ echo "════════════════════════�
 sync_issues=0
 for skill_dir in */; do
     # Skip non-skill directories (infrastructure, scripts, documentation)
-    if [[ "$skill_dir" == ".git/" ]] || [[ "$skill_dir" == "scripts/" ]] || [[ "$skill_dir" == "token-economy/" ]] || [[ "$skill_dir" == ".claude/" ]] || [[ "$skill_dir" == "docs/" ]] || [[ "$skill_dir" == "extra-executive-docs/" ]] || [[ "$skill_dir" == "codex-governance-framework/" ]]; then
+    if [[ "$skill_dir" == ".git/" ]] || [[ "$skill_dir" == "scripts/" ]] || [[ "$skill_dir" == ".claude/" ]] || [[ "$skill_dir" == "docs/" ]] || [[ "$skill_dir" == "extra-executive-docs/" ]]; then
         continue
     fi
 
@@ -225,7 +225,7 @@ for skill_dir in */; do
     if [ -f "$metadata_file" ] && [ -f "$skill_md" ]; then
         # Extract versions
         metadata_ver=$(grep '"version"' "$metadata_file" | sed 's/.*"version": *"\([^"]*\)".*/\1/')
-        skillmd_ver=$(grep '^\*\*Version:\*\*' "$skill_md" | head -1 | sed 's/.*Version:\*\* *\([0-9.]*\).*/\1/')
+        skillmd_ver=$(grep "\*\*Version:\*\*" "$skill_md" | head -1 | sed 's/.*Version:\*\* *\([0-9.]*\).*/\1/')
         hubmap_line=$(grep "$skill_name.*v[0-9]" HUB_MAP.md 2>/dev/null | head -1)
 
         if [ -n "$hubmap_line" ]; then

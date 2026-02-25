@@ -3,7 +3,8 @@ name: repo-auditor
 description: Deterministic deep repository audit protocol for content, consistency, and completeness. Use when an audit must be reproducible across agents with literal bash commands, strict checkpoints, recovery gates, and verified release publication.
 ---
 
-# Repo Auditor v2.0.0
+# Repo Auditor
+**Version:** 2.0.0
 
 ## Objective
 Transform repository audits from surface checks into deep protocol execution:
