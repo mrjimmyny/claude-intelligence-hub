@@ -1,92 +1,168 @@
-# 🌟 Agent Orchestration Protocol: Executive Summary
+# Agent Orchestration Protocol (AOP): Executive Summary
 
-## 🔭 The Big Picture: What Is AOP?
+Purpose: Provide structured input for NotebookLM to generate visual and dynamic artifacts (infographics, slide decks, mind maps, audio, video).
 
-Imagine a **symphony orchestra** where each musician is an AI agent with unique specialties. The **Agent Orchestration Protocol (AOP)** is the conductor's methodology—a revolutionary framework that enables one "maestro" AI agent to coordinate multiple "specialist" AI agents, all working together on complex tasks that would overwhelm any single performer.
+## Executive Snapshot
 
-In simpler terms: **AOP transforms isolated AI assistants into collaborative teams**, unlocking productivity levels previously impossible with solo AI work.
-
----
-
-## 🧩 The Problem AOP Solves
-
-Traditional AI workflows hit a wall when facing:
-- **Multi-Skill Challenges**: Tasks requiring diverse expertise.
-- **Parallel Workstreams**: Multiple independent subtasks.
-- **Review Loops**: Creator → Reviewer → Finalizer workflows.
-
-**AOP's Solution**: Enable true AI-to-AI collaboration through structured orchestration.
-
----
-
-## 🏛️ The Seven Pillars of AOP: A Simple Framework
-
-Think of these as the **"ground rules"** that make AI teamwork seamless:
-
-<details>
-<summary><b>🔍 Expand to view the Seven Pillars</b></summary>
-
-### 1️⃣ Pillar 1: Environment Isolation
-**Analogy**: Each agent gets a clean, private workspace.
-**Benefit**: Predictable, reproducible results every time.
-
-### 2️⃣ Pillar 2: Absolute Referencing
-**Analogy**: Using GPS coordinates instead of "turn left at the red barn."
-**Benefit**: Zero ambiguity—agents always find the right files.
-
-### 3️⃣ Pillar 3: Permission Bypass (Trusted Zones Only)
-**Analogy**: VIP backstage passes for trusted team members in secure areas.
-**Benefit**: Fully automated workflows with enterprise-grade safety.
-
-### 4️⃣ Pillar 4: Active Vigilance (Polling)
-**Analogy**: A stage manager checking every 60 seconds: "Is the prop ready yet?"
-**Benefit**: Real-time progress tracking and timeout protection.
-
-### 5️⃣ Pillar 5: Integrity Verification
-**Analogy**: Quality control inspectors checking every product off the assembly line.
-**Benefit**: Confidence that outputs meet quality standards.
-
-### 6️⃣ Pillar 6: Closeout Protocol
-**Analogy**: A clear, standardized end-of-task report.
-**Benefit**: Every task ends with machine-readable, actionable intelligence.
-
-### 7️⃣ Pillar 7: Constraint Adaptation
-**Analogy**: A manager realizing they can't see inside a secure room, so they send a trusted employee with clearance to check.
-**Benefit**: Overcomes environmental limitations through intelligent delegation.
-
-</details>
+| Field | Value |
+| --- | --- |
+| Name | Agent Orchestration Protocol (AOP) |
+| Version | 1.3.0 |
+| Status | Production-Ready |
+| Category | Multi-Agent Coordination |
+| Command | `/aop` |
+| Aliases | `/orchestrate`, `/delegate` |
+| Author | Forge (Senior Software Engineer & Context Specialist) |
+| Maintained By | Claude Intelligence Hub Team (Forge Lead) |
+| Last Updated | 2026-02-25 |
+| Roadmap Version | 1.2 (Last Updated: 2026-02-22, Next Review: Q2 2026) |
 
 ---
 
-## 🔒 Enterprise-Grade Security & Routing
+## What AOP Is
 
-AOP includes built-in safeguards to ensure safe execution:
+AOP is a methodology and operating framework that allows a single **Orchestrator Agent** to coordinate multiple **Executor Agents** across complex, multi-step tasks. It turns isolated assistants into a coordinated agent team with standardized delegation, monitoring, validation, and recovery.
 
-- ✅ **Flexible Security Routing:** Orchestrators dynamically route executors to trusted directories (e.g., `C:\ai`) using `Set-Location`, verifying paths before handover.
-- ✅ **Permission Bypass:** Strict rules for `--dangerously-bypass-approvals-and-sandbox` ensure it is only used in authorized zones.
+---
 
-<details>
-<summary><b>📊 AOP Execution Architecture</b></summary>
+## The Problem AOP Solves
 
-```mermaid
-graph LR
-    A[Orchestrator] -->|Set-Location C:\ai| B(Workspace Verification)
-    B -->|Verified| C[Executor CLI + Bypass Flag]
-    B -->|Denied| D[Halt Execution]
+Traditional single-agent workflows break down when tasks require multiple specialties, parallel execution, or long-running multi-phase coordination. AOP addresses:
+
+- Multi-skill challenges that exceed a single agent's capabilities.
+- Parallel workstreams that must be executed simultaneously.
+- Review loops that require creator, reviewer, and finalizer roles.
+- Long-running tasks that need monitoring and recovery.
+
+---
+
+## Operating Model
+
+- **Orchestrator Agent:** Delegates, monitors, and validates tasks (example: Forge).
+- **Executor Agents:** Specialists that execute delegated tasks (examples: Emma/Codex, Magneto/Claude Code).
+- **Headless Mode:** Executors run non-interactively for automation.
+- **Trusted Workspace:** Pre-approved directories where permission bypass is allowed.
+
+---
+
+## The Seven Pillars of AOP
+
+1. **Environment Isolation:** Executors run in clean, isolated shells for predictable behavior.
+2. **Absolute Referencing:** Mandatory absolute paths eliminate ambiguity.
+3. **Permission Bypass:** Automation is allowed only inside trusted workspaces.
+4. **Active Vigilance (Polling):** Orchestrator monitors progress with verification loops.
+5. **Integrity Verification:** Outputs are validated for existence and quality.
+6. **Closeout Protocol:** Tasks end with explicit `SUCCESS` or `FAIL`.
+7. **Constraint Adaptation:** If access is restricted, delegate verification to a properly scoped agent.
+
+---
+
+## Execution and Security Standard (Mandatory)
+
+- **Flexible Security Routing:** Orchestrators may route executors to any trusted directory using `Set-Location` after verifying the path.
+- **Bypass Flags:** Permission bypass is permitted only in trusted workspaces.
+- **Standard Patterns:**
+
+```powershell
+# Codex (Emma)
+Set-Location <Target_Path>; codex exec --dangerously-bypass-approvals-and-sandbox '<Instructions>'
+
+# Gemini (Forge)
+Set-Location <Target_Path>; gemini --approval-mode yolo -p "<Instructions>"
 ```
 
-</details>
+---
+
+## Reliability and Recovery
+
+- **Active Vigilance:** Polling loops verify task completion.
+- **Integrity Verification:** Confirms artifacts are present and non-empty.
+- **Error Reporting:** Executors emit standardized `error.json` on failure.
+- **Closeout Protocol:** Orchestrator provides clear status (`SUCCESS` or `FAIL`).
 
 ---
 
-## 🚀 The Vision: Why AOP Matters for the Future
+## Production Capabilities (v1.3)
 
-AOP transforms AI from **solo contributors** into **collaborative teams**, mirroring how human organizations scale complex work. Instead of one generalist AI struggling with everything, AOP deploys **the right expert for each subtask**.
-
-**The question is: Will you be among the first to harness it?**
+- Seven-Pillar Framework fully implemented.
+- Constraint adaptation and delegation.
+- File-based state handover between agents.
+- Standardized JSON error reporting.
+- Security boundaries with trusted workspaces.
+- Headless executor operation.
+- Polling and integrity validation loops.
+- Fallback and recovery protocols.
+- Production-validated prompt cookbook.
+- Sequential multi-agent workflows and basic parallel patterns.
 
 ---
 
-**Version**: 1.3.0
-**Created**: 2026-02-24
-**Maintained by**: Claude Intelligence Hub Team
+## Production Use Cases
+
+- Document engineering and multi-stage review pipelines.
+- Code review workflows with creator -> reviewer -> finalizer chains.
+- Research synthesis across multiple sources.
+- Quality assurance validation across agent outputs.
+
+---
+
+## Agent Ecosystem
+
+- **Orchestrators:** Forge (Gemini-based) and custom orchestration agents.
+- **Executors:** Emma (Codex), Magneto (Claude Code), and any Claude CLI variant.
+- **Cross-LLM:** Supports orchestration across Claude -> OpenAI -> Google agents.
+
+---
+
+## Proof Points and Examples
+
+- Featured case study: `orchestrations/2026-02-25_chain-delegation/` demonstrates multi-level delegation where Emma acts as both Executor and Sub-Orchestrator, with a 100% success rate.
+- Current metrics (Roadmap v1.2, 2026-02-22): 100% success rate on basic delegation tasks; <10 minute average completion for standard workflows; 95% timeout accuracy.
+
+---
+
+## Roadmap (v2.0 and Beyond)
+
+- **Phase 1: Enhanced Monitoring (Q2 2026)** - Event-driven orchestration, WebSocket status, live dashboards, <5s response time.
+- **Phase 2: Agent Mesh Network (Q3 2026)** - Peer-to-peer agent messaging, async task queues, dynamic discovery.
+- **Phase 3: Advanced Security & Compliance (Q4 2026)** - Signed delegations, audit logs, RBAC, containerized sandboxes.
+- **Phase 4: AI-Driven Orchestration (Q1 2027)** - Auto agent selection, predictive timeouts, failure pattern recognition, A/B strategy testing.
+
+---
+
+## Pillar Evolution (Current vs Future)
+
+| Pillar | Current (v1.x) | Future (v2.x+) |
+| --- | --- | --- |
+| Environment Isolation | Headless terminals with absolute paths | Containerized environments with resource limits |
+| Absolute Referencing | Mandatory absolute paths | Virtual file system abstraction |
+| Permission Bypass | Flag-based trusted workspace bypass | Token-based, expiring authorization |
+| Active Vigilance | 60-second polling loops | Event-driven notifications (<5s) |
+| Integrity Verification | Existence and size checks | Content-aware, AI-based quality scoring |
+| Closeout Protocol | Text status + JSON error reporting | Fully structured JSON reports |
+| Constraint Adaptation | Delegated verification when sandboxed | Proactive capability detection |
+
+---
+
+## Key Assets
+
+- `README.md` for the complete onboarding guide and core architecture.
+- `SKILL.md` for operational standards and command routing.
+- `AOP_WORKED_EXAMPLES.md` for production-validated prompt patterns.
+- `orchestrations/` for real-world execution reports and metrics.
+
+---
+
+## Suggested Visuals for NotebookLM
+
+- Orchestrator -> Executor flow diagram (delegation, polling, validation).
+- Seven Pillars wheel or stacked diagram.
+- Roadmap timeline (Q2 2026 to Q1 2027).
+- Metrics cards (success rate, average completion, timeout accuracy).
+- Security routing decision flow (trusted vs untrusted workspaces).
+
+---
+
+**Version:** 1.3.0  
+**Status:** Production-Ready  
+**Last Updated:** 2026-02-25
