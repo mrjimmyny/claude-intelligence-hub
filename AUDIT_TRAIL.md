@@ -495,7 +495,7 @@ warnings: 1
   total_lines: 747
   first_line: "# Repository Audit Trail"
   last_line: "```"
-  content_hash: 9748411723f0034a74b1d68c1ae865f31a9ce4b0
+  content_hash: ebdca31eac1d34a73b514416a40673d0be2f27f0
 - file: HUB_MAP.md
   total_lines: 128
   first_line: "# 🗺️ Claude Intelligence Hub - Visual Skill Router"
@@ -725,7 +725,7 @@ open_critical_errors: 0
 release_published: YES
 release_url: https://github.com/mrjimmyny/claude-intelligence-hub/releases/tag/v2.7.1
 release_tag: v2.7.1
-release_tag_commit: 0a8a1c6d7f8b946491d704526dd4400c32dc53ea
+release_tag_commit: b0b8f7d3a3114b74ac6916acf5d6b677d58fbf6e
 release_tag_verified: YES
 release_api_verified: YES
 published_at: 2026-03-01T16:28:51Z
