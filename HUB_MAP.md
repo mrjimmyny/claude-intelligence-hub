@@ -1,6 +1,6 @@
 # 🗺️ Claude Intelligence Hub - Visual Skill Router
 
-**Version:** 2.7.0
+**Version:** 2.7.1
 **Status:** 🟢 Active & Synchronized
 **Registry:** 15 Production Skills
 
@@ -45,7 +45,7 @@
 | 3 | **gdrive-sync-memoria** | v1.0.0 | `/gdrive-sync` | Sync ChatLLM Team data |
 | 6 | **x-mem** | v1.0.0 | `/xmem` | Failure/Success learning |
 | 8 | **xavier-memory-sync** | v1.0.0 | `/xavier-sync` | GDrive Memory Backup |
-| 9 | **context-guardian** | v1.0.0 | `/context-guardian` | Account switching (Xavier/Magneto) |
+| 9 | **context-guardian** | v1.0.1 | `/context-guardian` | Account switching (Xavier/Magneto) |
 | 10 | **repo-auditor** | v2.0.0 | `/repo-auditor` | Manual repo integrity audit |
 | 11 | **conversation-memoria** | v1.0.0 | `/conversation` | Save/Load session history |
 | 13 | **core_catalog** | v1.0.0 | `/catalog` | Bootstrap system data |

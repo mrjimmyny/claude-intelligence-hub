@@ -1,11 +1,11 @@
 {
   "name": "context-guardian",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Complete context preservation system for Xavier ↔ Magneto account switching",
   "type": "system-skill",
   "owner": "jimmy-xavier",
   "created": "2026-02-16",
-  "status": "in-development",
+  "status": "production",
   "triggers": [
     "backup global config",
     "backup claude settings",

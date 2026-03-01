@@ -10,6 +10,8 @@ source "$SCRIPT_DIR/logging-lib.sh"
 RCLONE_REMOTE="gdrive-jimmy"
 GDRIVE_FOLDER="Claude/_claude_intelligence_hub/_critical_bkp_xavier_local_persistent_memory"
 CLAUDE_DIR="$HOME/.claude"
+REPORT_DIR="$CLAUDE_DIR/context-guardian/reports"
+REPORT_REMOTE_DIR="${GDRIVE_FOLDER}/reports/report-verify-backup"
 
 # Parse arguments
 LOCAL_ONLY=false
@@ -37,6 +39,24 @@ NC='\033[0m'
 CHECKS_PASSED=0
 CHECKS_WARNING=0
 CHECKS_FAILED=0
+TOTAL_CHECKS=0
+
+DRIVE_STATUS="UNKNOWN"
+DRIVE_CONNECTED=false
+METADATA_STATUS="UNKNOWN"
+METADATA_SOURCE="none"
+BACKUP_AGE_STATUS="UNKNOWN"
+BACKUP_AGE_DAYS="unknown"
+LAST_BACKUP="unknown"
+CHECKSUM_STATUS="UNKNOWN"
+EXPECTED_SHA=""
+ACTUAL_SHA=""
+SIZE_STATUS="UNKNOWN"
+TOTAL_BYTES=0
+TOTAL_SIZE_HUMAN="unknown"
+SYMLINK_STATUS="UNKNOWN"
+BROKEN_COUNT=0
+BROKEN_SKILLS=""
 
 # ==============================================================================
 # Check 1: Google Drive Connectivity
@@ -47,15 +67,20 @@ echo -n "Check 1: Google Drive Connectivity... "
 if [ "$LOCAL_ONLY" = true ]; then
     echo -e "${YELLOW}SKIPPED${NC} (--local-only mode)"
     log_info "Check 1: SKIPPED (local-only mode)"
+    DRIVE_STATUS="SKIPPED"
 else
     if rclone lsd "${RCLONE_REMOTE}:${GDRIVE_FOLDER}" &> /dev/null; then
         echo -e "${GREEN}✅ CONNECTED${NC}"
         log_success "Check 1: Google Drive connected"
         CHECKS_PASSED=$((CHECKS_PASSED + 1))
+        DRIVE_STATUS="CONNECTED"
+        DRIVE_CONNECTED=true
     else
         echo -e "${RED}❌ FAILED${NC}"
         log_error "Check 1: Cannot connect to Google Drive"
         CHECKS_FAILED=$((CHECKS_FAILED + 1))
+        DRIVE_STATUS="FAILED"
+        DRIVE_CONNECTED=false
     fi
 fi
 
@@ -75,21 +100,32 @@ fi
 if [ -f "$TEMP_DIR/LATEST_GLOBAL.json" ] || [ -f "$CLAUDE_DIR/context-guardian/LATEST_GLOBAL.json" ]; then
     # Try remote first, fall back to local
     METADATA_FILE="$TEMP_DIR/LATEST_GLOBAL.json"
-    [ ! -f "$METADATA_FILE" ] && METADATA_FILE="$CLAUDE_DIR/context-guardian/LATEST_GLOBAL.json"
+    if [ ! -f "$METADATA_FILE" ]; then
+        METADATA_FILE="$CLAUDE_DIR/context-guardian/LATEST_GLOBAL.json"
+    else
+        METADATA_SOURCE="remote"
+    fi
+    if [ "$METADATA_SOURCE" != "remote" ] && [ -f "$METADATA_FILE" ]; then
+        METADATA_SOURCE="local"
+    fi
 
     if jq empty "$METADATA_FILE" 2>/dev/null; then
         echo -e "${GREEN}✅ VALID JSON${NC}"
         log_success "Check 2: Metadata is valid JSON"
         CHECKS_PASSED=$((CHECKS_PASSED + 1))
+        METADATA_STATUS="VALID JSON"
     else
         echo -e "${RED}❌ CORRUPTED${NC}"
         log_error "Check 2: Metadata JSON is invalid"
         CHECKS_FAILED=$((CHECKS_FAILED + 1))
+        METADATA_STATUS="CORRUPTED"
     fi
 else
     echo -e "${RED}❌ NOT FOUND${NC}"
     log_error "Check 2: Metadata file not found"
     CHECKS_FAILED=$((CHECKS_FAILED + 1))
+    METADATA_STATUS="NOT FOUND"
+    METADATA_SOURCE="none"
 fi
 
 # ==============================================================================
@@ -104,20 +140,24 @@ if [ -f "$METADATA_FILE" ]; then
     NOW_EPOCH=$(date +%s)
     DIFF_SECONDS=$((NOW_EPOCH - LAST_BACKUP_EPOCH))
     DIFF_DAYS=$((DIFF_SECONDS / 86400))
+    BACKUP_AGE_DAYS=$DIFF_DAYS
 
     if [ $DIFF_DAYS -lt 7 ]; then
         echo -e "${GREEN}✅ FRESH${NC} (backed up $DIFF_DAYS days ago)"
         log_success "Check 3: Backup is fresh ($DIFF_DAYS days old)"
         CHECKS_PASSED=$((CHECKS_PASSED + 1))
+        BACKUP_AGE_STATUS="FRESH"
     else
         echo -e "${YELLOW}⚠️  STALE${NC} (backed up $DIFF_DAYS days ago)"
         log_warn "Check 3: Backup is stale ($DIFF_DAYS days old)"
         CHECKS_WARNING=$((CHECKS_WARNING + 1))
+        BACKUP_AGE_STATUS="STALE"
     fi
 else
     echo -e "${RED}❌ UNKNOWN${NC} (no metadata)"
     log_error "Check 3: Cannot determine backup age"
     CHECKS_FAILED=$((CHECKS_FAILED + 1))
+    BACKUP_AGE_STATUS="UNKNOWN"
 fi
 
 # ==============================================================================
@@ -134,15 +174,18 @@ if [ -f "$METADATA_FILE" ] && [ -f "$CLAUDE_DIR/settings.json" ]; then
         echo -e "${GREEN}✅ MATCH${NC}"
         log_success "Check 4: Checksums match"
         CHECKS_PASSED=$((CHECKS_PASSED + 1))
+        CHECKSUM_STATUS="MATCH"
     else
         echo -e "${YELLOW}⚠️  MISMATCH${NC} (local file modified)"
         log_warn "Check 4: Checksum mismatch (local modifications detected)"
         CHECKS_WARNING=$((CHECKS_WARNING + 1))
+        CHECKSUM_STATUS="MISMATCH"
     fi
 else
     echo -e "${YELLOW}⚠️  SKIPPED${NC} (no files to verify)"
     log_info "Check 4: Skipped (no files to verify)"
     CHECKS_WARNING=$((CHECKS_WARNING + 1))
+    CHECKSUM_STATUS="SKIPPED"
 fi
 
 # ==============================================================================
@@ -159,15 +202,18 @@ if [ -d "$CLAUDE_DIR" ]; then
         echo -e "${GREEN}✅ REASONABLE${NC} ($TOTAL_SIZE_HUMAN)"
         log_success "Check 5: Size is reasonable ($TOTAL_SIZE_HUMAN)"
         CHECKS_PASSED=$((CHECKS_PASSED + 1))
+        SIZE_STATUS="REASONABLE"
     else
         echo -e "${YELLOW}⚠️  LARGE${NC} ($TOTAL_SIZE_HUMAN)"
         log_warn "Check 5: Size is large ($TOTAL_SIZE_HUMAN)"
         CHECKS_WARNING=$((CHECKS_WARNING + 1))
+        SIZE_STATUS="LARGE"
     fi
 else
     echo -e "${RED}❌ NOT FOUND${NC}"
     log_error "Check 5: ~/.claude directory not found"
     CHECKS_FAILED=$((CHECKS_FAILED + 1))
+    SIZE_STATUS="NOT FOUND"
 fi
 
 # ==============================================================================
@@ -195,15 +241,18 @@ if [ -d "$CLAUDE_DIR/skills/user" ]; then
         echo -e "${GREEN}✅ ALL VALID${NC}"
         log_success "Check 6: All symlinks are valid"
         CHECKS_PASSED=$((CHECKS_PASSED + 1))
+        SYMLINK_STATUS="ALL VALID"
     else
         echo -e "${RED}❌ BROKEN${NC} ($BROKEN_COUNT broken:$BROKEN_SKILLS)"
         log_error "Check 6: Found $BROKEN_COUNT broken symlink(s):$BROKEN_SKILLS"
         CHECKS_FAILED=$((CHECKS_FAILED + 1))
+        SYMLINK_STATUS="BROKEN"
     fi
 else
     echo -e "${YELLOW}⚠️  SKIPPED${NC} (no skills directory)"
     log_info "Check 6: Skipped (no skills directory)"
     CHECKS_WARNING=$((CHECKS_WARNING + 1))
+    SYMLINK_STATUS="SKIPPED"
 fi
 
 # ==============================================================================
@@ -236,6 +285,101 @@ echo "  Passed: $CHECKS_PASSED / $TOTAL_CHECKS"
 echo "  Warnings: $CHECKS_WARNING / $TOTAL_CHECKS"
 echo "  Failed: $CHECKS_FAILED / $TOTAL_CHECKS"
 echo ""
+
+# ==============================================================================
+# Generate Humanized Report (Markdown)
+# ==============================================================================
+
+REPORT_TIMESTAMP="$(date +"%Y-%m-%d %H:%M:%S")"
+REPORT_FILENAME="$(date +"%Y-%m-%d-%H%M%S")-verify-backup.md"
+REPORT_PATH="$REPORT_DIR/$REPORT_FILENAME"
+
+mkdir -p "$REPORT_DIR"
+
+if command -v rclone &> /dev/null; then
+    RCLONE_VERSION="$(rclone version | head -1)"
+else
+    RCLONE_VERSION="not found"
+fi
+
+WARNINGS_NOTES=""
+RECOMMENDATIONS=""
+if [ "$DRIVE_STATUS" = "FAILED" ]; then
+    WARNINGS_NOTES="${WARNINGS_NOTES}- Google Drive connectivity failed.\n"
+    RECOMMENDATIONS="${RECOMMENDATIONS}- Check network and rclone auth: rclone config reconnect ${RCLONE_REMOTE}:\n"
+fi
+if [ "$METADATA_STATUS" = "CORRUPTED" ] || [ "$METADATA_STATUS" = "NOT FOUND" ]; then
+    WARNINGS_NOTES="${WARNINGS_NOTES}- Metadata is ${METADATA_STATUS}.\n"
+    RECOMMENDATIONS="${RECOMMENDATIONS}- Re-run backup-global.sh to regenerate metadata.\n"
+fi
+if [ "$BACKUP_AGE_STATUS" = "STALE" ]; then
+    WARNINGS_NOTES="${WARNINGS_NOTES}- Backup is stale (${BACKUP_AGE_DAYS} days).\n"
+    RECOMMENDATIONS="${RECOMMENDATIONS}- Run a fresh backup if this system is active.\n"
+fi
+if [ "$CHECKSUM_STATUS" = "MISMATCH" ]; then
+    WARNINGS_NOTES="${WARNINGS_NOTES}- settings.json checksum mismatch (local modified).\n"
+    RECOMMENDATIONS="${RECOMMENDATIONS}- If changes are intended, run backup-global.sh again to sync.\n"
+fi
+if [ "$SIZE_STATUS" = "LARGE" ]; then
+    WARNINGS_NOTES="${WARNINGS_NOTES}- Size is large (${TOTAL_SIZE_HUMAN}).\n"
+    RECOMMENDATIONS="${RECOMMENDATIONS}- Review ~/.claude for large files (especially ~/.claude/plugins/cache).\n"
+fi
+if [ "$SYMLINK_STATUS" = "BROKEN" ]; then
+    WARNINGS_NOTES="${WARNINGS_NOTES}- Broken symlinks detected:${BROKEN_SKILLS}\n"
+    RECOMMENDATIONS="${RECOMMENDATIONS}- Recreate symlinks (Developer Mode or Admin), or run fix script.\n"
+fi
+
+if [ -z "$WARNINGS_NOTES" ]; then
+    WARNINGS_NOTES="- None.\n"
+fi
+if [ -z "$RECOMMENDATIONS" ]; then
+    RECOMMENDATIONS="- None.\n"
+fi
+
+cat > "$REPORT_PATH" <<EOF
+# Verify Backup Report
+
+Date: $REPORT_TIMESTAMP
+Overall status: $OVERALL_STATUS
+
+Summary:
+- Passed: $CHECKS_PASSED / $TOTAL_CHECKS
+- Warnings: $CHECKS_WARNING / $TOTAL_CHECKS
+- Failed: $CHECKS_FAILED / $TOTAL_CHECKS
+
+Checks:
+- Google Drive connectivity: $DRIVE_STATUS
+- Metadata integrity: $METADATA_STATUS (source: $METADATA_SOURCE)
+- Backup age: $BACKUP_AGE_STATUS (last backup: $LAST_BACKUP; age: $BACKUP_AGE_DAYS days)
+- Checksum verification (settings.json): $CHECKSUM_STATUS
+- Size check: $SIZE_STATUS (total: $TOTAL_SIZE_HUMAN; bytes: $TOTAL_BYTES)
+- Broken symlinks: $SYMLINK_STATUS (count: $BROKEN_COUNT; list:${BROKEN_SKILLS})
+
+Environment:
+- CLAUDE_DIR: $CLAUDE_DIR
+- Metadata file: ${METADATA_FILE:-not available}
+- Log file: $LOG_FILE
+- Rclone: $RCLONE_VERSION
+
+Notes:
+$(printf "%b" "$WARNINGS_NOTES")
+
+Recommendations:
+$(printf "%b" "$RECOMMENDATIONS")
+EOF
+
+log_success "Report saved: $REPORT_PATH"
+
+if [ "$LOCAL_ONLY" = false ] && [ "$DRIVE_CONNECTED" = true ]; then
+    rclone mkdir "${RCLONE_REMOTE}:${REPORT_REMOTE_DIR}" 2>/dev/null
+    if rclone copy "$REPORT_PATH" "${RCLONE_REMOTE}:${REPORT_REMOTE_DIR}/" --verbose; then
+        log_success "Report uploaded to: ${RCLONE_REMOTE}:${REPORT_REMOTE_DIR}/"
+    else
+        log_warn "Report upload failed"
+    fi
+else
+    log_warn "Report upload skipped (local-only or Drive not connected)"
+fi
 
 # Cleanup
 rm -rf "$TEMP_DIR"

@@ -42,21 +42,21 @@
 
 | Command | Aliases | Skill | Description |
 |---|---|---|---|
-| `/aop` | `/orchestrate`, `/delegate` | agent-orchestration-protocol | Multi-agent coordination framework |
-| `/catalog` | `/core` | core_catalog | System configurations & bootstrap data |
-| `/context-guardian` | `/guardian`, `/switch` | context-guardian | Account switching (Xavier ↔ Magneto) |
-| `/conversation` | `/conv`, `/history` | conversation-memoria | Save/Load session history |
-| `/gdrive-sync` | `/gdrive` | gdrive-sync-memoria | Sync ChatLLM Teams content to session-memoria |
-| `/governance` | `/codex` | codex-governance-framework | Institutional governance framework |
-| `/memoria` | `/memory`, `/save` | session-memoria | Permanent conversation storage |
-| `/pbi` | `/powerbi` | pbi-claude-skills | Power BI PBIP optimization |
-| `/preferences` | `/prefs`, `/jimmy` | jimmy-core-preferences | Master AI behavior framework |
-| `/registry` | `/register-session` | claude-session-registry | Session tracking & backup |
-| `/repo-auditor` | `/audit`, `/validate` | repo-auditor | Repository integrity audit |
-| `/token-economy` | `/tokens`, `/budget` | token-economy | Budget enforcement & token reduction |
-| `/xavier-memory` | `/xmemory` | xavier-memory | Cross-project persistent memory |
-| `/xavier-sync` | `/sync-memory` | xavier-memory-sync | Memory sync to Google Drive |
-| `/xmem` | `/learn`, `/recall` | x-mem | Self-learning from failures/successes |
+| `/aop` | /orchestrate, /delegate | agent-orchestration-protocol | Multi-agent coordination framework |
+| `/catalog` | /core | core_catalog | System configurations & bootstrap data |
+| `/context-guardian` | /guardian, /switch | context-guardian | Account switching (Xavier ↔ Magneto) |
+| `/conversation` | /conv, /history | conversation-memoria | Save/Load session history |
+| `/gdrive-sync` | /gdrive | gdrive-sync-memoria | Sync ChatLLM Teams content to session-memoria |
+| `/governance` | /codex | codex-governance-framework | Institutional governance framework |
+| `/memoria` | /memory, /save | session-memoria | Permanent conversation storage |
+| `/pbi` | /powerbi | pbi-claude-skills | Power BI PBIP optimization |
+| `/preferences` | /prefs, /jimmy | jimmy-core-preferences | Master AI behavior framework |
+| `/registry` | /register-session | claude-session-registry | Session tracking & backup |
+| `/repo-auditor` | /audit, /validate | repo-auditor | Repository integrity audit |
+| `/token-economy` | /tokens, /budget | token-economy | Budget enforcement & token reduction |
+| `/xavier-memory` | /xmemory | xavier-memory | Cross-project persistent memory |
+| `/xavier-sync` | /sync-memory | xavier-memory-sync | Memory sync to Google Drive |
+| `/xmem` | /learn, /recall | x-mem | Self-learning from failures/successes |
 
 ---
 
@@ -65,33 +65,33 @@
 ### 🧠 Memory & Knowledge Management
 | Command | Description |
 |---|---|
-| `/memoria` | Capture, search, and recall conversations |
-| `/xavier-memory` | Cross-project global memory |
-| `/xavier-sync` | Backup memory to Google Drive |
-| `/conversation` | Save/load full conversation histories |
-| `/xmem` | Learn from failures and successes |
-| `/gdrive-sync` | Import from ChatLLM Teams |
+| /memoria | Capture, search, and recall conversations |
+| /xavier-memory | Cross-project global memory |
+| /xavier-sync | Backup memory to Google Drive |
+| /conversation | Save/load full conversation histories |
+| /xmem | Learn from failures and successes |
+| /gdrive-sync | Import from ChatLLM Teams |
 
 ### ⚙️ System & Governance
 | Command | Description |
 |---|---|
-| `/preferences` | Master AI behavior settings |
-| `/token-economy` | Enforce token budgets |
-| `/repo-auditor` | Deep repository audit |
-| `/governance` | Codex governance framework |
-| `/catalog` | System configuration data |
+| /preferences | Master AI behavior settings |
+| /token-economy | Enforce token budgets |
+| /repo-auditor | Deep repository audit |
+| /governance | Codex governance framework |
+| /catalog | System configuration data |
 
 ### 🔄 Workflow & Coordination
 | Command | Description |
 |---|---|
-| `/aop` | Orchestrate multi-agent tasks |
-| `/registry` | Track Claude sessions |
-| `/context-guardian` | Switch between accounts |
+| /aop | Orchestrate multi-agent tasks |
+| /registry | Track Claude sessions |
+| /context-guardian | Switch between accounts |
 
 ### 📊 Power BI Optimization
 | Command | Description |
 |---|---|
-| `/pbi` | Power BI PBIP project tools |
+| /pbi | Power BI PBIP project tools |
 
 ---
 
@@ -102,33 +102,33 @@ These skills auto-load at every session start:
 
 | Command | Description |
 |---|---|
-| `/preferences` | Master AI behavior framework |
-| `/token-economy` | Budget enforcement |
+| /preferences | Master AI behavior framework |
+| /token-economy | Budget enforcement |
 
 ### 🟢 Tier 2: Context-Aware (Suggested)
 These skills load based on triggers or project detection:
 
 | Command | Description | Auto-Load Trigger |
 |---|---|---|
-| `/memoria` | Permanent memory | "registre isso", "busca na memoria" |
-| `/registry` | Session tracking | "registra sessão", Golden Close |
-| `/pbi` | Power BI tools | `.pbip` project detected |
-| `/xavier-memory` | Global memory | Cross-project sync |
-| `/aop` | Multi-agent | "orchestrate", "delegate" |
+| /memoria | Permanent memory | "registre isso", "busca na memoria" |
+| /registry | Session tracking | "registra sessão", Golden Close |
+| /pbi | Power BI tools | .pbip project detected |
+| /xavier-memory | Global memory | Cross-project sync |
+| /aop | Multi-agent | "orchestrate", "delegate" |
 
 ### 🟡 Tier 3: Explicit (On-Demand)
 These skills only load when manually invoked:
 
 | Command | Description |
 |---|---|
-| `/gdrive-sync` | ChatLLM sync |
-| `/xmem` | Failure learning |
-| `/xavier-sync` | Memory backup |
-| `/context-guardian` | Account switching |
-| `/repo-auditor` | Repo audit |
-| `/conversation` | Session history |
-| `/catalog` | System config |
-| `/governance` | Governance docs |
+| /gdrive-sync | ChatLLM sync |
+| /xmem | Failure learning |
+| /xavier-sync | Memory backup |
+| /context-guardian | Account switching |
+| /repo-auditor | Repo audit |
+| /conversation | Session history |
+| /catalog | System config |
+| /governance | Governance docs |
 
 ---
 
@@ -273,4 +273,4 @@ The repo-auditor automatically validates:
 ---
 
 **Last Updated:** 2026-02-25
-**Version:** 2.6.0
+**Version:** 2.7.1

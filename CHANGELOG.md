@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.7.1] - 2026-03-01
+
+### Added
+- **context-guardian**: verify-backup now generates structured reports and uploads to Google Drive
+
+### Changed
+- **context-guardian**: version bumped to v1.0.1, docs updated to reflect report output
+- **README.md**, **HUB_MAP.md**, **EXECUTIVE_SUMMARY.md**: hub version synchronized to v2.7.1
+- **COMMANDS.md**: version synchronized to v2.7.1; alias formatting normalized for audit sync
+
+---
+
 ## [2.7.0] - 2026-03-01
 
 ### Fixed

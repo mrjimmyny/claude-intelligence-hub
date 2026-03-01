@@ -2,7 +2,7 @@
 
 > Complete context preservation system for seamless Xavier ↔ Magneto account switching
 
-**Version:** 1.0.0
+**Version:** 1.0.1
 **Status:** ✅ Production
 **Owner:** Jimmy (xavier account)
 
@@ -62,6 +62,7 @@ Google Drive: Claude/_claude_intelligence_hub/_critical_bkp_xavier_local_persist
 - **`.contextignore` Support** - Exclude node_modules, .git, etc.
 - **Dry-Run Mode** - Preview changes without modifying files
 - **Structured Logging** - All operations logged to `~/.claude/context-guardian/logs/`
+- **Health Check Reports** - Reports saved to `~/.claude/context-guardian/reports/` and synced to Google Drive
 
 ---
 
@@ -119,7 +120,7 @@ Google Drive: Claude/_claude_intelligence_hub/_critical_bkp_xavier_local_persist
 - [x] Global config backup/restore (backup-global.sh, restore-global.sh)
 - [x] Project context backup/restore (backup-project.sh, restore-project.sh)
 - [x] Bootstrap script (bootstrap-magneto.ps1 - self-contained PowerShell)
-- [x] Health checks (verify-backup.sh - 6 comprehensive checks)
+- [x] Health checks (verify-backup.sh - 6 comprehensive checks + report output)
 - [x] Integration & documentation (SKILL.md ~600 lines, GOVERNANCE.md)
 - [x] End-to-end testing (14 bootstrap validation tests, Xavier → Magneto → Xavier flow)
 

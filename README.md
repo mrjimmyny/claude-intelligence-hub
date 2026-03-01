@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.7.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.7.1-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -21,21 +21,21 @@ All skills are available as **slash commands** for instant access. Just type `/c
 
 | Skill | Command | Aliases | Description |
 |---|---|---|---|
-| **jimmy-core-preferences** | `/preferences` | `/prefs`, `/jimmy` | Master AI behavior framework |
-| **session-memoria** | `/memoria` | `/memory`, `/save` | Permanent conversation storage |
-| **pbi-claude-skills** | `/pbi` | `/powerbi` | Power BI optimization (50-97% token savings) |
-| **repo-auditor** | `/repo-auditor` | `/audit`, `/validate` | Repository integrity audit |
-| **token-economy** | `/token-economy` | `/tokens`, `/budget` | Budget enforcement & token reduction |
-| **xavier-memory** | `/xavier-memory` | `/xmemory` | Cross-project persistent memory |
-| **xavier-memory-sync** | `/xavier-sync` | `/sync-memory` | Memory sync to Google Drive |
-| **context-guardian** | `/context-guardian` | `/guardian`, `/switch` | Account switching (Xavier ↔ Magneto) |
-| **conversation-memoria** | `/conversation` | `/conv`, `/history` | Save/Load session history |
-| **agent-orchestration** | `/aop` | `/orchestrate`, `/delegate` | Multi-agent coordination |
-| **gdrive-sync-memoria** | `/gdrive-sync` | `/gdrive` | Google Drive integration |
-| **claude-session-registry** | `/registry` | `/register-session` | Session tracking & backup |
-| **x-mem** | `/xmem` | `/learn`, `/recall` | Self-learning from failures/successes |
-| **core_catalog** | `/catalog` | `/core` | System configurations & bootstrap |
-| **codex-governance** | `/governance` | `/codex` | Institutional governance framework |
+| **jimmy-core-preferences** | `/preferences` | /prefs, /jimmy | Master AI behavior framework |
+| **session-memoria** | `/memoria` | /memory, /save | Permanent conversation storage |
+| **pbi-claude-skills** | `/pbi` | /powerbi | Power BI optimization (50-97% token savings) |
+| **repo-auditor** | `/repo-auditor` | /audit, /validate | Repository integrity audit |
+| **token-economy** | `/token-economy` | /tokens, /budget | Budget enforcement & token reduction |
+| **xavier-memory** | `/xavier-memory` | /xmemory | Cross-project persistent memory |
+| **xavier-memory-sync** | `/xavier-sync` | /sync-memory | Memory sync to Google Drive |
+| **context-guardian** | `/context-guardian` | /guardian, /switch | Account switching (Xavier ↔ Magneto) |
+| **conversation-memoria** | `/conversation` | /conv, /history | Save/Load session history |
+| **agent-orchestration** | `/aop` | /orchestrate, /delegate | Multi-agent coordination |
+| **gdrive-sync-memoria** | `/gdrive-sync` | /gdrive | Google Drive integration |
+| **claude-session-registry** | `/registry` | /register-session | Session tracking & backup |
+| **x-mem** | `/xmem` | /learn, /recall | Self-learning from failures/successes |
+| **core_catalog** | `/catalog` | /core | System configurations & bootstrap |
+| **codex-governance** | `/governance` | /codex | Institutional governance framework |
 
 **Example usage:**
 ```bash
@@ -179,7 +179,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[x-mem](x-mem/)** | v1.0.0 | ✅ Production | Self-learning protocol | Failure/success capture, proactive recall, NDJSON storage, 15K token budget. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
 | **[xavier-memory](xavier-memory/)** | v1.1.0 | ✅ Production | Global memory infrastructure | Master MEMORY.md, cross-project sync, 3-layer backup (Git/Hard links/GDrive). Foundation for X-MEM protocol. |
 | **[xavier-memory-sync](xavier-memory-sync/)** | v1.0.0 | ✅ Production | Memory sync automation | Trigger phrases for backup/restore/status, Google Drive integration, zero-duplicate guarantee. |
-| **[context-guardian](context-guardian/)** | v1.0.0 | ✅ Production | Context preservation system | Xavier ↔ Magneto account switching, 3-strategy symlinks, rollback protection, .contextignore support, dry-run mode. |
+| **[context-guardian](context-guardian/)** | v1.0.1 | ✅ Production | Context preservation system | Xavier ↔ Magneto account switching, 3-strategy symlinks, rollback protection, .contextignore support, dry-run mode, verify-backup reports. |
 | **[repo-auditor](repo-auditor/)** | v2.0.0 | ✅ Production | End-to-end audit skill | Mandatory proof-of-read fingerprinting, accumulative AUDIT_TRAIL.md, validate-trail.sh for CI. |
 | **[conversation-memoria](conversation-memoria/)** | v1.0.0 | ✅ Production | Persistent conversation storage | Intelligent metadata extraction, 95-98% token savings, week-based organization, natural language triggers, cross-agent memory sharing. |
 | **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v2.0.0 | ✅ Production | Multi-agent coordination framework | The Seven Pillars of AOP mastery, recursive/parallel workflows, production-validated prompt cookbook. |
@@ -438,7 +438,7 @@ claude-intelligence-hub/
 │   ├── SKILL.md                     # Trigger phrases & workflows (5KB)
 │   └── README.md                    # User guide
 │
-├── 📁 context-guardian/             # ⭐ Context Preservation System (v1.0.0)
+├── 📁 context-guardian/             # ⭐ Context Preservation System (v1.0.1)
 │   ├── SKILL.md                     # Complete workflows and troubleshooting (~600 lines)
 │   ├── README.md                    # Architecture overview
 │   ├── GOVERNANCE.md                # Backup policies, retention, safety rules 
@@ -493,8 +493,8 @@ claude-intelligence-hub/
 │
 ├── README.md                        # ⭐ This file
 ├── CHANGELOG.md                     # Version history
-├── EXECUTIVE_SUMMARY.md             # Comprehensive hub overview (v2.7.0)
-├── HUB_MAP.md                       # Skill routing dictionary (v2.7.0)
+├── EXECUTIVE_SUMMARY.md             # Comprehensive hub overview (v2.7.1)
+├── HUB_MAP.md                       # Skill routing dictionary (v2.7.1)
 ├── WINDOWS_JUNCTION_SETUP.md        # Junction setup guide (Windows)
 ├── scripts/                         # Automation & deployment scripts
 │   ├── setup_local_env.ps1          # Windows automated setup (15-min)

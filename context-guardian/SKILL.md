@@ -1,6 +1,6 @@
 ---
 name: context-guardian
-version: 1.0.0
+version: 1.0.1
 description: Context preservation system for Xavier ↔ Magneto account switching
 command: /context-guardian
 aliases: [/guardian, /switch]
@@ -10,7 +10,7 @@ aliases: [/guardian, /switch]
 
 > Complete context preservation system for Xavier ↔ Magneto account switching
 
-**Version:** 1.0.0
+**Version:** 1.0.1
 **Type:** System Skill (Auto-invoked)
 **Owner:** Jimmy (xavier)
 
@@ -384,6 +384,11 @@ Overall Status: ✅ HEALTHY
 ============================================================
 ```
 
+**Report Output:**
+- Writes a structured report to `~/.claude/context-guardian/reports/`
+- Filename: `YYYY-MM-DD-HHMMSS-verify-backup.md`
+- Uploads to `gdrive-jimmy:Claude/_claude_intelligence_hub/_critical_bkp_xavier_local_persistent_memory/reports/report-verify-backup/` (when not in `--local-only` mode)
+
 ---
 
 ## Troubleshooting
@@ -536,6 +541,8 @@ grep ERROR ~/.claude/context-guardian/logs/*.log
 - Verifies backup health
 - Flags: `--local-only` (skip Google Drive check)
 - Logs to: `logs/verify-backup_TIMESTAMP.log`
+- Reports: `~/.claude/context-guardian/reports/YYYY-MM-DD-HHMMSS-verify-backup.md`
+- Uploads reports to Google Drive when online
 
 ---
 
@@ -547,5 +554,5 @@ grep ERROR ~/.claude/context-guardian/logs/*.log
 
 ---
 
-**Last Updated:** 2026-02-16
-**Status:** ✅ Production (v1.0.0 - All phases complete)
+**Last Updated:** 2026-03-01
+**Status:** ✅ Production (v1.0.1 - All phases complete)
