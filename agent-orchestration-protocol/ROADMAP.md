@@ -1,5 +1,7 @@
 # Agent Orchestration Protocol (AOP) - Roadmap
 
+> **📢 Update (2026-03-01):** AOP V2.0.0 has been released. See [CHANGELOG.md](./CHANGELOG.md).
+
 **Vision:** Transform multi-agent coordination from an experimental capability to a production-grade, enterprise-ready orchestration framework.
 
 ---
@@ -100,9 +102,10 @@ AOP breaks these barriers by introducing **orchestration as a first-class capabi
 
 ### 🚀 Future: Evolution Roadmap (v2.0 and Beyond)
 
-#### Phase 1: Enhanced Monitoring (Q2 2026)
+#### Phase 1: Enhanced Monitoring (Q2 2026) ✅ COMPLETED
 
 **Goal:** Move from polling to event-driven orchestration
+> Delivered in V2.0.0: JSON-native structured envelopes, audit trail system, guard rail enforcement.
 
 ```
 Features:
@@ -147,12 +150,13 @@ Notifies Orchestrator on completion
 #### Phase 3: Advanced Security & Compliance (Q4 2026)
 
 **Goal:** Enterprise-grade security and auditability
+> Note: Audit trail system delivered in V2.0.0 (structured JSONL records, Repo-Auditor, governance metadata).
 
 ```
 Enhancements:
 ├─ Cryptographically signed task delegations
-├─ Audit logs with tamper-proof timestamps
-├─ Role-Based Access Control (RBAC) for agents
+├─ Audit logs with tamper-proof timestamps  ← Partial: delivered in V2.0.0
+├─ Role-Based Access Control (RBAC) for agents  ← Partial: role model in V2.0.0
 ├─ Sandboxed execution environments (Docker/containers)
 └─ Compliance reporting (SOC2, ISO 27001)
 ```

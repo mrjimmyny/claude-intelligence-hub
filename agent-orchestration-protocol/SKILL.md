@@ -1,6 +1,6 @@
 ---
 name: agent-orchestration-protocol
-version: 1.3.0
+version: 2.0.0
 description: Multi-agent coordination framework - The Seven Pillars of AOP
 command: /aop
 aliases: [/orchestrate, /delegate]
@@ -9,7 +9,7 @@ aliases: [/orchestrate, /delegate]
 # 🤖 Agent Orchestration Protocol (AOP)
 
 **Skill ID:** `agent-orchestration-protocol`
-**Version:** 1.3.0
+**Version:** 2.0.0
 **Status:** Production-Ready
 **Category:** Multi-Agent Coordination
 **Author:** Forge (Senior Software Engineer & Context Specialist)
@@ -146,4 +146,24 @@ Set-Location C:\ai\target_dir; gemini --approval-mode yolo -p "Forge, execute Ph
 ---
 
 **Version History:**
+- **v2.0.0** - AOP JSON V2: JSON-native protocol, role-based architecture, guard rails, audit system.
 - **v1.3.0** - Added Seven Pillars, Flexible Routing, UX/UI Upgrades, and Execution Standards.
+
+---
+## 🆕 AOP V2 — JSON-Native Protocol
+
+**Version 2.0.0** introduces a fully JSON-native orchestration protocol with:
+
+- **Role-based architecture**: Any model can assume Orchestrator, Executor, Router, or Governance roles.
+- **Structured envelopes**: JSON TASK and RESPONSE envelopes with Pydantic v2 validation.
+- **Guard rails**: Budget enforcement, payload limits, timeout management, safety policies.
+- **Audit trails**: Full session observability with structured JSONL records.
+- **V1 backward compatibility**: Automatic fallback for agents that only support V1.
+
+### V2 Technical Stack
+- Python 3.11+, Pydantic v2
+- JSON Schema validation for all messages
+- 141 tests, 92% coverage
+- Atomic audit trail writes
+
+See `v2/` directory for full implementation and `v2/02_docs/` for contract and plan.

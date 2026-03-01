@@ -1,0 +1,887 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OrchestrationEnvelope",
+  "description": "Complete AOP v2 orchestration envelope (TASK message). This is the primary message type sent from Orchestrator to Executor.",
+  "type": "object",
+  "required": [
+    "aop_version",
+    "schema_version",
+    "protocol_family",
+    "message_type",
+    "session",
+    "target",
+    "task"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "aop_version": {
+      "type": "string",
+      "default": "2.0.2-C",
+      "description": "Protocol revision identifier"
+    },
+    "schema_version": {
+      "type": "string",
+      "default": "2.0.2",
+      "description": "Schema revision identifier"
+    },
+    "protocol_family": {
+      "type": "string",
+      "const": "AOP",
+      "description": "Protocol family identifier"
+    },
+    "message_type": {
+      "type": "string",
+      "const": "TASK",
+      "description": "Message type"
+    },
+    "session": {
+      "$ref": "#/$defs/Session"
+    },
+    "target": {
+      "$ref": "#/$defs/Target"
+    },
+    "task": {
+      "$ref": "#/$defs/Task"
+    },
+    "execution_policy": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ExecutionPolicy"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "guard_rails": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/GuardRails"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "phases": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Phase"
+      },
+      "maxItems": 10,
+      "default": []
+    },
+    "orchestration_metadata": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/OrchestrationMetadata"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "extensions": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Extensions"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "Session": {
+      "type": "object",
+      "required": ["session_id", "created_at", "orchestrator", "origin"],
+      "additionalProperties": false,
+      "properties": {
+        "session_id": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "orchestrator": {
+          "type": "string"
+        },
+        "origin": {
+          "type": "string"
+        },
+        "workflow_pattern": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": ["SINGLE", "CHAIN", "PARALLEL", "MAP_REDUCE", "HIERARCHICAL"]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "extensions": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Extensions"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "Target": {
+      "type": "object",
+      "required": ["agent_name", "role", "provider", "model"],
+      "additionalProperties": false,
+      "properties": {
+        "agent_name": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["ORCHESTRATOR", "EXECUTOR", "SPECIALIST"]
+        },
+        "provider": {
+          "type": "string",
+          "enum": ["CLAUDE", "CODEX", "GEMINI", "LOCAL", "OTHER"]
+        },
+        "model": {
+          "type": "string"
+        },
+        "execution_profile": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": ["fast", "balanced", "thorough"]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "capabilities": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AgentCapabilities"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "extensions": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Extensions"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "AgentCapabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "aop_versions_supported": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": ["2.0.2-C"]
+        },
+        "file_system_access": {
+          "type": "boolean",
+          "default": true
+        },
+        "network_access": {
+          "type": "string",
+          "enum": ["NONE", "RESTRICTED", "FULL"],
+          "default": "RESTRICTED"
+        },
+        "headless_mode": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "Task": {
+      "type": "object",
+      "required": ["task_id", "objective", "category", "complexity", "environment"],
+      "additionalProperties": false,
+      "properties": {
+        "task_id": {
+          "type": "string"
+        },
+        "parent_task_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "attempt": {
+          "type": "integer",
+          "default": 1
+        },
+        "objective": {
+          "type": "string",
+          "maxLength": 50000
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "ANALYSIS",
+            "CODE_GENERATION",
+            "CODE_REFACTORING",
+            "TESTING",
+            "DEBUGGING",
+            "DOCUMENTATION",
+            "PLANNING",
+            "REVIEW",
+            "OTHER"
+          ]
+        },
+        "complexity": {
+          "type": "string",
+          "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["LOW", "NORMAL", "HIGH", "CRITICAL"],
+          "default": "NORMAL"
+        },
+        "environment": {
+          "$ref": "#/$defs/TaskEnvironment"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TaskInput"
+          },
+          "maxItems": 100,
+          "default": []
+        },
+        "expected_outputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ExpectedOutput"
+          },
+          "maxItems": 50,
+          "default": []
+        },
+        "constraints": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TaskConstraints"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "budgets": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TaskBudgets"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "access": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TaskAccess"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "extensions": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Extensions"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "TaskEnvironment": {
+      "type": "object",
+      "required": ["workspace_root"],
+      "additionalProperties": false,
+      "properties": {
+        "workspace_root": {
+          "type": "string"
+        },
+        "os": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "shell": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "git_branch": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "TaskInput": {
+      "type": "object",
+      "required": ["type"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "content": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "read_only": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "ExpectedOutput": {
+      "type": "object",
+      "required": ["type", "description"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "validation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Validation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "rollback_snapshot": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RollbackSnapshot"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "Validation": {
+      "type": "object",
+      "required": ["command", "expects"],
+      "additionalProperties": false,
+      "properties": {
+        "command": {
+          "type": "string"
+        },
+        "expects": {
+          "type": "string",
+          "enum": ["EXIT_CODE_0", "MATCH_FOUND", "NO_MATCH", "FILE_EXISTS"]
+        }
+      }
+    },
+    "RollbackSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "snapshot_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "snapshot_strategy": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": ["COPY", "GIT_STASH", "DIFF"]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "TaskConstraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_tokens": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "max_cost_usd": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "read_only_mode": {
+          "type": "boolean",
+          "default": false
+        },
+        "delegation_allowed": {
+          "type": "boolean",
+          "default": false
+        },
+        "network_access": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": ["NONE", "RESTRICTED", "FULL"]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "TaskBudgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_cost_usd": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "max_tokens": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "TaskAccess": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "filesystem": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FilesystemAccess"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "network": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": ["NONE", "RESTRICTED", "FULL"]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "FilesystemAccess": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "read_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "write_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      }
+    },
+    "ExecutionPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "timeout_seconds": {
+          "type": "integer",
+          "default": 1800
+        },
+        "max_retries": {
+          "type": "integer",
+          "default": 0
+        },
+        "retry_backoff_seconds": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "default": [30, 120, 300]
+        },
+        "abort_on_first_critical_error": {
+          "type": "boolean",
+          "default": false
+        },
+        "auto_terminate_on_timeout": {
+          "type": "boolean",
+          "default": true
+        },
+        "on_failure": {
+          "type": "string",
+          "enum": ["REPORT_AND_CONTINUE", "ABORT_SESSION", "RETRY"],
+          "default": "REPORT_AND_CONTINUE"
+        },
+        "alternative_models": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AlternativeModel"
+          },
+          "default": []
+        },
+        "heartbeat": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/HeartbeatConfig"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "extensions": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Extensions"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "AlternativeModel": {
+      "type": "object",
+      "required": ["provider", "model", "fallback_trigger"],
+      "additionalProperties": false,
+      "properties": {
+        "provider": {
+          "type": "string",
+          "enum": ["CLAUDE", "CODEX", "GEMINI", "LOCAL", "OTHER"]
+        },
+        "model": {
+          "type": "string"
+        },
+        "fallback_trigger": {
+          "type": "string",
+          "enum": [
+            "TIMEOUT",
+            "FIRST_ERROR",
+            "CRITICAL_ERROR",
+            "ALL_ERRORS",
+            "COST_LIMIT_EXCEEDED"
+          ]
+        }
+      }
+    },
+    "HeartbeatConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "interval_seconds": {
+          "type": "integer",
+          "default": 120
+        },
+        "max_missed_beats": {
+          "type": "integer",
+          "default": 3
+        },
+        "on_heartbeat_failure": {
+          "type": "string",
+          "enum": ["ABORT", "WARN", "CONTINUE"],
+          "default": "ABORT"
+        }
+      }
+    },
+    "GuardRails": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "require_minimal_report": {
+          "type": "boolean",
+          "default": true
+        },
+        "require_final_signal": {
+          "type": "boolean",
+          "default": true
+        },
+        "auto_terminate_on_timeout": {
+          "type": "boolean",
+          "default": true
+        },
+        "timeout_seconds": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "abort_on_first_critical_error": {
+          "type": "boolean",
+          "default": false
+        },
+        "extensions": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Extensions"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "Phase": {
+      "type": "object",
+      "required": ["phase_id", "phase_order", "label", "objective"],
+      "additionalProperties": false,
+      "properties": {
+        "phase_id": {
+          "type": "string"
+        },
+        "phase_order": {
+          "type": "integer"
+        },
+        "label": {
+          "type": "string"
+        },
+        "objective": {
+          "type": "string"
+        },
+        "checkpoints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Checkpoint"
+          },
+          "maxItems": 20,
+          "default": []
+        }
+      }
+    },
+    "Checkpoint": {
+      "type": "object",
+      "required": ["checkpoint_id", "description"],
+      "additionalProperties": false,
+      "properties": {
+        "checkpoint_id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "expected_artifacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ExpectedOutput"
+          },
+          "default": []
+        },
+        "validation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Validation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["PENDING", "PASS", "FAIL", "SKIP"],
+          "default": "PENDING"
+        },
+        "recovery_strategy": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": ["RETRY", "ABORT", "CONTINUE"]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "OrchestrationMetadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "initiator": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "spec_author": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "extensions": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Extensions"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "Extensions": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Extensions object for vendor-specific data. All keys must start with 'x_' prefix."
+    }
+  }
+}

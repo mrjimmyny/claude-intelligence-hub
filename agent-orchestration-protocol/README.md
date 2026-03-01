@@ -4,6 +4,20 @@ Welcome to the **Agent Orchestration Protocol (AOP)**, a revolutionary framework
 
 ---
 
+## 🆕 AOP V2 — Now Available
+
+**Version 2.0.0** is live! The new JSON-native protocol adds:
+- Role-based, model-agnostic architecture
+- Structured JSON envelopes with schema validation
+- Guard rail enforcement (budgets, timeouts, payload limits)
+- Full audit trail system with Repo-Auditor
+- Backward compatibility with V1
+
+👉 See [`v2/`](./v2/) for the complete implementation.
+👉 See [`CHANGELOG.md`](./CHANGELOG.md) for version history.
+
+---
+
 ## 📑 Table of Contents
 
 1. [What is AOP?](#what-is-aop)

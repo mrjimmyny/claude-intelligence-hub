@@ -1,0 +1,444 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ExecutorResponse",
+  "description": "Complete AOP v2 executor response (RESPONSE message). This is the primary message type returned from Executor to Orchestrator.",
+  "type": "object",
+  "required": [
+    "aop_version",
+    "schema_version",
+    "protocol_family",
+    "message_type",
+    "session_id",
+    "task_id",
+    "agent",
+    "task_status",
+    "execution_summary",
+    "timing"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "aop_version": {
+      "type": "string",
+      "default": "2.0.2-C",
+      "description": "Protocol revision identifier"
+    },
+    "schema_version": {
+      "type": "string",
+      "default": "2.0.2",
+      "description": "Schema revision identifier"
+    },
+    "protocol_family": {
+      "type": "string",
+      "const": "AOP",
+      "description": "Protocol family identifier"
+    },
+    "message_type": {
+      "type": "string",
+      "const": "RESPONSE",
+      "description": "Message type"
+    },
+    "session_id": {
+      "type": "string",
+      "description": "Session identifier"
+    },
+    "task_id": {
+      "type": "string",
+      "description": "Task identifier"
+    },
+    "agent": {
+      "$ref": "#/$defs/Agent"
+    },
+    "task_status": {
+      "$ref": "#/$defs/TaskStatus"
+    },
+    "execution_summary": {
+      "$ref": "#/$defs/ExecutionSummary"
+    },
+    "checkpoint_results": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/CheckpointResult"
+      },
+      "default": []
+    },
+    "error_details": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ErrorDetails"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "timing": {
+      "$ref": "#/$defs/Timing"
+    },
+    "cost_tracking": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CostTracking"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "progress_log": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ProgressLog"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "extensions": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Extensions"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "Agent": {
+      "type": "object",
+      "required": ["name", "provider", "model"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Agent name"
+        },
+        "provider": {
+          "type": "string",
+          "enum": ["CLAUDE", "CODEX", "GEMINI", "LOCAL", "OTHER"],
+          "description": "Provider"
+        },
+        "model": {
+          "type": "string",
+          "description": "Model identifier"
+        }
+      }
+    },
+    "TaskStatus": {
+      "type": "object",
+      "required": ["state", "final_signal", "message"],
+      "additionalProperties": false,
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": ["PENDING", "IN_PROGRESS", "COMPLETED", "FAILED", "ABORTED", "SKIPPED"],
+          "description": "Task state"
+        },
+        "final_signal": {
+          "type": "string",
+          "enum": ["SUCCESS", "PARTIAL_SUCCESS", "FAILURE", "ABORTED"],
+          "description": "Final outcome signal"
+        },
+        "message": {
+          "type": "string",
+          "description": "Status message"
+        }
+      }
+    },
+    "ExecutionSummary": {
+      "type": "object",
+      "required": ["summary", "actions"],
+      "additionalProperties": false,
+      "properties": {
+        "summary": {
+          "type": "string",
+          "description": "High-level summary"
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 200,
+          "description": "List of actions taken"
+        },
+        "output_artifacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/OutputArtifact"
+          },
+          "default": []
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "extensions": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Extensions"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "OutputArtifact": {
+      "type": "object",
+      "required": ["type", "path", "status"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Artifact type"
+        },
+        "path": {
+          "type": "string",
+          "description": "Artifact path"
+        },
+        "hash": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Content hash (e.g., sha256)"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["CREATED", "UPDATED", "DELETED", "UNCHANGED"],
+          "description": "Artifact status"
+        },
+        "size_bytes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "File size in bytes"
+        }
+      }
+    },
+    "CheckpointResult": {
+      "type": "object",
+      "required": ["checkpoint_id", "status"],
+      "additionalProperties": false,
+      "properties": {
+        "checkpoint_id": {
+          "type": "string",
+          "description": "Checkpoint identifier"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["PENDING", "PASS", "FAIL", "SKIP"],
+          "description": "Validation status"
+        },
+        "validation_output": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Validation command output"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Additional notes"
+        }
+      }
+    },
+    "ErrorDetails": {
+      "type": "object",
+      "required": ["error_code", "message"],
+      "additionalProperties": false,
+      "properties": {
+        "error_code": {
+          "type": "string",
+          "description": "Error code (E_*)"
+        },
+        "message": {
+          "type": "string",
+          "description": "Error message"
+        },
+        "stack_trace": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Stack trace"
+        },
+        "recovery_suggestions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      }
+    },
+    "Timing": {
+      "type": "object",
+      "required": ["started_at", "completed_at", "duration_seconds"],
+      "additionalProperties": false,
+      "properties": {
+        "started_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Task start timestamp"
+        },
+        "completed_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Task completion timestamp"
+        },
+        "duration_seconds": {
+          "type": "integer",
+          "description": "Duration in seconds"
+        },
+        "retries_attempted": {
+          "type": "integer",
+          "default": 0,
+          "description": "Number of retries"
+        }
+      }
+    },
+    "CostTracking": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "estimated_cost_usd": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Estimated cost"
+        },
+        "actual_cost_usd": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Actual cost"
+        },
+        "tokens_input": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Input tokens"
+        },
+        "tokens_output": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Output tokens"
+        },
+        "model_pricing_tier": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Pricing tier"
+        }
+      }
+    },
+    "ProgressLog": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "last_progress_event_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Last progress event timestamp"
+        },
+        "progress_percentage": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Progress percentage (0-100)"
+        }
+      }
+    },
+    "Extensions": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Extensions object for vendor-specific data. All keys must start with 'x_' prefix."
+    }
+  }
+}
