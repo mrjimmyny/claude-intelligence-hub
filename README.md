@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.6.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.7.0-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -182,7 +182,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[context-guardian](context-guardian/)** | v1.0.0 | ✅ Production | Context preservation system | Xavier ↔ Magneto account switching, 3-strategy symlinks, rollback protection, .contextignore support, dry-run mode. |
 | **[repo-auditor](repo-auditor/)** | v2.0.0 | ✅ Production | End-to-end audit skill | Mandatory proof-of-read fingerprinting, accumulative AUDIT_TRAIL.md, validate-trail.sh for CI. |
 | **[conversation-memoria](conversation-memoria/)** | v1.0.0 | ✅ Production | Persistent conversation storage | Intelligent metadata extraction, 95-98% token savings, week-based organization, natural language triggers, cross-agent memory sharing. |
-| **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v1.3.0 | ✅ Production | Multi-agent coordination framework | The Seven Pillars of AOP mastery, recursive/parallel workflows, production-validated prompt cookbook. |
+| **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v2.0.0 | ✅ Production | Multi-agent coordination framework | The Seven Pillars of AOP mastery, recursive/parallel workflows, production-validated prompt cookbook. |
 
 ---
 
@@ -460,7 +460,7 @@ claude-intelligence-hub/
 │   │   └── templates/               # Conversation templates
 │   └── README.md                    # Main documentation
 │
-├── 📁 agent-orchestration-protocol/ # ⭐ Multi-Agent Coordination (v1.3.0)
+├── 📁 agent-orchestration-protocol/ # ⭐ Multi-Agent Coordination (v2.0.0)
 │   ├── SKILL.md                     # The Seven Pillars of AOP
 │   ├── README.md                    # Complete guide
 │   ├── AOP-EXECUTIVE-SUMMARY.md     # Executive summary
@@ -493,8 +493,8 @@ claude-intelligence-hub/
 │
 ├── README.md                        # ⭐ This file
 ├── CHANGELOG.md                     # Version history
-├── EXECUTIVE_SUMMARY.md             # Comprehensive hub overview (v2.6.0)
-├── HUB_MAP.md                       # Skill routing dictionary (v2.6.0)
+├── EXECUTIVE_SUMMARY.md             # Comprehensive hub overview (v2.7.0)
+├── HUB_MAP.md                       # Skill routing dictionary (v2.7.0)
 ├── WINDOWS_JUNCTION_SETUP.md        # Junction setup guide (Windows)
 ├── scripts/                         # Automation & deployment scripts
 │   ├── setup_local_env.ps1          # Windows automated setup (15-min)

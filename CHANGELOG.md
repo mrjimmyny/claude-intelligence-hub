@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.7.0] - 2026-03-01
+
+### Fixed
+- **EXECUTIVE_SUMMARY.md**: AOP component version corrected (v1.3.0 → v2.0.0) — skill upgraded to JSON-native V2 protocol
+- **HUB_MAP.md**: agent-orchestration-protocol version corrected (v1.3.0 → v2.0.0)
+- **README.md**: agent-orchestration-protocol version corrected (v1.3.0 → v2.0.0) in Available Skill Collections table and Hub Architecture tree
+- **EXECUTIVE_SUMMARY.md**: Hub version updated (v2.6.0 → v2.7.0), AOP section header updated
+
+### Added
+- **agent-orchestration-protocol**: AOP V2.0.0 — JSON-native protocol, role-based architecture, guard rails, full audit trail system (141 tests, 92% coverage)
+
+---
+
 ## [2.6.0] - 2026-02-24
 
 ### 🔍 Repository Audit & Documentation Consistency - Complete Overhaul
