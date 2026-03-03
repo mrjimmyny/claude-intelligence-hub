@@ -62,6 +62,57 @@ cd ../scripts
 
 ---
 
+## 🔄 Version Sync — The Protocol Everyone Must Follow
+
+> Every skill version lives in 6 places simultaneously. They must always match. This is enforced by CI/CD and a pre-commit hook. Here is the exact sequence.
+
+### When bumping a skill version
+
+```bash
+# 1. Edit .metadata (source of truth)
+#    "version": "1.1.0"
+
+# 2. Run sync script — auto-updates SKILL.md and HUB_MAP.md
+bash scripts/sync-versions.sh your-skill-name
+
+# 3. Add entry to CHANGELOG.md (under a new hub version)
+# ## [2.7.4] - 2026-03-04
+# ### Changed
+# - **your-skill-name**: what changed (v1.0.0 → v1.1.0)
+
+# 4. Bump hub version in README.md and EXECUTIVE_SUMMARY.md
+#    (version badge, skill table, component versions line, footer)
+
+# 5. Validate locally — must be 6/6 before committing
+bash scripts/integrity-check.sh
+
+# 6. Commit everything in one shot
+git commit -m "chore(release): bump hub to v2.7.4 + your-skill-name to v1.1.0"
+```
+
+### What must stay in sync
+
+| File | Field | Updated by |
+|------|-------|------------|
+| `<skill>/.metadata` | `version` | You (source of truth) |
+| `<skill>/SKILL.md` | `**Version:**` | `sync-versions.sh` |
+| `HUB_MAP.md` | version ref | `sync-versions.sh` |
+| `CHANGELOG.md` | new entry | You |
+| `README.md` | badge + table | You |
+| `EXECUTIVE_SUMMARY.md` | header + components | You |
+
+### Hub version bump rules
+
+| Change | Bump |
+|--------|------|
+| Bug fix, doc update, skill patch | Patch: `2.7.3` → `2.7.4` |
+| New skill added | Minor: `2.7.3` → `2.8.0` |
+| Breaking change | Major: `2.7.3` → `3.0.0` |
+
+> **Protected by:** pre-commit hook (blocks git commit) + CI/CD (blocks push) + `CLAUDE.md` (agents auto-follow this).
+
+---
+
 ## 🔧 Common Commands
 
 ### Sync Skills Globally
@@ -219,17 +270,24 @@ The repo-auditor enforces:
 
 ## 🔄 Update Existing Skill
 
+> See the full **Version Sync Protocol** at the top of this file. Short version below:
+
 ```bash
 # 1. Make changes to skill files
 
-# 2. Bump version in .metadata
+# 2. Bump version in .metadata (source of truth)
 # "version": "1.0.0" → "1.1.0"
 
-# 3. Update CHANGELOG.md
-echo "## [1.1.0] - $(date +%Y-%m-%d)" >> CHANGELOG.md
-echo "- Added: new feature" >> CHANGELOG.md
+# 3. Sync SKILL.md + HUB_MAP.md automatically
+bash scripts/sync-versions.sh your-skill-name
 
-# 4. Validate
+# 4. Update CHANGELOG.md (new hub version entry)
+# + Update README.md and EXECUTIVE_SUMMARY.md hub version
+
+# 5. Validate — must pass 6/6
+bash scripts/integrity-check.sh
+
+# 6. Validate skill behavior
 /repo-auditor --mode AUDIT_AND_FIX
 ```
 

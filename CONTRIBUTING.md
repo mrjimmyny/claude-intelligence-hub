@@ -324,11 +324,88 @@ my-complex-skill/
 
 ## 🔄 Updating Existing Skills
 
-### Version Bump
+### Version Sync Protocol
 
-Update both files:
-1. `.metadata` → `"version": "1.1.0"`
-2. `CHANGELOG.md` → Add entry for new version
+> **This is the most common mistake contributors make.** A skill's version exists in multiple files that must always be identical. The CI/CD pipeline will fail if they drift — blocking your push.
+
+#### The 6-Step Protocol (always in this order)
+
+**Step 1 — Update `.metadata`** (source of truth)
+```json
+{
+  "version": "1.1.0"
+}
+```
+
+**Step 2 — Run the sync script** (auto-syncs `SKILL.md` and `HUB_MAP.md`)
+```bash
+bash scripts/sync-versions.sh your-skill-name
+```
+
+This single command updates:
+- `your-skill-name/SKILL.md` → `**Version:** 1.1.0`
+- `HUB_MAP.md` → version reference next to skill name
+- `your-skill-name/.metadata` → `last_updated` date
+
+**Step 3 — Add an entry to `CHANGELOG.md`** (new hub version)
+```markdown
+## [2.7.4] - 2026-03-04
+
+### Changed
+- **your-skill-name**: describe what changed (v1.0.0 → v1.1.0)
+```
+
+**Step 4 — Bump hub version in `README.md`**
+- Version badge: `version-2.7.3-blue` → `version-2.7.4-blue`
+- Skill table row: `v1.0.0` → `v1.1.0`
+- File tree comment: `(v1.0.0)` → `(v1.1.0)`
+
+**Step 5 — Bump hub version in `EXECUTIVE_SUMMARY.md`**
+- `**Version:** 2.7.3` → `**Version:** 2.7.4`
+- `Component Versions:` line → update your skill's version
+- Footer `**Document Version:** 2.7.3` → `2.7.4`
+
+**Step 6 — Validate locally before committing**
+```bash
+bash scripts/integrity-check.sh
+# Must show: ✅ Passed: 6 | ❌ Failed: 0
+```
+
+Then commit everything in a single commit:
+```bash
+git add .
+git commit -m "chore(release): bump hub to v2.7.4 + your-skill-name to v1.1.0"
+```
+
+#### Files that must stay in sync
+
+| File | What to update | Tool |
+|------|----------------|------|
+| `<skill>/.metadata` | `version` field | Manual (source of truth) |
+| `<skill>/SKILL.md` | `**Version:**` line | `sync-versions.sh` (auto) |
+| `HUB_MAP.md` | version next to skill | `sync-versions.sh` (auto) |
+| `CHANGELOG.md` | new `[hub-version]` entry | Manual |
+| `README.md` | badge + table + tree | Manual |
+| `EXECUTIVE_SUMMARY.md` | header + components + footer | Manual |
+
+#### Hub version bump rules
+
+| Type of change | Hub bump |
+|----------------|----------|
+| Bug fix, doc update | Patch: `2.7.3` → `2.7.4` |
+| Skill version bump, new feature | Patch: `2.7.3` → `2.7.4` |
+| New skill added to hub | Minor: `2.7.3` → `2.8.0` |
+| Skill removed, breaking protocol change | Major: `2.7.3` → `3.0.0` |
+
+#### Automation that protects you
+
+The hub has two layers of protection:
+
+1. **Pre-commit hook** — installed automatically by `setup_local_env.ps1` during onboarding. Runs `integrity-check.sh` before every `git commit`. If versions are out of sync, the commit is blocked with a clear error.
+
+2. **CI/CD pipeline** — validates every push to `main`. Checks version drift across `.metadata`, `SKILL.md`, and `HUB_MAP.md` for every skill. A failed push is always fixable by running `sync-versions.sh` and re-pushing.
+
+3. **`CLAUDE.md`** — auto-loaded by Claude Code at the start of every session in this repo. Agents automatically follow this protocol without needing to be reminded.
 
 ### Breaking Changes
 
