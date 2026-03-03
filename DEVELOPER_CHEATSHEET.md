@@ -111,6 +111,23 @@ git commit -m "chore(release): bump hub to v2.7.4 + your-skill-name to v1.1.0"
 
 > **Protected by:** pre-commit hook (blocks git commit) + CI/CD (blocks push) + `CLAUDE.md` (agents auto-follow this).
 
+### How to ask an agent to run this (natural language phrases)
+
+You don't need to remember commands. Just say one of these to any agent working in this repo:
+
+| What you want | Say this |
+|---------------|----------|
+| Quick structural check (local) | `"Run the hub integrity check"` |
+| Check local + confirm GitHub CI is green | `"Run the hub integrity check and confirm CI is passing"` |
+| Full content audit + auto-fix | `"Run repo-auditor in AUDIT_AND_FIX mode"` |
+| Check everything before a release | `"Run the hub integrity check and repo-auditor, confirm everything is green"` |
+
+**When to use which:**
+
+- **Integrity check** → after any version bump, before any commit, or when you suspect version drift. Fast (< 5 seconds).
+- **Repo-auditor** → when you want a deep content review: frontmatter, command docs, missing fields, cross-file consistency. Slower but thorough.
+- **Both together** → before a significant release or after a large batch of changes.
+
 ---
 
 ## 🔧 Common Commands

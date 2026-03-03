@@ -68,6 +68,26 @@ If it fails: **do not commit**. Fix the version drift or missing files first.
 
 ---
 
+## Validation Phrases — What the User Might Say
+
+Users and agents may trigger validation using natural language. When you hear any of these, execute the corresponding action immediately without asking for confirmation:
+
+| User says | You do |
+|-----------|--------|
+| `"Run the hub integrity check"` | `bash scripts/integrity-check.sh` — report 6 checks pass/fail |
+| `"Run integrity check and confirm CI is passing"` | Run the script above + `gh run list --limit 3` to show GitHub Actions status |
+| `"Is the repo clean?"` / `"Is everything green?"` | Same as "Run the hub integrity check and confirm CI" |
+| `"Run repo-auditor"` | Invoke `/repo-auditor --mode AUDIT_AND_FIX` |
+| `"Check everything before release"` | Run integrity check + repo-auditor, report both results |
+
+**Key distinction to always remember:**
+- `integrity-check.sh` = structural/version validation (fast, CI-level, runs in seconds)
+- `repo-auditor` = deep content audit (thorough, skill-level, takes longer)
+
+They are complementary, not the same tool.
+
+---
+
 ## Adding a Root-Level File
 
 The integrity check enforces an approved list of root files. If you need to add a new file to the root:
