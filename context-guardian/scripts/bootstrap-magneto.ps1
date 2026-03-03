@@ -117,7 +117,7 @@ if ($FixSymlinks) {
     $fixedCount = 0
     foreach ($skill in $metadata.skills) {
         if ($skill.is_symlink -and $skill.link_type -eq "hub_skill") {
-            $skillPath = Join-Path $env:USERPROFILE ".claude\skills\user\$($skill.skill_name)"
+            $skillPath = Join-Path $env:USERPROFILE ".claude\skills\$($skill.skill_name)"
 
             # Check if it's currently a directory (not symlink)
             if ((Test-Path $skillPath) -and -not ((Get-Item -Force $skillPath -ErrorAction SilentlyContinue).LinkType -eq "Junction")) {
@@ -271,7 +271,7 @@ switch ($choice) {
 
             # Create directories
             New-Item -ItemType Directory -Path "$env:USERPROFILE\.claude\plugins" -Force | Out-Null
-            New-Item -ItemType Directory -Path "$env:USERPROFILE\.claude\skills\user" -Force | Out-Null
+            New-Item -ItemType Directory -Path "$env:USERPROFILE\.claude\skills" -Force | Out-Null
 
             # Copy settings.json
             if (Test-Path "$globalDest\settings.json") {
@@ -285,32 +285,21 @@ switch ($choice) {
                 Write-Host "[OK] Restored plugins" -ForegroundColor Green
             }
 
-            # Recreate symlinks
-            Write-Host "Recreating skills..." -ForegroundColor Cyan
+            # Setup skills via setup_local_env.ps1 — creates junction points in ~/.claude/skills/
+            # This is the single source of truth for skill setup. Dynamic discovery ensures
+            # all skills present in the hub are installed, with no hardcoded lists.
+            Write-Host "Setting up skills (junction points)..." -ForegroundColor Cyan
+            $HubPath = Join-Path $env:USERPROFILE "Downloads\claude-intelligence-hub"
+            $setupScript = Join-Path $HubPath "scripts\setup_local_env.ps1"
 
-            $isFallback = ($SYMLINK_STRATEGY -eq "copy")
-
-            foreach ($skill in $metadata.skills) {
-                if ($skill.is_symlink -and $skill.link_type -eq "hub_skill") {
-                    $skillPath = Join-Path $env:USERPROFILE ".claude\skills\user\$($skill.skill_name)"
-                    $targetPath = Join-Path $env:USERPROFILE "Downloads\claude-intelligence-hub\$($skill.hub_path)"
-
-                    if (Test-Path $targetPath) {
-                        New-SkillSymlink -SkillName $skill.skill_name -TargetPath $targetPath -LinkPath $skillPath -IsFallbackMode $isFallback
-                    } else {
-                        Write-Host "  [WARN] Target not found: $($skill.skill_name) -> $targetPath" -ForegroundColor Yellow
-                        $global:SYMLINK_WARNINGS += "[WARN] $($skill.skill_name) target not found: $targetPath"
-                    }
-                } elseif (-not $skill.is_symlink) {
-                    # Copy directory skill
-                    $sourcePath = Join-Path $globalDest "skills\$($skill.skill_name)"
-                    $destPath = Join-Path $env:USERPROFILE ".claude\skills\user\$($skill.skill_name)"
-
-                    if (Test-Path $sourcePath) {
-                        Copy-Item -Path $sourcePath -Destination $destPath -Recurse -Force
-                        Write-Host "  [DIR] Restored skill directory: $($skill.skill_name)" -ForegroundColor Green
-                    }
-                }
+            if (Test-Path $setupScript) {
+                & $setupScript -HubPath $HubPath -SkillsPath "$env:USERPROFILE\.claude\skills" -Force -SkipOptional
+                Write-Host "[OK] Skills installed via setup_local_env.ps1" -ForegroundColor Green
+            } else {
+                Write-Host "[WARN] setup_local_env.ps1 not found at: $setupScript" -ForegroundColor Yellow
+                Write-Host "       Make sure claude-intelligence-hub is cloned at: $HubPath" -ForegroundColor Yellow
+                Write-Host "       Skills will need to be set up manually after this restore." -ForegroundColor Yellow
+                $global:SYMLINK_WARNINGS += "[WARN] Skills not installed — setup_local_env.ps1 not found. Clone hub first."
             }
 
             Write-Host ""

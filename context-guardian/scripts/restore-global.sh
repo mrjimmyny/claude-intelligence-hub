@@ -185,7 +185,7 @@ if [ "$DRY_RUN" = false ]; then
     log_info "Restoring files to ~/.claude/..."
 
     mkdir -p "$CLAUDE_DIR/plugins"
-    mkdir -p "$CLAUDE_DIR/skills/user"
+    mkdir -p "$CLAUDE_DIR/skills"
 
     # Restore settings.json
     if [ -f "$TEMP_DIR/global/settings.json" ]; then
@@ -217,7 +217,7 @@ if [ "$DRY_RUN" = false ]; then
     if [ -n "$DIRECTORIES" ]; then
         while IFS= read -r skill_name; do
             if [ -d "$TEMP_DIR/global/skills/$skill_name" ]; then
-                cp -r "$TEMP_DIR/global/skills/$skill_name" "$CLAUDE_DIR/skills/user/"
+                cp -r "$TEMP_DIR/global/skills/$skill_name" "$CLAUDE_DIR/skills/"
                 log_success "Restored skill directory: $skill_name"
             fi
         done <<< "$DIRECTORIES"
@@ -245,7 +245,7 @@ if [ -n "$HUB_SKILLS" ]; then
         hub_path=$(echo "$skill_json" | jq -r '.hub_path')
         absolute_target=$(echo "$skill_json" | jq -r '.absolute_target')
 
-        link_path="$CLAUDE_DIR/skills/user/$skill_name"
+        link_path="$CLAUDE_DIR/skills/$skill_name"
 
         # Check if target exists
         if [ ! -d "$absolute_target" ]; then
@@ -318,8 +318,8 @@ if [ "$DRY_RUN" = false ]; then
     fi
 
     # Check 2: Skills directory exists
-    if [ -d "$CLAUDE_DIR/skills/user" ]; then
-        CURRENT_SKILL_COUNT=$(ls -1 "$CLAUDE_DIR/skills/user" 2>/dev/null | wc -l)
+    if [ -d "$CLAUDE_DIR/skills" ]; then
+        CURRENT_SKILL_COUNT=$(ls -1 "$CLAUDE_DIR/skills" 2>/dev/null | grep -v '^user$' | wc -l)
         log_success "Check 2: Skills directory exists ($CURRENT_SKILL_COUNT skills)"
     else
         log_error "Check 2: Skills directory is MISSING!"
@@ -328,7 +328,8 @@ if [ "$DRY_RUN" = false ]; then
 
     # Check 3: Symlinks/junctions valid
     BROKEN_SYMLINKS=0
-    for skill in "$CLAUDE_DIR/skills/user"/*; do
+    for skill in "$CLAUDE_DIR/skills"/*; do
+        [ "$(basename "$skill")" = "user" ] && continue  # skip legacy user/ subdir
         [ -e "$skill" ] || continue
         if [ -L "$skill" ]; then
             # Unix symlink: check target is accessible
@@ -362,7 +363,7 @@ if [ "$DRY_RUN" = false ]; then
 
     # Check 5: Final file count reasonable
     EXPECTED_SKILL_COUNT=$SKILL_COUNT
-    CURRENT_SKILL_COUNT=$(ls -1 "$CLAUDE_DIR/skills/user" 2>/dev/null | wc -l)
+    CURRENT_SKILL_COUNT=$(ls -1 "$CLAUDE_DIR/skills" 2>/dev/null | grep -v '^user$' | wc -l)
 
     if [ "$CURRENT_SKILL_COUNT" -eq "$EXPECTED_SKILL_COUNT" ]; then
         log_success "Check 5: Skill count matches ($CURRENT_SKILL_COUNT)"

@@ -9,7 +9,7 @@ param(
     [string]$HubPath = "$env:USERPROFILE\Downloads\claude-intelligence-hub",
 
     [Parameter(Mandatory=$false)]
-    [string]$SkillsPath = "$env:USERPROFILE\.claude\skills\user",
+    [string]$SkillsPath = "$env:USERPROFILE\.claude\skills",
 
     [Parameter(Mandatory=$false)]
     [switch]$Force = $false,
@@ -21,28 +21,23 @@ param(
     [switch]$SkipValidation = $false
 )
 
-# ═══════════════════════════════════════════════════════════════
+# =================================================================
 # CONFIGURATION
-# ═══════════════════════════════════════════════════════════════
+# =================================================================
 
-$MANDATORY_SKILLS = @(
-    "jimmy-core-preferences",
-    "session-memoria",
-    "x-mem",
-    "gdrive-sync-memoria",
-    "claude-session-registry"
-)
-
+# Skills are discovered dynamically from the hub in Invoke-PreFlightChecks.
+# Only project-specific skills are listed as optional -- all others are mandatory.
 $OPTIONAL_SKILLS = @(
-    "pbi-claude-skills"
+    "pbi-claude-skills"   # Power BI specific -- only for PBI machines
 )
+$MANDATORY_SKILLS = @()   # Populated dynamically after hub is validated
 
 $SCRIPT_VERSION = "1.0.0"
 $LOG_FILE = Join-Path $PSScriptRoot "setup_local_env.log"
 
-# ═══════════════════════════════════════════════════════════════
+# =================================================================
 # HELPER FUNCTIONS
-# ═══════════════════════════════════════════════════════════════
+# =================================================================
 
 function Write-Log {
     param([string]$Message, [string]$Level = "INFO")
@@ -88,24 +83,24 @@ function New-JunctionPoint {
         if (Test-Path $Link) {
             if (Test-JunctionExists $Link) {
                 if (-not $Force) {
-                    Write-Log "  ⏭️  $SkillName: Junction already exists (use -Force to recreate)" "WARNING"
+                    Write-Log "  [SKIP] ${SkillName}: Junction already exists (use -Force to recreate)" "WARNING"
                     return $true
                 }
-                Write-Log "  🔄 $SkillName: Removing existing junction..." "INFO"
+                Write-Log "  [UPDATE] ${SkillName}: Removing existing junction..." "INFO"
                 Remove-Item $Link -Force -Recurse
             } else {
-                Write-Log "  ⚠️  $SkillName: Directory exists but is NOT a junction" "WARNING"
+                Write-Log "  [WARN] ${SkillName}: Directory exists but is NOT a junction" "WARNING"
                 if (-not $Force) {
                     Write-Log "    Use -Force to delete and recreate as junction" "WARNING"
                     return $false
                 }
-                Write-Log "  🗑️  $SkillName: Removing non-junction directory..." "WARNING"
+                Write-Log "  [REMOVE] ${SkillName}: Removing non-junction directory..." "WARNING"
                 Remove-Item $Link -Force -Recurse
             }
         }
 
         # Create junction
-        Write-Log "  🔗 $SkillName: Creating junction point..." "INFO"
+        Write-Log "  [LINK] ${SkillName}: Creating junction point..." "INFO"
         cmd /c mklink /J "$Link" "$Target" | Out-Null
 
         if ($LASTEXITCODE -ne 0) {
@@ -113,11 +108,11 @@ function New-JunctionPoint {
             return $false
         }
 
-        Write-Log "  ✅ $SkillName: Junction created successfully" "SUCCESS"
+        Write-Log "  [OK] ${SkillName}: Junction created successfully" "SUCCESS"
         return $true
 
     } catch {
-        Write-Log "ERROR: Exception while creating junction for $SkillName : $_" "ERROR"
+        Write-Log "ERROR: Exception while creating junction for ${SkillName}: $_" "ERROR"
         return $false
     }
 }
@@ -135,15 +130,15 @@ function Get-SkillVersion {
     return "unknown"
 }
 
-# ═══════════════════════════════════════════════════════════════
+# =================================================================
 # SECTION 1: PRE-FLIGHT VALIDATION
-# ═══════════════════════════════════════════════════════════════
+# =================================================================
 
 function Invoke-PreFlightChecks {
     Write-Host ""
-    Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Cyan
+    Write-Host "=================================================================" -ForegroundColor Cyan
     Write-Host "  CLAUDE INTELLIGENCE HUB - LOCAL ENVIRONMENT SETUP" -ForegroundColor Cyan
-    Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Cyan
+    Write-Host "=================================================================" -ForegroundColor Cyan
     Write-Host ""
     Write-Log "Script Version: $SCRIPT_VERSION" "INFO"
     Write-Log "Hub Path: $HubPath" "INFO"
@@ -166,31 +161,43 @@ function Invoke-PreFlightChecks {
         return $false
     }
 
+    # Discover all skills dynamically: any directory containing SKILL.md is a skill.
+    # This ensures new skills added to the hub are automatically included in setup.
+    $discovered = Get-ChildItem $HubPath -Directory |
+        Where-Object { Test-Path (Join-Path $_.FullName "SKILL.md") } |
+        Select-Object -ExpandProperty Name
+
+    $script:MANDATORY_SKILLS = @($discovered | Where-Object { $_ -notin $OPTIONAL_SKILLS })
+
+    Write-Log "Discovered $($discovered.Count) skills: $($discovered -join ', ')" "INFO"
+    Write-Log "Mandatory: $($script:MANDATORY_SKILLS.Count) | Optional: $($OPTIONAL_SKILLS.Count)" "INFO"
+    Write-Host ""
+
     # Create skills directory if it doesn't exist
     if (-not (Test-Path $SkillsPath)) {
         Write-Log "Creating skills directory: $SkillsPath" "INFO"
         New-Item -ItemType Directory -Path $SkillsPath -Force | Out-Null
     }
 
-    Write-Log "✅ Pre-flight checks passed" "SUCCESS"
+    Write-Log "[OK] Pre-flight checks passed" "SUCCESS"
     Write-Host ""
     return $true
 }
 
-# ═══════════════════════════════════════════════════════════════
+# =================================================================
 # SECTION 2: MANDATORY CORE SKILLS SETUP
-# ═══════════════════════════════════════════════════════════════
+# =================================================================
 
 function Install-MandatorySkills {
-    Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Yellow
+    Write-Host "=================================================================" -ForegroundColor Yellow
     Write-Host "  STEP 1: MANDATORY CORE SKILLS (Auto-Install)" -ForegroundColor Yellow
-    Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Yellow
+    Write-Host "=================================================================" -ForegroundColor Yellow
     Write-Host ""
 
     $successCount = 0
     $failedSkills = @()
 
-    foreach ($skill in $MANDATORY_SKILLS) {
+    foreach ($skill in $script:MANDATORY_SKILLS) {
         $targetPath = Join-Path $HubPath $skill
         $linkPath = Join-Path $SkillsPath $skill
 
@@ -206,22 +213,22 @@ function Install-MandatorySkills {
         Write-Host ""
     }
 
-    Write-Host "─────────────────────────────────────────────────────────────" -ForegroundColor DarkGray
-    Write-Log "Mandatory Skills: $successCount/$($MANDATORY_SKILLS.Count) installed" "INFO"
+    Write-Host "-----------------------------------------------------------------" -ForegroundColor DarkGray
+    Write-Log "Mandatory Skills: $successCount/$($script:MANDATORY_SKILLS.Count) installed" "INFO"
 
     if ($failedSkills.Count -gt 0) {
-        Write-Log "⚠️  Failed skills: $($failedSkills -join ', ')" "WARNING"
+        Write-Log "[WARN] Failed skills: $($failedSkills -join ', ')" "WARNING"
         return $false
     }
 
-    Write-Log "✅ All mandatory skills installed successfully" "SUCCESS"
+    Write-Log "[OK] All mandatory skills installed successfully" "SUCCESS"
     Write-Host ""
     return $true
 }
 
-# ═══════════════════════════════════════════════════════════════
+# =================================================================
 # SECTION 3: OPTIONAL SKILLS PROMPT
-# ═══════════════════════════════════════════════════════════════
+# =================================================================
 
 function Install-OptionalSkills {
     if ($SkipOptional) {
@@ -230,9 +237,9 @@ function Install-OptionalSkills {
         return $true
     }
 
-    Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Magenta
+    Write-Host "=================================================================" -ForegroundColor Magenta
     Write-Host "  STEP 2: OPTIONAL SKILLS (User Selection)" -ForegroundColor Magenta
-    Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Magenta
+    Write-Host "=================================================================" -ForegroundColor Magenta
     Write-Host ""
 
     foreach ($skill in $OPTIONAL_SKILLS) {
@@ -240,7 +247,7 @@ function Install-OptionalSkills {
 
         # Check if skill exists in hub
         if (-not (Test-Path $targetPath)) {
-            Write-Log "⏭️  $skill: Not available in hub (skipping)" "WARNING"
+            Write-Log "[SKIP] ${skill}: Not available in hub (skipping)" "WARNING"
             continue
         }
 
@@ -250,12 +257,12 @@ function Install-OptionalSkills {
             default { "Optional skill" }
         }
 
-        Write-Host "┌─────────────────────────────────────────────────────────────┐" -ForegroundColor DarkGray
-        Write-Host "│ Skill: " -NoNewline -ForegroundColor DarkGray
+        Write-Host "+-------------------------------------------------------------+" -ForegroundColor DarkGray
+        Write-Host "| Skill: " -NoNewline -ForegroundColor DarkGray
         Write-Host "$skill" -ForegroundColor White
-        Write-Host "│ Description: " -NoNewline -ForegroundColor DarkGray
+        Write-Host "| Description: " -NoNewline -ForegroundColor DarkGray
         Write-Host "$description" -ForegroundColor White
-        Write-Host "└─────────────────────────────────────────────────────────────┘" -ForegroundColor DarkGray
+        Write-Host "+-------------------------------------------------------------+" -ForegroundColor DarkGray
 
         $response = Read-Host "Install $skill? (Y/N)"
 
@@ -268,7 +275,7 @@ function Install-OptionalSkills {
                 Write-Log "    Version: $version" "INFO"
             }
         } else {
-            Write-Log "  ⏭️  $skill: Skipped by user" "INFO"
+            Write-Log "  [SKIP] ${skill}: Skipped by user" "INFO"
         }
         Write-Host ""
     }
@@ -277,9 +284,9 @@ function Install-OptionalSkills {
     return $true
 }
 
-# ═══════════════════════════════════════════════════════════════
+# =================================================================
 # SECTION 4: POST-SETUP VALIDATION
-# ═══════════════════════════════════════════════════════════════
+# =================================================================
 
 function Invoke-PostSetupValidation {
     if ($SkipValidation) {
@@ -288,23 +295,23 @@ function Invoke-PostSetupValidation {
         return $true
     }
 
-    Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Green
+    Write-Host "=================================================================" -ForegroundColor Green
     Write-Host "  STEP 3: POST-SETUP VALIDATION" -ForegroundColor Green
-    Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Green
+    Write-Host "=================================================================" -ForegroundColor Green
     Write-Host ""
 
     # Check junction points
     Write-Log "Validating junction points..." "INFO"
     $junctionsValid = $true
 
-    foreach ($skill in $MANDATORY_SKILLS) {
+    foreach ($skill in $script:MANDATORY_SKILLS) {
         $linkPath = Join-Path $SkillsPath $skill
 
         if (-not (Test-JunctionExists $linkPath)) {
-            Write-Log "  ❌ $skill: Junction NOT found or invalid" "ERROR"
+            Write-Log "  [FAIL] ${skill}: Junction NOT found or invalid" "ERROR"
             $junctionsValid = $false
         } else {
-            Write-Log "  ✅ $skill: Junction valid" "SUCCESS"
+            Write-Log "  [OK] ${skill}: Junction valid" "SUCCESS"
         }
     }
     Write-Host ""
@@ -321,12 +328,12 @@ function Invoke-PostSetupValidation {
         try {
             bash $integrityScript
             if ($LASTEXITCODE -eq 0) {
-                Write-Log "✅ Hub integrity check passed" "SUCCESS"
+                Write-Log "[OK] Hub integrity check passed" "SUCCESS"
             } else {
-                Write-Log "⚠️  Hub integrity check reported issues" "WARNING"
+                Write-Log "[WARN] Hub integrity check reported issues" "WARNING"
             }
         } catch {
-            Write-Log "⚠️  Could not run integrity check (bash not available?)" "WARNING"
+            Write-Log "[WARN] Could not run integrity check (bash not available?)" "WARNING"
         }
 
         Set-Location $originalLocation
@@ -336,23 +343,23 @@ function Invoke-PostSetupValidation {
     return $junctionsValid
 }
 
-# ═══════════════════════════════════════════════════════════════
+# =================================================================
 # SECTION 5: SUCCESS SUMMARY
-# ═══════════════════════════════════════════════════════════════
+# =================================================================
 
 function Show-Summary {
-    Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Green
-    Write-Host "  ✅ SETUP COMPLETE!" -ForegroundColor Green
-    Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Green
+    Write-Host "=================================================================" -ForegroundColor Green
+    Write-Host "  [OK] SETUP COMPLETE!" -ForegroundColor Green
+    Write-Host "=================================================================" -ForegroundColor Green
     Write-Host ""
 
-    Write-Host "📍 Installed Skills:" -ForegroundColor Cyan
+    Write-Host "Installed Skills:" -ForegroundColor Cyan
     $installedCount = 0
 
     Get-ChildItem $SkillsPath -Directory | ForEach-Object {
         if (Test-JunctionExists $_.FullName) {
             $version = Get-SkillVersion $_.FullName
-            Write-Host "  ✓ " -NoNewline -ForegroundColor Green
+            Write-Host "  [OK] " -NoNewline -ForegroundColor Green
             Write-Host "$($_.Name) " -NoNewline -ForegroundColor White
             Write-Host "($version)" -ForegroundColor DarkGray
             $installedCount++
@@ -360,32 +367,32 @@ function Show-Summary {
     }
 
     Write-Host ""
-    Write-Host "📊 Summary:" -ForegroundColor Cyan
-    Write-Host "  • Total skills installed: $installedCount" -ForegroundColor White
-    Write-Host "  • Mandatory core skills: $($MANDATORY_SKILLS.Count)" -ForegroundColor White
-    Write-Host "  • Skills directory: $SkillsPath" -ForegroundColor DarkGray
-    Write-Host "  • Hub directory: $HubPath" -ForegroundColor DarkGray
+    Write-Host "Summary:" -ForegroundColor Cyan
+    Write-Host "  - Total skills installed: $installedCount" -ForegroundColor White
+    Write-Host "  - Mandatory core skills: $($script:MANDATORY_SKILLS.Count)" -ForegroundColor White
+    Write-Host "  - Skills directory: $SkillsPath" -ForegroundColor DarkGray
+    Write-Host "  - Hub directory: $HubPath" -ForegroundColor DarkGray
     Write-Host ""
 
-    Write-Host "🚀 Next Steps:" -ForegroundColor Cyan
+    Write-Host "Next Steps:" -ForegroundColor Cyan
     Write-Host "  1. Start Claude Code in any project directory" -ForegroundColor White
-    Write-Host "  2. Skills will auto-load from ~/.claude/skills/user/" -ForegroundColor White
+    Write-Host "  2. Skills will auto-load from ~/.claude/skills/" -ForegroundColor White
     Write-Host "  3. To update skills: cd $HubPath && git pull" -ForegroundColor White
     Write-Host ""
 
-    Write-Host "📝 Log file: $LOG_FILE" -ForegroundColor DarkGray
+    Write-Host "Log file: $LOG_FILE" -ForegroundColor DarkGray
     Write-Host ""
 }
 
-# ═══════════════════════════════════════════════════════════════
+# =================================================================
 # MAIN EXECUTION
-# ═══════════════════════════════════════════════════════════════
+# =================================================================
 
 # Initialize log
 "" | Out-File $LOG_FILE -Force
-Write-Log "═══════════════════════════════════════════════════════════════" "INFO"
+Write-Log "=================================================================" "INFO"
 Write-Log "Setup Local Environment - START" "INFO"
-Write-Log "═══════════════════════════════════════════════════════════════" "INFO"
+Write-Log "=================================================================" "INFO"
 
 try {
     # Pre-flight checks
@@ -405,7 +412,7 @@ try {
 
     # Post-setup validation
     if (-not (Invoke-PostSetupValidation)) {
-        Write-Log "⚠️  Validation detected issues, but setup may still be functional" "WARNING"
+        Write-Log "[WARN] Validation detected issues, but setup may still be functional" "WARNING"
     }
 
     # Show summary

@@ -73,13 +73,13 @@ log_info "Calculating backup sizes..."
 
 SETTINGS_SIZE=$(du -sh "$CLAUDE_DIR/settings.json" 2>/dev/null | cut -f1 || echo "0")
 PLUGINS_SIZE=$(du -sh "$CLAUDE_DIR/plugins" 2>/dev/null | cut -f1 || echo "0")
-SKILLS_SIZE=$(du -sh "$CLAUDE_DIR/skills/user" 2>/dev/null | cut -f1 || echo "0")
+SKILLS_SIZE=$(du -sh "$CLAUDE_DIR/skills" 2>/dev/null | cut -f1 || echo "0")
 TOTAL_SIZE=$(du -sh "$CLAUDE_DIR" 2>/dev/null | cut -f1 || echo "0")
 TOTAL_BYTES=$(du -sb "$CLAUDE_DIR" 2>/dev/null | cut -f1 || echo "0")
 
 log_info "  settings.json: $SETTINGS_SIZE"
 log_info "  plugins/: $PLUGINS_SIZE"
-log_info "  skills/user/: $SKILLS_SIZE"
+log_info "  skills/: $SKILLS_SIZE"
 log_info "  TOTAL: $TOTAL_SIZE"
 
 # Warn if >100 MB
@@ -166,11 +166,14 @@ HUB_SYMLINKS=0
 EXTERNAL_SYMLINKS=0
 DIRECTORIES=0
 
-if [ -d "$CLAUDE_DIR/skills/user" ]; then
-    for skill in "$CLAUDE_DIR/skills/user"/*; do
+if [ -d "$CLAUDE_DIR/skills" ]; then
+    for skill in "$CLAUDE_DIR/skills"/*; do
         [ -e "$skill" ] || continue  # Skip if no skills
 
         skill_name=$(basename "$skill")
+
+        # Skip the legacy 'user/' subdirectory — skills now live at skills/ root directly.
+        [ "$skill_name" = "user" ] && continue
 
         # Detect Windows junction points — [ -L ] returns false for junctions in Git Bash,
         # so we check the ReparsePoint attribute via PowerShell on Windows.
