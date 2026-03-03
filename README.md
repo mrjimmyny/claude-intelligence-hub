@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.7.2-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.7.3-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -493,8 +493,8 @@ claude-intelligence-hub/
 │
 ├── README.md                        # ⭐ This file
 ├── CHANGELOG.md                     # Version history
-├── EXECUTIVE_SUMMARY.md             # Comprehensive hub overview (v2.7.2)
-├── HUB_MAP.md                       # Skill routing dictionary (v2.7.2)
+├── EXECUTIVE_SUMMARY.md             # Comprehensive hub overview (v2.7.3)
+├── HUB_MAP.md                       # Skill routing dictionary (v2.7.3)
 ├── WINDOWS_JUNCTION_SETUP.md        # Junction setup guide (Windows)
 ├── scripts/                         # Automation & deployment scripts
 │   ├── setup_local_env.ps1          # Windows automated setup (15-min)

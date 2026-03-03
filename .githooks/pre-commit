@@ -1,0 +1,22 @@
+#!/bin/bash
+# Claude Intelligence Hub — Pre-commit Hook
+# Runs integrity check before every commit. Blocks commit if any check fails.
+
+cd "$(git rev-parse --show-toplevel)"
+
+echo ""
+echo "Running hub integrity check..."
+echo ""
+
+if bash scripts/integrity-check.sh; then
+    echo ""
+    echo "[OK] Pre-commit integrity check passed"
+    exit 0
+else
+    echo ""
+    echo "[BLOCKED] Commit blocked — integrity check failed"
+    echo ""
+    echo "Fix the issues above, then commit again."
+    echo "To skip (NOT recommended): git commit --no-verify"
+    exit 1
+fi

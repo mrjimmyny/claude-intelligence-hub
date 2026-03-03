@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.7.3] - 2026-03-03
+
+### Added
+- **CLAUDE.md**: Agent instructions file — auto-loaded by Claude Code; enforces version sync protocol, integrity check before every commit, PowerShell conventions, and skills location rules
+- **.githooks/pre-commit**: Committed git hook that blocks commits when integrity check fails; activated automatically by `setup_local_env.ps1` during onboarding
+- **scripts/integrity-check.sh**: Added `CLAUDE.md` to approved root files list (alphabetical order)
+- **scripts/setup_local_env.ps1**: Onboarding now installs pre-commit hook via `git config core.hooksPath .githooks`
+
 ## [2.7.2] - 2026-03-03
 
 ### Fixed

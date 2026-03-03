@@ -340,6 +340,22 @@ function Invoke-PostSetupValidation {
         Write-Host ""
     }
 
+    # Install pre-commit hook (activates integrity check before every git commit)
+    $hooksDir = Join-Path $HubPath ".githooks"
+    $hookSource = Join-Path $hooksDir "pre-commit"
+    if (Test-Path $hookSource) {
+        Write-Log "Installing pre-commit git hook..." "INFO"
+        $originalLocation = Get-Location
+        Set-Location $HubPath
+        try {
+            git config core.hooksPath .githooks
+            Write-Log "[OK] Pre-commit hook activated (git config core.hooksPath .githooks)" "SUCCESS"
+        } catch {
+            Write-Log "[WARN] Could not activate git hook: $_" "WARNING"
+        }
+        Set-Location $originalLocation
+    }
+
     return $junctionsValid
 }
 

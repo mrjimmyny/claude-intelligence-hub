@@ -101,20 +101,21 @@ echo "════════════════════════�
 #
 # Why? Prevents root directory clutter and enforces organization
 approved_files=(
+    "AUDIT_TRAIL.md"
     "CHANGELOG.md"
+    "CIH-ROADMAP.md"
+    "CLAUDE.md"
     "COMMANDS.md"
     "CONTRIBUTING.md"
     "DEVELOPER_CHEATSHEET.md"
+    "DEVELOPMENT_IMPACT_ANALYSIS.md"
     "EXECUTIVE_SUMMARY.md"
     "HUB_MAP.md"
+    "LICENSE"
     "QUICKSTART_NEW_SKILL.md"
     "README.md"
-    "LICENSE"
     "WINDOWS_JUNCTION_SETUP.md"
     ".gitignore"
-    "AUDIT_TRAIL.md"
-    "CIH-ROADMAP.md"
-    "DEVELOPMENT_IMPACT_ANALYSIS.md"
 )
 
 loose_found=0
