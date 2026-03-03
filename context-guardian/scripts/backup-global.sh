@@ -172,9 +172,24 @@ if [ -d "$CLAUDE_DIR/skills/user" ]; then
 
         skill_name=$(basename "$skill")
 
-        if [ -L "$skill" ]; then
-            # It's a symlink
-            target=$(readlink -f "$skill")
+        # Detect Windows junction points — [ -L ] returns false for junctions in Git Bash,
+        # so we check the ReparsePoint attribute via PowerShell on Windows.
+        IS_JUNCTION=false
+        if [[ "$OSTYPE" == "msys" ]] || [[ "$OS" == "Windows_NT" ]]; then
+            win_skill=$(cygpath -w "$skill")
+            junction_check=$(powershell -Command "(Get-Item -Force '$win_skill' -ErrorAction SilentlyContinue).Attributes -match 'ReparsePoint'" 2>/dev/null | tr -d '\r')
+            [ "$junction_check" = "True" ] && IS_JUNCTION=true
+        fi
+
+        if [ -L "$skill" ] || [ "$IS_JUNCTION" = "true" ]; then
+            # It's a symlink or junction — get the real target path
+            if [ "$IS_JUNCTION" = "true" ]; then
+                win_skill=$(cygpath -w "$skill")
+                win_target=$(powershell -Command "(Get-Item -Force '$win_skill').Target" 2>/dev/null | tr -d '\r')
+                target=$(cygpath -u "$win_target" 2>/dev/null || echo "$win_target")
+            else
+                target=$(readlink -f "$skill")
+            fi
 
             if [[ "$target" == *"claude-intelligence-hub"* ]]; then
                 # Hub skill

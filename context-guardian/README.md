@@ -2,7 +2,7 @@
 
 > Complete context preservation system for seamless Xavier ↔ Magneto account switching
 
-**Version:** 1.0.1
+**Version:** 1.1.0
 **Status:** ✅ Production
 **Owner:** Jimmy (xavier account)
 
@@ -56,7 +56,7 @@ Google Drive: Claude/_claude_intelligence_hub/_critical_bkp_xavier_local_persist
 
 ### Key Features
 
-- **3-Strategy Symlink Handling** - Developer Mode / Administrator / Copy fallback
+- **Junction Point Support** - Skills linked as Junction Points (no Developer Mode or Admin required); copy fallback if junction fails
 - **Rollback Protection** - Auto-rollback on restore failure
 - **Post-Restore Validation** - 5+ comprehensive checks
 - **`.contextignore` Support** - Exclude node_modules, .git, etc.
@@ -132,7 +132,7 @@ Google Drive: Claude/_claude_intelligence_hub/_critical_bkp_xavier_local_persist
 - **PowerShell:** 5.1+ (tested on 5.1.26100.7705)
 - **rclone:** 1.73.0+ with configured remote `gdrive-jimmy:`
 - **Git:** For automatic commits (optional)
-- **Developer Mode:** Recommended for symlink support (or run as Admin)
+- **Developer Mode:** Not required — skills use Junction Points which work without special permissions
 
 ---
 

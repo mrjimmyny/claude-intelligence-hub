@@ -51,26 +51,26 @@ function New-SkillSymlink {
     )
 
     if ($IsFallbackMode) {
-        # Strategy 3: Copy fallback
+        # Fallback: Copy directory (junction creation failed)
         Write-Host "  [COPY] Copying skill: $SkillName (fallback mode)" -ForegroundColor Yellow
         if (Test-Path $LinkPath) {
             Remove-Item -Path $LinkPath -Recurse -Force
         }
         Copy-Item -Path $TargetPath -Destination $LinkPath -Recurse -Force
-        $global:SYMLINK_WARNINGS += "[WARN] $SkillName was copied instead of symlinked. Updates to hub won't sync automatically."
+        $global:SYMLINK_WARNINGS += "[WARN] $SkillName was copied instead of linked as junction. Updates to hub won't sync automatically."
         return $true
     }
 
     try {
-        # Strategy 1 & 2: Try symlink (works with Developer Mode OR Admin)
+        # Primary strategy: Junction Point (no Developer Mode or Admin required)
         if (Test-Path $LinkPath) {
             Remove-Item -Path $LinkPath -Recurse -Force
         }
-        New-Item -ItemType SymbolicLink -Path $LinkPath -Target $TargetPath -Force -ErrorAction Stop | Out-Null
-        Write-Host "  [OK] Created symlink: $SkillName" -ForegroundColor Green
+        New-Item -ItemType Junction -Path $LinkPath -Target $TargetPath -Force -ErrorAction Stop | Out-Null
+        Write-Host "  [OK] Created junction: $SkillName" -ForegroundColor Green
         return $true
     } catch {
-        Write-Host "  [ERROR] Failed to create symlink: $SkillName" -ForegroundColor Red
+        Write-Host "  [ERROR] Failed to create junction: $SkillName" -ForegroundColor Red
         Write-Host "     Error: $_" -ForegroundColor Red
         Write-Host "     Falling back to directory copy..." -ForegroundColor Yellow
 
@@ -79,7 +79,7 @@ function New-SkillSymlink {
             Remove-Item -Path $LinkPath -Recurse -Force
         }
         Copy-Item -Path $TargetPath -Destination $LinkPath -Recurse -Force
-        $global:SYMLINK_WARNINGS += "[WARN] $SkillName was copied instead of symlinked."
+        $global:SYMLINK_WARNINGS += "[WARN] $SkillName was copied instead of linked as junction."
         return $false
     }
 }
@@ -89,7 +89,7 @@ function New-SkillSymlink {
 # ==============================================================================
 
 if ($FixSymlinks) {
-    Write-Host "[FIX] Converting copied skills to symlinks..." -ForegroundColor Cyan
+    Write-Host "[FIX] Converting copied skills to junction points..." -ForegroundColor Cyan
     Write-Host ""
 
     $metadataPath = Join-Path $env:USERPROFILE ".claude\context-guardian\LATEST_GLOBAL.json"
@@ -120,7 +120,7 @@ if ($FixSymlinks) {
             $skillPath = Join-Path $env:USERPROFILE ".claude\skills\user\$($skill.skill_name)"
 
             # Check if it's currently a directory (not symlink)
-            if ((Test-Path $skillPath) -and -not ((Get-Item $skillPath).LinkType -eq "SymbolicLink")) {
+            if ((Test-Path $skillPath) -and -not ((Get-Item -Force $skillPath -ErrorAction SilentlyContinue).LinkType -eq "Junction")) {
                 Write-Host "Converting: $($skill.skill_name)..." -ForegroundColor Cyan
 
                 # Remove directory
@@ -130,20 +130,20 @@ if ($FixSymlinks) {
                 $targetPath = Join-Path $env:USERPROFILE "Downloads\claude-intelligence-hub\$($skill.hub_path)"
 
                 try {
-                    New-Item -ItemType SymbolicLink -Path $skillPath -Target $targetPath -Force -ErrorAction Stop | Out-Null
-                    Write-Host "[OK] Fixed: $($skill.skill_name) now symlinked" -ForegroundColor Green
+                    New-Item -ItemType Junction -Path $skillPath -Target $targetPath -Force -ErrorAction Stop | Out-Null
+                    Write-Host "[OK] Fixed: $($skill.skill_name) now a junction" -ForegroundColor Green
                     $fixedCount++
                 } catch {
                     Write-Host "[ERROR] Failed: $($skill.skill_name) - $_" -ForegroundColor Red
                 }
             } else {
-                Write-Host "[SKIP] Skipped: $($skill.skill_name) (already symlink)" -ForegroundColor Gray
+                Write-Host "[SKIP] Skipped: $($skill.skill_name) (already a junction)" -ForegroundColor Gray
             }
         }
     }
 
     Write-Host ""
-    Write-Host "[OK] Symlink fix complete! Fixed $fixedCount skill(s)" -ForegroundColor Green
+    Write-Host "[OK] Junction fix complete! Fixed $fixedCount skill(s)" -ForegroundColor Green
     Stop-Transcript
     exit 0
 }
@@ -185,7 +185,7 @@ if ($remotes -notmatch "$($global:RCLONE_REMOTE):") {
 Write-Host "[OK] rclone remote '$($global:RCLONE_REMOTE)' configured" -ForegroundColor Green
 Write-Host ""
 
-# Step 3: Check permissions (Developer Mode / Admin)
+# Step 3: Permission Check (informational — Junction Points require no special permissions)
 $developerMode = Test-DeveloperMode
 $isAdmin = Test-Administrator
 
@@ -193,58 +193,18 @@ Write-Host "Permission Check:" -ForegroundColor Cyan
 
 if ($developerMode) {
     Write-Host "[OK] Developer Mode: ENABLED" -ForegroundColor Green
-    Write-Host "   Symlinks will work without admin privileges" -ForegroundColor Gray
-    $SYMLINK_STRATEGY = "developer"
-} elseif ($isAdmin) {
-    Write-Host "[WARN] Developer Mode: DISABLED" -ForegroundColor Yellow
-    Write-Host "[OK] Running as: Administrator" -ForegroundColor Green
-    Write-Host "   Symlinks will work with admin privileges" -ForegroundColor Gray
-    $SYMLINK_STRATEGY = "admin"
 } else {
-    Write-Host "[WARN] Developer Mode: DISABLED" -ForegroundColor Yellow
-    Write-Host "[WARN] Running as: Standard User" -ForegroundColor Yellow
-    Write-Host ""
-    Write-Host "Options:" -ForegroundColor Cyan
-    Write-Host "  [D] Enable Developer Mode (recommended)" -ForegroundColor Cyan
-    Write-Host "  [A] Restart as Administrator" -ForegroundColor Cyan
-    Write-Host "  [C] Continue with copy fallback (no symlinks)" -ForegroundColor Cyan
-    Write-Host "  [Q] Quit" -ForegroundColor Cyan
-    Write-Host ""
-
-    $choice = Read-Host "Choose [D/A/C/Q]"
-
-    switch ($choice.ToUpper()) {
-        "D" {
-            Write-Host ""
-            Write-Host "Opening Settings..." -ForegroundColor Cyan
-            Start-Process "ms-settings:developers"
-            Write-Host ""
-            Write-Host "After enabling Developer Mode:" -ForegroundColor Yellow
-            Write-Host "  1. Toggle 'Developer Mode' to ON" -ForegroundColor Yellow
-            Write-Host "  2. Close Settings" -ForegroundColor Yellow
-            Write-Host "  3. Re-run this script: .\bootstrap-magneto.ps1" -ForegroundColor Yellow
-            Stop-Transcript
-            exit 0
-        }
-        "A" {
-            Write-Host ""
-            Write-Host "Restarting as Administrator..." -ForegroundColor Cyan
-            Start-Process powershell -Verb RunAs -ArgumentList "-NoExit -ExecutionPolicy Bypass -File `"$PSCommandPath`""
-            Stop-Transcript
-            exit 0
-        }
-        "C" {
-            Write-Host ""
-            Write-Host "[WARN] Using copy fallback mode (no symlinks)" -ForegroundColor Yellow
-            $SYMLINK_STRATEGY = "copy"
-        }
-        default {
-            Write-Host "Exiting." -ForegroundColor Red
-            Stop-Transcript
-            exit 1
-        }
-    }
+    Write-Host "[INFO] Developer Mode: DISABLED (not required — using Junction Points)" -ForegroundColor Gray
 }
+
+if ($isAdmin) {
+    Write-Host "[OK] Running as: Administrator" -ForegroundColor Green
+} else {
+    Write-Host "[INFO] Running as: Standard User (sufficient for Junction Points)" -ForegroundColor Gray
+}
+
+Write-Host "[OK] Skills will be created as Junction Points (no special permissions required)" -ForegroundColor Green
+$SYMLINK_STRATEGY = "junction"
 
 Write-Host ""
 
@@ -381,17 +341,16 @@ switch ($choice) {
     }
 }
 
-# Display symlink warnings
+# Display junction warnings
 if ($global:SYMLINK_WARNINGS.Count -gt 0) {
     Write-Host ""
-    Write-Host "[WARN] SYMLINK WARNINGS:" -ForegroundColor Yellow
+    Write-Host "[WARN] JUNCTION WARNINGS:" -ForegroundColor Yellow
     foreach ($warning in $global:SYMLINK_WARNINGS) {
         Write-Host $warning -ForegroundColor Yellow
     }
     Write-Host ""
-    Write-Host "To convert copied skills to symlinks later:" -ForegroundColor Cyan
-    Write-Host "  1. Enable Developer Mode (Settings - Privacy and Security - For Developers)" -ForegroundColor Cyan
-    Write-Host "  2. Run: .\bootstrap-magneto.ps1 -FixSymlinks" -ForegroundColor Cyan
+    Write-Host "To convert copied skills to junction points later:" -ForegroundColor Cyan
+    Write-Host "  Run: .\bootstrap-magneto.ps1 -FixSymlinks" -ForegroundColor Cyan
 }
 
 # End

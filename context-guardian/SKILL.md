@@ -1,6 +1,6 @@
 ---
 name: context-guardian
-version: 1.0.1
+version: 1.1.0
 description: Context preservation system for Xavier ↔ Magneto account switching
 command: /context-guardian
 aliases: [/guardian, /switch]
@@ -10,7 +10,7 @@ aliases: [/guardian, /switch]
 
 > Complete context preservation system for Xavier ↔ Magneto account switching
 
-**Version:** 1.0.1
+**Version:** 1.1.0
 **Type:** System Skill (Auto-invoked)
 **Owner:** Jimmy (xavier)
 
@@ -169,21 +169,17 @@ bash scripts/backup-global.sh --dry-run
    - Copy plugins config files
    - Restore skills (recreate symlinks)
 
-5. **Recreate Symlinks (3 Strategies)**
+5. **Recreate Symlinks / Junction Points**
 
-   **Strategy 1: Developer Mode (Recommended)**
-   - Try `New-Item -ItemType SymbolicLink`
-   - No admin required
-   - Works if Developer Mode enabled
+   **Primary: Junction Point (Windows)**
+   - `New-Item -ItemType Junction` — no Developer Mode or Admin required
+   - Detected by Claude Code as a directory (`dirent.isDirectory() = true`)
+   - Works on all Windows machines regardless of policy
 
-   **Strategy 2: Administrator**
-   - Same command, elevated privileges
-   - Works if running as Admin
-
-   **Strategy 3: Copy Fallback**
-   - Copy directory instead of symlink
-   - Warn user: "Skill was copied, not symlinked"
-   - Offer `--fix-symlinks` later
+   **Fallback: Copy**
+   - Used only if junction creation fails
+   - Warn user: "Skill was copied, not linked as junction"
+   - Run `.\bootstrap-magneto.ps1 -FixSymlinks` to convert later
 
 6. **Post-Restore Validation (5 Checks)**
    - settings.json exists and valid JSON
@@ -202,11 +198,11 @@ bash scripts/backup-global.sh --dry-run
    Restored by: xavier
    Backup date: 2026-02-16 10:30:00
    Files: 4 config files, 4 skills
-   Symlinks: 4 created via Developer Mode
+   Junctions: 4 created (no special permissions required)
    Validation: PASSED (5/5 checks)
 ```
 
-**Fix Symlinks Later:**
+**Fix Junctions Later (if any were copied as fallback):**
 ```powershell
 .\bootstrap-magneto.ps1 --fix-symlinks
 ```
@@ -287,14 +283,9 @@ bash scripts/backup-global.sh --dry-run
    - Verify remote `gdrive-jimmy:` configured
    - Guide user to install/configure if missing
 
-2. **Permission Check**
-   - Check Developer Mode status
-   - Check if running as Administrator
-   - Offer options if neither:
-     - [D] Enable Developer Mode (opens Settings)
-     - [A] Restart as Administrator
-     - [C] Continue with copy fallback
-     - [Q] Quit
+2. **Permission Check (informational)**
+   - Checks Developer Mode and Administrator status for info only
+   - No action required — Junction Points work without special permissions
 
 3. **Fetch Metadata**
    - Download `LATEST_GLOBAL.json` from Google Drive
@@ -312,29 +303,27 @@ bash scripts/backup-global.sh --dry-run
 
 5. **Restore Based on Selection**
    - Follow Workflow 3 (global) or Workflow 4 (project)
-   - Use 3-strategy symlink recreation
+   - Creates Junction Points (no special permissions needed)
    - Validate after restore
 
-6. **Display Symlink Warnings**
-   - If any skills were copied (fallback mode):
+6. **Display Junction Warnings**
+   - If any skills were copied as fallback:
      ```
-     ⚠️  SYMLINK WARNINGS:
-     - session-memoria was copied instead of symlinked
-     - gdrive-sync-memoria was copied instead of symlinked
+     ⚠️  JUNCTION WARNINGS:
+     - session-memoria was copied instead of linked as junction
 
-     To convert to symlinks later:
-     1. Enable Developer Mode (Settings > For Developers)
-     2. Run: .\bootstrap-magneto.ps1 --fix-symlinks
+     To convert to junctions later:
+     Run: .\bootstrap-magneto.ps1 -FixSymlinks
      ```
 
-**Fix Symlinks Command:**
+**Fix Junctions Command:**
 ```powershell
-.\bootstrap-magneto.ps1 --fix-symlinks
+.\bootstrap-magneto.ps1 -FixSymlinks
 ```
 
-- Reads `LATEST_GLOBAL.json` for symlink metadata
+- Reads `LATEST_GLOBAL.json` for skill metadata
 - Deletes copied directories
-- Recreates as symlinks (requires Developer Mode or Admin)
+- Recreates as Junction Points (no special permissions required)
 
 ---
 
@@ -393,14 +382,34 @@ Overall Status: ✅ HEALTHY
 
 ## Troubleshooting
 
-### Problem: Symlinks not created (Windows)
+### Problem: Skills not visible in `/skills` dialog (Windows)
 
-**Cause:** Developer Mode disabled, not running as Admin
+**Cause:** Skills were created as `<SYMLINKD>` (Windows Symbolic Link to Directory) instead of `<JUNCTION>`.
+Node.js `fs.readdirSync()` returns `dirent.isDirectory() = false` for SYMLINKD, making skills invisible to Claude Code.
+JUNCTION returns `dirent.isDirectory() = true` and is correctly detected.
+
+**Diagnosis:**
+```cmd
+cmd /c dir /AL %USERPROFILE%\.claude\skills\user\
+# Should show <JUNCTION>, not <SYMLINKD>
+```
 
 **Fix:**
-1. Enable Developer Mode: Settings > Privacy & Security > For Developers > Toggle ON
-2. OR run scripts as Administrator
-3. OR use copy fallback (run `--fix-symlinks` later)
+```powershell
+.\bootstrap-magneto.ps1 -FixSymlinks
+```
+This converts any SYMLINKD or copied directories to proper Junction Points.
+
+### Problem: Marketplace not found after cross-machine restore
+
+**Cause:** `known_marketplaces.json` contains the source machine's username in the `installLocation` path.
+The `restore-global.sh` now auto-corrects this, but older backups may require manual fix.
+
+**Fix:**
+Edit `~/.claude/plugins/known_marketplaces.json` and replace the old username with the current machine's username in `installLocation`.
+```
+"installLocation": "C:\\Users\\<CURRENT_USER>\\.claude\\plugins\\marketplaces\\claude-plugins-official"
+```
 
 ### Problem: MEMORY.md not restored
 
@@ -554,5 +563,5 @@ grep ERROR ~/.claude/context-guardian/logs/*.log
 
 ---
 
-**Last Updated:** 2026-03-01
-**Status:** ✅ Production (v1.0.1 - All phases complete)
+**Last Updated:** 2026-03-03
+**Status:** ✅ Production (v1.1.0 - Junction Point fix + cross-machine path adaptation)

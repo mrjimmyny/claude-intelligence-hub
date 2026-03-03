@@ -197,6 +197,19 @@ if [ "$DRY_RUN" = false ]; then
     if [ -d "$TEMP_DIR/global/plugins" ]; then
         cp -r "$TEMP_DIR/global/plugins"/* "$CLAUDE_DIR/plugins/" 2>/dev/null || true
         log_success "Restored plugins config"
+
+        # Fix known_marketplaces.json: adapt installLocation path for current machine's username.
+        # Cross-machine restores keep the source machine's username hardcoded in the path,
+        # causing Claude Code to fail to locate the marketplace after restore.
+        MARKETPLACE_FILE="$CLAUDE_DIR/plugins/known_marketplaces.json"
+        if [ -f "$MARKETPLACE_FILE" ]; then
+            if [[ "$OSTYPE" == "msys" ]] || [[ "$OS" == "Windows_NT" ]]; then
+                win_path=$(cygpath -w "$MARKETPLACE_FILE")
+                powershell -Command "\$content = Get-Content '$win_path' -Raw; \$fixed = \$content -replace 'C:\\\\Users\\\\[^\\\\/\"]+\\\\', ('C:\Users\' + \$env:USERNAME + '\'); Set-Content '$win_path' \$fixed -NoNewline" 2>/dev/null \
+                    && log_success "Fixed known_marketplaces.json paths for user: $USERNAME" \
+                    || log_warn "Could not auto-fix known_marketplaces.json paths — verify installLocation manually"
+            fi
+        fi
     fi
 
     # Restore skill directories (not symlinks - those are recreated below)
