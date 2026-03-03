@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.7.2] - 2026-03-03
+
+### Fixed
+- **context-guardian**: junction points instead of symbolic links in `bootstrap-magneto.ps1` — fixes skills invisible in Claude Code on Windows (SYMLINKD → JUNCTION)
+- **context-guardian**: skills path corrected from `skills/user/` to `skills/` root across all scripts (`backup-global.sh`, `restore-global.sh`, `bootstrap-magneto.ps1`, `setup_local_env.ps1`)
+- **context-guardian**: cross-machine restore auto-fixes `known_marketplaces.json` username path via PowerShell in `restore-global.sh`
+- **context-guardian**: Windows Junction Point detection in `backup-global.sh` via PowerShell `ReparsePoint` attribute check
+- **setup_local_env.ps1**: removed emoji characters causing PowerShell 5.1 parse errors; fixed `$VarName:` variable parsing (now `${VarName}:`)
+- **setup_local_env.ps1**: dynamic skill discovery via `SKILL.md` presence — no more hardcoded skill lists
+
+### Changed
+- **context-guardian**: version bumped to v1.1.0
+- **context-guardian**: `developer_mode` requirement changed from "recommended" to "not required" — Junction Points work without Developer Mode or Admin privileges
+
 ## [2.7.1] - 2026-03-01
 
 ### Added

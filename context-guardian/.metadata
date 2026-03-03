@@ -1,6 +1,6 @@
 {
   "name": "context-guardian",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Complete context preservation system for Xavier ↔ Magneto account switching",
   "type": "system-skill",
   "owner": "jimmy-xavier",
@@ -24,7 +24,7 @@
   },
   "requirements": {
     "os": ["Windows 10", "Windows 11"],
-    "developer_mode": "recommended",
+    "developer_mode": "not required",
     "google_drive": "required"
   },
   "scripts": [
