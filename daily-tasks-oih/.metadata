@@ -1,0 +1,39 @@
+{
+  "name": "daily-tasks-oih",
+  "version": "1.0.0",
+  "description": "Daily task orchestration for OIH with pool capture, per-agent dispatch, execution tracking, and close-of-day workflow.",
+  "status": "production",
+  "author": "Emma (Codex) + Jimmy",
+  "created": "2026-03-04",
+  "updated": "2026-03-04",
+  "type": "workflow-automation",
+  "auto_load": false,
+  "triggers": {
+    "capture": [
+      "add this to daily tasks pool",
+      "capture this task for tomorrow"
+    ],
+    "dispatch": [
+      "dispatch pool tasks for codex",
+      "prepare daily tasks for agent"
+    ],
+    "execute": [
+      "execute my daily tasks",
+      "run tasks assigned to codex"
+    ],
+    "close": [
+      "close daily tasks",
+      "end of day daily tasks"
+    ]
+  },
+  "settings": {
+    "language_policy": "english-only",
+    "filename_pattern": "Daily Tasks Agents - YYYY-MM-DD - <agent>.md",
+    "required_frontmatter": [
+      "created_at",
+      "executed_date",
+      "agent_id"
+    ],
+    "pool_file": "CIH/daily-tasks/Daily Tasks Pool.md"
+  }
+}

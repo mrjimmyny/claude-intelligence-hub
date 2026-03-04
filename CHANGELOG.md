@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.8.0] - 2026-03-04
+
+### Added
+- **daily-tasks-oih** skill v1.0.0 with slash command `/daily-tasks-oih` and aliases `/dtoih`, `/daily-tasks`
+- Skill reference material:
+  - `daily-tasks-oih/references/examples/`
+  - `daily-tasks-oih/references/templates/`
+- Deterministic workflow coverage for:
+  - pool capture
+  - per-agent daily dispatch
+  - execution tracking with evidence
+  - close-of-day protocol
+- English-only operational documentation rule in `daily-tasks-oih/SKILL.md`
+
+### Changed
+- **README.md**, **HUB_MAP.md**, **COMMANDS.md**, **EXECUTIVE_SUMMARY.md** updated to include `daily-tasks-oih`
+- Hub skill count updated from 15 to 16
+- Hub version bumped from 2.7.3 to 2.8.0
+
 ## [2.7.3] - 2026-03-03
 
 ### Added

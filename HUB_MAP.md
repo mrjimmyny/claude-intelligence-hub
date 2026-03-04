@@ -1,8 +1,8 @@
 # 🗺️ Claude Intelligence Hub - Visual Skill Router
 
-**Version:** 2.7.1
+**Version:** 2.8.0
 **Status:** 🟢 Active & Synchronized
-**Registry:** 15 Production Skills
+**Registry:** 16 Production Skills
 
 ---
 
@@ -10,7 +10,7 @@
 
 | Metric | Count | Status |
 | :--- | :--- | :--- |
-| **Total Skills** | 15 | ✅ Verified |
+| **Total Skills** | 16 | ✅ Verified |
 | **Governance** | 100% | 🟢 Compliant |
 | **Architecture** | 3-Tier | 🏗️ Structured |
 
@@ -50,6 +50,7 @@
 | 11 | **conversation-memoria** | v1.0.0 | `/conversation` | Save/Load session history |
 | 13 | **core_catalog** | v1.0.0 | `/catalog` | Bootstrap system data |
 | 15 | **codex-governance-framework** | v1.0.0 | `/governance` | Institutional governance docs |
+| 16 | **daily-tasks-oih** | v1.0.0 | `/daily-tasks-oih` | Daily tasks pool and per-agent execution workflow |
 
 ---
 
@@ -116,6 +117,10 @@
 ### 15. codex-governance-framework
 - **Path:** `codex-governance-framework/`
 - **Context:** Institutional bootstrap governance documentation.
+
+### 16. daily-tasks-oih
+- **Path:** `daily-tasks-oih/`
+- **Workflow:** Pool capture, per-agent daily dispatch, execution tracking, and close protocol.
 
 ---
 
