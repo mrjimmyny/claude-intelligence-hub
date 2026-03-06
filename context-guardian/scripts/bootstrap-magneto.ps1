@@ -3,6 +3,7 @@
 # Self-contained restore script for account switching
 
 param(
+    [string]$HubPath = "C:\ai\claude-intelligence-hub",
     [switch]$FixSymlinks,
     [switch]$DryRun
 )
@@ -127,7 +128,7 @@ if ($FixSymlinks) {
                 Remove-Item -Path $skillPath -Recurse -Force
 
                 # Create symlink
-                $targetPath = Join-Path $env:USERPROFILE "Downloads\claude-intelligence-hub\$($skill.hub_path)"
+                $targetPath = Join-Path $HubPath "$($skill.hub_path)"
 
                 try {
                     New-Item -ItemType Junction -Path $skillPath -Target $targetPath -Force -ErrorAction Stop | Out-Null
@@ -289,7 +290,6 @@ switch ($choice) {
             # This is the single source of truth for skill setup. Dynamic discovery ensures
             # all skills present in the hub are installed, with no hardcoded lists.
             Write-Host "Setting up skills (junction points)..." -ForegroundColor Cyan
-            $HubPath = Join-Path $env:USERPROFILE "Downloads\claude-intelligence-hub"
             $setupScript = Join-Path $HubPath "scripts\setup_local_env.ps1"
 
             if (Test-Path $setupScript) {

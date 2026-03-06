@@ -25,7 +25,7 @@ OPTIONAL_SKILLS=(
 )
 
 SCRIPT_VERSION="1.0.0"
-HUB_PATH="${HUB_PATH:-$HOME/Downloads/claude-intelligence-hub}"
+HUB_PATH="${HUB_PATH:-/c/ai/claude-intelligence-hub}"
 SKILLS_PATH="${SKILLS_PATH:-$HOME/.claude/skills/user}"
 FORCE=false
 SKIP_OPTIONAL=false
@@ -379,7 +379,7 @@ parse_args() {
                 echo "Usage: $0 [OPTIONS]"
                 echo ""
                 echo "Options:"
-                echo "  --hub-path PATH        Hub directory path (default: ~/Downloads/claude-intelligence-hub)"
+                echo "  --hub-path PATH        Hub directory path (default: /c/ai/claude-intelligence-hub)"
                 echo "  --skills-path PATH     Skills directory path (default: ~/.claude/skills/user)"
                 echo "  --force, -f            Force recreate existing junctions/symlinks"
                 echo "  --skip-optional        Skip optional skills prompt"

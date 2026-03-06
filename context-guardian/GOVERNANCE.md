@@ -130,7 +130,7 @@ Restore will automatically rollback if:
   "is_symlink": true,
   "link_type": "hub_skill",
   "hub_path": "session-memoria",
-  "absolute_target": "/c/Users/jaderson.almeida/Downloads/claude-intelligence-hub/session-memoria"
+  "absolute_target": "/c/ai/claude-intelligence-hub/session-memoria"
 }
 ```
 

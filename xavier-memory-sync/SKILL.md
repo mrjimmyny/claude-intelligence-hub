@@ -73,7 +73,7 @@ Parse which specific action requested:
 #### Action: SYNC MEMORY
 ```bash
 # 1. Verify master exists
-MASTER="$HOME/Downloads/claude-intelligence-hub/xavier-memory/MEMORY.md"
+MASTER="/c/ai/claude-intelligence-hub/xavier-memory/MEMORY.md"
 if [[ ! -f "$MASTER" ]]; then
     echo "ERROR: Master MEMORY.md not found"
     exit 1
@@ -97,7 +97,7 @@ done
 # 3. Sync to Google Drive
 echo ""
 echo "Syncing to Google Drive..."
-cd ~/Downloads/claude-intelligence-hub/xavier-memory
+cd /c/ai/claude-intelligence-hub/xavier-memory
 ./sync-to-gdrive.sh
 
 echo ""
@@ -106,7 +106,7 @@ echo "✅ Memory sync complete!"
 
 #### Action: BACKUP MEMORY
 ```bash
-cd ~/Downloads/claude-intelligence-hub/xavier-memory
+cd /c/ai/claude-intelligence-hub/xavier-memory
 ./sync-to-gdrive.sh
 ```
 
@@ -115,7 +115,7 @@ cd ~/Downloads/claude-intelligence-hub/xavier-memory
 echo "Available backups:"
 echo ""
 echo "LOCAL:"
-ls -1t ~/Downloads/claude-intelligence-hub/xavier-memory/backups/MEMORY_*.md | head -5
+ls -1t /c/ai/claude-intelligence-hub/xavier-memory/backups/MEMORY_*.md | head -5
 
 echo ""
 echo "GOOGLE DRIVE:"
@@ -133,7 +133,7 @@ fi
 
 #### Action: MEMORY STATUS
 ```bash
-MASTER="$HOME/Downloads/claude-intelligence-hub/xavier-memory/MEMORY.md"
+MASTER="/c/ai/claude-intelligence-hub/xavier-memory/MEMORY.md"
 
 echo "================================================================"
 echo "Xavier Memory Status"
@@ -175,10 +175,10 @@ fi
 echo ""
 
 # Local backups
-backup_count=$(ls -1 ~/Downloads/claude-intelligence-hub/xavier-memory/backups/MEMORY_*.md 2>/dev/null | wc -l)
+backup_count=$(ls -1 /c/ai/claude-intelligence-hub/xavier-memory/backups/MEMORY_*.md 2>/dev/null | wc -l)
 echo "Local Backups: $backup_count"
 if [[ $backup_count -gt 0 ]]; then
-    echo "  Latest: $(ls -1t ~/Downloads/claude-intelligence-hub/xavier-memory/backups/MEMORY_*.md | head -1)"
+    echo "  Latest: $(ls -1t /c/ai/claude-intelligence-hub/xavier-memory/backups/MEMORY_*.md | head -1)"
 fi
 echo ""
 echo "================================================================"
@@ -200,7 +200,7 @@ echo "================================================================"
 
 ### Error: Master MEMORY.md not found
 ```
-→ Check if ~/Downloads/claude-intelligence-hub/xavier-memory/MEMORY.md exists
+→ Check if /c/ai/claude-intelligence-hub/xavier-memory/MEMORY.md exists
 → If missing, restore from Google Drive backup
 → Report to user immediately
 ```
@@ -208,7 +208,7 @@ echo "================================================================"
 ### Error: Hard link broken
 ```
 → Report which project has broken link
-→ Suggest running: ~/Downloads/claude-intelligence-hub/xavier-memory/setup_memory_junctions.bat
+→ Suggest running: /c/ai/claude-intelligence-hub/xavier-memory/setup_memory_junctions.bat
 → Do NOT auto-fix (requires user approval)
 ```
 
@@ -256,10 +256,10 @@ Syncing to Google Drive:
 
 ## Related Files
 
-- Master: `~/Downloads/claude-intelligence-hub/xavier-memory/MEMORY.md`
-- Sync script: `~/Downloads/claude-intelligence-hub/xavier-memory/sync-to-gdrive.sh`
-- Junction setup: `~/Downloads/claude-intelligence-hub/xavier-memory/setup_memory_junctions.bat`
-- Backups: `~/Downloads/claude-intelligence-hub/xavier-memory/backups/`
+- Master: `/c/ai/claude-intelligence-hub/xavier-memory/MEMORY.md`
+- Sync script: `/c/ai/claude-intelligence-hub/xavier-memory/sync-to-gdrive.sh`
+- Junction setup: `/c/ai/claude-intelligence-hub/xavier-memory/setup_memory_junctions.bat`
+- Backups: `/c/ai/claude-intelligence-hub/xavier-memory/backups/`
 
 ---
 

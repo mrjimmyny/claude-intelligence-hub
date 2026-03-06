@@ -24,7 +24,7 @@
 
 ## 📚 Claude Intelligence Hub Structure
 
-**Localização:** `C:\Users\jaderson.almeida\Downloads\claude-intelligence-hub\`
+**Localização:** `C:\ai\claude-intelligence-hub\`
 
 **🎯 Workflow padrão (SEMPRE seguir):**
 1. **PRIMEIRO**: Verificar se existe skill/doc no claude-intelligence-hub

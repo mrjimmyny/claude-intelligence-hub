@@ -16,8 +16,8 @@ Both skills are now using **junction points** that auto-sync:
 
 ```
 C:\Users\<username>\.claude\skills\user\
-├── jimmy-core-preferences  → C:\Users\<username>\Downloads\claude-intelligence-hub\jimmy-core-preferences
-└── session-memoria         → C:\Users\<username>\Downloads\claude-intelligence-hub\session-memoria
+├── jimmy-core-preferences  → C:\ai\claude-intelligence-hub\jimmy-core-preferences
+└── session-memoria         → C:\ai\claude-intelligence-hub\session-memoria
 ```
 
 **Benefits:**
@@ -40,7 +40,7 @@ C:\Users\<username>\.claude\skills\user\
 REM Save this as setup_junctions.bat in your Downloads folder
 
 set SKILLS_DIR=%USERPROFILE%\.claude\skills\user
-set REPO_DIR=%USERPROFILE%\Downloads\claude-intelligence-hub
+set REPO_DIR=C:\ai\claude-intelligence-hub
 
 REM Remove old copies if they exist (save any local changes first!)
 if exist "%SKILLS_DIR%\jimmy-core-preferences" rmdir "%SKILLS_DIR%\jimmy-core-preferences" /s /q
@@ -58,7 +58,7 @@ pause
 
 2. **Run the script:**
 ```bash
-cd ~/Downloads
+cd /c/ai
 ./setup_junctions.bat
 ```
 
@@ -86,7 +86,7 @@ dir "%USERPROFILE%\.claude\skills\user"
 ### Verify same file (not copy):
 ```bash
 # Should show SAME inode number for both paths
-stat ~/Downloads/claude-intelligence-hub/jimmy-core-preferences/.metadata | grep Inode
+stat /c/ai/claude-intelligence-hub/jimmy-core-preferences/.metadata | grep Inode
 stat ~/.claude/skills/user/jimmy-core-preferences/.metadata | grep Inode
 ```
 
@@ -106,7 +106,7 @@ cat ~/.claude/skills/user/session-memoria/.metadata | grep version
 
 ### Receiving Updates:
 ```bash
-cd ~/Downloads/claude-intelligence-hub
+cd /c/ai/claude-intelligence-hub
 git pull
 # Skills are INSTANTLY updated (no copy needed!)
 ```
@@ -114,7 +114,7 @@ git pull
 ### Making Updates:
 ```bash
 # Claude updates SKILL.md directly in Git repo
-cd ~/Downloads/claude-intelligence-hub
+cd /c/ai/claude-intelligence-hub
 git add .
 git commit -m "Updated: jimmy-core-preferences"
 git push
@@ -141,11 +141,11 @@ ls -la ~/.claude/skills/user/jimmy-core-preferences
 ls -la ~/.claude/skills/user/
 
 # 2. Check Git repo is up to date
-cd ~/Downloads/claude-intelligence-hub
+cd /c/ai/claude-intelligence-hub
 git pull
 
 # 3. Verify inode numbers match (same file)
-stat ~/Downloads/claude-intelligence-hub/jimmy-core-preferences/.metadata | grep Inode
+stat /c/ai/claude-intelligence-hub/jimmy-core-preferences/.metadata | grep Inode
 stat ~/.claude/skills/user/jimmy-core-preferences/.metadata | grep Inode
 
 # 4. Restart Claude Code

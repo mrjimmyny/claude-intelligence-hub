@@ -100,7 +100,7 @@ See: [WINDOWS_JUNCTION_SETUP.md](../WINDOWS_JUNCTION_SETUP.md)
 
 **Quick setup:**
 ```bash
-cd ~/Downloads/claude-intelligence-hub/xavier-memory
+cd /c/ai/claude-intelligence-hub/xavier-memory
 ./setup_memory_junctions.bat
 ```
 

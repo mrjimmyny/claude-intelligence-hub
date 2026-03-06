@@ -942,7 +942,7 @@ session-memoria/
 REM Automated junction setup script
 
 set SKILLS_DIR=%USERPROFILE%\.claude\skills\user
-set REPO_DIR=%USERPROFILE%\Downloads\claude-intelligence-hub
+set REPO_DIR=C:\ai\claude-intelligence-hub
 
 REM Create junction points
 mklink /J "%SKILLS_DIR%\jimmy-core-preferences" "%REPO_DIR%\jimmy-core-preferences"
@@ -958,7 +958,7 @@ ls -la ~/.claude/skills/user/
 
 # Verify same inode (true link, not copy)
 stat ~/.claude/skills/user/jimmy-core-preferences/.metadata | grep Inode
-stat ~/Downloads/claude-intelligence-hub/jimmy-core-preferences/.metadata | grep Inode
+stat /c/ai/claude-intelligence-hub/jimmy-core-preferences/.metadata | grep Inode
 # Should match!
 ```
 

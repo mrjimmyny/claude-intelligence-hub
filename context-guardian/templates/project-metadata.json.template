@@ -13,7 +13,7 @@
     "MEMORY_md": {
       "exists": true,
       "is_hard_link": true,
-      "hard_link_target": "/c/Users/jaderson.almeida/Downloads/claude-intelligence-hub/xavier-memory/MEMORY.md",
+      "hard_link_target": "/c/ai/claude-intelligence-hub/xavier-memory/MEMORY.md",
       "hard_link_count": 3,
       "sha256": "",
       "size_bytes": 4096

@@ -63,7 +63,7 @@ Google Drive: _critical_bkp_xavier_local_persistent_memory/
 #### Step 1: Pre-flight Checks
 ```bash
 # Verify master exists
-[[ -f ~/Downloads/claude-intelligence-hub/xavier-memory/MEMORY.md ]] || exit 1
+[[ -f /c/ai/claude-intelligence-hub/xavier-memory/MEMORY.md ]] || exit 1
 
 # Verify rclone configured
 rclone listremotes | grep -q "^gdrive-jimmy:$" || exit 1
@@ -72,7 +72,7 @@ rclone listremotes | grep -q "^gdrive-jimmy:$" || exit 1
 #### Step 2: Check Git Status
 Navigate to claude-intelligence-hub and check for uncommitted changes:
 ```bash
-cd ~/Downloads/claude-intelligence-hub
+cd /c/ai/claude-intelligence-hub
 git status --porcelain xavier-memory/MEMORY.md
 ```
 
@@ -92,7 +92,7 @@ git push origin main
 #### Step 4: Create Local Backup
 ```bash
 TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
-BACKUP_DIR=~/Downloads/claude-intelligence-hub/xavier-memory/backups
+BACKUP_DIR=/c/ai/claude-intelligence-hub/xavier-memory/backups
 mkdir -p "$BACKUP_DIR"
 cp xavier-memory/MEMORY.md "$BACKUP_DIR/MEMORY_${TIMESTAMP}.md"
 ```
@@ -100,7 +100,7 @@ cp xavier-memory/MEMORY.md "$BACKUP_DIR/MEMORY_${TIMESTAMP}.md"
 #### Step 5: Sync to Google Drive
 ```bash
 rclone copy \
-    ~/Downloads/claude-intelligence-hub/xavier-memory/MEMORY.md \
+    /c/ai/claude-intelligence-hub/xavier-memory/MEMORY.md \
     gdrive-jimmy:Claude/_claude_intelligence_hub/_critical_bkp_xavier_local_persistent_memory/ \
     --verbose --stats-one-line
 ```
@@ -119,7 +119,7 @@ REMOTE_SIZE=$(rclone lsl gdrive-jimmy:... | awk '{print $1}')
 #### Step 7: Cleanup Old Backups
 Keep only last 10 local backups:
 ```bash
-cd ~/Downloads/claude-intelligence-hub/xavier-memory/backups
+cd /c/ai/claude-intelligence-hub/xavier-memory/backups
 ls -1t MEMORY_*.md | tail -n +11 | xargs -r rm
 ```
 
@@ -199,7 +199,7 @@ cp backups/MEMORY_2026-02-15_20-57-01.md xavier-memory/MEMORY.md
 ```bash
 rclone copy \
     gdrive-jimmy:Claude/_claude_intelligence_hub/_critical_bkp_xavier_local_persistent_memory/MEMORY.md \
-    ~/Downloads/claude-intelligence-hub/xavier-memory/
+    /c/ai/claude-intelligence-hub/xavier-memory/
 ```
 
 **From Git:**
@@ -244,7 +244,7 @@ git push origin main
 
 #### Check 1: Master File Exists
 ```bash
-[[ -f ~/Downloads/claude-intelligence-hub/xavier-memory/MEMORY.md ]] && echo "✓ Master found"
+[[ -f /c/ai/claude-intelligence-hub/xavier-memory/MEMORY.md ]] && echo "✓ Master found"
 ```
 
 #### Check 2: Hard Link Integrity
@@ -256,7 +256,7 @@ echo "Hard links: $LINK_COUNT (expected: N projects + 1 master)"
 
 #### Check 3: Git Status
 ```bash
-cd ~/Downloads/claude-intelligence-hub
+cd /c/ai/claude-intelligence-hub
 if [[ -n $(git status --porcelain xavier-memory/MEMORY.md) ]]; then
     echo "⚠️  Uncommitted changes"
 else
@@ -342,7 +342,7 @@ Overall: 🟢 HEALTHY
 ### Hard Links Not Working
 ```bash
 # Re-run setup script
-cd ~/Downloads/claude-intelligence-hub/xavier-memory
+cd /c/ai/claude-intelligence-hub/xavier-memory
 ./setup_memory_junctions.bat
 
 # Verify
