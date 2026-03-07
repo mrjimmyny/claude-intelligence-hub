@@ -279,4 +279,4 @@ The repo-auditor automatically validates:
 ---
 
 **Last Updated:** 2026-03-07
-**Version:** 2.9.0
+**Version:** 2.9.1

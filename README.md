@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.9.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.9.1-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -907,7 +907,7 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 
 ## 📈 Version History
 
-**Current Version:** v2.9.0 ✅ **docx-indexer Global Skill Added**
+**Current Version:** v2.9.1 ✅ **docx-indexer v1.1.0 — Triggers, README, CLAUDE.md Routing**
 **Last Updated:** March 7, 2026
 **Status:** Production | Context Preservation + Cloud Backup | Actively Maintained
 

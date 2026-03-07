@@ -1,6 +1,6 @@
 {
   "name": "docx-indexer",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Global document indexing system — append-only JSON index with UUID identity, SHA256 hashing, and structural telemetry for all files under a configured root path.",
   "status": "production",
   "author": "Xavier (Claude Opus 4.6) + Jimmy",
@@ -13,14 +13,37 @@
     "scan": [
       "run docx-indexer scan",
       "index the workspace",
-      "scan documents"
+      "scan documents",
+      "atualiza o índice",
+      "roda o scan",
+      "update the index"
+    ],
+    "query": [
+      "find file in index",
+      "where is file",
+      "acha no índice",
+      "onde está o arquivo",
+      "consulta o índice",
+      "check the document index",
+      "índice de documentos",
+      "índice de arquivos",
+      "list files",
+      "how many files"
     ],
     "validate": [
       "validate the index",
-      "check index integrity"
+      "check index integrity",
+      "valida o índice"
+    ],
+    "dry-run": [
+      "dry-run the index",
+      "preview scan",
+      "roda um dry-run",
+      "what changed since last scan"
     ],
     "export": [
-      "export index to markdown"
+      "export index to markdown",
+      "exporta o índice"
     ]
   },
   "settings": {

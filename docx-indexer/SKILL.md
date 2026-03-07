@@ -7,11 +7,28 @@ aliases: [/dxi]
 
 # docx-indexer
 
-**Version:** 1.0.0
+**Version:** 1.1.0
 
 ## Objective
 
 Provide a global, machine-level document index that allows any Elite League agent to locate files instantly without repeated path explanations. The index is append-only, UUID-identified, and integrity-protected.
+
+## Natural Language Triggers
+
+When the user says any of these (in English or Portuguese), use the docx-indexer:
+
+| User says | Action |
+|-----------|--------|
+| "find file X in the index" / "acha o arquivo X no índice" | Read `docx-index.json`, search by file_name or path |
+| "scan the workspace" / "atualiza o índice" | Run `scan.py` (full scan) |
+| "dry-run the index" / "roda um dry-run do indexer" | Run `scan.py --dry-run` |
+| "validate the index" / "valida o índice" | Run `validate.py` |
+| "how many files do we have?" / "quantos arquivos temos?" | Read `docx-index.json` metadata counters |
+| "where is file X?" / "onde está o arquivo X?" | Search index by file_name |
+| "list all .md files" / "lista todos os arquivos .md" | Filter index entries by file_type |
+| "check the document index" / "consulta o índice de documentos" | Read and query `docx-index.json` |
+| "what changed since last scan?" / "o que mudou desde o último scan?" | Run `scan.py --dry-run` and report diff |
+| "how big is folder X?" / "qual o tamanho da pasta X?" | Look up directory telemetry in index |
 
 ## When to Use
 

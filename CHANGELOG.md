@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.9.1] - 2026-03-07
+
+### Changed
+- **docx-indexer** skill bumped to v1.1.0:
+  - Natural language triggers added to `SKILL.md` (PT + EN bilingual)
+  - `.metadata` triggers expanded (scan, query, validate, dry-run, export)
+  - `README.md` completely rewritten: interaction examples (PT + EN), Q&A section, emojis, humanized documentation
+- **CLAUDE.md**: Added docx-indexer routing rules — agents auto-route "índice de documentos" phrases to docx-indexer
+- **core_catalog.json**: docx-indexer added to core skills catalog
+- Hub version bumped from 2.9.0 to 2.9.1
+
 ## [2.9.0] - 2026-03-07
 
 ### Added

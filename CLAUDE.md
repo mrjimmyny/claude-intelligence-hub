@@ -99,6 +99,25 @@ The integrity check enforces an approved list of root files. If you need to add 
 
 ---
 
+## docx-indexer Routing
+
+When the user mentions any of these phrases, use the `docx-indexer` skill to query or operate on `docx-index.json`:
+
+- "índice de documentos" / "índice de arquivos" / "document index"
+- "consulta o índice" / "check the index"
+- "onde está o arquivo X" / "where is file X" / "find file X"
+- "atualiza o índice" / "update the index" / "scan the workspace"
+- "quantos arquivos" / "how many files"
+- "lista os arquivos" / "list files"
+
+**Index location:** `C:\ai\_skills\docx-indexer\index\docx-index.json`
+**Scripts location:** `C:\ai\_skills\docx-indexer\scripts\`
+
+For queries (find, list, count), read `docx-index.json` directly — no need to run scripts.
+For updates (scan, rescan), run `scan.py`. For integrity checks, run `validate.py`.
+
+---
+
 ## Script Conventions (PowerShell)
 
 When editing `.ps1` scripts that run on PowerShell 5.1:
