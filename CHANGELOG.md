@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.9.0] - 2026-03-07
+
+### Added
+- **docx-indexer** skill v1.0.0 with slash command `/docx-indexer` and alias `/dxi`
+- Global document indexing system: append-only JSON index with UUID identity, SHA256 hashing, structural telemetry
+- Skill files: `docx-indexer/SKILL.md`, `docx-indexer/.metadata`, `docx-indexer/README.md`
+- Technical workspace at `C:\ai\_skills\docx-indexer\` (scan.py, validate.py, export-md.py)
+- Phase 1 core validated: 47/47 tests, 9/9 critical rules, 15/15 scan specs, GO decision
+
+### Changed
+- **README.md**, **HUB_MAP.md**, **COMMANDS.md**, **EXECUTIVE_SUMMARY.md** updated to include `docx-indexer`
+- Hub skill count updated from 16 to 17
+- Hub version bumped from 2.8.0 to 2.9.0
+
 ## [2.8.0] - 2026-03-04
 
 ### Added

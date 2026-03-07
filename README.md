@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.8.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.9.0-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -37,6 +37,7 @@ All skills are available as **slash commands** for instant access. Just type `/c
 | **core_catalog** | `/catalog` | /core | System configurations & bootstrap |
 | **codex-governance** | `/governance` | /codex | Institutional governance framework |
 | **daily-tasks-oih** | `/daily-tasks-oih` | /dtoih, /daily-tasks | Daily tasks pool and per-agent execution workflow |
+| **docx-indexer** | `/docx-indexer` | /dxi | Global document indexing (append-only, UUID, SHA256) |
 
 **Example usage:**
 ```bash
@@ -185,6 +186,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[conversation-memoria](conversation-memoria/)** | v1.0.0 | ✅ Production | Persistent conversation storage | Intelligent metadata extraction, 95-98% token savings, week-based organization, natural language triggers, cross-agent memory sharing. |
 | **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v2.0.0 | ✅ Production | Multi-agent coordination framework | The Seven Pillars of AOP mastery, recursive/parallel workflows, production-validated prompt cookbook. |
 | **[daily-tasks-oih](daily-tasks-oih/)** | v1.0.0 | ✅ Production | Daily task workflow for OIH | Pool capture, per-agent dispatch, execution tracking, close protocol, English-only operational docs. |
+| **[docx-indexer](docx-indexer/)** | v1.0.0 | ✅ Production | Global document indexing system | Append-only JSON index, UUID identity, SHA256 hashing, structural telemetry, dry-run mode, Obsidian MD export. |
 
 ---
 
@@ -485,6 +487,11 @@ claude-intelligence-hub/
 ?   ??? bootstrap_compat.json        # Bootstrap compatibility map
 ?
 │
+├── 📁 docx-indexer/                  # ⭐ Global Document Indexing (v1.0.0)
+│   ├── SKILL.md                     # Operational protocol & agent guide
+│   ├── .metadata                    # Version metadata
+│   └── README.md                    # User documentation
+│
 ├── 📁 token-economy/                # 📊 Token Budget Governance (v1.0.0)
 │   ├── README.md                    # Budget discipline rules & overview
 │   └── budget-rules.md              # Strict token enforcement rules (30-50% savings)
@@ -659,7 +666,7 @@ To maintain the high quality and integrity of the Claude Intelligence Hub, all a
 
 | Metric | Value |
 |--------|-------|
-| **Production Skills** | 16 collections (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih) |
+| **Production Skills** | 17 collections (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih, docx-indexer) |
 | **Total Documentation** | ~320KB (executive summaries, guides, changelogs, handover docs) |
 | **Version History** | 30+ commits (tracked in CHANGELOG.md) |
 | **Setup Time** | 15 minutes (Windows/macOS/Linux automated deployment) |
@@ -672,7 +679,7 @@ To maintain the high quality and integrity of the Claude Intelligence Hub, all a
 
 ### Skills by Status
 
-- ✅ **Production Ready:** 16 (jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills, xavier-memory, xavier-memory-sync, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih)
+- ✅ **Production Ready:** 17 (jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills, xavier-memory, xavier-memory-sync, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih, docx-indexer)
 - 📊 **Governance Modules:** 1 (token-economy)
 - 🚧 **In Development:** 0
 - 📋 **Planned:** 2 (python-claude-skills, git-claude-skills)
@@ -900,8 +907,8 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 
 ## 📈 Version History
 
-**Current Version:** v2.8.0 ✅ **Daily Tasks OIH Added**
-**Last Updated:** March 4, 2026
+**Current Version:** v2.9.0 ✅ **docx-indexer Global Skill Added**
+**Last Updated:** March 7, 2026
 **Status:** Production | Context Preservation + Cloud Backup | Actively Maintained
 
 ### Major Milestones

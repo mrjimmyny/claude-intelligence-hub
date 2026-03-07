@@ -47,6 +47,7 @@
 | `/context-guardian` | /guardian, /switch | context-guardian | Account switching (Xavier ↔ Magneto) |
 | `/conversation` | /conv, /history | conversation-memoria | Save/Load session history |
 | `/daily-tasks-oih` | /dtoih, /daily-tasks | daily-tasks-oih | Daily tasks pool, dispatch, and execution workflow |
+| `/docx-indexer` | /dxi | docx-indexer | Global document indexing (append-only, UUID, SHA256) |
 | `/gdrive-sync` | /gdrive | gdrive-sync-memoria | Sync ChatLLM Teams content to session-memoria |
 | `/governance` | /codex | codex-governance-framework | Institutional governance framework |
 | `/memoria` | /memory, /save | session-memoria | Permanent conversation storage |
@@ -79,6 +80,7 @@
 | /preferences | Master AI behavior settings |
 | /token-economy | Enforce token budgets |
 | /repo-auditor | Deep repository audit |
+| /docx-indexer | Global document indexing |
 | /governance | Codex governance framework |
 | /catalog | System configuration data |
 
@@ -132,6 +134,7 @@ These skills only load when manually invoked:
 | /catalog | System config |
 | /governance | Governance docs |
 | /daily-tasks-oih | Daily tasks operations |
+| /docx-indexer | Global document indexing |
 
 ---
 
@@ -275,5 +278,5 @@ The repo-auditor automatically validates:
 
 ---
 
-**Last Updated:** 2026-03-04
-**Version:** 2.8.0
+**Last Updated:** 2026-03-07
+**Version:** 2.9.0

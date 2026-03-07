@@ -1,0 +1,36 @@
+{
+  "name": "docx-indexer",
+  "version": "1.0.0",
+  "description": "Global document indexing system — append-only JSON index with UUID identity, SHA256 hashing, and structural telemetry for all files under a configured root path.",
+  "status": "production",
+  "author": "Xavier (Claude Opus 4.6) + Jimmy",
+  "audited_by": "Magneto (Claude Opus 4.6)",
+  "created": "2026-03-05",
+  "updated": "2026-03-07",
+  "type": "workspace-tool",
+  "auto_load": false,
+  "triggers": {
+    "scan": [
+      "run docx-indexer scan",
+      "index the workspace",
+      "scan documents"
+    ],
+    "validate": [
+      "validate the index",
+      "check index integrity"
+    ],
+    "export": [
+      "export index to markdown"
+    ]
+  },
+  "settings": {
+    "technical_workspace": "C:\\ai\\_skills\\docx-indexer",
+    "config_file": "C:\\ai\\_skills\\docx-indexer\\config\\dxi-config.json",
+    "index_path": "C:\\ai\\_skills\\docx-indexer\\index",
+    "scripts": {
+      "scan": "scripts/scan.py",
+      "validate": "scripts/validate.py",
+      "export": "scripts/export-md.py"
+    }
+  }
+}
