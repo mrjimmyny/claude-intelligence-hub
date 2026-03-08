@@ -161,10 +161,10 @@ These rules are **non-negotiable** and apply to every agent:
 
 | Metric | Value |
 |--------|-------|
-| Total entries | 1,709 |
-| Files | 1,068 |
-| Directories | 641 |
-| Last scan | 4.65s |
+| Total entries | 1,736 |
+| Files | 1,092 |
+| Directories | 644 |
+| Last scan | 4.61s (2026-03-08) |
 | Tests | 47/47 PASS |
 | Critical rules | 9/9 PASS |
 | Audit decision | **GO** (2026-03-06) |

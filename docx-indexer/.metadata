@@ -1,6 +1,6 @@
 {
   "name": "docx-indexer",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Global document indexing system — append-only JSON index with UUID identity, SHA256 hashing, and structural telemetry for all files under a configured root path.",
   "status": "production",
   "author": "Xavier (Claude Opus 4.6) + Jimmy",

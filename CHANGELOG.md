@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.9.2] - 2026-03-08
+
+### Changed
+- **docx-indexer** bumped to v1.1.1 — telemetry update after first full scan post-closure:
+  - `SKILL.md`: added "Latest Scan" row (1,736 entries, 1,092 files + 644 dirs, 4.61s, 2026-03-08)
+  - `README.md` (docx-indexer): "Current Stats" section updated (1,736 total / 1,092 files / 644 dirs / 4.61s)
+- Hub version bumped 2.9.1 → 2.9.2
+
 ## [2.9.1] - 2026-03-07 | Phase 1.1 formally closed 2026-03-08
 
 ### Fixed (2026-03-08 — commit `ec0a374`)

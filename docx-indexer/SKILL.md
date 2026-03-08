@@ -7,7 +7,7 @@ aliases: [/dxi]
 
 # docx-indexer
 
-**Version:** 1.1.0
+**Version:** 1.1.1
 
 ## Objective
 
@@ -190,6 +190,7 @@ Each entry is keyed by absolute path and contains:
 | Critical Rules | 9/9 PASS |
 | Scan Specs | 15/15 PASS |
 | First Real Scan | 1,709 entries in 4.65s |
+| Latest Scan | 1,736 entries (1,092 files + 644 dirs) in 4.61s — 2026-03-08 |
 
 ## Wikilinks
 
