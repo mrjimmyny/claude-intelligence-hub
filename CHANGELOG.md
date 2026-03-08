@@ -4,7 +4,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [2.9.1] - 2026-03-07
+## [2.9.1] - 2026-03-07 | Phase 1.1 formally closed 2026-03-08
+
+### Fixed (2026-03-08 — commit `ec0a374`)
+- **docx-indexer/SKILL.md**: corrected `validate.py` line count 252→251; corrected test breakdown to "15 scan + 8 integration" (was "12 scan + 8 integration + 3 full-scan")
+- **docx-indexer/README.md**: corrected `validate.py` line count 252→251
+- **README.md** (hub root): corrected docx-indexer version v1.0.0→v1.1.0 in skill table and architecture tree
+
+### Phase Status (registered 2026-03-08)
+- **Phase 1.1 FORMALLY CLOSED** — approved by Jimmy and Emma
+- Phase 2: NOT opened. Requires explicit Jimmy authorization.
+- 3 deferred items (`scripts/merge.py`, `config/dxi-config.schema.json`, `tests/integration/test_sync.py`) remain out of scope with no reclassification.
 
 ### Changed
 - **docx-indexer** skill bumped to v1.1.0:
