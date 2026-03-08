@@ -186,7 +186,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[conversation-memoria](conversation-memoria/)** | v1.0.0 | ✅ Production | Persistent conversation storage | Intelligent metadata extraction, 95-98% token savings, week-based organization, natural language triggers, cross-agent memory sharing. |
 | **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v2.0.0 | ✅ Production | Multi-agent coordination framework | The Seven Pillars of AOP mastery, recursive/parallel workflows, production-validated prompt cookbook. |
 | **[daily-tasks-oih](daily-tasks-oih/)** | v1.0.0 | ✅ Production | Daily task workflow for OIH | Pool capture, per-agent dispatch, execution tracking, close protocol, English-only operational docs. |
-| **[docx-indexer](docx-indexer/)** | v1.0.0 | ✅ Production | Global document indexing system | Append-only JSON index, UUID identity, SHA256 hashing, structural telemetry, dry-run mode, Obsidian MD export. |
+| **[docx-indexer](docx-indexer/)** | v1.1.0 | ✅ Production | Global document indexing system | Append-only JSON index, UUID identity, SHA256 hashing, structural telemetry, dry-run mode, Obsidian MD export. |
 
 ---
 
@@ -487,7 +487,7 @@ claude-intelligence-hub/
 ?   ??? bootstrap_compat.json        # Bootstrap compatibility map
 ?
 │
-├── 📁 docx-indexer/                  # ⭐ Global Document Indexing (v1.0.0)
+├── 📁 docx-indexer/                  # ⭐ Global Document Indexing (v1.1.0)
 │   ├── SKILL.md                     # Operational protocol & agent guide
 │   ├── .metadata                    # Version metadata
 │   └── README.md                    # User documentation

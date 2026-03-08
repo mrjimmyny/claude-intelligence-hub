@@ -54,7 +54,7 @@ C:\ai\_skills\docx-indexer\
 ├── config\dxi-config.json       # Machine-specific configuration
 ├── scripts\
 │   ├── scan.py                  # Core scanner (804 lines)
-│   ├── validate.py              # Index integrity validator (252 lines)
+│   ├── validate.py              # Index integrity validator (251 lines)
 │   └── export-md.py             # Markdown exporter (50 lines)
 ├── index\
 │   ├── docx-index.json          # Primary index (append-only)
@@ -103,7 +103,7 @@ Regenerates `docx-index.md` from `docx-index.json` for Obsidian visualization.
 cd C:\ai\_skills\docx-indexer && python -m pytest tests/ -v
 ```
 
-47 tests: 7 hash + 5 uuid + 12 scan + 12 incremental + 8 integration + 3 full-scan. All must pass.
+47 tests: 7 hash + 5 uuid + 15 scan + 12 incremental + 8 integration. All must pass.
 
 ## MASTER CRITICAL RULES (Non-Negotiable)
 

@@ -131,7 +131,7 @@ C:\ai\_skills\docx-indexer\
 │   └── dxi-config.json          # Machine-specific configuration
 ├── scripts/
 │   ├── scan.py                  # Core scanner (804 lines)
-│   ├── validate.py              # Index validator (252 lines)
+│   ├── validate.py              # Index validator (251 lines)
 │   └── export-md.py             # Markdown exporter (50 lines)
 ├── index/
 │   ├── docx-index.json          # Primary index (append-only)
