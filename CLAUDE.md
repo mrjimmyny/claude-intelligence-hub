@@ -109,12 +109,14 @@ When the user mentions any of these phrases, use the `docx-indexer` skill to que
 - "atualiza o índice" / "update the index" / "scan the workspace"
 - "quantos arquivos" / "how many files"
 - "lista os arquivos" / "list files"
+- "summary do arquivo" / "file summary" / "keywords do arquivo"
+- "enriquece o indice" / "enrich the index"
 
 **Index location:** `C:\ai\_skills\docx-indexer\index\docx-index.json`
 **Scripts location:** `C:\ai\_skills\docx-indexer\scripts\`
 
-For queries (find, list, count), read `docx-index.json` directly — no need to run scripts.
-For updates (scan, rescan), run `scan.py`. For integrity checks, run `validate.py`.
+For queries (find, list, count, summary, keywords), read `docx-index.json` directly - no need to run scripts.
+For scan updates, run `scan.py`. For enrichment updates, run `enrich.py`. For integrity checks, run `validate.py`.
 
 ---
 

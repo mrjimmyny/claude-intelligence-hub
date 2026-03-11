@@ -1,12 +1,12 @@
 {
   "name": "docx-indexer",
-  "version": "1.1.1",
-  "description": "Global document indexing system — append-only JSON index with UUID identity, SHA256 hashing, and structural telemetry for all files under a configured root path.",
+  "version": "1.2.0",
+  "description": "Global document indexing system with append-only JSON index, UUID identity, SHA256 hashing, structural telemetry, and Stage 2.2 v1 manual-first enrichment (summary + keywords).",
   "status": "production",
   "author": "Xavier (Claude Opus 4.6) + Jimmy",
   "audited_by": "Magneto (Claude Opus 4.6)",
   "created": "2026-03-05",
-  "updated": "2026-03-07",
+  "updated": "2026-03-11",
   "type": "workspace-tool",
   "auto_load": false,
   "triggers": {
@@ -14,26 +14,29 @@
       "run docx-indexer scan",
       "index the workspace",
       "scan documents",
-      "atualiza o índice",
+      "atualiza o indice",
       "roda o scan",
       "update the index"
     ],
     "query": [
       "find file in index",
       "where is file",
-      "acha no índice",
-      "onde está o arquivo",
-      "consulta o índice",
+      "acha no indice",
+      "onde esta o arquivo",
+      "consulta o indice",
       "check the document index",
-      "índice de documentos",
-      "índice de arquivos",
+      "indice de documentos",
+      "indice de arquivos",
       "list files",
-      "how many files"
+      "how many files",
+      "file summary",
+      "summary do arquivo",
+      "keywords do arquivo"
     ],
     "validate": [
       "validate the index",
       "check index integrity",
-      "valida o índice"
+      "valida o indice"
     ],
     "dry-run": [
       "dry-run the index",
@@ -43,7 +46,13 @@
     ],
     "export": [
       "export index to markdown",
-      "exporta o índice"
+      "exporta o indice"
+    ],
+    "enrich": [
+      "enrich the index",
+      "enriquece o indice",
+      "generate summaries",
+      "generate keywords"
     ]
   },
   "settings": {
@@ -53,7 +62,8 @@
     "scripts": {
       "scan": "scripts/scan.py",
       "validate": "scripts/validate.py",
-      "export": "scripts/export-md.py"
+      "export": "scripts/export-md.py",
+      "enrich": "scripts/enrich.py"
     }
   }
 }

@@ -51,7 +51,7 @@
 | 13 | **core_catalog** | v1.0.0 | `/catalog` | Bootstrap system data |
 | 15 | **codex-governance-framework** | v1.0.0 | `/governance` | Institutional governance docs |
 | 16 | **daily-tasks-oih** | v1.0.0 | `/daily-tasks-oih` | Daily tasks pool and per-agent execution workflow |
-| 17 | **docx-indexer** | v1.1.1 | `/docx-indexer` | Global document indexing (append-only, UUID, SHA256) |
+| 17 | **docx-indexer** | v1.2.0 | `/docx-indexer` | Global document indexing + manual-first enrichment |
 
 ---
 
@@ -125,7 +125,7 @@
 
 ### 17. docx-indexer
 - **Path:** `docx-indexer/`
-- **Tool:** Global document indexing system. Append-only JSON index with UUID identity, SHA256 hashing, structural telemetry. Scripts at `C:\ai\_skills\docx-indexer\`.
+- **Tool:** Global document indexing system. Append-only JSON index with UUID identity, SHA256 hashing, structural telemetry, and Stage 2.2 v1 manual-first enrichment (`summary` + `keywords`). Scripts at `C:\ai\_skills\docx-indexer\`.
 
 ---
 

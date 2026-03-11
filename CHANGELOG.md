@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.10.0] - 2026-03-11
+
+### Changed
+- **docx-indexer** bumped to v1.2.0 - `Stage 2.2 v1` manual-first enrichment operationalized in the hub documentation:
+  - `docx-indexer/SKILL.md`: updated capability model to include `summary` + `keywords`, `enrich.py`, Stage 2.2 v1 scope, new limitations, and current audit status
+  - `docx-indexer/README.md`: updated usage docs for enrichment, 135-test state, 1,784 total dict entries / 1,770 active entries / 14 deleted, and 937 enriched files
+  - `CLAUDE.md`: routing expanded to cover `summary`, `keywords`, and enrichment requests
+  - `COMMANDS.md`: docx-indexer descriptions updated to mention enrichment
+  - `HUB_MAP.md`, `README.md`, and `EXECUTIVE_SUMMARY.md`: version and capability references updated to v1.2.0
+- Hub version bumped 2.9.2 -> 2.10.0
+
 ## [2.9.2] - 2026-03-08
 
 ### Changed
