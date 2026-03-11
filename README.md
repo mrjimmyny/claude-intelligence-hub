@@ -379,7 +379,7 @@ claude
 ```
 claude-intelligence-hub/
 │
-├── 📁 jimmy-core-preferences/       # ⭐ Master Skill (v1.5.0)
+├── 📁 jimmy-core-preferences/       # ⭐ Global Cross-Agent Framework (v2.0.0)
 │   ├── SKILL.md                     # Universal AI behavior rules (15KB)       
 │   ├── EXECUTIVE_SUMMARY.MD         # 49KB comprehensive doc
 │   ├── CHANGELOG.md                 # v1.0 → v1.5 evolution

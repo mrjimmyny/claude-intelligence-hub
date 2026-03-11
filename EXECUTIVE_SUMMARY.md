@@ -165,7 +165,7 @@ Module 2 transformed the hub from a skill repository into a complete AI intellig
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  Tier 1: Master Framework                                   │
-│  - jimmy-core-preferences v1.5.0                            │
+│  - jimmy-core-preferences v2.0.0                            │
 │  - Core principles (Radical Honesty, Proactivity)           │
 │  - Identity management (Xavier + Jimmy)                     │
 │  - Self-learning system                                     │
@@ -192,7 +192,7 @@ Module 2 transformed the hub from a skill repository into a complete AI intellig
 
 ### Module 2 Components
 
-**1. jimmy-core-preferences (v1.5.0)**
+**1. jimmy-core-preferences (v2.0.0)**
 - Master AI behavior framework
 - 7 workflow patterns
 - Token economy enforcement
@@ -235,7 +235,7 @@ Module 2 transformed the hub from a skill repository into a complete AI intellig
 ### Module 2 Deliverables
 
 **Skills:**
-- `jimmy-core-preferences/` (v1.5.0)
+- `jimmy-core-preferences/` (v2.0.0)
 - `session-memoria/` (v1.2.0)
 - `gdrive-sync-memoria/` (v1.0.0)
 - `claude-session-registry/` (v1.1.0)
@@ -584,9 +584,9 @@ Module 4 transforms the Claude Intelligence Hub from a production system into an
 
 ## 📦 Skill Collections Overview
 
-### 1. Jimmy Core Preferences (v1.5.0)
+### 1. Jimmy Core Preferences (v2.0.0)
 
-**Purpose:** Master AI intelligence framework - Claude's "personality" and behavior
+**Purpose:** Global cross-agent operating framework — prompts, sessions, DAX overlay, cross-agent bootstrap
 
 **Key Features:**
 - ✅ Radical honesty & professional objectivity

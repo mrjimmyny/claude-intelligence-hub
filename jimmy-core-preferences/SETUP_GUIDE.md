@@ -47,15 +47,13 @@ cd ~/path/to/claude-intelligence-hub
 # Pull latest changes
 git pull
 
-# Create symlink (if not already done)
-# macOS/Linux:
+# Create link (if not already done)
+# macOS/Linux (symlink):
 ln -s $(pwd)/jimmy-core-preferences ~/.claude/skills/user/jimmy-core-preferences
 
-# Windows (PowerShell as Admin):
-$repoPath = Get-Location
-New-Item -ItemType SymbolicLink `
-  -Path "$env:USERPROFILE\.claude\skills\user\jimmy-core-preferences" `
-  -Target "$repoPath\jimmy-core-preferences"
+# Windows — use Junction, NOT SymbolicLink (see Option 1 note above):
+# Run in CMD as Admin:
+cmd /c mklink /J "%USERPROFILE%\.claude\skills\user\jimmy-core-preferences" "%CD%\jimmy-core-preferences"
 ```
 
 ---
