@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.10.1] - 2026-03-11
+
+### Changed
+- **jimmy-core-preferences** bumped to v2.0.0 — full structural rewrite as global cross-agent operating framework:
+  - Repositioned from Claude/Xavier-centric master skill to universal framework (Claude, Codex, Gemini, and others)
+  - Added: prompt creation and delegation standard (English, file-first, path-specific)
+  - Added: project documentary workspace protocol (baseline folder logic)
+  - Added: session log and daily report protocol (mandatory, update-during-work)
+  - Added: proactive reminder cadence for `claude-session-registry`, `context-guardian`, `docx-indexer`
+  - Added: Power BI / DAX domain overlay (10-rule, context-triggered)
+  - Added: cross-agent bootstrap and fallback via Obsidian `_skills-cross-agent-machines/README.md`
+  - Removed: embedded workflows from sibling skills (delegated back to respective skills)
+  - Fixed: encoding artifacts; SKILL.md reduced from ~50KB to ~5KB
+  - Updated: `.metadata`, `SKILL.md`, `README.md`, `CHANGELOG.md`, `EXECUTIVE_SUMMARY.md`, `SETUP_GUIDE.md`
+- Hub version bumped 2.10.0 -> 2.10.1
+
+---
+
 ## [2.10.0] - 2026-03-11
 
 ### Changed

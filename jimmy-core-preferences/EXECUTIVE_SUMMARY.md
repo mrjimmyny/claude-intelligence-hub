@@ -4,13 +4,17 @@
 
 ---
 
-# 📊 Executive Summary: Jimmy Core Preferences - Master Intelligence Framework
+# Executive Summary: Jimmy Core Preferences — Global Cross-Agent Operating Framework
 
-**Date:** February 13, 2026
+> **v2.0.0 (2026-03-11):** Major rewrite. Skill repositioned from Claude/Xavier-centric master skill to global cross-agent operating framework. See [CHANGELOG.md](./CHANGELOG.md) for full scope of changes.
+
+---
+
+**Date:** March 11, 2026
 **Project:** Jimmy Core Preferences + Claude Intelligence Hub (GitHub)
-**Prepared by:** Claude & Jimmy
-**Purpose:** Comprehensive overview - Master Skill System for Universal AI Behavior
-**Version:** 1.5.0
+**Prepared by:** Magneto (Claude) & Jimmy
+**Purpose:** Comprehensive overview — Global Cross-Agent Operating Framework
+**Version:** 2.0.0
 
 ---
 

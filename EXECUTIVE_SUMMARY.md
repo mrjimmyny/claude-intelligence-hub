@@ -5,8 +5,8 @@
 **Repository:** https://github.com/mrjimmyny/claude-intelligence-hub
 **Developed by:** Xavier (Claude Sonnet 4.5) & Jimmy
 **Purpose:** Centralized AI intelligence system - Skills, memory, automation, and routing
-**Version:** 2.10.0 (Hub v2.10.0 + docx-indexer v1.2.0 Stage 2.2 v1 manual-first enrichment)
-**Component Versions:** Preferences v1.5.0, Memoria v1.2.0, PBI v1.3.0, GDrive v1.0.0, Registry v1.1.0, X-MEM v1.0.0, Xavier-Memory v1.1.0, Xavier-Memory-Sync v1.0.0, Context-Guardian v1.1.0, Repo-Auditor v2.0.0, Conv-Memoria v1.0.0, AOP v2.0.0, Catalog v1.0.0, Token-Economy v1.0.0, Codex-Governance v1.0.0, daily-tasks-oih v1.0.0, docx-indexer v1.2.0
+**Version:** 2.10.1 (Hub v2.10.1 + jimmy-core-preferences v2.0.0 global cross-agent framework rewrite)
+**Component Versions:** Preferences v2.0.0, Memoria v1.2.0, PBI v1.3.0, GDrive v1.0.0, Registry v1.1.0, X-MEM v1.0.0, Xavier-Memory v1.1.0, Xavier-Memory-Sync v1.0.0, Context-Guardian v1.1.0, Repo-Auditor v2.0.0, Conv-Memoria v1.0.0, AOP v2.0.0, Catalog v1.0.0, Token-Economy v1.0.0, Codex-Governance v1.0.0, daily-tasks-oih v1.0.0, docx-indexer v1.2.0
 **Status:** ✅ Production - Enterprise-Ready - **ZERO TO HERO COMPLETE** (Modules 1-4) + Context Preservation + Repo Auditor + Navigation Roadmap + AOP
 
 ---
@@ -19,8 +19,8 @@ Successfully developed and deployed a **complete AI intelligence system** that t
 
 | Component | Version | Status | Key Metric |
 |-----------|---------|--------|------------|
-| **Hub Repository** | 2.9.2 | ✅ Production | 17 skill collections, HUB_MAP routing, CIH-ROADMAP |
-| **Jimmy Core Preferences** | 1.5.0 | ✅ Production | Master AI + Skill Router + Token Economy |
+| **Hub Repository** | 2.10.1 | ✅ Production | 17 skill collections, HUB_MAP routing, CIH-ROADMAP |
+| **Jimmy Core Preferences** | 2.0.0 | ✅ Production | Global cross-agent framework, prompt governance, session governance, DAX overlay |
 | **Session Memoria** | 1.2.0 | ✅ Production | 3-tier archiving, 200x faster indexing |
 | **PBI Claude Skills** | 1.3.0 | ✅ Production | 50-97% token savings |
 | **GDrive Sync Memoria** | 1.0.0 | ✅ Production | ChatLLM integration |

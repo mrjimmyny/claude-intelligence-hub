@@ -1,6 +1,8 @@
 # Setup Guide - Jimmy Core Preferences
 
-Quick reference for setting up this master skill in different environments.
+**Version:** 2.0.0 | **Last Updated:** 2026-03-11
+
+Quick reference for setting up this global skill in different environments.
 
 ---
 
@@ -18,15 +20,16 @@ Quick reference for setting up this master skill in different environments.
 cd ~/projects  # or wherever you keep repos
 git clone https://github.com/mrjimmyny/claude-intelligence-hub.git
 
-# 2. Create symlink to Claude Code skills directory
-# macOS/Linux:
+# 2. Link to Claude Code skills directory
+# macOS/Linux (symlink):
 ln -s ~/projects/claude-intelligence-hub/jimmy-core-preferences \
       ~/.claude/skills/user/jimmy-core-preferences
 
-# Windows (PowerShell as Admin):
-New-Item -ItemType SymbolicLink `
-  -Path "$env:USERPROFILE\.claude\skills\user\jimmy-core-preferences" `
-  -Target "$env:USERPROFILE\projects\claude-intelligence-hub\jimmy-core-preferences"
+# Windows — IMPORTANT: use Junction, NOT SymbolicLink
+# Junction points are required; Claude Code uses dirent.isDirectory() which
+# resolves Junctions correctly but not SymbolicLinks on Windows.
+# Run in CMD (not PowerShell) as Admin:
+cmd /c mklink /J "%USERPROFILE%\.claude\skills\user\jimmy-core-preferences" "C:\ai\claude-intelligence-hub\jimmy-core-preferences"
 
 # 3. Verify
 claude
