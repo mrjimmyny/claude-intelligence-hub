@@ -1089,7 +1089,7 @@ Any Device → Edit files → Git commit + push
 ### Skill Collection Stats
 | Collection | Files | Size | Auto-Load | Version | Status |
 |------------|-------|------|-----------|---------|--------|
-| jimmy-core-preferences | 5 | ~80KB | ✅ Yes | v1.4.0 | ✅ Production |
+| jimmy-core-preferences | 5 | ~80KB | ✅ Yes | v2.0.0 | ✅ Production |
 | session-memoria | 15+ | ~70KB | ✅ Yes | v1.1.0 | ✅ Production |
 | pbi-claude-skills | 20+ | ~50KB | ⚠️ Project | v1.3.0 | ✅ Production |
 
