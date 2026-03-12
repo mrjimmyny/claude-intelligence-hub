@@ -1,8 +1,8 @@
 # Session Registry - 2026-03
 
 **Month:** Março 2026
-**Total Sessions:** 19
-**Last Updated:** 2026-03-12 02:00 BRT
+**Total Sessions:** 20
+**Last Updated:** 2026-03-12 19:30 BRT
 
 ---
 
@@ -29,3 +29,4 @@
 | 1a741af7-8637-46ea-8dec-62c4c29c91cd | 2026-03-11 | 18:44 | BR-SPO-DCFC264 | main | c4ab772 | C:/ai | #DXI #Phase2 #Validation #Gate | - Executou validação prática real da Stage 2.2 v1 (4 checkpoints): triagem via summary+keywords no índice enriquecido (tema `docx-indexer`)<br>- Identificou gap crítico de staleness (last_scan 03:23 vs artefatos Stage 2.2 criados às 20:09) e corrigiu com scan.py + enrich.py (46 novos enriquecidos)<br>- Confirmou valor real com índice fresco: 13 artefatos Stage 2.2 via keywords; summary+keywords reduzem navegação manual<br>- Atualizou session-741fc54d + daily-report-2026-03-11; commits 4ae39b5/fe3593b; Stage 2.3 gate aprovado por Jimmy |
 | a2825106-3829-43b6-a264-0b499622e9c4 | 2026-03-11 | 01:54 | WIN112022 | main | 602b0b1 | /c/ai | #JimmyCorePreferences #MicroFix #Docs #SessionRegistry | - Micro-fix pos-auditoria Emma: EXECUTIVE_SUMMARY.md linha 1092 jimmy-core-preferences v1.4.0 → v2.0.0 (Skill Collection Stats)<br>- Integrity check 6/6 PASSED; commit f6d84fa em claude-intelligence-hub (hub v2.10.1)<br>- Registrado Topico 16 no session doc + secao Micro-fix no daily report; commit 602b0b1 em ai-workspace-sync<br>- Package jimmy-core-preferences v2.0.0 100% fechado sem drift documental residual |
 | 77473873-90de-49d7-bea3-c4c3b5a719af | 2026-03-11 | 22:00 | BR-SPO-DCFC264 | main | a1c30ca | C:/ai | #DXI #Phase2 #Stage2.3 #EntityExtraction #MicroFix | - Pushados commits Stage 2.3: `a15b799` (feat entity extraction), `f9511c3` (docs), `68c4dab` (hashes registrados nos 3 artefatos ativos)<br>- Micro-fix `source_files`: removido truncamento `[:10]` em `_generate_entity_registry` — 58/58 entidades coerentes (count == len)<br>- Novo teste `test_registry_source_files_count_coherence` (15 entries > cap anterior de 10); regressão 185/185 PASS<br>- Commits micro-fix: `5f74ae5` (fix) + `bfd8931` (hashes nos artefatos ativos); validate.py PASS<br>- Stage 2.3 aprovada 100% pela Emma — entity extraction, auto-tagging, auto-category fechados sem ambiguidade |
+| 08cf1548-8af5-4399-8478-3abfa734ffe3 | 2026-03-12 | 15:30 | BR-SPO-DCFC264 | main | e59b87a | C:/ai | #DXI #Phase2 #Stage2.4 #MoveDetection #CorrectionPackage | - Implementou Stage 2.4 Round 1 move detection baseline: detect_moves() em scan.py (exact-hash, 1-to-1, min 100 bytes, UUID contract W-27)<br>- 19 testes unitários (V-4.1 a V-4.4) + regressão 204/204 PASS; audit gate Emma NO-GO (F1 UUID, F2 evidence, F3 session doc)<br>- Correction package: F1 UUID contract corrigido, 5 integration tests (test_scan_move_detection.py), _validate_move_fields() em validate.py<br>- 209/209 PASS pós-correction; validate.py PASS; commits 713cdfa/6e9c4ed/88efe2f/de861f3 pushados<br>- Round 1 aprovada após micro-limpeza Emma; Round 2 (semantic linking baseline) desbloqueada |
