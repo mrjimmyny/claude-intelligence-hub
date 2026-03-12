@@ -49,7 +49,7 @@ This guide enables **zero-to-production deployment** of the Claude Intelligence 
 
 ```bash
 # Navigate to your preferred location (adjust path as needed)
-cd ~/Downloads
+cd /c/ai
 
 # Clone the hub repository
 git clone https://github.com/mrjimmyny/claude-intelligence-hub.git
@@ -81,7 +81,7 @@ docs/
 
 ```powershell
 # Open PowerShell (no admin required!)
-cd ~/Downloads/claude-intelligence-hub
+cd C:\ai\claude-intelligence-hub
 
 # Run setup script
 .\scripts\setup_local_env.ps1
@@ -97,7 +97,7 @@ cd ~/Downloads/claude-intelligence-hub
 
 ```bash
 # Open Terminal
-cd ~/Downloads/claude-intelligence-hub
+cd /c/ai/claude-intelligence-hub
 
 # Make script executable (if not already)
 chmod +x scripts/setup_local_env.sh
@@ -249,13 +249,13 @@ bash scripts/setup_local_env.sh --force
 
 **Symptom:**
 ```
-ERROR: Hub directory not found: ~/Downloads/claude-intelligence-hub
+ERROR: Hub directory not found: C:\ai\claude-intelligence-hub
 ```
 
 **Fix:**
 ```bash
 # Verify Git clone completed
-cd ~/Downloads
+cd /c/ai
 ls -la | grep claude-intelligence-hub
 
 # If missing, re-clone
@@ -275,7 +275,7 @@ ERROR: Failed to create junction for jimmy-core-preferences
 1. **Do NOT run PowerShell as Administrator** (junctions don't need admin!)
 2. Verify paths exist:
    ```powershell
-   Test-Path "$env:USERPROFILE\Downloads\claude-intelligence-hub"
+   Test-Path "C:\ai\claude-intelligence-hub"
    Test-Path "$env:USERPROFILE\.claude\skills\user"
    ```
 3. If `.claude\skills\user` doesn't exist, script will create it automatically
@@ -300,7 +300,7 @@ Claude Code starts but skills aren't loaded.
    # Windows (Git Bash)
    stat ~/.claude/skills/user/jimmy-core-preferences/.metadata | grep Inode
 
-   stat ~/Downloads/claude-intelligence-hub/jimmy-core-preferences/.metadata | grep Inode
+   stat /c/ai/claude-intelligence-hub/jimmy-core-preferences/.metadata | grep Inode
 
    # If inode numbers are DIFFERENT, it's a copy (bad!)
    # If SAME, it's a proper junction/symlink (good!)
@@ -330,7 +330,7 @@ Claude Code starts but skills aren't loaded.
 
 1. **Run integrity check manually:**
    ```bash
-   cd ~/Downloads/claude-intelligence-hub
+   cd /c/ai/claude-intelligence-hub
    bash scripts/integrity-check.sh
    ```
 
@@ -373,7 +373,7 @@ Claude shows `jimmy-core-preferences v1.0.0` but hub has `v1.5.0`.
 
 3. **Update hub repository:**
    ```bash
-   cd ~/Downloads/claude-intelligence-hub
+   cd /c/ai/claude-intelligence-hub
    git pull origin main
    ```
 
@@ -387,7 +387,7 @@ Claude shows `jimmy-core-preferences v1.0.0` but hub has `v1.5.0`.
 
 ```bash
 # Pull latest hub changes
-cd ~/Downloads/claude-intelligence-hub
+cd /c/ai/claude-intelligence-hub
 git pull origin main
 
 # Skills are INSTANTLY updated (no copy needed!)
@@ -400,7 +400,7 @@ If you make local changes to skills:
 
 ```bash
 # Sync version across .metadata, SKILL.md, HUB_MAP.md
-cd ~/Downloads/claude-intelligence-hub
+cd /c/ai/claude-intelligence-hub
 bash scripts/sync-versions.sh jimmy-core-preferences
 
 # Commit and push
@@ -415,7 +415,7 @@ git push origin main
 
 Use this checklist to verify successful installation:
 
-- [ ] Hub repository cloned to `~/Downloads/claude-intelligence-hub`
+- [ ] Hub repository cloned to `C:\ai\claude-intelligence-hub`
 - [ ] `HUB_MAP.md` exists in hub root
 - [ ] Setup script ran without errors
 - [ ] 5 mandatory skills installed (verified via `ls -la ~/.claude/skills/user/`)
@@ -434,7 +434,7 @@ If you use Google Drive for session memories:
 
 ```bash
 # Follow setup guide
-cat ~/Downloads/claude-intelligence-hub/gdrive-sync-memoria/SETUP_GUIDE.md
+cat /c/ai/claude-intelligence-hub/gdrive-sync-memoria/SETUP_GUIDE.md
 
 # Configure rclone remote
 rclone config
@@ -448,14 +448,14 @@ You: "/session-memoria save-note Test note for handover"
 Claude: [Saves to session-memoria/memories/]
 
 # Verify
-ls ~/Downloads/claude-intelligence-hub/session-memoria/memories/
+ls /c/ai/claude-intelligence-hub/session-memoria/memories/
 ```
 
 ### 3. Review Core Preferences
 
 ```bash
 # Read master framework
-cat ~/Downloads/claude-intelligence-hub/jimmy-core-preferences/SKILL.md
+cat /c/ai/claude-intelligence-hub/jimmy-core-preferences/SKILL.md
 ```
 
 ### 4. Explore Optional Skills
@@ -467,26 +467,26 @@ If you skipped optional skills during setup, you can add them later:
 cd ~/.claude/skills/user
 
 # Windows
-cmd /c mklink /J "pbi-claude-skills" "$env:USERPROFILE\Downloads\claude-intelligence-hub\pbi-claude-skills"
+cmd /c mklink /J "pbi-claude-skills" "C:\ai\claude-intelligence-hub\pbi-claude-skills"
 
 # macOS/Linux
-ln -s ~/Downloads/claude-intelligence-hub/pbi-claude-skills pbi-claude-skills
+ln -s /c/ai/claude-intelligence-hub/pbi-claude-skills pbi-claude-skills
 ```
 
 ---
 
 ## 📚 Additional Resources
 
-- **Hub Map:** `~/Downloads/claude-intelligence-hub/HUB_MAP.md`
+- **Hub Map:** `C:\ai\claude-intelligence-hub\HUB_MAP.md`
   Complete skill inventory and version history
 
-- **Executive Summary:** `~/Downloads/claude-intelligence-hub/EXECUTIVE_SUMMARY.md`
+- **Executive Summary:** `C:\ai\claude-intelligence-hub\EXECUTIVE_SUMMARY.md`
   High-level architecture and ROI metrics
 
-- **Integrity Check:** `~/Downloads/claude-intelligence-hub/scripts/integrity-check.sh`
+- **Integrity Check:** `C:\ai\claude-intelligence-hub\scripts\integrity-check.sh`
   Run anytime to validate hub consistency
 
-- **Project Final Report:** `~/Downloads/claude-intelligence-hub/docs/PROJECT_FINAL_REPORT.md`
+- **Project Final Report:** `C:\ai\claude-intelligence-hub\docs\PROJECT_FINAL_REPORT.md`
   Comprehensive project documentation (Module 1-4)
 
 - **Per-Skill Setup Guides:**

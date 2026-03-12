@@ -23,7 +23,7 @@ set -euo pipefail
 
 # Configuration
 BACKUP_REPO="$HOME/claude-session-backups"
-REGISTRY_DIR="$HOME/Downloads/claude-intelligence-hub/claude-session-registry"
+REGISTRY_DIR="/c/ai/claude-intelligence-hub/claude-session-registry"
 SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Find jq (check multiple locations)

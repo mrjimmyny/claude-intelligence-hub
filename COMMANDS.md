@@ -46,6 +46,8 @@
 | `/catalog` | /core | core_catalog | System configurations & bootstrap data |
 | `/context-guardian` | /guardian, /switch | context-guardian | Account switching (Xavier ↔ Magneto) |
 | `/conversation` | /conv, /history | conversation-memoria | Save/Load session history |
+| `/daily-tasks-oih` | /dtoih, /daily-tasks | daily-tasks-oih | Daily tasks pool, dispatch, and execution workflow |
+| `/docx-indexer` | /dxi | docx-indexer | Global document indexing + manual-first enrichment |
 | `/gdrive-sync` | /gdrive | gdrive-sync-memoria | Sync ChatLLM Teams content to session-memoria |
 | `/governance` | /codex | codex-governance-framework | Institutional governance framework |
 | `/memoria` | /memory, /save | session-memoria | Permanent conversation storage |
@@ -78,6 +80,7 @@
 | /preferences | Master AI behavior settings |
 | /token-economy | Enforce token budgets |
 | /repo-auditor | Deep repository audit |
+| /docx-indexer | Global document indexing + enrichment |
 | /governance | Codex governance framework |
 | /catalog | System configuration data |
 
@@ -87,6 +90,7 @@
 | /aop | Orchestrate multi-agent tasks |
 | /registry | Track Claude sessions |
 | /context-guardian | Switch between accounts |
+| /daily-tasks-oih | Dispatch and execute daily task workflow |
 
 ### 📊 Power BI Optimization
 | Command | Description |
@@ -129,6 +133,8 @@ These skills only load when manually invoked:
 | /conversation | Session history |
 | /catalog | System config |
 | /governance | Governance docs |
+| /daily-tasks-oih | Daily tasks operations |
+| /docx-indexer | Global document indexing + enrichment |
 
 ---
 
@@ -272,5 +278,5 @@ The repo-auditor automatically validates:
 
 ---
 
-**Last Updated:** 2026-02-25
-**Version:** 2.7.1
+**Last Updated:** 2026-03-07
+**Version:** 2.9.1

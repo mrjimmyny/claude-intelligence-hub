@@ -3,6 +3,7 @@
 # Self-contained restore script for account switching
 
 param(
+    [string]$HubPath = "C:\ai\claude-intelligence-hub",
     [switch]$FixSymlinks,
     [switch]$DryRun
 )
@@ -127,7 +128,7 @@ if ($FixSymlinks) {
                 Remove-Item -Path $skillPath -Recurse -Force
 
                 # Create symlink
-                $targetPath = Join-Path $env:USERPROFILE "Downloads\claude-intelligence-hub\$($skill.hub_path)"
+                $targetPath = Join-Path $HubPath "$($skill.hub_path)"
 
                 try {
                     New-Item -ItemType Junction -Path $skillPath -Target $targetPath -Force -ErrorAction Stop | Out-Null
@@ -185,7 +186,7 @@ if ($remotes -notmatch "$($global:RCLONE_REMOTE):") {
 Write-Host "[OK] rclone remote '$($global:RCLONE_REMOTE)' configured" -ForegroundColor Green
 Write-Host ""
 
-# Step 3: Permission Check (informational — Junction Points require no special permissions)
+# Step 3: Permission Check (informational -- Junction Points require no special permissions)
 $developerMode = Test-DeveloperMode
 $isAdmin = Test-Administrator
 
@@ -194,7 +195,7 @@ Write-Host "Permission Check:" -ForegroundColor Cyan
 if ($developerMode) {
     Write-Host "[OK] Developer Mode: ENABLED" -ForegroundColor Green
 } else {
-    Write-Host "[INFO] Developer Mode: DISABLED (not required — using Junction Points)" -ForegroundColor Gray
+    Write-Host "[INFO] Developer Mode: DISABLED (not required -- using Junction Points)" -ForegroundColor Gray
 }
 
 if ($isAdmin) {
@@ -285,11 +286,10 @@ switch ($choice) {
                 Write-Host "[OK] Restored plugins" -ForegroundColor Green
             }
 
-            # Setup skills via setup_local_env.ps1 — creates junction points in ~/.claude/skills/
+            # Setup skills via setup_local_env.ps1 -- creates junction points in ~/.claude/skills/
             # This is the single source of truth for skill setup. Dynamic discovery ensures
             # all skills present in the hub are installed, with no hardcoded lists.
             Write-Host "Setting up skills (junction points)..." -ForegroundColor Cyan
-            $HubPath = Join-Path $env:USERPROFILE "Downloads\claude-intelligence-hub"
             $setupScript = Join-Path $HubPath "scripts\setup_local_env.ps1"
 
             if (Test-Path $setupScript) {
@@ -299,7 +299,7 @@ switch ($choice) {
                 Write-Host "[WARN] setup_local_env.ps1 not found at: $setupScript" -ForegroundColor Yellow
                 Write-Host "       Make sure claude-intelligence-hub is cloned at: $HubPath" -ForegroundColor Yellow
                 Write-Host "       Skills will need to be set up manually after this restore." -ForegroundColor Yellow
-                $global:SYMLINK_WARNINGS += "[WARN] Skills not installed — setup_local_env.ps1 not found. Clone hub first."
+                $global:SYMLINK_WARNINGS += "[WARN] Skills not installed -- setup_local_env.ps1 not found. Clone hub first."
             }
 
             Write-Host ""

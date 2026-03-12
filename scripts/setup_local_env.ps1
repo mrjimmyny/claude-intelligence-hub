@@ -6,7 +6,7 @@
 
 param(
     [Parameter(Mandatory=$false)]
-    [string]$HubPath = "$env:USERPROFILE\Downloads\claude-intelligence-hub",
+    [string]$HubPath = "C:\ai\claude-intelligence-hub",
 
     [Parameter(Mandatory=$false)]
     [string]$SkillsPath = "$env:USERPROFILE\.claude\skills",

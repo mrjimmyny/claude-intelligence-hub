@@ -1,12 +1,12 @@
 {
   "name": "jimmy-core-preferences",
-  "version": "1.5.0",
-  "description": "Master skill containing Jimmy's core preferences, working style, and permanent rules for Claude",
+  "version": "2.0.0",
+  "description": "Global cross-agent operating framework for Jimmy.",
   "status": "production",
   "author": "mrjimmyny",
   "created": "2025-02-09",
-  "last_updated": "2026-02-10",
-  "skill_type": "master-preferences",
+  "last_updated": "2026-03-11",
+  "skill_type": "global-framework",
   "auto_load": true,
   "priority": "highest"
 }

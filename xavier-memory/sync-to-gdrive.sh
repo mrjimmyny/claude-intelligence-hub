@@ -8,8 +8,8 @@ set -euo pipefail
 # Configuration
 RCLONE_REMOTE="gdrive-jimmy"
 GDRIVE_FOLDER="Claude/_claude_intelligence_hub/_critical_bkp_xavier_local_persistent_memory"
-LOCAL_MEMORY="$HOME/Downloads/claude-intelligence-hub/xavier-memory/MEMORY.md"
-BACKUP_DIR="$HOME/Downloads/claude-intelligence-hub/xavier-memory/backups"
+LOCAL_MEMORY="/c/ai/claude-intelligence-hub/xavier-memory/MEMORY.md"
+BACKUP_DIR="/c/ai/claude-intelligence-hub/xavier-memory/backups"
 
 # Colors for output
 GREEN='\033[0;32m'
@@ -48,7 +48,7 @@ echo ""
 
 # Step 0: Check for uncommitted changes in Git
 echo "Checking Git status..."
-cd "$HOME/Downloads/claude-intelligence-hub" || exit 1
+cd "/c/ai/claude-intelligence-hub" || exit 1
 
 if [[ -n $(git status --porcelain xavier-memory/MEMORY.md) ]]; then
     echo -e "${YELLOW}⚠${NC}  Uncommitted changes detected in MEMORY.md"

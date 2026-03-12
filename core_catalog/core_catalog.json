@@ -11,6 +11,10 @@
       "path": "conversation-memoria"
     },
     {
+      "name": "docx-indexer",
+      "path": "docx-indexer"
+    },
+    {
       "name": "jimmy-core-preferences",
       "path": "jimmy-core-preferences"
     },

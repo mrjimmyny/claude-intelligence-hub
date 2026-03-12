@@ -8,7 +8,7 @@ echo Xavier Global Memory System - Junction Setup
 echo ================================================================
 echo.
 
-set MASTER_MEMORY=%USERPROFILE%\Downloads\claude-intelligence-hub\xavier-memory\MEMORY.md
+set MASTER_MEMORY=C:\ai\claude-intelligence-hub\xavier-memory\MEMORY.md
 set PROJECTS_DIR=%USERPROFILE%\.claude\projects
 
 echo Master MEMORY.md location:
@@ -30,7 +30,7 @@ echo Step 1: Backing up existing project MEMORY.md files...
 echo.
 
 REM Create backup directory
-set BACKUP_DIR=%USERPROFILE%\Downloads\claude-intelligence-hub\xavier-memory\backups\pre-junction_%date:~-4,4%-%date:~-10,2%-%date:~-7,2%
+set BACKUP_DIR=C:\ai\claude-intelligence-hub\xavier-memory\backups\pre-junction_%date:~-4,4%-%date:~-10,2%-%date:~-7,2%
 if not exist "%BACKUP_DIR%" mkdir "%BACKUP_DIR%"
 
 REM Backup existing MEMORY.md files

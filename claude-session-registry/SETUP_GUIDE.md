@@ -21,7 +21,7 @@
 ### Step 1: Clone Repository
 
 ```bash
-cd ~/Downloads
+cd /c/ai
 git clone <repo-url> claude-intelligence-hub
 ```
 
@@ -56,12 +56,12 @@ Junction points create a **live link** (not a copy) from Claude's skills directo
 
 #### Create/Update `setup_junctions.bat`
 
-Create this file in `~/Downloads/` (or update existing):
+Create this file in `C:\ai\` (or update existing):
 
 ```batch
 @echo off
 set SKILLS_DIR=%USERPROFILE%\.claude\skills\user
-set REPO_DIR=%USERPROFILE%\Downloads\claude-intelligence-hub
+set REPO_DIR=C:\ai\claude-intelligence-hub
 
 echo Removing old junction points...
 
@@ -91,7 +91,7 @@ pause
 #### Run Setup Script
 
 ```bash
-cd ~/Downloads
+cd /c/ai
 ./setup_junctions.bat
 ```
 
@@ -104,7 +104,7 @@ If batch script fails, create junction manually:
 rmdir "$USERPROFILE/.claude/skills/user/claude-session-registry" /s /q
 
 # Create junction
-mklink /J "$USERPROFILE/.claude/skills/user/claude-session-registry" "$USERPROFILE/Downloads/claude-intelligence-hub/claude-session-registry"
+mklink /J "$USERPROFILE/.claude/skills/user/claude-session-registry" "/c/ai/claude-intelligence-hub/claude-session-registry"
 ```
 
 ---
@@ -119,7 +119,7 @@ ls -la ~/.claude/skills/user/ | grep claude-session-registry
 
 Expected output:
 ```
-lrwxrwxrwx ... claude-session-registry -> /c/Users/jaderson.almeida/Downloads/claude-intelligence-hub/claude-session-registry
+lrwxrwxrwx ... claude-session-registry -> /c/ai/claude-intelligence-hub/claude-session-registry
 ```
 
 **Key indicators:**
@@ -130,7 +130,7 @@ lrwxrwxrwx ... claude-session-registry -> /c/Users/jaderson.almeida/Downloads/cl
 
 ```bash
 # Get inode of source
-stat ~/Downloads/claude-intelligence-hub/claude-session-registry/.metadata | grep Inode
+stat /c/ai/claude-intelligence-hub/claude-session-registry/.metadata | grep Inode
 
 # Get inode of junction
 stat ~/.claude/skills/user/claude-session-registry/.metadata | grep Inode
@@ -151,7 +151,7 @@ Should display valid JSON without errors.
 Edit a file in the repo:
 
 ```bash
-echo "# Test" >> ~/Downloads/claude-intelligence-hub/claude-session-registry/README.md
+echo "# Test" >> /c/ai/claude-intelligence-hub/claude-session-registry/README.md
 ```
 
 Verify visible via junction:
@@ -164,7 +164,7 @@ Should show `# Test`.
 
 **Clean up:**
 ```bash
-cd ~/Downloads/claude-intelligence-hub
+cd /c/ai/claude-intelligence-hub
 git checkout -- claude-session-registry/README.md
 ```
 
@@ -176,7 +176,7 @@ git checkout -- claude-session-registry/README.md
 
 Open in editor:
 ```bash
-cd ~/Downloads/claude-intelligence-hub/claude-session-registry
+cd /c/ai/claude-intelligence-hub/claude-session-registry
 nano .metadata
 ```
 
@@ -232,7 +232,7 @@ To set custom ID:
 rm -rf ~/.claude/skills/user/claude-session-registry
 
 # Re-run setup
-cd ~/Downloads
+cd /c/ai
 ./setup_junctions.bat
 ```
 
@@ -254,10 +254,10 @@ cd ~/Downloads
 **Solution:**
 ```bash
 # Check REPO_DIR in setup script
-echo $USERPROFILE/Downloads/claude-intelligence-hub
+echo /c/ai/claude-intelligence-hub
 
 # Adjust path in setup_junctions.bat:
-set REPO_DIR=%USERPROFILE%\Downloads\claude-intelligence-hub
+set REPO_DIR=C:\ai\claude-intelligence-hub
 
 # Re-run setup
 ./setup_junctions.bat
@@ -270,12 +270,12 @@ set REPO_DIR=%USERPROFILE%\Downloads\claude-intelligence-hub
 **Solution:**
 ```bash
 # Machine A (after registering session):
-cd ~/Downloads/claude-intelligence-hub
+cd /c/ai/claude-intelligence-hub
 git status
 git push origin main
 
 # Machine B:
-cd ~/Downloads/claude-intelligence-hub
+cd /c/ai/claude-intelligence-hub
 git pull
 ```
 
@@ -335,7 +335,7 @@ git remote add origin <url>  # If connecting to remote
 
 **Solution:**
 ```bash
-cd ~/Downloads/claude-intelligence-hub/claude-session-registry/registry/YYYY/MM
+cd /c/ai/claude-intelligence-hub/claude-session-registry/registry/YYYY/MM
 nano SESSIONS.md
 
 # Ensure each row has exactly 9 columns:
@@ -352,7 +352,7 @@ nano SESSIONS.md
 
 **Machine A:**
 ```bash
-cd ~/Downloads
+cd /c/ai
 git clone <repo-url> claude-intelligence-hub
 cd claude-intelligence-hub
 ./setup_junctions.bat
@@ -360,7 +360,7 @@ cd claude-intelligence-hub
 
 **Machine B:**
 ```bash
-cd ~/Downloads
+cd /c/ai
 git clone <repo-url> claude-intelligence-hub
 cd claude-intelligence-hub
 ./setup_junctions.bat
@@ -370,7 +370,7 @@ cd claude-intelligence-hub
 
 **Machine A (morning):**
 ```bash
-cd ~/Downloads/claude-intelligence-hub
+cd /c/ai/claude-intelligence-hub
 git pull  # Fetch sessions from other machines
 claude
 # ... work ...
@@ -384,7 +384,7 @@ claude
 
 **Machine B (afternoon):**
 ```bash
-cd ~/Downloads/claude-intelligence-hub
+cd /c/ai/claude-intelligence-hub
 git pull  # Fetch session from Machine A
 cat claude-session-registry/registry/2026/02/SESSIONS.md  # See all sessions
 claude

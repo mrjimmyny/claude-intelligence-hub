@@ -161,7 +161,7 @@ This checklist ensures **100% project completeness** before final sign-off. Work
 - [ ] Fresh Windows VM/machine available for testing
 - [ ] Git installed on test machine
 - [ ] Claude Code installed on test machine
-- [ ] Hub cloned to `~/Downloads/claude-intelligence-hub`
+- [ ] Hub cloned to `C:\ai\claude-intelligence-hub`
 - [ ] `setup_local_env.ps1` executed successfully
 - [ ] 5 mandatory skills installed
 - [ ] Junction points verified (not copies)
@@ -174,7 +174,7 @@ This checklist ensures **100% project completeness** before final sign-off. Work
 - [ ] Fresh macOS/Linux VM/machine available for testing
 - [ ] Git installed on test machine
 - [ ] Claude Code installed on test machine
-- [ ] Hub cloned to `~/Downloads/claude-intelligence-hub`
+- [ ] Hub cloned to `C:\ai\claude-intelligence-hub`
 - [ ] `setup_local_env.sh` executed successfully
 - [ ] 5 mandatory skills installed
 - [ ] Symlinks verified (not copies)

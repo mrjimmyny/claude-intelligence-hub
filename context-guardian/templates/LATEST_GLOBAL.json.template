@@ -35,28 +35,28 @@
       "is_symlink": true,
       "link_type": "hub_skill",
       "hub_path": "session-memoria",
-      "absolute_target": "/c/Users/jaderson.almeida/Downloads/claude-intelligence-hub/session-memoria"
+      "absolute_target": "/c/ai/claude-intelligence-hub/session-memoria"
     },
     {
       "skill_name": "gdrive-sync-memoria",
       "is_symlink": true,
       "link_type": "hub_skill",
       "hub_path": "gdrive-sync-memoria",
-      "absolute_target": "/c/Users/jaderson.almeida/Downloads/claude-intelligence-hub/gdrive-sync-memoria"
+      "absolute_target": "/c/ai/claude-intelligence-hub/gdrive-sync-memoria"
     },
     {
       "skill_name": "claude-session-registry",
       "is_symlink": true,
       "link_type": "hub_skill",
       "hub_path": "claude-session-registry",
-      "absolute_target": "/c/Users/jaderson.almeida/Downloads/claude-intelligence-hub/claude-session-registry"
+      "absolute_target": "/c/ai/claude-intelligence-hub/claude-session-registry"
     },
     {
       "skill_name": "jimmy-core-preferences",
       "is_symlink": true,
       "link_type": "hub_skill",
       "hub_path": "jimmy-core-preferences",
-      "absolute_target": "/c/Users/jaderson.almeida/Downloads/claude-intelligence-hub/jimmy-core-preferences"
+      "absolute_target": "/c/ai/claude-intelligence-hub/jimmy-core-preferences"
     }
   ],
   "total_size_bytes": 0,

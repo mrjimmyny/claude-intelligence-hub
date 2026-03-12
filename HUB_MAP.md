@@ -1,8 +1,8 @@
 # 🗺️ Claude Intelligence Hub - Visual Skill Router
 
-**Version:** 2.7.1
+**Version:** 2.10.1
 **Status:** 🟢 Active & Synchronized
-**Registry:** 15 Production Skills
+**Registry:** 17 Production Skills
 
 ---
 
@@ -10,7 +10,7 @@
 
 | Metric | Count | Status |
 | :--- | :--- | :--- |
-| **Total Skills** | 15 | ✅ Verified |
+| **Total Skills** | 17 | ✅ Verified |
 | **Governance** | 100% | 🟢 Compliant |
 | **Architecture** | 3-Tier | 🏗️ Structured |
 
@@ -23,7 +23,7 @@
 
 | # | Skill Name | Version | Command | Role |
 | :--- | :--- | :--- | :--- | :--- |
-| 1 | **jimmy-core-preferences** | v1.5.0 | `/preferences` | Master AI Behavior |
+| 1 | **jimmy-core-preferences** | v2.0.0 | `/preferences` | Master AI Behavior |
 | 14 | **token-economy** | v1.0.0 | `/token-economy` | Budget Enforcement |
 
 ### 🟢 Tier 2: Context-Aware (Suggested)
@@ -50,6 +50,8 @@
 | 11 | **conversation-memoria** | v1.0.0 | `/conversation` | Save/Load session history |
 | 13 | **core_catalog** | v1.0.0 | `/catalog` | Bootstrap system data |
 | 15 | **codex-governance-framework** | v1.0.0 | `/governance` | Institutional governance docs |
+| 16 | **daily-tasks-oih** | v1.0.0 | `/daily-tasks-oih` | Daily tasks pool and per-agent execution workflow |
+| 17 | **docx-indexer** | v1.2.0 | `/docx-indexer` | Global document indexing + manual-first enrichment |
 
 ---
 
@@ -57,8 +59,8 @@
 
 ### 1. jimmy-core-preferences
 - **Path:** `jimmy-core-preferences/`
-- **Identity:** Master Framework for Claude's personality.
-- **Rules:** Radical Honesty, Proactivity, Git Safety.
+- **Identity:** Global cross-agent operating framework for all agents working with Jimmy.
+- **Rules:** Radical Honesty, Objectivity, Prompt Governance (English/file-first), Session Governance, DAX Overlay, Cross-Agent Bootstrap.
 
 ### 2. session-memoria
 - **Path:** `session-memoria/`
@@ -116,6 +118,14 @@
 ### 15. codex-governance-framework
 - **Path:** `codex-governance-framework/`
 - **Context:** Institutional bootstrap governance documentation.
+
+### 16. daily-tasks-oih
+- **Path:** `daily-tasks-oih/`
+- **Workflow:** Pool capture, per-agent daily dispatch, execution tracking, and close protocol.
+
+### 17. docx-indexer
+- **Path:** `docx-indexer/`
+- **Tool:** Global document indexing system. Append-only JSON index with UUID identity, SHA256 hashing, structural telemetry, and Stage 2.2 v1 manual-first enrichment (`summary` + `keywords`). Scripts at `C:\ai\_skills\docx-indexer\`.
 
 ---
 

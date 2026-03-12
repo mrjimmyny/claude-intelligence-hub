@@ -7,6 +7,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.0.0] - 2026-03-11
+
+### Global Cross-Agent Operating Framework
+
+**Focus:** Transform `jimmy-core-preferences` from a Claude/Xavier-centric master skill into a global cross-agent operating framework, aligned with Jimmy's documentary operating model in Obsidian.
+
+### Added
+- **Section D: Cross-Agent Bootstrap and Fallback** — fallback path via `C:\ai\obsidian\CIH\_skills-cross-agent-machines\README.md` for agents without native auto-load
+- **Section E: Prompt Creation and Delegation Standard** — English-only delegation prompts, file-first, path-specific, no chat dumps
+- **Section F: Project Documentary Workspace Protocol** — baseline folder structure for project documentation, coherence over rigidity
+- **Section G: Session Log and Daily Report Protocol** — mandatory session documentation, update-during-work, handoff blocks
+- **Section H: Proactive Reminder Cadence** — conditional reminders for `claude-session-registry`, `context-guardian`, `docx-indexer` (max 1 per skill per phase)
+- **Section I: Power BI / DAX Domain Overlay** — 10-rule overlay for DAX/PBI work (activated on relevant context)
+- **Section J: Skill Evolution Governance** — rules for evolving this skill, sibling skill routing list
+
+### Changed
+- **Skill repositioned** — from "Master Skill for Claude" to "Global Cross-Agent Operating Framework"
+- **Identity section** — removed fixed "Xavier" agent name; Jimmy is always Jimmy, agents keep their own codenames
+- **Operating posture** — retained radical honesty, objectivity, anti-yes-man, proactive intelligence; made them more operational
+- **Communication rules** — formalized default compression (5-6 lines max per topic; artifact as file, not chat)
+- **Cross-agent routing** — `HUB_MAP.md` remains the routing authority for Claude Code sessions
+
+### Removed from core
+- Embedded workflows for `session-memoria`, `context-guardian`, `claude-session-registry`, `token-economy`, `x-mem` — delegated to their respective skills
+- Claude-only assumptions and overlong identity framing
+- Redundant token/governance procedures already covered in `token-economy`
+- Golden Close Protocol full workflow — routing trigger remains, full procedure in `claude-session-registry`
+
+### Fixed
+- Encoding artifacts and mojibake removed
+- File rewritten in clean UTF-8
+
+### Architecture
+- SKILL.md reduced from ~50KB to ~5KB — significantly more portable and readable
+- 10 sections (A–J) replacing 7 patterns + multiple embedded workflows
+- Sibling skill routing list explicit in Section J
+
+### Breaking Changes
+- Agents relying on embedded workflows from this skill must now load the respective sibling skills directly
+- "Xavier" is no longer the fixed agent identity in this file
+
+---
+
 ## [1.5.0] - 2026-02-13
 
 ### 🎯 Major Feature: Skill Router Integration (MODULE 2)

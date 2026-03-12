@@ -5,8 +5,8 @@
 **Repository:** https://github.com/mrjimmyny/claude-intelligence-hub
 **Developed by:** Xavier (Claude Sonnet 4.5) & Jimmy
 **Purpose:** Centralized AI intelligence system - Skills, memory, automation, and routing
-**Version:** 2.7.3 (Hub v2.7.3 + AOP V2.0.0 integration)
-**Component Versions:** Preferences v1.5.0, Memoria v1.2.0, PBI v1.3.0, GDrive v1.0.0, Registry v1.1.0, X-MEM v1.0.0, Xavier-Memory v1.1.0, Xavier-Memory-Sync v1.0.0, Context-Guardian v1.1.0, Repo-Auditor v2.0.0, Conv-Memoria v1.0.0, AOP v2.0.0, Catalog v1.0.0, Token-Economy v1.0.0, Codex-Governance v1.0.0
+**Version:** 2.10.1 (Hub v2.10.1 + jimmy-core-preferences v2.0.0 global cross-agent framework rewrite)
+**Component Versions:** Preferences v2.0.0, Memoria v1.2.0, PBI v1.3.0, GDrive v1.0.0, Registry v1.1.0, X-MEM v1.0.0, Xavier-Memory v1.1.0, Xavier-Memory-Sync v1.0.0, Context-Guardian v1.1.0, Repo-Auditor v2.0.0, Conv-Memoria v1.0.0, AOP v2.0.0, Catalog v1.0.0, Token-Economy v1.0.0, Codex-Governance v1.0.0, daily-tasks-oih v1.0.0, docx-indexer v1.2.0
 **Status:** ✅ Production - Enterprise-Ready - **ZERO TO HERO COMPLETE** (Modules 1-4) + Context Preservation + Repo Auditor + Navigation Roadmap + AOP
 
 ---
@@ -19,8 +19,8 @@ Successfully developed and deployed a **complete AI intelligence system** that t
 
 | Component | Version | Status | Key Metric |
 |-----------|---------|--------|------------|
-| **Hub Repository** | 2.7.3 | ✅ Production | 15 skill collections, HUB_MAP routing, CIH-ROADMAP |
-| **Jimmy Core Preferences** | 1.5.0 | ✅ Production | Master AI + Skill Router + Token Economy |
+| **Hub Repository** | 2.10.1 | ✅ Production | 17 skill collections, HUB_MAP routing, CIH-ROADMAP |
+| **Jimmy Core Preferences** | 2.0.0 | ✅ Production | Global cross-agent framework, prompt governance, session governance, DAX overlay |
 | **Session Memoria** | 1.2.0 | ✅ Production | 3-tier archiving, 200x faster indexing |
 | **PBI Claude Skills** | 1.3.0 | ✅ Production | 50-97% token savings |
 | **GDrive Sync Memoria** | 1.0.0 | ✅ Production | ChatLLM integration |
@@ -35,6 +35,7 @@ Successfully developed and deployed a **complete AI intelligence system** that t
 | **Agent Orchestration** | 2.0.0 | ✅ Production | Multi-agent coordination (AOP) |
 | **Core Catalog** | 1.0.0 | ✅ Production | Bootstrap & compatibility data |
 | **Codex Governance Framework** | 1.0.0 | ✅ Production | Institutional governance bundle |
+| **daily-tasks-oih** | 1.0.0 | ✅ Production | Pool capture, per-agent dispatch, and task execution workflow |
 | **Windows Junction Setup** | 1.0.0 | ✅ Production | Auto-sync to Git |
 | **Mobile Support** | 1.0.0 | ✅ Production | MOBILE_SESSION_STARTER.md |
 | **Cross-Device Sync** | - | ✅ Active | Desktop ↔ Mobile via Git |
@@ -164,7 +165,7 @@ Module 2 transformed the hub from a skill repository into a complete AI intellig
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  Tier 1: Master Framework                                   │
-│  - jimmy-core-preferences v1.5.0                            │
+│  - jimmy-core-preferences v2.0.0                            │
 │  - Core principles (Radical Honesty, Proactivity)           │
 │  - Identity management (Xavier + Jimmy)                     │
 │  - Self-learning system                                     │
@@ -191,7 +192,7 @@ Module 2 transformed the hub from a skill repository into a complete AI intellig
 
 ### Module 2 Components
 
-**1. jimmy-core-preferences (v1.5.0)**
+**1. jimmy-core-preferences (v2.0.0)**
 - Master AI behavior framework
 - 7 workflow patterns
 - Token economy enforcement
@@ -234,7 +235,7 @@ Module 2 transformed the hub from a skill repository into a complete AI intellig
 ### Module 2 Deliverables
 
 **Skills:**
-- `jimmy-core-preferences/` (v1.5.0)
+- `jimmy-core-preferences/` (v2.0.0)
 - `session-memoria/` (v1.2.0)
 - `gdrive-sync-memoria/` (v1.0.0)
 - `claude-session-registry/` (v1.1.0)
@@ -583,9 +584,9 @@ Module 4 transforms the Claude Intelligence Hub from a production system into an
 
 ## 📦 Skill Collections Overview
 
-### 1. Jimmy Core Preferences (v1.5.0)
+### 1. Jimmy Core Preferences (v2.0.0)
 
-**Purpose:** Master AI intelligence framework - Claude's "personality" and behavior
+**Purpose:** Global cross-agent operating framework — prompts, sessions, DAX overlay, cross-agent bootstrap
 
 **Key Features:**
 - ✅ Radical honesty & professional objectivity
@@ -941,7 +942,7 @@ session-memoria/
 REM Automated junction setup script
 
 set SKILLS_DIR=%USERPROFILE%\.claude\skills\user
-set REPO_DIR=%USERPROFILE%\Downloads\claude-intelligence-hub
+set REPO_DIR=C:\ai\claude-intelligence-hub
 
 REM Create junction points
 mklink /J "%SKILLS_DIR%\jimmy-core-preferences" "%REPO_DIR%\jimmy-core-preferences"
@@ -957,7 +958,7 @@ ls -la ~/.claude/skills/user/
 
 # Verify same inode (true link, not copy)
 stat ~/.claude/skills/user/jimmy-core-preferences/.metadata | grep Inode
-stat ~/Downloads/claude-intelligence-hub/jimmy-core-preferences/.metadata | grep Inode
+stat /c/ai/claude-intelligence-hub/jimmy-core-preferences/.metadata | grep Inode
 # Should match!
 ```
 
@@ -1088,7 +1089,7 @@ Any Device → Edit files → Git commit + push
 ### Skill Collection Stats
 | Collection | Files | Size | Auto-Load | Version | Status |
 |------------|-------|------|-----------|---------|--------|
-| jimmy-core-preferences | 5 | ~80KB | ✅ Yes | v1.4.0 | ✅ Production |
+| jimmy-core-preferences | 5 | ~80KB | ✅ Yes | v2.0.0 | ✅ Production |
 | session-memoria | 15+ | ~70KB | ✅ Yes | v1.1.0 | ✅ Production |
 | pbi-claude-skills | 20+ | ~50KB | ⚠️ Project | v1.3.0 | ✅ Production |
 
@@ -1323,7 +1324,7 @@ The **Claude Intelligence Hub** successfully transforms Claude Code from a state
 
 ---
 
-**Document Version:** 2.7.3
+**Document Version:** 2.8.0
 **Last Updated:** March 1, 2026
 **Prepared By:** Magneto (Claude Sonnet 4.6)
 **For:** NotebookLM processing, presentations, and future reference

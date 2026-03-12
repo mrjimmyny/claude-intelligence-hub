@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.7.3-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.10.1-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -36,6 +36,8 @@ All skills are available as **slash commands** for instant access. Just type `/c
 | **x-mem** | `/xmem` | /learn, /recall | Self-learning from failures/successes |
 | **core_catalog** | `/catalog` | /core | System configurations & bootstrap |
 | **codex-governance** | `/governance` | /codex | Institutional governance framework |
+| **daily-tasks-oih** | `/daily-tasks-oih` | /dtoih, /daily-tasks | Daily tasks pool and per-agent execution workflow |
+| **docx-indexer** | `/docx-indexer` | /dxi | Global document indexing + manual-first enrichment |
 
 **Example usage:**
 ```bash
@@ -171,7 +173,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 
 | Collection | Version | Status | Description | Key Features |
 |------------|---------|--------|-------------|--------------|
-| **[jimmy-core-preferences](jimmy-core-preferences/)** | v1.5.0 | ✅ Production | Master intelligence framework | Radical honesty, self-learning, context management, identity (Xavier + Jimmy). See [HUB_MAP.md](HUB_MAP.md) for triggers. |  
+| **[jimmy-core-preferences](jimmy-core-preferences/)** | v2.0.0 | ✅ Production | Global cross-agent operating framework | Radical honesty, prompt governance, session governance, DAX overlay, cross-agent bootstrap. See [HUB_MAP.md](HUB_MAP.md) for triggers. |  
 | **[session-memoria](session-memoria/)** | v1.2.0 | ✅ Production | Knowledge management system | 100% conversation retention, triple-index search, lifecycle tracking, Git-synced. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
 | **[gdrive-sync-memoria](gdrive-sync-memoria/)** | v1.0.0 | ✅ Production | Google Drive integration | ChatLLM Teams sync, auto-import to session-memoria, zero-friction automation. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
 | **[claude-session-registry](claude-session-registry/)** | v1.1.0 | ✅ Production | Session tracking & backup | Resume ID tracking, Git context, Golden Close protocol, **automatic backup to GitHub**. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
@@ -183,6 +185,8 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[repo-auditor](repo-auditor/)** | v2.0.0 | ✅ Production | End-to-end audit skill | Mandatory proof-of-read fingerprinting, accumulative AUDIT_TRAIL.md, validate-trail.sh for CI. |
 | **[conversation-memoria](conversation-memoria/)** | v1.0.0 | ✅ Production | Persistent conversation storage | Intelligent metadata extraction, 95-98% token savings, week-based organization, natural language triggers, cross-agent memory sharing. |
 | **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v2.0.0 | ✅ Production | Multi-agent coordination framework | The Seven Pillars of AOP mastery, recursive/parallel workflows, production-validated prompt cookbook. |
+| **[daily-tasks-oih](daily-tasks-oih/)** | v1.0.0 | ✅ Production | Daily task workflow for OIH | Pool capture, per-agent dispatch, execution tracking, close protocol, English-only operational docs. |
+| **[docx-indexer](docx-indexer/)** | v1.2.0 | ✅ Production | Global document indexing system | Append-only JSON index, UUID identity, SHA256 hashing, structural telemetry, dry-run mode, and Stage 2.2 v1 manual-first enrichment (`summary` + `keywords`). |
 
 ---
 
@@ -375,7 +379,7 @@ claude
 ```
 claude-intelligence-hub/
 │
-├── 📁 jimmy-core-preferences/       # ⭐ Master Skill (v1.5.0)
+├── 📁 jimmy-core-preferences/       # ⭐ Global Cross-Agent Framework (v2.0.0)
 │   ├── SKILL.md                     # Universal AI behavior rules (15KB)       
 │   ├── EXECUTIVE_SUMMARY.MD         # 49KB comprehensive doc
 │   ├── CHANGELOG.md                 # v1.0 → v1.5 evolution
@@ -482,6 +486,11 @@ claude-intelligence-hub/
 ?   ??? core_catalog.json            # Core configurations catalog
 ?   ??? bootstrap_compat.json        # Bootstrap compatibility map
 ?
+│
+├── 📁 docx-indexer/                  # ⭐ Global Document Indexing + Enrichment (v1.2.0)
+│   ├── SKILL.md                     # Operational protocol & agent guide
+│   ├── .metadata                    # Version metadata
+│   └── README.md                    # User documentation
 │
 ├── 📁 token-economy/                # 📊 Token Budget Governance (v1.0.0)
 │   ├── README.md                    # Budget discipline rules & overview
@@ -657,7 +666,7 @@ To maintain the high quality and integrity of the Claude Intelligence Hub, all a
 
 | Metric | Value |
 |--------|-------|
-| **Production Skills** | 15 collections (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework) |
+| **Production Skills** | 17 collections (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih, docx-indexer) |
 | **Total Documentation** | ~320KB (executive summaries, guides, changelogs, handover docs) |
 | **Version History** | 30+ commits (tracked in CHANGELOG.md) |
 | **Setup Time** | 15 minutes (Windows/macOS/Linux automated deployment) |
@@ -670,7 +679,7 @@ To maintain the high quality and integrity of the Claude Intelligence Hub, all a
 
 ### Skills by Status
 
-- ✅ **Production Ready:** 15 (jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills, xavier-memory, xavier-memory-sync, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework)
+- ✅ **Production Ready:** 17 (jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills, xavier-memory, xavier-memory-sync, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih, docx-indexer)
 - 📊 **Governance Modules:** 1 (token-economy)
 - 🚧 **In Development:** 0
 - 📋 **Planned:** 2 (python-claude-skills, git-claude-skills)
@@ -898,8 +907,8 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 
 ## 📈 Version History
 
-**Current Version:** v2.5.1 ✅ **Development Impact Analysis**
-**Last Updated:** February 24, 2026
+**Current Version:** v2.10.0 ✅ **docx-indexer v1.2.0 - Stage 2.2 v1 manual-first enrichment operationalized**
+**Last Updated:** March 11, 2026
 **Status:** Production | Context Preservation + Cloud Backup | Actively Maintained
 
 ### Major Milestones

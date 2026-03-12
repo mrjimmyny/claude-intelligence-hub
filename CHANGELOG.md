@@ -4,6 +4,97 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.10.1] - 2026-03-11
+
+### Changed
+- **jimmy-core-preferences** bumped to v2.0.0 — full structural rewrite as global cross-agent operating framework:
+  - Repositioned from Claude/Xavier-centric master skill to universal framework (Claude, Codex, Gemini, and others)
+  - Added: prompt creation and delegation standard (English, file-first, path-specific)
+  - Added: project documentary workspace protocol (baseline folder logic)
+  - Added: session log and daily report protocol (mandatory, update-during-work)
+  - Added: proactive reminder cadence for `claude-session-registry`, `context-guardian`, `docx-indexer`
+  - Added: Power BI / DAX domain overlay (10-rule, context-triggered)
+  - Added: cross-agent bootstrap and fallback via Obsidian `_skills-cross-agent-machines/README.md`
+  - Removed: embedded workflows from sibling skills (delegated back to respective skills)
+  - Fixed: encoding artifacts; SKILL.md reduced from ~50KB to ~5KB
+  - Updated: `.metadata`, `SKILL.md`, `README.md`, `CHANGELOG.md`, `EXECUTIVE_SUMMARY.md`, `SETUP_GUIDE.md`
+- Hub version bumped 2.10.0 -> 2.10.1
+
+---
+
+## [2.10.0] - 2026-03-11
+
+### Changed
+- **docx-indexer** bumped to v1.2.0 - `Stage 2.2 v1` manual-first enrichment operationalized in the hub documentation:
+  - `docx-indexer/SKILL.md`: updated capability model to include `summary` + `keywords`, `enrich.py`, Stage 2.2 v1 scope, new limitations, and current audit status
+  - `docx-indexer/README.md`: updated usage docs for enrichment, 135-test state, 1,784 total dict entries / 1,770 active entries / 14 deleted, and 937 enriched files
+  - `CLAUDE.md`: routing expanded to cover `summary`, `keywords`, and enrichment requests
+  - `COMMANDS.md`: docx-indexer descriptions updated to mention enrichment
+  - `HUB_MAP.md`, `README.md`, and `EXECUTIVE_SUMMARY.md`: version and capability references updated to v1.2.0
+- Hub version bumped 2.9.2 -> 2.10.0
+
+## [2.9.2] - 2026-03-08
+
+### Changed
+- **docx-indexer** bumped to v1.1.1 — telemetry update after first full scan post-closure:
+  - `SKILL.md`: added "Latest Scan" row (1,736 entries, 1,092 files + 644 dirs, 4.61s, 2026-03-08)
+  - `README.md` (docx-indexer): "Current Stats" section updated (1,736 total / 1,092 files / 644 dirs / 4.61s)
+- Hub version bumped 2.9.1 → 2.9.2
+
+## [2.9.1] - 2026-03-07 | Phase 1.1 formally closed 2026-03-08
+
+### Fixed (2026-03-08 — commit `ec0a374`)
+- **docx-indexer/SKILL.md**: corrected `validate.py` line count 252→251; corrected test breakdown to "15 scan + 8 integration" (was "12 scan + 8 integration + 3 full-scan")
+- **docx-indexer/README.md**: corrected `validate.py` line count 252→251
+- **README.md** (hub root): corrected docx-indexer version v1.0.0→v1.1.0 in skill table and architecture tree
+
+### Phase Status (registered 2026-03-08)
+- **Phase 1.1 FORMALLY CLOSED** — approved by Jimmy and Emma
+- Phase 2: NOT opened. Requires explicit Jimmy authorization.
+- 3 deferred items (`scripts/merge.py`, `config/dxi-config.schema.json`, `tests/integration/test_sync.py`) remain out of scope with no reclassification.
+
+### Changed
+- **docx-indexer** skill bumped to v1.1.0:
+  - Natural language triggers added to `SKILL.md` (PT + EN bilingual)
+  - `.metadata` triggers expanded (scan, query, validate, dry-run, export)
+  - `README.md` completely rewritten: interaction examples (PT + EN), Q&A section, emojis, humanized documentation
+- **CLAUDE.md**: Added docx-indexer routing rules — agents auto-route "índice de documentos" phrases to docx-indexer
+- **core_catalog.json**: docx-indexer added to core skills catalog
+- Hub version bumped from 2.9.0 to 2.9.1
+
+## [2.9.0] - 2026-03-07
+
+### Added
+- **docx-indexer** skill v1.0.0 with slash command `/docx-indexer` and alias `/dxi`
+- Global document indexing system: append-only JSON index with UUID identity, SHA256 hashing, structural telemetry
+- Skill files: `docx-indexer/SKILL.md`, `docx-indexer/.metadata`, `docx-indexer/README.md`
+- Technical workspace at `C:\ai\_skills\docx-indexer\` (scan.py, validate.py, export-md.py)
+- Phase 1 core validated: 47/47 tests, 9/9 critical rules, 15/15 scan specs, GO decision
+
+### Changed
+- **README.md**, **HUB_MAP.md**, **COMMANDS.md**, **EXECUTIVE_SUMMARY.md** updated to include `docx-indexer`
+- Hub skill count updated from 16 to 17
+- Hub version bumped from 2.8.0 to 2.9.0
+
+## [2.8.0] - 2026-03-04
+
+### Added
+- **daily-tasks-oih** skill v1.0.0 with slash command `/daily-tasks-oih` and aliases `/dtoih`, `/daily-tasks`
+- Skill reference material:
+  - `daily-tasks-oih/references/examples/`
+  - `daily-tasks-oih/references/templates/`
+- Deterministic workflow coverage for:
+  - pool capture
+  - per-agent daily dispatch
+  - execution tracking with evidence
+  - close-of-day protocol
+- English-only operational documentation rule in `daily-tasks-oih/SKILL.md`
+
+### Changed
+- **README.md**, **HUB_MAP.md**, **COMMANDS.md**, **EXECUTIVE_SUMMARY.md** updated to include `daily-tasks-oih`
+- Hub skill count updated from 15 to 16
+- Hub version bumped from 2.7.3 to 2.8.0
+
 ## [2.7.3] - 2026-03-03
 
 ### Added
