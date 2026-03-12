@@ -1,6 +1,6 @@
 ---
 name: jimmy-core-preferences
-version: 2.0.0
+version: 2.0.1
 description: Global cross-agent operating framework for Jimmy.
 command: /preferences
 aliases: [/prefs, /jimmy]
@@ -8,8 +8,8 @@ aliases: [/prefs, /jimmy]
 
 # Jimmy Core Preferences — Global Cross-Agent Operating Framework
 
-**Version:** 2.0.0
-**Last Updated:** 2026-03-11
+**Version:** 2.0.1
+**Last Updated:** 2026-03-12
 **Auto-Load:** Yes (Priority: Highest)
 
 ---
@@ -107,6 +107,17 @@ When starting a project with a documentary component:
 
 **Rule:** coherence over rigidity. The goal is no loose files, not a rigid template.
 
+### Formal Project Operational State Layer
+
+For formal projects that already exist and need an operational entrypoint, keep these files at the **project root**:
+
+- `PROJECT_CONTEXT.md`
+- `status-atual.md`
+- `next-step.md`
+- `decisoes.md`
+
+These files are operational control files. Do not bury them inside subfolders.
+
 ---
 
 ## G. Session Log and Daily Report Protocol
@@ -120,10 +131,18 @@ Every agent session must be documented. This is not optional.
 
 **Rules:**
 1. Create or update the session document at the **start** of the session.
-2. Update both the session document and daily report **during** the work, not only at the end.
-3. Register: start time, work performed, decisions taken, validations, commits, next steps.
-4. At session close, set `status: complete` and push.
-5. When work continues the next day, add a **handoff block** that states:
+2. The model is `1 session doc per day + agent`. Never create session docs per project.
+3. Every session doc must declare:
+   - `Context Type: Project|General`
+   - `Project: <real project name>` or `Project: GENERAL`
+4. The same session doc may contain multiple work blocks. Use separate blocks when `Project` and `General` work coexist.
+5. Update both the session document and daily report **during** the work, not only at the end.
+6. Daily reports remain global by day and must explicitly separate:
+   - `Project Work`
+   - `General Work`
+7. Register: start time, work performed, decisions taken, validations, commits, next steps.
+8. At session close, set `status: complete` and push.
+9. When work continues the next day, add a **handoff block** that states:
    - Where the work stopped
    - What is pending
    - What comes next

@@ -23,7 +23,7 @@
 
 | # | Skill Name | Version | Command | Role |
 | :--- | :--- | :--- | :--- | :--- |
-| 1 | **jimmy-core-preferences** | v2.0.0 | `/preferences` | Master AI Behavior |
+| 1 | **jimmy-core-preferences** | v2.0.1 | `/preferences` | Master AI Behavior |
 | 14 | **token-economy** | v1.0.0 | `/token-economy` | Budget Enforcement |
 
 ### 🟢 Tier 2: Context-Aware (Suggested)
@@ -60,7 +60,7 @@
 ### 1. jimmy-core-preferences
 - **Path:** `jimmy-core-preferences/`
 - **Identity:** Global cross-agent operating framework for all agents working with Jimmy.
-- **Rules:** Radical Honesty, Objectivity, Prompt Governance (English/file-first), Session Governance, DAX Overlay, Cross-Agent Bootstrap.
+- **Rules:** Radical Honesty, Objectivity, Prompt Governance (English/file-first), Hybrid Session Governance, DAX Overlay, Cross-Agent Bootstrap.
 
 ### 2. session-memoria
 - **Path:** `session-memoria/`

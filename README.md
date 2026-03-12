@@ -173,7 +173,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 
 | Collection | Version | Status | Description | Key Features |
 |------------|---------|--------|-------------|--------------|
-| **[jimmy-core-preferences](jimmy-core-preferences/)** | v2.0.0 | ✅ Production | Global cross-agent operating framework | Radical honesty, prompt governance, session governance, DAX overlay, cross-agent bootstrap. See [HUB_MAP.md](HUB_MAP.md) for triggers. |  
+| **[jimmy-core-preferences](jimmy-core-preferences/)** | v2.0.1 | ✅ Production | Global cross-agent operating framework | Radical honesty, prompt governance, hybrid session governance, DAX overlay, cross-agent bootstrap. See [HUB_MAP.md](HUB_MAP.md) for triggers. |  
 | **[session-memoria](session-memoria/)** | v1.2.0 | ✅ Production | Knowledge management system | 100% conversation retention, triple-index search, lifecycle tracking, Git-synced. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
 | **[gdrive-sync-memoria](gdrive-sync-memoria/)** | v1.0.0 | ✅ Production | Google Drive integration | ChatLLM Teams sync, auto-import to session-memoria, zero-friction automation. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
 | **[claude-session-registry](claude-session-registry/)** | v1.1.0 | ✅ Production | Session tracking & backup | Resume ID tracking, Git context, Golden Close protocol, **automatic backup to GitHub**. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
@@ -379,7 +379,7 @@ claude
 ```
 claude-intelligence-hub/
 │
-├── 📁 jimmy-core-preferences/       # ⭐ Global Cross-Agent Framework (v2.0.0)
+├── 📁 jimmy-core-preferences/       # ⭐ Global Cross-Agent Framework (v2.0.1)
 │   ├── SKILL.md                     # Universal AI behavior rules (15KB)       
 │   ├── EXECUTIVE_SUMMARY.MD         # 49KB comprehensive doc
 │   ├── CHANGELOG.md                 # v1.0 → v1.5 evolution

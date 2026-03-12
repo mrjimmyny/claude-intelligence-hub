@@ -6,15 +6,15 @@
 
 # Executive Summary: Jimmy Core Preferences — Global Cross-Agent Operating Framework
 
-> **v2.0.0 (2026-03-11):** Major rewrite. Skill repositioned from Claude/Xavier-centric master skill to global cross-agent operating framework. See [CHANGELOG.md](./CHANGELOG.md) for full scope of changes.
+> **v2.0.1 (2026-03-12):** Hybrid session governance clarification. Added `Project|General` session rules, `Project Work|General Work` daily-report split, and the formal project operational state layer. See [CHANGELOG.md](./CHANGELOG.md) for full scope of changes.
 
 ---
 
-**Date:** March 11, 2026
+**Date:** March 12, 2026
 **Project:** Jimmy Core Preferences + Claude Intelligence Hub (GitHub)
 **Prepared by:** Magneto (Claude) & Jimmy
 **Purpose:** Comprehensive overview — Global Cross-Agent Operating Framework
-**Version:** 2.0.0
+**Version:** 2.0.1
 
 ---
 

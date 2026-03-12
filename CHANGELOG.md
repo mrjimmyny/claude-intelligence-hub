@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.10.2] - 2026-03-12
+
+### Changed
+- **jimmy-core-preferences** bumped to v2.0.1 to align the global operating framework with the hybrid documentary model:
+  - session docs remain `1 per day + agent`, never per project
+  - mandatory `Context Type: Project|General`
+  - mandatory `Project: <real project name>` or `GENERAL`
+  - same session doc may contain multiple work blocks across project and general work
+  - daily reports must separate `Project Work` and `General Work`
+  - formal projects may expose `PROJECT_CONTEXT.md`, `status-atual.md`, `next-step.md`, and `decisoes.md` at the project root
+- Updated hub references in `HUB_MAP.md`, `README.md`, and `EXECUTIVE_SUMMARY.md`
+- Hub version bumped 2.10.1 -> 2.10.2
+
 ## [2.10.1] - 2026-03-11
 
 ### Changed

@@ -1,22 +1,22 @@
 # Jimmy Core Preferences
 
-> **Global Cross-Agent Operating Framework** — Universal preferences and operating rules for all agents working with Jimmy.
+> Global Cross-Agent Operating Framework for all agents working with Jimmy.
 
 ## What is This?
 
-`jimmy-core-preferences` is the **central operating framework** for how any AI agent should work with Jimmy. It is not Claude-specific. It applies to any agent (Claude Code, Codex/OpenAI, Gemini, and others) across any interface.
+`jimmy-core-preferences` is the central operating framework for how any AI agent should work with Jimmy. It is not Claude-specific. It applies to Claude Code, Codex/OpenAI, Gemini, and other agents across different interfaces.
 
-Instead of repeating the same rules in every conversation or session, this skill serves as a permanent, version-controlled reference loaded at the start of every interaction.
+Instead of repeating the same rules in every session, this skill serves as a permanent, version-controlled reference loaded at the start of the interaction.
 
 ---
 
 ## Purpose
 
-- **Eliminate repetition** — agents do not need to be told the same rules every session
-- **Cross-agent consistency** — same operating model for Claude, Codex, Gemini, and others
-- **Documentary awareness** — agents know the Obsidian-based documentary system and follow it
-- **Prompt governance** — clear rules for delegation prompts (English, file-first, path-specific)
-- **Session governance** — every session is logged; daily reports are updated during the work
+- Eliminate repetition across sessions
+- Keep cross-agent behavior consistent
+- Preserve documentary awareness in the Obsidian operating layer
+- Standardize prompt creation and delegation
+- Enforce hybrid session governance and daily-report discipline
 
 ---
 
@@ -29,11 +29,29 @@ Instead of repeating the same rules in every conversation or session, this skill
 | **C. Communication Compression** | Short responses by default; artifacts as files, not chat dumps |
 | **D. Cross-Agent Bootstrap and Fallback** | How to load this skill when native auto-load is not available |
 | **E. Prompt Creation and Delegation** | English, file-first, path-specific, unambiguous prompts |
-| **F. Project Documentary Workspace** | Baseline folder structure for project documentation |
-| **G. Session Log and Daily Report** | Mandatory session documentation and daily report protocol |
+| **F. Project Documentary Workspace** | Baseline folder structure plus operational state layer for formal projects |
+| **G. Session Log and Daily Report** | Mandatory hybrid session documentation and daily-report protocol |
 | **H. Proactive Reminder Cadence** | Conditional reminders for claude-session-registry, context-guardian, docx-indexer |
 | **I. Power BI / DAX Domain Overlay** | DAX/PBI-specific rules activated on relevant work |
 | **J. Skill Evolution Governance** | How and when to update this skill |
+
+---
+
+## Hybrid Documentary Model
+
+The current documentary model is hybrid:
+
+- `1 session doc per day + agent`
+- never create session docs per project
+- every session doc must declare `Context Type: Project|General`
+- `Project` must be the real project name or `GENERAL`
+- the same session doc may contain multiple `Project` and `General` work blocks
+- daily reports remain global by day and must separate `Project Work` and `General Work`
+- formal projects may expose these files at the project root:
+  - `PROJECT_CONTEXT.md`
+  - `status-atual.md`
+  - `next-step.md`
+  - `decisoes.md`
 
 ---
 
@@ -41,33 +59,36 @@ Instead of repeating the same rules in every conversation or session, this skill
 
 ### Auto-Load (Claude Code)
 
-When you start Claude Code, this skill loads automatically with highest priority, giving the agent immediate context about Jimmy's operating framework.
+When Claude Code starts, this skill loads automatically with highest priority.
 
 ### Cross-Agent Loading (Codex, Gemini, etc.)
 
 For agents without native auto-load:
+
 1. Jimmy provides: `C:\ai\obsidian\CIH\_skills-cross-agent-machines\README.md`
-2. Agent reads the router and loads only the needed skills from `C:\ai\claude-intelligence-hub`
+2. The agent reads the router and loads only the needed skills from `C:\ai\claude-intelligence-hub`
 
 ### Dynamic Updates
 
-When Jimmy says things like "always do X" or "add this to preferences":
-1. Agent updates `SKILL.md`
-2. Commits and pushes to GitHub
-3. Confirms briefly
+When Jimmy adds or changes a global rule:
+
+1. Update `SKILL.md`
+2. Update supporting docs if needed
+3. Commit and push
+4. Confirm briefly
 
 ---
 
 ## File Structure
 
-```
+```text
 jimmy-core-preferences/
-├── README.md              <- You are here
-├── SKILL.md               <- Main file agents read
-├── CHANGELOG.md           <- Version history
-├── EXECUTIVE_SUMMARY.md   <- Comprehensive overview
-├── SETUP_GUIDE.md         <- Installation instructions
-└── .metadata              <- Version and config
+|-- README.md
+|-- SKILL.md
+|-- CHANGELOG.md
+|-- EXECUTIVE_SUMMARY.md
+|-- SETUP_GUIDE.md
+`-- .metadata
 ```
 
 ---
@@ -76,41 +97,44 @@ jimmy-core-preferences/
 
 See [SETUP_GUIDE.md](./SETUP_GUIDE.md) for installation instructions.
 
-**Quick setup (Windows — Junction, recommended):**
+Quick setup on Windows:
 
 ```cmd
 cmd /c mklink /J "%USERPROFILE%\.claude\skills\user\jimmy-core-preferences" "C:\ai\claude-intelligence-hub\jimmy-core-preferences"
 ```
 
-> **Windows note:** Use Junction points (`mklink /J`), not Symbolic Links. Claude Code uses `dirent.isDirectory()` internally and requires Junction points to resolve correctly.
+Use Junction points on Windows, not Symbolic Links.
 
 ---
 
 ## Version History
 
-See [CHANGELOG.md](./CHANGELOG.md) for detailed version history.
+See [CHANGELOG.md](./CHANGELOG.md) for the detailed history.
 
-**Current Version:** 2.0.0
+**Current Version:** 2.0.1
 **Status:** Production
-**Last Updated:** 2026-03-11
+**Last Updated:** 2026-03-12
+
+### Latest Changes in v2.0.1
+
+- Clarified the hybrid session model: `1 session doc per day + agent`, never per project
+- Added required `Context Type: Project|General` and `Project` rules
+- Added mandatory `Project Work` vs `General Work` split in daily reports
+- Added the formal project operational state layer at the project root
 
 ### Major Changes in v2.0.0
 
-- Repositioned from "Claude/Xavier-centric master skill" to **global cross-agent operating framework**
-- Added: Prompt Creation and Delegation Standard (Section E)
-- Added: Project Documentary Workspace Protocol (Section F)
-- Added: Session Log and Daily Report Protocol (Section G)
-- Added: Proactive Reminder Cadence (Section H)
-- Added: Power BI / DAX Domain Overlay (Section I)
-- Removed: embedded workflows belonging to sibling skills
-- Removed: Claude-only assumptions and overlong identity framing
-- Fixed: encoding artifacts and mojibake
-- Result: cleaner, shorter, more portable across agents
+- Repositioned from a Claude/Xavier-centric master skill to a global cross-agent operating framework
+- Added prompt creation and delegation standards
+- Added project documentary workspace protocol
+- Added session log and daily report protocol
+- Added proactive reminder cadence
+- Added Power BI / DAX overlay
 
 ---
 
 ## Related
 
-- [Claude Intelligence Hub](https://github.com/mrjimmyny/claude-intelligence-hub) — source of truth
-- [Cross-Agent Skills README](C:\ai\obsidian\CIH\_skills-cross-agent-machines\README.md) — bootstrap router for agents without native skill loading
-- [HUB_MAP.md](../HUB_MAP.md) — full skill routing reference
+- [Claude Intelligence Hub](https://github.com/mrjimmyny/claude-intelligence-hub)
+- [Cross-Agent Skills README](C:\ai\obsidian\CIH\_skills-cross-agent-machines\README.md)
+- [HUB_MAP.md](../HUB_MAP.md)

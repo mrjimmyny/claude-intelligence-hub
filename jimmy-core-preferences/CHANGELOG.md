@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.0.1] - 2026-03-12
+
+### Changed
+- **Section F: Project Documentary Workspace Protocol** — added the formal project operational state layer at the project root:
+  - `PROJECT_CONTEXT.md`
+  - `status-atual.md`
+  - `next-step.md`
+  - `decisoes.md`
+- **Section G: Session Log and Daily Report Protocol** — aligned to the hybrid documentary model:
+  - `1 session doc per day + agent`
+  - never create session docs per project
+  - mandatory `Context Type: Project|General`
+  - mandatory `Project: <real name>` or `GENERAL`
+  - same session doc may contain multiple `Project` and `General` work blocks
+  - daily reports must separate `Project Work` and `General Work`
+
+### Updated
+- `SKILL.md`
+- `README.md`
+- `SETUP_GUIDE.md`
+- `EXECUTIVE_SUMMARY.md`
+- `.metadata`
+
 ## [2.0.0] - 2026-03-11
 
 ### Global Cross-Agent Operating Framework
