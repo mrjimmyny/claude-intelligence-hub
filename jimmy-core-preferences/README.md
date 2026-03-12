@@ -16,7 +16,7 @@ Instead of repeating the same rules in every session, this skill serves as a per
 - Keep cross-agent behavior consistent
 - Preserve documentary awareness in the Obsidian operating layer
 - Standardize prompt creation and delegation
-- Enforce hybrid session governance and daily-report discipline
+- Enforce hybrid session governance and curator-only daily-report consolidation
 
 ---
 
@@ -47,6 +47,7 @@ The current documentary model is hybrid:
 - `Project` must be the real project name or `GENERAL`
 - the same session doc may contain multiple `Project` and `General` work blocks
 - daily reports remain global by day and must separate `Project Work` and `General Work`
+- daily reports are consolidated once per day, at closure, by the agent curator/unifier
 - formal projects may expose these files at the project root:
   - `PROJECT_CONTEXT.md`
   - `status-atual.md`
@@ -111,9 +112,14 @@ Use Junction points on Windows, not Symbolic Links.
 
 See [CHANGELOG.md](./CHANGELOG.md) for the detailed history.
 
-**Current Version:** 2.0.1
+**Current Version:** 2.0.2
 **Status:** Production
 **Last Updated:** 2026-03-12
+
+### Latest Changes in v2.0.2
+
+- Clarified that the `daily report` is a curator artifact consolidated once per day at closure
+- Removed the idea that every agent should update the daily report during normal execution
 
 ### Latest Changes in v2.0.1
 

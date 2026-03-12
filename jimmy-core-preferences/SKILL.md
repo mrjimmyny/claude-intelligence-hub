@@ -1,6 +1,6 @@
 ---
 name: jimmy-core-preferences
-version: 2.0.1
+version: 2.0.2
 description: Global cross-agent operating framework for Jimmy.
 command: /preferences
 aliases: [/prefs, /jimmy]
@@ -8,7 +8,7 @@ aliases: [/prefs, /jimmy]
 
 # Jimmy Core Preferences — Global Cross-Agent Operating Framework
 
-**Version:** 2.0.1
+**Version:** 2.0.2
 **Last Updated:** 2026-03-12
 **Auto-Load:** Yes (Priority: Highest)
 
@@ -136,13 +136,15 @@ Every agent session must be documented. This is not optional.
    - `Context Type: Project|General`
    - `Project: <real project name>` or `Project: GENERAL`
 4. The same session doc may contain multiple work blocks. Use separate blocks when `Project` and `General` work coexist.
-5. Update both the session document and daily report **during** the work, not only at the end.
-6. Daily reports remain global by day and must explicitly separate:
+5. Update the session document **during** the work.
+6. Daily reports remain global by day, must explicitly separate:
    - `Project Work`
    - `General Work`
-7. Register: start time, work performed, decisions taken, validations, commits, next steps.
-8. At session close, set `status: complete` and push.
-9. When work continues the next day, add a **handoff block** that states:
+7. Daily reports are curator artifacts. Consolidate them **once per day at closure**, using the session documents of the same day as source of truth.
+8. Do not treat the daily report as an iteration log for every agent interaction unless Jimmy explicitly asks for that exception.
+9. Register: start time, work performed, decisions taken, validations, commits, next steps.
+10. At session close, set `status: complete` and push.
+11. When work continues the next day, add a **handoff block** that states:
    - Where the work stopped
    - What is pending
    - What comes next

@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.10.3] - 2026-03-12
+
+### Changed
+- **jimmy-core-preferences** bumped to v2.0.2 to clarify daily-report governance:
+  - session docs stay live operational logs
+  - daily reports are curator artifacts consolidated once per day, at closure
+  - daily reports must not be treated as per-interaction logs unless Jimmy explicitly requests that exception
+- Updated hub references in `HUB_MAP.md`, `README.md`, and `EXECUTIVE_SUMMARY.md`
+- Hub version bumped 2.10.2 -> 2.10.3
+
 ## [2.10.2] - 2026-03-12
 
 ### Changed

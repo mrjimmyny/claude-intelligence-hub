@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.0.2] - 2026-03-12
+
+### Changed
+- **Section G: Session Log and Daily Report Protocol** — clarified the curator model for daily reports:
+  - session docs are updated during the work
+  - daily reports are consolidated once per day, at closure
+  - daily reports are source-of-truth summaries built from the session docs of the same day
+  - daily reports must not be treated as per-interaction logs unless Jimmy explicitly requests that exception
+
+### Updated
+- `SKILL.md`
+- `README.md`
+- `.metadata`
+
 ## [2.0.1] - 2026-03-12
 
 ### Changed

@@ -1,6 +1,6 @@
 # Setup Guide - Jimmy Core Preferences
 
-**Version:** 2.0.1 | **Last Updated:** 2026-03-12
+**Version:** 2.0.2 | **Last Updated:** 2026-03-12
 
 Quick reference for setting up this global skill in different environments.
 

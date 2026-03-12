@@ -6,7 +6,7 @@
 
 # Executive Summary: Jimmy Core Preferences — Global Cross-Agent Operating Framework
 
-> **v2.0.1 (2026-03-12):** Hybrid session governance clarification. Added `Project|General` session rules, `Project Work|General Work` daily-report split, and the formal project operational state layer. See [CHANGELOG.md](./CHANGELOG.md) for full scope of changes.
+> **v2.0.2 (2026-03-12):** Daily-report governance clarification. Session docs remain live operational logs, while the `daily report` is now explicitly curator-only and consolidated once per day at closure. See [CHANGELOG.md](./CHANGELOG.md) for full scope of changes.
 
 ---
 
@@ -14,7 +14,7 @@
 **Project:** Jimmy Core Preferences + Claude Intelligence Hub (GitHub)
 **Prepared by:** Magneto (Claude) & Jimmy
 **Purpose:** Comprehensive overview — Global Cross-Agent Operating Framework
-**Version:** 2.0.1
+**Version:** 2.0.2
 
 ---
 
