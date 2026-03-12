@@ -1,8 +1,8 @@
 # Session Registry - 2026-03
 
 **Month:** Março 2026
-**Total Sessions:** 18
-**Last Updated:** 2026-03-12 01:54 BRT
+**Total Sessions:** 19
+**Last Updated:** 2026-03-12 02:00 BRT
 
 ---
 
@@ -28,3 +28,4 @@
 | 49397dd1-8467-4bd9-b5cf-4b192e357886 | 2026-03-10 | 16:18 | BR-SPO-DCFC264 | main | cadbdee | C:/ai | #DXI #Phase2 #Feature #Test #Docs | - Implementou Stage 2.2 v1 manual-first: summary/keywords heurísticos em enrich.py sem API externa (ENRICHMENT_VERSION 2.2.0-manual-heuristic)<br>- 41 novos testes adicionados (135/135 PASS, 0 falhas); validate.py PASS pré e pós enrichment<br>- Enriqueceu 937 arquivos no índice real (Run 1); provou incrementalidade: Run 2 com 0 na fila<br>- Micro-cleanup documental: timestamps normalizados (20:09), corpus breakdown corrigido (1784 ✓), estado de sessão e daily fechados<br>- 4 commits pushados: 73b656c (impl), 8118fcb (docs), 6f536c3 (cleanup), cadbdee (registry) — Stage 2.2 v1 encerrada |
 | 1a741af7-8637-46ea-8dec-62c4c29c91cd | 2026-03-11 | 18:44 | BR-SPO-DCFC264 | main | c4ab772 | C:/ai | #DXI #Phase2 #Validation #Gate | - Executou validação prática real da Stage 2.2 v1 (4 checkpoints): triagem via summary+keywords no índice enriquecido (tema `docx-indexer`)<br>- Identificou gap crítico de staleness (last_scan 03:23 vs artefatos Stage 2.2 criados às 20:09) e corrigiu com scan.py + enrich.py (46 novos enriquecidos)<br>- Confirmou valor real com índice fresco: 13 artefatos Stage 2.2 via keywords; summary+keywords reduzem navegação manual<br>- Atualizou session-741fc54d + daily-report-2026-03-11; commits 4ae39b5/fe3593b; Stage 2.3 gate aprovado por Jimmy |
 | a2825106-3829-43b6-a264-0b499622e9c4 | 2026-03-11 | 01:54 | WIN112022 | main | 602b0b1 | /c/ai | #JimmyCorePreferences #MicroFix #Docs #SessionRegistry | - Micro-fix pos-auditoria Emma: EXECUTIVE_SUMMARY.md linha 1092 jimmy-core-preferences v1.4.0 → v2.0.0 (Skill Collection Stats)<br>- Integrity check 6/6 PASSED; commit f6d84fa em claude-intelligence-hub (hub v2.10.1)<br>- Registrado Topico 16 no session doc + secao Micro-fix no daily report; commit 602b0b1 em ai-workspace-sync<br>- Package jimmy-core-preferences v2.0.0 100% fechado sem drift documental residual |
+| 77473873-90de-49d7-bea3-c4c3b5a719af | 2026-03-11 | 22:00 | BR-SPO-DCFC264 | main | a1c30ca | C:/ai | #DXI #Phase2 #Stage2.3 #EntityExtraction #MicroFix | - Pushados commits Stage 2.3: `a15b799` (feat entity extraction), `f9511c3` (docs), `68c4dab` (hashes registrados nos 3 artefatos ativos)<br>- Micro-fix `source_files`: removido truncamento `[:10]` em `_generate_entity_registry` — 58/58 entidades coerentes (count == len)<br>- Novo teste `test_registry_source_files_count_coherence` (15 entries > cap anterior de 10); regressão 185/185 PASS<br>- Commits micro-fix: `5f74ae5` (fix) + `bfd8931` (hashes nos artefatos ativos); validate.py PASS<br>- Stage 2.3 aprovada 100% pela Emma — entity extraction, auto-tagging, auto-category fechados sem ambiguidade |
