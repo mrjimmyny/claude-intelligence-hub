@@ -112,9 +112,14 @@ Use Junction points on Windows, not Symbolic Links.
 
 See [CHANGELOG.md](./CHANGELOG.md) for the detailed history.
 
-**Current Version:** 2.0.2
+**Current Version:** 2.0.3
 **Status:** Production
 **Last Updated:** 2026-03-12
+
+### Latest Changes in v2.0.3
+
+- Added a fixed short response shape for project status queries
+- Anchored that shape to the project root operational files
 
 ### Latest Changes in v2.0.2
 

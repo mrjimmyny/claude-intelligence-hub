@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.0.3] - 2026-03-12
+
+### Changed
+- **Section F: Project Documentary Workspace Protocol** — added a fixed short response standard for formal project status queries:
+  - `Fase atual`
+  - `Progresso geral`
+  - `Ja concluido`
+  - `Onde paramos`
+  - `Bloqueios`
+  - `Proximo passo oficial`
+  - `Guardrails / fora de escopo agora`
+- Clarified that these responses should be derived from the project root operational files first:
+  - `PROJECT_CONTEXT.md`
+  - `status-atual.md`
+  - `next-step.md`
+  - `decisoes.md`
+
+### Updated
+- `SKILL.md`
+- `README.md`
+- `.metadata`
+
+---
+
 ## [2.0.2] - 2026-03-12
 
 ### Changed

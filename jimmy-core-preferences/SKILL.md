@@ -1,6 +1,6 @@
 ---
 name: jimmy-core-preferences
-version: 2.0.2
+version: 2.0.3
 description: Global cross-agent operating framework for Jimmy.
 command: /preferences
 aliases: [/prefs, /jimmy]
@@ -8,7 +8,7 @@ aliases: [/prefs, /jimmy]
 
 # Jimmy Core Preferences — Global Cross-Agent Operating Framework
 
-**Version:** 2.0.2
+**Version:** 2.0.3
 **Last Updated:** 2026-03-12
 **Auto-Load:** Yes (Priority: Highest)
 
@@ -117,6 +117,21 @@ For formal projects that already exist and need an operational entrypoint, keep 
 - `decisoes.md`
 
 These files are operational control files. Do not bury them inside subfolders.
+
+### Project Status Summary Response Standard
+
+When Jimmy asks for the current status of a formal project, answer in this fixed shape:
+
+- `Fase atual`
+- `Progresso geral`
+- `Ja concluido`
+- `Onde paramos`
+- `Bloqueios`
+- `Proximo passo oficial`
+- `Guardrails / fora de escopo agora`
+
+The answer must stay short and should be derived from the project root operational files first:
+`PROJECT_CONTEXT.md` | `status-atual.md` | `next-step.md` | `decisoes.md`
 
 ---
 
