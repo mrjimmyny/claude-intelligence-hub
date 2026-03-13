@@ -1,8 +1,8 @@
 # Session Registry - 2026-03
 
 **Month:** Março 2026
-**Total Sessions:** 20
-**Last Updated:** 2026-03-12 19:30 BRT
+**Total Sessions:** 21
+**Last Updated:** 2026-03-12 23:40 BRT
 
 ---
 
@@ -30,3 +30,4 @@
 | a2825106-3829-43b6-a264-0b499622e9c4 | 2026-03-11 | 01:54 | WIN112022 | main | 602b0b1 | /c/ai | #JimmyCorePreferences #MicroFix #Docs #SessionRegistry | - Micro-fix pos-auditoria Emma: EXECUTIVE_SUMMARY.md linha 1092 jimmy-core-preferences v1.4.0 → v2.0.0 (Skill Collection Stats)<br>- Integrity check 6/6 PASSED; commit f6d84fa em claude-intelligence-hub (hub v2.10.1)<br>- Registrado Topico 16 no session doc + secao Micro-fix no daily report; commit 602b0b1 em ai-workspace-sync<br>- Package jimmy-core-preferences v2.0.0 100% fechado sem drift documental residual |
 | 77473873-90de-49d7-bea3-c4c3b5a719af | 2026-03-11 | 22:00 | BR-SPO-DCFC264 | main | a1c30ca | C:/ai | #DXI #Phase2 #Stage2.3 #EntityExtraction #MicroFix | - Pushados commits Stage 2.3: `a15b799` (feat entity extraction), `f9511c3` (docs), `68c4dab` (hashes registrados nos 3 artefatos ativos)<br>- Micro-fix `source_files`: removido truncamento `[:10]` em `_generate_entity_registry` — 58/58 entidades coerentes (count == len)<br>- Novo teste `test_registry_source_files_count_coherence` (15 entries > cap anterior de 10); regressão 185/185 PASS<br>- Commits micro-fix: `5f74ae5` (fix) + `bfd8931` (hashes nos artefatos ativos); validate.py PASS<br>- Stage 2.3 aprovada 100% pela Emma — entity extraction, auto-tagging, auto-category fechados sem ambiguidade |
 | 08cf1548-8af5-4399-8478-3abfa734ffe3 | 2026-03-12 | 15:30 | BR-SPO-DCFC264 | main | e59b87a | C:/ai | #DXI #Phase2 #Stage2.4 #MoveDetection #CorrectionPackage | - Implementou Stage 2.4 Round 1 move detection baseline: detect_moves() em scan.py (exact-hash, 1-to-1, min 100 bytes, UUID contract W-27)<br>- 19 testes unitários (V-4.1 a V-4.4) + regressão 204/204 PASS; audit gate Emma NO-GO (F1 UUID, F2 evidence, F3 session doc)<br>- Correction package: F1 UUID contract corrigido, 5 integration tests (test_scan_move_detection.py), _validate_move_fields() em validate.py<br>- 209/209 PASS pós-correction; validate.py PASS; commits 713cdfa/6e9c4ed/88efe2f/de861f3 pushados<br>- Round 1 aprovada após micro-limpeza Emma; Round 2 (semantic linking baseline) desbloqueada |
+| 9e1ad54b-e19a-4b2d-8848-dad99456d5ad | 2026-03-12 | 19:30 | BR-SPO-DCFC264 | main | 405bc1b | C:/ai | #DXI #Phase2 #Stage2.4 #SemanticLinking #Integration | - Implementou Stage 2.4 Round 2: linker.py com Jaccard scoring (keywords 0.50+entities 0.30+path 0.20), related_documents em 958 entradas, 4790 links, 49 unit tests, 258/258 PASS<br>- Implementou Stage 2.4 Round 3: generate_registry() (link-registry.json), _to_wikilink() + seção Semantic Links no export Markdown com wikilinks Obsidian, 25 integration tests, 283/283 PASS<br>- Stage 2.4 completa em 3 rounds: 98 novos testes na stage, 283/283 regressão PASS, validate.py PASS<br>- Emma auditou e aprovou Rounds 2 e 3; Stage 2.5 (embeddings vectoriais) preparada para próxima sessão com handoff da Emma |
