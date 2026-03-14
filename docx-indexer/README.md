@@ -1,4 +1,4 @@
-# docx-indexer (v1.3.0)
+# docx-indexer (v1.3.1)
 
 > Your workspace's memory - a global document index that knows where every file lives, stores semantic enrichment, and now has a controlled Voyage-backed semantic search baseline.
 
@@ -111,6 +111,44 @@ No. You need to ask for it explicitly. There is no background watcher.
 
 ### Can any agent use this skill?
 Yes. It is a Global Skill available to the Elite League agents via `/docx-indexer` or `/dxi`.
+
+### If the user explicitly asks for docx-indexer, does the agent always have to use it?
+No. Mentioning the skill is a strong routing hint, but not a waiver of judgment. The agent should still verify whether the real task is document discovery/search or just direct editing of already-known files.
+
+---
+
+## Usage Rule
+
+Use `docx-indexer` when the task is primarily about discovery, retrieval, or index-aware understanding of the workspace.
+
+### Mandatory
+
+- the target files are not already fixed
+- the agent needs to discover what exists in the workspace before acting
+- the user asks to find, locate, list, validate, enrich, or semantically search documents
+- the agent needs summaries, keywords, or semantic retrieval from the indexed corpus
+- the workspace changed materially and index freshness matters
+
+### Optional
+
+- the user mentions `docx-indexer`, but the target set is mostly known already
+- the agent wants a quick sanity check from the index before editing
+- the task mixes discovery plus direct edits and the index can reduce risk
+
+### Skip
+
+- the file set is already explicit and closed
+- the task is just patching, renaming, formatting, or bulk editing known files
+- using the index would add overhead without improving correctness or coverage
+
+### Agent obligation
+
+If `docx-indexer` is mentioned or seems relevant, the agent should make an explicit judgment:
+
+- `used`: when discovery/search/index validation actually improves the task
+- `skipped`: when the target set is already fixed and direct work is more efficient
+
+The important rule is not blind invocation. The important rule is correct invocation.
 
 ### What about files like `pdf`, `docx`, `xlsx`, `pbip`, or `pbix`?
 Those formats still require extractor support before they can be enriched. The Stage 2.2 v1 pipeline classifies them correctly, but does not pretend they are already covered.

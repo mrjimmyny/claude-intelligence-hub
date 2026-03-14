@@ -1,6 +1,6 @@
 # 🗺️ Claude Intelligence Hub - Visual Skill Router
 
-**Version:** 2.10.1
+**Version:** 2.10.5
 **Status:** 🟢 Active & Synchronized
 **Registry:** 17 Production Skills
 
@@ -51,7 +51,7 @@
 | 13 | **core_catalog** | v1.0.0 | `/catalog` | Bootstrap system data |
 | 15 | **codex-governance-framework** | v1.0.0 | `/governance` | Institutional governance docs |
 | 16 | **daily-tasks-oih** | v1.0.0 | `/daily-tasks-oih` | Daily tasks pool and per-agent execution workflow |
-| 17 | **docx-indexer** | v1.3.0 | `/docx-indexer` | Global document indexing + semantic enrichment + semantic search baseline |
+| 17 | **docx-indexer** | v1.3.1 | `/docx-indexer` | Global document indexing + semantic enrichment + semantic search baseline |
 
 ---
 
@@ -126,6 +126,7 @@
 ### 17. docx-indexer
 - **Path:** `docx-indexer/`
 - **Tool:** Global document indexing system. Append-only JSON index with UUID identity, SHA256 hashing, structural telemetry, semantic enrichment layers, and a validated `Stage 2.5` Voyage-backed semantic search baseline. Scripts at `C:\ai\_skills\docx-indexer\`.
+- **Routing rule:** use when discovery, retrieval, or index-aware understanding is needed; skip when the file set is already explicit and the task is only direct editing.
 
 ---
 

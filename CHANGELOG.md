@@ -24,6 +24,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `HUB_MAP.md` and `README.md`: version and capability references updated to v1.3.0
 - Hub version bumped 2.10.3 -> 2.10.4
 
+## [2.10.5] - 2026-03-14
+
+### Changed
+- **docx-indexer** bumped to v1.3.1:
+  - added explicit invocation judgment rules in `docx-indexer/README.md` and `docx-indexer/SKILL.md`
+  - clarified that user mention is a strong routing hint, not blind mandatory invocation
+  - documented `mandatory / optional / skip` usage logic for agents
+- `HUB_MAP.md`, root `README.md`, and version references updated
+- Hub version bumped 2.10.4 -> 2.10.5
+
 ## [2.10.2] - 2026-03-12
 
 ### Changed

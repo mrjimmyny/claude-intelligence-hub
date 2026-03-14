@@ -7,7 +7,7 @@ aliases: [/dxi]
 
 # docx-indexer
 
-**Version:** 1.3.0
+**Version:** 1.3.1
 
 ## Objective
 
@@ -44,6 +44,37 @@ When the user says any of these (in English or Portuguese), use the docx-indexer
 - You need the Obsidian-friendly markdown view of the index
 - You need to inspect existing enrichment metadata (`summary`, `keywords`, entities, links)
 - You need controlled semantic search over the validated `Voyage` shard baseline
+
+## Invocation Judgment Rule
+
+Mentioning `docx-indexer` is a strong routing signal, but not an unconditional command to use it blindly.
+
+The agent must decide whether the real task benefits from index-driven discovery or retrieval.
+
+### Mandatory
+
+- target files are not already fixed
+- workspace discovery is needed before action
+- the request is to find, list, validate, enrich, or semantically search documents
+- summaries, keywords, or semantic retrieval from the indexed corpus are needed
+- significant workspace changes make index freshness relevant
+
+### Optional
+
+- the user mentioned `docx-indexer`, but the file set is mostly known already
+- the index would be useful as a quick sanity check before editing
+- the task mixes discovery with direct file edits
+
+### Skip
+
+- the target files are already explicit and closed
+- the task is direct editing, patching, formatting, or bulk updates on known files
+- using the index would add overhead without increasing correctness, coverage, or safety
+
+### Required behavior
+
+- If used: say explicitly that `docx-indexer` is being used and why.
+- If skipped: say explicitly that it was considered and why it was not needed.
 
 ## When NOT to Use
 
