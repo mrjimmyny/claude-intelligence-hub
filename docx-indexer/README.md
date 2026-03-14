@@ -1,6 +1,6 @@
-# docx-indexer (v1.2.0)
+# docx-indexer (v1.3.0)
 
-> Your workspace's memory - a global document index that knows where every file lives and now stores first-layer enrichment for eligible textual files.
+> Your workspace's memory - a global document index that knows where every file lives, stores semantic enrichment, and now has a controlled Voyage-backed semantic search baseline.
 
 ---
 
@@ -12,9 +12,9 @@ The **docx-indexer** scans all files and folders under a root directory (for exa
 - A SHA256 fingerprint of each file's content - detects changes instantly
 - Structural telemetry for folders - child counts and recursive size
 - An Obsidian-friendly markdown view - browse the index visually
-- Manual-first enrichment - `summary` and `keywords` for eligible textual files
+- Semantic enrichment - `summary`, `keywords`, entity/linking layers, and a Voyage-backed semantic search baseline
 
-Think of it as a phone book for your files plus a first semantic layer for the textual corpus you already trust.
+Think of it as a phone book for your files plus a semantic enrichment layer and a controlled semantic retrieval baseline for the textual corpus you already trust.
 
 ---
 
@@ -41,6 +41,8 @@ python scripts/enrich.py --stage all
 ```
 
 All commands run from `C:\ai\_skills\docx-indexer\`.
+
+Semantic search baseline is available through the skill/runtime layer after `Stage 2.5`, but it is not exposed as a simple standalone CLI command yet.
 
 ---
 
@@ -71,6 +73,9 @@ All commands run from `C:\ai\_skills\docx-indexer\`.
 > PT: "quais keywords o indice tem para esse arquivo?"
 > EN: "what keywords does the index have for this file?"
 
+> PT: "faz uma busca semantica no indice por documentos sobre embeddings"
+> EN: "run a semantic search in the index for documents about embeddings"
+
 ### Updating the Index
 
 > PT: "roda um dry-run do docx-indexer pra ver o que mudou"
@@ -93,7 +98,7 @@ All commands run from `C:\ai\_skills\docx-indexer\`.
 No. You can say things like "consulta o indice de documentos" or "check the document index" and the agent should route to docx-indexer automatically.
 
 ### Does the index search inside file contents?
-Not as full semantic search. The index still works primarily as a structural catalog, but `Stage 2.2 v1` now stores `summary` and `keywords` for eligible textual files. That gives you a first semantic layer without turning the system into a full content search engine yet.
+Yes, in a controlled baseline form. The system still works primarily as a structural catalog, but Phase 2 now includes summaries, keywords, entities/linking layers, and a `Stage 2.5` vector embedding + semantic search baseline validated with `Voyage`. It is not yet a local sparse/hybrid retrieval system.
 
 ### What happens if I delete a file?
 The index marks it as deleted with a timestamp - it never removes the entry. This preserves the history of what existed.
@@ -122,15 +127,19 @@ C:\ai\_skills\docx-indexer\
 |   |-- scan.py                  # Core scanner
 |   |-- common.py                # Shared helpers
 |   |-- content_reader.py        # Text eligibility + extraction
-|   |-- enrich.py                # Stage 2.2 v1 enrichment
+|   |-- enrich.py                # Enrichment pipeline
+|   |-- embedding_client.py      # Stage 2.5 embedding provider abstraction
+|   |-- search.py                # Stage 2.5 semantic search baseline
+|   |-- smoke_test_voyage.py     # Controlled real-provider validation
 |   |-- validate.py              # Index validator
 |   `-- export-md.py             # Markdown exporter
 |-- index\
 |   |-- docx-index.json          # Primary index (append-only)
 |   |-- docx-index.json.bak      # Automatic backup
 |   `-- docx-index.md            # Obsidian markdown view
+|   `-- embeddings.db            # Stage 2.5 vector storage
 |-- test-results\                # Evidence artifacts
-`-- tests\                       # 135 tests (all passing)
+`-- tests\                       # 372 tests (all passing)
 ```
 
 ---
@@ -139,14 +148,14 @@ C:\ai\_skills\docx-indexer\
 
 | Metric | Value |
 |--------|-------|
-| Total dict entries | 1,784 |
-| Active entries | 1,770 |
-| Files | 1,122 |
-| Directories | 648 |
-| Deleted entries | 14 |
-| Enriched files | 937 |
-| Tests | 135/135 PASS |
-| Current decision | Stage 2.2 v1 stable with minor residual risks |
+| Total dict entries | 3,987 |
+| Active entries | 3,970 |
+| Files | 3,044 |
+| Directories | 926 |
+| Deleted entries | 17 |
+| Enriched files | 955 |
+| Tests | 372/372 PASS |
+| Current decision | Stage 2.5 closed with GO; Voyage semantic baseline validated |
 
 ---
 
@@ -165,11 +174,11 @@ C:\ai\_skills\docx-indexer\
 
 ## What It Does NOT Do
 
-- Full semantic search or embeddings
-- API-native enrichment (`Stage 2.2 v2`)
+- Local sparse/hybrid retrieval (`Stage 3.1`)
+- Chunking and re-ranking
 - Cross-machine sync/merge in production flow
 - Real-time file watching
-- Entity extraction or auto-tagging (`Stage 2.3+`)
+- Multi-provider production routing beyond the validated Voyage baseline
 
 ---
 
@@ -179,7 +188,8 @@ C:\ai\_skills\docx-indexer\
 |----------|----------|
 | Full operational guide | `SKILL.md` (this skill directory) |
 | Contract | `01-manifesto-contract/docx-indexer-contract-jimmy-2026-03-05-v1.0.md` |
-| Stage 2.2 implementation report | `05-final/docx-indexer-phase2-stage2.2-v1-implementation-report-xavier-v1.0.md` |
-| Stage 2.2 audit report | `05-final/docx-indexer-phase2-stage2.2-v1-audit-report-xavier-v1.0.md` |
+| Stage 2.5 Round 3 report | `05-final/docx-indexer-phase2-stage2.5-round3-voyage-smoke-latency-close-report-xavier-v1.0.md` |
+| Stage 2.5 final audit gate | `05-final/docx-indexer-phase2-stage2.5-round3-audit-gate-emma-v1.0.md` |
+| Stage 2.5 post-close reinforcement | `05-final/docx-indexer-phase2-stage2.5-postclose-reinforcement-report-magneto-v1.0.md` |
 | Usage guide | `06-operationalization/docx-indexer-global-skill-usage-guide-brain-v1.0.md` |
 | Operational handoff | `06-operationalization/docx-indexer-global-skill-handoff-brain-v1.0.md` |

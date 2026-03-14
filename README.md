@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.10.1-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.10.4-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -37,7 +37,7 @@ All skills are available as **slash commands** for instant access. Just type `/c
 | **core_catalog** | `/catalog` | /core | System configurations & bootstrap |
 | **codex-governance** | `/governance` | /codex | Institutional governance framework |
 | **daily-tasks-oih** | `/daily-tasks-oih` | /dtoih, /daily-tasks | Daily tasks pool and per-agent execution workflow |
-| **docx-indexer** | `/docx-indexer` | /dxi | Global document indexing + manual-first enrichment |
+| **docx-indexer** | `/docx-indexer` | /dxi | Global document indexing + semantic enrichment + semantic search baseline |
 
 **Example usage:**
 ```bash
@@ -186,7 +186,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[conversation-memoria](conversation-memoria/)** | v1.0.0 | ✅ Production | Persistent conversation storage | Intelligent metadata extraction, 95-98% token savings, week-based organization, natural language triggers, cross-agent memory sharing. |
 | **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v2.0.0 | ✅ Production | Multi-agent coordination framework | The Seven Pillars of AOP mastery, recursive/parallel workflows, production-validated prompt cookbook. |
 | **[daily-tasks-oih](daily-tasks-oih/)** | v1.0.0 | ✅ Production | Daily task workflow for OIH | Pool capture, per-agent dispatch, execution tracking, close protocol, English-only operational docs. |
-| **[docx-indexer](docx-indexer/)** | v1.2.0 | ✅ Production | Global document indexing system | Append-only JSON index, UUID identity, SHA256 hashing, structural telemetry, dry-run mode, and Stage 2.2 v1 manual-first enrichment (`summary` + `keywords`). |
+| **[docx-indexer](docx-indexer/)** | v1.3.0 | ✅ Production | Global document indexing system | Append-only JSON index, UUID identity, SHA256 hashing, structural telemetry, semantic enrichment, and a validated Voyage-backed semantic search baseline. |
 
 ---
 
@@ -487,7 +487,7 @@ claude-intelligence-hub/
 ?   ??? bootstrap_compat.json        # Bootstrap compatibility map
 ?
 │
-├── 📁 docx-indexer/                  # ⭐ Global Document Indexing + Enrichment (v1.2.0)
+├── 📁 docx-indexer/                  # ⭐ Global Document Indexing + Semantic Search Baseline (v1.3.0)
 │   ├── SKILL.md                     # Operational protocol & agent guide
 │   ├── .metadata                    # Version metadata
 │   └── README.md                    # User documentation
@@ -907,8 +907,8 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 
 ## 📈 Version History
 
-**Current Version:** v2.10.0 ✅ **docx-indexer v1.2.0 - Stage 2.2 v1 manual-first enrichment operationalized**
-**Last Updated:** March 11, 2026
+**Current Version:** v2.10.4 ✅ **docx-indexer v1.3.0 - Stage 2.5 semantic search baseline operationalized**
+**Last Updated:** March 14, 2026
 **Status:** Production | Context Preservation + Cloud Backup | Actively Maintained
 
 ### Major Milestones

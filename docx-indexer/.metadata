@@ -1,12 +1,12 @@
 {
   "name": "docx-indexer",
-  "version": "1.2.0",
-  "description": "Global document indexing system with append-only JSON index, UUID identity, SHA256 hashing, structural telemetry, and Stage 2.2 v1 manual-first enrichment (summary + keywords).",
+  "version": "1.3.0",
+  "description": "Global document indexing system with append-only JSON index, UUID identity, SHA256 hashing, structural telemetry, semantic enrichment, and Stage 2.5 Voyage-backed semantic search baseline.",
   "status": "production",
   "author": "Xavier (Claude Opus 4.6) + Jimmy",
   "audited_by": "Magneto (Claude Opus 4.6)",
   "created": "2026-03-05",
-  "updated": "2026-03-11",
+  "updated": "2026-03-14",
   "type": "workspace-tool",
   "auto_load": false,
   "triggers": {
@@ -31,7 +31,11 @@
       "how many files",
       "file summary",
       "summary do arquivo",
-      "keywords do arquivo"
+      "keywords do arquivo",
+      "semantic search in the index",
+      "busca semantica no indice",
+      "find related documents",
+      "achar documentos relacionados"
     ],
     "validate": [
       "validate the index",
@@ -53,6 +57,12 @@
       "enriquece o indice",
       "generate summaries",
       "generate keywords"
+    ],
+    "semantic-search": [
+      "semantic search",
+      "busca semantica",
+      "search by meaning",
+      "buscar por significado"
     ]
   },
   "settings": {
@@ -63,7 +73,9 @@
       "scan": "scripts/scan.py",
       "validate": "scripts/validate.py",
       "export": "scripts/export-md.py",
-      "enrich": "scripts/enrich.py"
+      "enrich": "scripts/enrich.py",
+      "embeddings": "scripts/embedding_client.py",
+      "search": "scripts/search.py"
     }
   }
 }

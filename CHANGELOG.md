@@ -14,6 +14,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated hub references in `HUB_MAP.md`, `README.md`, and `EXECUTIVE_SUMMARY.md`
 - Hub version bumped 2.10.2 -> 2.10.3
 
+## [2.10.4] - 2026-03-14
+
+### Changed
+- **docx-indexer** bumped to v1.3.0 - `Stage 2.5` closed with validated semantic search baseline:
+  - `docx-indexer/.metadata`: version, description, triggers, and script map updated for semantic search baseline
+  - `docx-indexer/SKILL.md`: capability model expanded from Stage 2.2 v1 only to full Phase 2 closure context, including provider-compatible semantic search and updated audit status
+  - `docx-indexer/README.md`: usage docs updated to reflect semantic enrichment + Voyage-backed semantic search baseline, current stats, and 372-test state
+  - `HUB_MAP.md` and `README.md`: version and capability references updated to v1.3.0
+- Hub version bumped 2.10.3 -> 2.10.4
+
 ## [2.10.2] - 2026-03-12
 
 ### Changed
