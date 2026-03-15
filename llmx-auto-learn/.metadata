@@ -1,0 +1,34 @@
+{
+  "name": "llmx-auto-learn",
+  "version": "1.0.0",
+  "description": "Auto-learning skill that extracts and injects relevant knowledge from the user's own data at C:\\ai into the current agent context",
+  "status": "production",
+  "author": "Magneto (Claude Code - Anthropic)",
+  "created": "2026-03-15",
+  "last_updated": "2026-03-15",
+  "type": "knowledge-retrieval",
+  "auto_load": false,
+  "aliases": ["/llmxal"],
+  "command": "/llmx-auto-learn",
+  "data_source": "C:\\ai",
+  "cross_machine": true,
+  "cross_agent": true,
+  "triggers": {
+    "explicit": [
+      "/llmxal",
+      "/llmx-auto-learn"
+    ],
+    "contextual": [
+      "load context for",
+      "what do we know about",
+      "what's our history with",
+      "pick up where we left off",
+      "load my context",
+      "what did we decide about",
+      "give me the background on",
+      "what have we built for"
+    ]
+  },
+  "phase": "phase1",
+  "phase2_planned": "auto-improvement and self-learning cycle (pending Phase 1 stabilization)"
+}

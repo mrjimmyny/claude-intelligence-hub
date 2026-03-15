@@ -24,6 +24,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `HUB_MAP.md` and `README.md`: version and capability references updated to v1.3.0
 - Hub version bumped 2.10.3 -> 2.10.4
 
+## [2.11.0] - 2026-03-15
+
+### Added
+- **llmx-auto-learn** v1.0.0 — new skill: auto-learning from personal knowledge base at `C:\ai`:
+  - 5-step Execution Protocol: understand task → hunt for relevant knowledge (priority-ordered) → extract without overloading → synthesize Knowledge Brief → proceed with task
+  - Cross-machine: `C:\ai` is the same absolute path on all machines; user-specific paths use `$env:USERPROFILE` / `$env:COMPUTERNAME`
+  - Cross-agent: native in Claude Code; other agents (Codex, Gemini, Abacus) via skill-router
+  - Evals: 3 test cases (context load, path decisions query, ecosystem overview), all 5/5 assertions pass on first iteration
+  - Alias: `/llmxal`
+  - Author: Magneto (Claude Code - Anthropic), authorized by Jimmy
+- `HUB_MAP.md`, `README.md`, `EXECUTIVE_SUMMARY.md` updated to v2.11.0
+- Hub version bumped 2.10.5 -> 2.11.0
+
 ## [2.10.5] - 2026-03-14
 
 ### Changed

@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.10.5-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.11.0-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -187,6 +187,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v2.0.0 | ✅ Production | Multi-agent coordination framework | The Seven Pillars of AOP mastery, recursive/parallel workflows, production-validated prompt cookbook. |
 | **[daily-tasks-oih](daily-tasks-oih/)** | v1.0.0 | ✅ Production | Daily task workflow for OIH | Pool capture, per-agent dispatch, execution tracking, close protocol, English-only operational docs. |
 | **[docx-indexer](docx-indexer/)** | v1.3.1 | ✅ Production | Global document indexing system | Append-only JSON index, UUID identity, SHA256 hashing, structural telemetry, semantic enrichment, validated Voyage-backed semantic search baseline, and explicit invocation judgment rules. |
+| **[llmx-auto-learn](llmx-auto-learn/)** | v1.0.0 | ✅ Production | Auto-learning from personal knowledge base | Scans C:\ai, extracts context from sessions/decisions/specs, synthesizes Knowledge Brief. Cross-machine (C:\ai identical) + cross-agent (native Claude Code + skill-router). |
 
 ---
 
@@ -907,8 +908,8 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 
 ## 📈 Version History
 
-**Current Version:** v2.10.5 ✅ **docx-indexer v1.3.1 - invocation judgment rules added to semantic search baseline**
-**Last Updated:** March 14, 2026
+**Current Version:** v2.11.0 ✅ **llmx-auto-learn v1.0.0 - new skill: auto-learning from personal knowledge base**
+**Last Updated:** March 15, 2026
 **Status:** Production | Context Preservation + Cloud Backup | Actively Maintained
 
 ### Major Milestones

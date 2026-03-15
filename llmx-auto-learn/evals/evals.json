@@ -1,0 +1,92 @@
+{
+  "skill_name": "llmx-auto-learn",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "load-project-context-llmxal",
+      "prompt": "Vou começar uma nova sessão de trabalho. Carrega o contexto do projeto llmx-auto-learn pra mim - o que já foi feito, onde paramos, quais decisões foram tomadas. Quero estar 100% alinhado antes de continuar.",
+      "expected_output": "A knowledge brief com: fase atual do projeto, decisões registradas (alias llmxal, paths dinâmicos, cross-agent, etc.), onde a última sessão parou, o que está pendente. Deve citar os arquivos fonte.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Output contains a structured knowledge brief or equivalent summary section",
+          "type": "qualitative"
+        },
+        {
+          "text": "Output mentions at least 3 of the 4 key decisions: alias llmxal, dynamic paths, cross-agent via skill-router, Phase 2 out of scope",
+          "type": "qualitative"
+        },
+        {
+          "text": "Output cites at least one source file (decisoes.md, manifesto, status-atual.md, or session doc)",
+          "type": "qualitative"
+        },
+        {
+          "text": "Output mentions current phase/status (Phase 1, manifesto created)",
+          "type": "qualitative"
+        },
+        {
+          "text": "Output identifies the next step (approval of manifesto, running skill-creator, etc.)",
+          "type": "qualitative"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "query-path-decisions",
+      "prompt": "O que já decidimos sobre como lidar com paths de máquinas diferentes nesse projeto? Quero entender o raciocínio antes de implementar.",
+      "expected_output": "Resposta focada nas decisões sobre paths dinâmicos: usar variáveis de ambiente, não hardcodar usernames, C:\\ai é o mesmo em ambas as máquinas. Deve citar a fonte.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Output mentions that C:\\ai is the same path on both machines",
+          "type": "qualitative"
+        },
+        {
+          "text": "Output explains the dynamic path strategy (env vars like $env:USERPROFILE or $env:COMPUTERNAME)",
+          "type": "qualitative"
+        },
+        {
+          "text": "Output mentions the reason: user has 2 machines with different usernames",
+          "type": "qualitative"
+        },
+        {
+          "text": "Output cites a source file (decisoes.md or manifesto)",
+          "type": "qualitative"
+        },
+        {
+          "text": "Output does NOT invent path decisions not present in the actual files",
+          "type": "qualitative"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "eval_name": "cih-ecosystem-overview",
+      "prompt": "Preciso entender rapidamente o ecossistema CIH. Quais são as skills ativas, como está organizado, quais projetos estão em andamento?",
+      "expected_output": "Um brief com: overview das skills no hub (nomes, propósitos, tiers), projetos ativos no CIH, estrutura geral. Deve consultar HUB_MAP.md ou skills reais.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Output lists at least 5 skills from the hub",
+          "type": "qualitative"
+        },
+        {
+          "text": "Output mentions at least 2 active projects",
+          "type": "qualitative"
+        },
+        {
+          "text": "Output references HUB_MAP.md or claude-intelligence-hub as the source",
+          "type": "qualitative"
+        },
+        {
+          "text": "Output provides useful organization context (tiers, categories, or groupings)",
+          "type": "qualitative"
+        },
+        {
+          "text": "Response is concise enough to be useful as a quick brief",
+          "type": "qualitative"
+        }
+      ]
+    }
+  ]
+}
