@@ -1,8 +1,8 @@
 # 🗺️ Claude Intelligence Hub - Visual Skill Router
 
-**Version:** 2.11.0
+**Version:** 2.10.5
 **Status:** 🟢 Active & Synchronized
-**Registry:** 18 Production Skills
+**Registry:** 17 Production Skills
 
 ---
 
@@ -10,7 +10,7 @@
 
 | Metric | Count | Status |
 | :--- | :--- | :--- |
-| **Total Skills** | 18 | ✅ Verified |
+| **Total Skills** | 17 | ✅ Verified |
 | **Governance** | 100% | 🟢 Compliant |
 | **Architecture** | 3-Tier | 🏗️ Structured |
 
@@ -52,7 +52,6 @@
 | 15 | **codex-governance-framework** | v1.0.0 | `/governance` | Institutional governance docs |
 | 16 | **daily-tasks-oih** | v1.0.0 | `/daily-tasks-oih` | Daily tasks pool and per-agent execution workflow |
 | 17 | **docx-indexer** | v1.3.1 | `/docx-indexer` | Global document indexing + semantic enrichment + semantic search baseline |
-| 18 | **llmx-auto-learn** | v1.0.0 | `/llmxal` | Auto-learning from personal knowledge base at C:\ai — cross-machine, cross-agent |
 
 ---
 
@@ -128,14 +127,6 @@
 - **Path:** `docx-indexer/`
 - **Tool:** Global document indexing system. Append-only JSON index with UUID identity, SHA256 hashing, structural telemetry, semantic enrichment layers, and a validated `Stage 2.5` Voyage-backed semantic search baseline. Scripts at `C:\ai\_skills\docx-indexer\`.
 - **Routing rule:** use when discovery, retrieval, or index-aware understanding is needed; skip when the file set is already explicit and the task is only direct editing.
-
-### 18. llmx-auto-learn
-- **Path:** `llmx-auto-learn/`
-- **Alias:** `llmxal`
-- **Tool:** Auto-learning skill. Scans the user's personal knowledge base at `C:\ai`, extracts relevant context (sessions, decisions, manifestos, specs), synthesizes a Knowledge Brief, and injects it into the current agent session. Enables any agent to work with full historical context from Day 1.
-- **Cross-machine:** `C:\ai` is the same path on all machines. User-specific paths use `$env:USERPROFILE` / `$env:COMPUTERNAME`.
-- **Cross-agent:** Native in Claude Code. Other agents use the skill-router.
-- **Routing rule:** invoke when the user needs context from previous work, wants to "load" a project, resumes after a break, or asks "what do we know about X".
 
 ---
 
