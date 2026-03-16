@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.11.0] - 2026-03-15
+
+### Added
+- **codex-task-notifier** v1.0.0 — Local Windows-first email notifier for Codex task completion via HTTPS pipeline (Resend -> Mailgun). Sends explicit task-end emails without altering the Codex native UI.
+  - SKILL.md, .metadata, README.md, scripts/, lib/, config/, templates/, fixtures/, tests/
+  - Symlink installed at `~/.claude/skills/codex-task-notifier` -> hub copy
+  - Added as skill #18 in Tier 2 (Context-Aware) of `HUB_MAP.md`
+- Hub version bumped 2.10.5 -> 2.11.0
+
 ## [2.10.3] - 2026-03-12
 
 ### Changed

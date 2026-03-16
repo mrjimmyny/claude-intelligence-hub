@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.10.5-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.11.0-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -38,6 +38,7 @@ All skills are available as **slash commands** for instant access. Just type `/c
 | **codex-governance** | `/governance` | /codex | Institutional governance framework |
 | **daily-tasks-oih** | `/daily-tasks-oih` | /dtoih, /daily-tasks | Daily tasks pool and per-agent execution workflow |
 | **docx-indexer** | `/docx-indexer` | /dxi | Global document indexing + semantic enrichment + semantic search baseline |
+| **codex-task-notifier** | `/codex-task-notifier` | /ctn | Local Windows-first email notifier for Codex task completion |
 
 **Example usage:**
 ```bash
@@ -187,6 +188,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v2.0.0 | ✅ Production | Multi-agent coordination framework | The Seven Pillars of AOP mastery, recursive/parallel workflows, production-validated prompt cookbook. |
 | **[daily-tasks-oih](daily-tasks-oih/)** | v1.0.0 | ✅ Production | Daily task workflow for OIH | Pool capture, per-agent dispatch, execution tracking, close protocol, English-only operational docs. |
 | **[docx-indexer](docx-indexer/)** | v1.3.1 | ✅ Production | Global document indexing system | Append-only JSON index, UUID identity, SHA256 hashing, structural telemetry, semantic enrichment, validated Voyage-backed semantic search baseline, and explicit invocation judgment rules. |
+| **[codex-task-notifier](codex-task-notifier/)** | v1.0.0 | ✅ Production | Codex task completion email notifier | Local Windows-first HTTPS pipeline (Resend -> Mailgun), explicit task-end emails, dynamic agent subjects, cross-machine portable. |
 
 ---
 
@@ -487,6 +489,17 @@ claude-intelligence-hub/
 ?   ??? bootstrap_compat.json        # Bootstrap compatibility map
 ?
 │
+├── 📁 codex-task-notifier/             # ⭐ Codex Task Completion Email Notifier (v1.0.0)
+│   ├── SKILL.md                     # Notification workflow & triggers
+│   ├── .metadata                    # Version metadata
+│   ├── README.md                    # User documentation
+│   ├── scripts/                     # PowerShell scripts (send, install, validate)
+│   ├── lib/                         # Core modules (failover, adapters, logging)
+│   ├── config/                      # Settings template
+│   ├── templates/                   # Email templates (subject, body)
+│   ├── fixtures/                    # Test payload fixtures
+│   └── tests/                       # Test directory
+│
 ├── 📁 docx-indexer/                  # ⭐ Global Document Indexing + Semantic Search Baseline (v1.3.1)
 │   ├── SKILL.md                     # Operational protocol & agent guide
 │   ├── .metadata                    # Version metadata
@@ -666,7 +679,7 @@ To maintain the high quality and integrity of the Claude Intelligence Hub, all a
 
 | Metric | Value |
 |--------|-------|
-| **Production Skills** | 17 collections (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih, docx-indexer) |
+| **Production Skills** | 18 collections (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih, docx-indexer, codex-task-notifier) |
 | **Total Documentation** | ~320KB (executive summaries, guides, changelogs, handover docs) |
 | **Version History** | 30+ commits (tracked in CHANGELOG.md) |
 | **Setup Time** | 15 minutes (Windows/macOS/Linux automated deployment) |
@@ -679,7 +692,7 @@ To maintain the high quality and integrity of the Claude Intelligence Hub, all a
 
 ### Skills by Status
 
-- ✅ **Production Ready:** 17 (jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills, xavier-memory, xavier-memory-sync, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih, docx-indexer)
+- ✅ **Production Ready:** 18 (jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills, xavier-memory, xavier-memory-sync, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih, docx-indexer, codex-task-notifier)
 - 📊 **Governance Modules:** 1 (token-economy)
 - 🚧 **In Development:** 0
 - 📋 **Planned:** 2 (python-claude-skills, git-claude-skills)
@@ -907,8 +920,8 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 
 ## 📈 Version History
 
-**Current Version:** v2.10.5 ✅ **docx-indexer v1.3.1 - invocation judgment rules added to semantic search baseline**
-**Last Updated:** March 14, 2026
+**Current Version:** v2.11.0 ✅ **codex-task-notifier v1.0.0 - Local Windows-first email notifier for Codex task completion**
+**Last Updated:** March 15, 2026
 **Status:** Production | Context Preservation + Cloud Backup | Actively Maintained
 
 ### Major Milestones

@@ -1,0 +1,19 @@
+Hello {{owner_name}},
+
+The requested task "{{short_task_title}}" was completed.
+Status: {{result_label}}
+
+Details:
+{{summary}}
+
+Trace:
+Session: {{session_id}}
+Machine: {{machine_id}}
+Project: {{project}}
+Thread: {{thread_id}}
+Turn: {{turn_id}}
+Local time: {{captured_at_local}}
+
+Best regards,
+Agent {{agent_name}}
+{{llm_model}}

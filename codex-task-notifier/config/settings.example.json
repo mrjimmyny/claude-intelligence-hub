@@ -1,0 +1,45 @@
+{
+  "enabled": true,
+  "channel": "https",
+  "subject_prefix": "Codex",
+  "project_label": "codex-task-notifier",
+  "default_recipient": "mrjimmyny@gmail.com",
+  "default_sender": "mrjimmyny@gmail.com",
+  "fallback_sender": "misteranalista@gmail.com",
+  "include_payload_reference": true,
+  "dedupe_window_minutes": 1440,
+  "log_retention_days": 14,
+  "provider_order": [
+    "resend",
+    "mailgun"
+  ],
+  "http_retry_delays_seconds": [
+    0,
+    2,
+    5
+  ],
+  "smtp_retry_delays_seconds": [
+    0,
+    2,
+    5
+  ],
+  "providers": {
+    "resend": {
+      "enabled": true,
+      "base_url": "https://api.resend.com",
+      "timeout_seconds": 30
+    },
+    "mailgun": {
+      "enabled": true,
+      "base_url": "https://api.mailgun.net",
+      "domain": null,
+      "timeout_seconds": 30
+    },
+    "smtp": {
+      "enabled": true
+    }
+  },
+  "completion_rules": {
+    "safe_default_no_send": true
+  }
+}

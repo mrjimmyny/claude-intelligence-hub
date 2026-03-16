@@ -1,8 +1,8 @@
 # 🗺️ Claude Intelligence Hub - Visual Skill Router
 
-**Version:** 2.10.5
+**Version:** 2.11.0
 **Status:** 🟢 Active & Synchronized
-**Registry:** 17 Production Skills
+**Registry:** 18 Production Skills
 
 ---
 
@@ -10,7 +10,7 @@
 
 | Metric | Count | Status |
 | :--- | :--- | :--- |
-| **Total Skills** | 17 | ✅ Verified |
+| **Total Skills** | 18 | ✅ Verified |
 | **Governance** | 100% | 🟢 Compliant |
 | **Architecture** | 3-Tier | 🏗️ Structured |
 
@@ -36,6 +36,7 @@
 | 5 | **pbi-claude-skills** | v1.3.0 | `/pbi` | `.pbip` project detection |
 | 7 | **xavier-memory** | v1.1.0 | `/xavier-memory` | Cross-project sync |
 | 12 | **agent-orchestration-protocol** | v2.0.0 | `/aop` | "orchestrate", "delegate" |
+| 18 | **codex-task-notifier** | v1.0.0 | `/codex-task-notifier` | "email me when done", "me manda um email" |
 
 ### 🟡 Tier 3: Explicit (On-Demand)
 *Only loads when manually invoked by the user.*
@@ -127,6 +128,11 @@
 - **Path:** `docx-indexer/`
 - **Tool:** Global document indexing system. Append-only JSON index with UUID identity, SHA256 hashing, structural telemetry, semantic enrichment layers, and a validated `Stage 2.5` Voyage-backed semantic search baseline. Scripts at `C:\ai\_skills\docx-indexer\`.
 - **Routing rule:** use when discovery, retrieval, or index-aware understanding is needed; skip when the file set is already explicit and the task is only direct editing.
+
+### 18. codex-task-notifier
+- **Path:** `codex-task-notifier/`
+- **Notification:** Local Windows-first email notifier for Codex task completion. Sends explicit task-end emails through HTTPS pipeline (Resend -> Mailgun) without altering the Codex native UI.
+- **Triggers:** "email me when done", "send completion email", "me manda um email", "mande um email quando terminar"
 
 ---
 

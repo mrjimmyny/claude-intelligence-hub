@@ -1,0 +1,32 @@
+{
+  "name": "codex-task-notifier",
+  "version": "1.0.0",
+  "description": "Local Windows-first notifier for Codex task completion emails via HTTPS pipeline (Resend -> Mailgun). Sends explicit task-end emails without altering the Codex native UI.",
+  "status": "production",
+  "author": "Magneto (Claude Code) + Emma (Codex) + Jimmy",
+  "created": "2026-03-15",
+  "updated": "2026-03-15",
+  "type": "notification-automation",
+  "auto_load": false,
+  "triggers": {
+    "send_email": [
+      "email me when done",
+      "send completion email",
+      "send an email at the end",
+      "send me an email when done",
+      "me avise por email no final",
+      "me manda um email",
+      "mande um email quando terminar"
+    ]
+  },
+  "settings": {
+    "channel": "https",
+    "provider_order": ["resend", "mailgun"],
+    "legacy_channel": "smtp",
+    "stable_base_path": "C:\\ai\\_skills\\codex-task-notifier",
+    "runtime_root": "%USERPROFILE%\\.codex-task-notifier",
+    "primary_recipient": "mrjimmyny@gmail.com",
+    "preferred_sender": "notify@mrjimmyny.org",
+    "codex_ui_inviolable": true
+  }
+}

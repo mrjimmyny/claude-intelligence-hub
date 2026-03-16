@@ -1,0 +1,10 @@
+{
+  "type": "task.completed",
+  "status": "completed",
+  "session_id": "session-success-001",
+  "thread_id": "thread-success-001",
+  "turn_id": "turn-success-001",
+  "cwd": "C:\\ai\\obsidian\\CIH\\projects\\skills\\codex-task-notifier",
+  "title": "Implement codex-task-notifier runtime foundation",
+  "summary": "Task completed successfully and control returned to Codex."
+}

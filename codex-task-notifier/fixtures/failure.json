@@ -1,0 +1,10 @@
+{
+  "type": "task.failed",
+  "status": "failed",
+  "session_id": "session-failure-001",
+  "thread_id": "thread-failure-001",
+  "turn_id": "turn-failure-001",
+  "cwd": "C:\\ai\\obsidian\\CIH\\projects\\skills\\codex-task-notifier",
+  "title": "Run SMTP integration smoke test",
+  "summary": "Task failed because the SMTP transport rejected authentication."
+}
