@@ -1,8 +1,8 @@
 {
   "name": "agent-orchestration-protocol",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "type": "orchestration-protocol",
-  "status": "production",
+  "status": "production-validated",
   "owner": "Forge",
   "description": "Multi-agent coordination framework (AOP) — JSON V2 with V1 backward compatibility",
   "triggers": [

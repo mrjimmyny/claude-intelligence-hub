@@ -1,5 +1,28 @@
 # Changelog — Agent Orchestration Protocol
 
+## [2.1.0] - 2026-03-16
+
+### Added
+- **Claude Code execution patterns** in SKILL.md — dedicated section for `claude -p` with inline and file-based prompt options.
+- **File-based prompt pattern** — write complex prompts to `.md` file, pipe via `cat file | claude -p`. Solves escaping issues with code snippets, tables, special characters.
+- **Artifact-based completion signal** — Executor creates JSON completion file; Orchestrator polls for existence. Replaces stdout parsing.
+- **Sub-agents vs Headless AOP distinction** — critical documentation clarifying that internal sub-agent tools (Agent tool, etc.) are NOT AOP headless sessions.
+- **Prompt 15** in AOP_WORKED_EXAMPLES.md — Claude-to-Claude production AOP with file-based prompt and artifact polling.
+- **Prompt 16** in AOP_WORKED_EXAMPLES.md — Headless documentation Executor pattern.
+- **Production case study** `orchestrations/2026-03-16_docx-indexer-w1w2/` — first real production AOP execution (11 code findings, 8 files, 372/372 tests).
+- **Lessons from Production** section in README.md — 5 key learnings from real execution.
+
+### Changed
+- Status upgraded from `Production-Ready` to `Production-Validated` (proven in real codebase with real tests).
+- README.md version updated to 2.1.0.
+- AOP-EXECUTIVE-SUMMARY.md version updated to 2.1.0.
+
+### Production Metrics (2026-03-16)
+- Code Executor: 84 tool calls, ~9 min, 8 files, 2 commits, 0 regressions.
+- Doc Executor: 20 tool calls, ~2 min, 3 files updated.
+- Polling: 4 polls to detection (~2 min).
+- All 7 Pillars applied and verified.
+
 ## [2.0.0] - 2026-03-01
 
 ### Added

@@ -1,6 +1,6 @@
 ---
 name: agent-orchestration-protocol
-version: 2.0.0
+version: 2.1.0
 description: Multi-agent coordination framework - The Seven Pillars of AOP
 command: /aop
 aliases: [/orchestrate, /delegate]
@@ -9,8 +9,8 @@ aliases: [/orchestrate, /delegate]
 # 🤖 Agent Orchestration Protocol (AOP)
 
 **Skill ID:** `agent-orchestration-protocol`
-**Version:** 2.0.0
-**Status:** Production-Ready
+**Version:** 2.1.0
+**Status:** Production-Validated
 **Category:** Multi-Agent Coordination
 **Author:** Forge (Senior Software Engineer & Context Specialist)
 
@@ -80,6 +80,19 @@ codex exec --dangerously-bypass-approvals-and-sandbox '<Complex_Instructions_Wra
 Set-Location <Target_Path>; codex exec --dangerously-bypass-approvals-and-sandbox '<Complex_Instructions_Wrapped_In_Single_Quotes>'
 ```
 
+**For Claude Code (Magneto):**
+**Option A (Inline prompt):**
+```powershell
+Set-Location <Target_Path>; claude -p "<Instructions>" --dangerously-skip-permissions --model claude-sonnet-4-6
+```
+
+**Option B (File-based prompt - Recommended for complex instructions):**
+```powershell
+Set-Location <Target_Path>; cat PROMPT_FILE.md | claude -p --dangerously-skip-permissions --model claude-sonnet-4-6
+```
+
+> **Why file-based?** Complex multi-step prompts with code snippets, tables, and special characters break when passed inline. Writing the prompt to a `.md` file first and piping via `cat` avoids all escaping issues and allows the Orchestrator to craft richer, more detailed instructions.
+
 **For Gemini (Forge):**
 **Option B (One-liner):**
 ```powershell
@@ -117,6 +130,34 @@ Executor Agents should output an `error.json` file in the root of their workspac
 ### Polling Optimizations
 - **Boolean Strategy:** Ask sub-agents to "Return ONLY 'YES' or 'NO'" to prevent hallucinations.
 - **Delegate the Loop:** Delegate the entire `while` loop to a single long-lived agent instead of spawning an agent per check.
+- **Artifact-Based Polling:** Have the Executor create a JSON completion file (e.g., `AOP_COMPLETE.json`) as its last step. The Orchestrator polls for this file's existence — simpler and more reliable than parsing stdout.
+
+### Completion Artifact Pattern
+```json
+{
+  "status": "SUCCESS",
+  "task": "description-of-task",
+  "files_updated": ["file1.md", "file2.py"],
+  "timestamp": "2026-03-16T18:00:00-03:00",
+  "executor": "Claude Sonnet 4.6 (headless AOP session)"
+}
+```
+
+---
+
+## Sub-agents vs Headless AOP (Critical Distinction)
+
+Tools like Claude Code's `Agent tool`, Codex's internal sub-agents, or Gemini's sub-processes are **NOT** AOP headless sessions. They run inside the parent process and share its context.
+
+| Aspect | Internal Sub-agent | AOP Headless (Real) |
+| :--- | :--- | :--- |
+| **Process** | Child of parent session | Independent OS process |
+| **Context** | Shares parent context | Clean, dedicated context |
+| **Command** | Agent tool / internal API | `claude -p` / `codex exec` / `gemini -p` in shell |
+| **Polling** | Synchronous return | Requires active polling (Pillar 4) |
+| **Pillar 1 compliant** | No | Yes |
+
+**Rule:** If the Orchestrator does not launch a shell command (`Bash`, `powershell`, terminal), it is NOT AOP. Sub-agents are useful but they are a different pattern.
 
 ---
 
@@ -146,6 +187,7 @@ Set-Location C:\ai\target_dir; gemini --approval-mode yolo -p "Forge, execute Ph
 ---
 
 **Version History:**
+- **v2.1.0** - Production-validated Claude-to-Claude headless AOP. File-based prompt pattern. Artifact-based polling. Sub-agent vs Headless distinction documented. Real metrics from docx-indexer W1+W2 execution (11 findings, 372/372 tests PASS).
 - **v2.0.0** - AOP JSON V2: JSON-native protocol, role-based architecture, guard rails, audit system.
 - **v1.3.0** - Added Seven Pillars, Flexible Routing, UX/UI Upgrades, and Execution Standards.
 

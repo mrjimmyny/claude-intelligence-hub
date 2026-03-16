@@ -186,8 +186,9 @@ Real-world orchestration executions are documented in the `orchestrations/` dire
 - Metrics and lessons learned
 - Application of all Seven Pillars
 
-**Featured Case Study:**
+**Featured Case Studies:**
 - **[Chain Delegation with Sub-Orchestration](./orchestrations/2026-02-25_chain-delegation/)** - Validates multi-level delegation where Emma (Codex) acts as both Executor and Sub-Orchestrator, delegating to Forge (Gemini). Demonstrates cross-LLM orchestration (Claude → OpenAI → Google) with 100% success rate.
+- **[docx-indexer W1+W2 Production Execution](./orchestrations/2026-03-16_docx-indexer-w1w2/)** - First real production AOP: Magneto (Opus 4.6) orchestrates Sonnet 4.6 headless to implement 11 code findings across 8 files. Validates file-based prompt pattern, artifact-based polling, and documentation delegation. 372/372 tests maintained.
 
 For additional worked examples and prompt templates, see [AOP_WORKED_EXAMPLES.md](./AOP_WORKED_EXAMPLES.md).
 
@@ -199,6 +200,18 @@ For issues, questions, or contributions to the AOP framework:
 - Review the [Security Boundaries](./SKILL.md#security-boundaries) before implementation.
 - Check existing worked examples before creating new patterns.
 
-**Version:** 1.3.0
-**Last Updated:** 2026-02-25
-**Maintained by:** Claude Intelligence Hub Team (Forge Lead)
+---
+
+## Lessons from Production (2026-03-16)
+
+Key learnings from the first real production AOP execution:
+
+1. **Sub-agents are NOT AOP.** Internal sub-agent tools (Claude Code's Agent tool, etc.) run inside the parent session. True AOP requires `claude -p` / `codex exec` / `gemini -p` launching an independent OS process.
+2. **File-based prompts for complex instructions.** Write the Executor prompt to a `.md` file and pipe via `cat file | claude -p`. Avoids all escaping issues with code snippets, tables, and special characters.
+3. **Artifact-based completion detection.** Have the Executor create a JSON file as its last step. The Orchestrator polls for this file. Simpler and more reliable than parsing stdout.
+4. **Executors can handle documentation.** With the right instructions (absolute paths, exact content, formatting rules), Executors update structured documents as reliably as code.
+5. **Prompt quality determines success.** The more precise the prompt (exact line numbers, before/after code, verification steps), the fewer iterations needed.
+
+**Version:** 2.1.0
+**Last Updated:** 2026-03-16
+**Maintained by:** Claude Intelligence Hub Team

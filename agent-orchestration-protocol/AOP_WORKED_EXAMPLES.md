@@ -354,3 +354,88 @@ Step 8: Report final STATUS: SUCCESS or FAIL
 **Production Validation:** This pattern was executed successfully on 2026-02-25 with 100% success rate. Both artifacts created correctly. See detailed case study at `orchestrations/2026-02-25_chain-delegation/README.md`.
 
 </details>
+
+---
+
+### Prompt 15: Claude-to-Claude Production AOP (File-Based Prompt + Artifact Polling)
+
+**Objective:** Real production orchestration where Magneto (Opus 4.6) acts as Orchestrator and launches a headless Claude Sonnet 4.6 session to implement 11 code findings across 8 files, with artifact-based completion detection and independent post-verification.
+
+<details>
+<summary><b>💻 View Prompt</b></summary>
+
+**Phase 1: Prompt Preparation (Orchestrator)**
+The Orchestrator writes a detailed prompt file with all instructions, code references, and verification steps:
+```bash
+# Orchestrator writes the prompt to a file (avoids escaping issues with complex instructions)
+Write the prompt content to AOP_EXECUTOR_PROMPT.md
+```
+
+**Phase 2: Headless Launch**
+```bash
+cat AOP_EXECUTOR_PROMPT.md | claude -p --dangerously-skip-permissions --model claude-sonnet-4-6 &
+```
+
+> **Key:** The `&` runs the process in background. The Orchestrator does NOT wait synchronously — it polls.
+
+**Phase 3: Active Vigilance (Artifact-Based Polling)**
+```bash
+# Poll every 30-45 seconds for the completion artifact
+test -f AOP_HEADLESS_COMPLETE.json && cat AOP_HEADLESS_COMPLETE.json || echo "Not yet."
+```
+
+**Phase 4: Integrity Verification (Orchestrator)**
+Once the artifact is detected, the Orchestrator independently verifies:
+```bash
+# Verify the Executor's work independently
+python -m pytest tests/ -q          # Must match expected test count
+git log --oneline -2                 # Verify expected commits exist
+git diff <before>..<after> -- file   # Spot-check critical diffs
+```
+
+**Phase 5: Closeout**
+Orchestrator reports SUCCESS/FAIL to the user with full metrics.
+
+**Production Validation:** This pattern was executed on 2026-03-16 in the `docx-indexer` project:
+- Executor (Sonnet 4.6 headless) implemented 11 findings across 8 files in ~9 minutes (84 tool calls)
+- Orchestrator (Magneto, Opus 4.6) detected completion via artifact polling (4 polls)
+- Post-verification: 372/372 tests PASS, validate.py PASS, 3 critical diffs spot-checked
+- Zero rollbacks, zero test regressions
+- A second headless session was launched for documentation updates (~2 min, 20 tool calls)
+- See case study at `orchestrations/2026-03-16_docx-indexer-w1w2/`
+
+</details>
+
+---
+
+### Prompt 16: Headless Documentation Executor
+
+**Objective:** Delegate session documentation and project doc updates to a headless Executor. Proves that AOP Executors can handle not just code but also structured document editing with surgical precision.
+
+<details>
+<summary><b>💻 View Prompt</b></summary>
+
+```bash
+# Write detailed prompt with:
+# - Exact file paths (absolute)
+# - Facts to document (commits, timestamps, metrics)
+# - Exact edit instructions per file (what to add, where, formatting)
+# - Completion artifact path
+# Then launch:
+cat DOC_EXECUTOR_PROMPT.md | claude -p --dangerously-skip-permissions --model claude-sonnet-4-6 &
+
+# Poll for completion artifact
+test -f AOP_HEADLESS_COMPLETE.json && cat AOP_HEADLESS_COMPLETE.json || echo "Not yet."
+
+# Post-verification: read each updated file and confirm edits are correct
+```
+
+**Key Lesson:** The Executor can update session docs, project docs, and any structured markdown — as long as the prompt includes:
+1. Absolute file paths
+2. The exact content/facts to write
+3. Clear formatting rules matching the existing document style
+4. A completion artifact as the last step
+
+**Production Validation:** Executed on 2026-03-16, updating 3 project docs (`status-atual.md`, `next-step.md`, `decisoes.md`) in ~2 minutes. Artifact detected on poll #4. All edits verified correct by Orchestrator.
+
+</details>

@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.12.0] - 2026-03-16
+
+### Changed
+- **agent-orchestration-protocol** v2.0.0 -> v2.1.0 — Production-validated with real headless AOP execution
+  - Added Claude Code execution patterns (inline + file-based prompt) to SKILL.md
+  - Added artifact-based completion signal pattern
+  - Documented critical distinction: sub-agents vs headless AOP
+  - Added Prompts 15-16 to AOP_WORKED_EXAMPLES.md (Claude-to-Claude production, documentation delegation)
+  - New case study: `orchestrations/2026-03-16_docx-indexer-w1w2/` (11 findings, 8 files, 372/372 tests)
+  - Added "Lessons from Production" section to README.md
+  - Status upgraded from Production-Ready to Production-Validated
+- Hub version bumped 2.11.0 -> 2.12.0
+
 ## [2.11.0] - 2026-03-15
 
 ### Added

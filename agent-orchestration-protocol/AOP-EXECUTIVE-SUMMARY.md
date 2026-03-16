@@ -7,14 +7,14 @@ Purpose: Provide structured input for NotebookLM to generate visual and dynamic 
 | Field | Value |
 | --- | --- |
 | Name | Agent Orchestration Protocol (AOP) |
-| Version | 1.3.0 |
-| Status | Production-Ready |
+| Version | 2.1.0 |
+| Status | Production-Validated |
 | Category | Multi-Agent Coordination |
 | Command | `/aop` |
 | Aliases | `/orchestrate`, `/delegate` |
 | Author | Forge (Senior Software Engineer & Context Specialist) |
 | Maintained By | Claude Intelligence Hub Team (Forge Lead) |
-| Last Updated | 2026-02-25 |
+| Last Updated | 2026-03-16 |
 | Roadmap Version | 1.2 (Last Updated: 2026-02-22, Next Review: Q2 2026) |
 
 ---
@@ -82,18 +82,23 @@ Set-Location <Target_Path>; gemini --approval-mode yolo -p "<Instructions>"
 
 ---
 
-## Production Capabilities (v1.3)
+## Production Capabilities (v2.1)
 
-- Seven-Pillar Framework fully implemented.
+- Seven-Pillar Framework fully implemented and production-validated.
+- JSON-native protocol (V2) with Pydantic v2 validation, guard rails, and audit system.
+- File-based prompt pattern for complex Executor instructions.
+- Artifact-based completion signal for reliable polling.
+- Claude-to-Claude orchestration (Opus Orchestrator + Sonnet Executor).
+- Documentation delegation (Executors update structured docs).
 - Constraint adaptation and delegation.
-- File-based state handover between agents.
 - Standardized JSON error reporting.
 - Security boundaries with trusted workspaces.
-- Headless executor operation.
+- Headless executor operation across Claude, Codex, and Gemini CLIs.
 - Polling and integrity validation loops.
 - Fallback and recovery protocols.
-- Production-validated prompt cookbook.
+- Production-validated prompt cookbook (16 patterns).
 - Sequential multi-agent workflows and basic parallel patterns.
+- 141 tests, 92% coverage (V2 core).
 
 ---
 
@@ -116,8 +121,9 @@ Set-Location <Target_Path>; gemini --approval-mode yolo -p "<Instructions>"
 
 ## Proof Points and Examples
 
-- Featured case study: `orchestrations/2026-02-25_chain-delegation/` demonstrates multi-level delegation where Emma acts as both Executor and Sub-Orchestrator, with a 100% success rate.
-- Current metrics (Roadmap v1.2, 2026-02-22): 100% success rate on basic delegation tasks; <10 minute average completion for standard workflows; 95% timeout accuracy.
+- Chain delegation case study (2026-02-25): multi-level delegation where Emma acts as both Executor and Sub-Orchestrator, with a 100% success rate.
+- Production code execution (2026-03-16): Magneto orchestrated Sonnet headless to implement 11 findings across 8 files in docx-indexer. 372/372 tests maintained. Two headless sessions (code + docs) both SUCCESS.
+- Current metrics: 100% success rate on all production executions; <10 minute average completion for standard workflows; artifact-based polling detects completion in 2-4 polls.
 
 ---
 
@@ -163,6 +169,6 @@ Set-Location <Target_Path>; gemini --approval-mode yolo -p "<Instructions>"
 
 ---
 
-**Version:** 1.3.0  
-**Status:** Production-Ready  
-**Last Updated:** 2026-02-25
+**Version:** 2.1.0
+**Status:** Production-Validated
+**Last Updated:** 2026-03-16
