@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.12.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.13.0-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -187,7 +187,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[conversation-memoria](conversation-memoria/)** | v1.0.0 | ✅ Production | Persistent conversation storage | Intelligent metadata extraction, 95-98% token savings, week-based organization, natural language triggers, cross-agent memory sharing. |
 | **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v2.1.0 | ✅ Production-Validated | Multi-agent coordination framework | The Seven Pillars of AOP mastery, recursive/parallel workflows, production-validated prompt cookbook. |
 | **[daily-tasks-oih](daily-tasks-oih/)** | v1.0.0 | ✅ Production | Daily task workflow for OIH | Pool capture, per-agent dispatch, execution tracking, close protocol, English-only operational docs. |
-| **[docx-indexer](docx-indexer/)** | v1.3.1 | ✅ Production | Global document indexing system | Append-only JSON index, UUID identity, SHA256 hashing, structural telemetry, semantic enrichment, validated Voyage-backed semantic search baseline, and explicit invocation judgment rules. |
+| **[docx-indexer](docx-indexer/)** | v1.4.0 | ✅ Production | Global document indexing system | Append-only JSON index, UUID identity, SHA256 hashing, structural telemetry, semantic enrichment, validated Voyage-backed semantic search baseline, and explicit invocation judgment rules. |
 | **[codex-task-notifier](codex-task-notifier/)** | v1.0.0 | ✅ Production | Codex task completion email notifier | Local Windows-first HTTPS pipeline (Resend -> Mailgun), explicit task-end emails, dynamic agent subjects, cross-machine portable. |
 
 ---
@@ -500,7 +500,7 @@ claude-intelligence-hub/
 │   ├── fixtures/                    # Test payload fixtures
 │   └── tests/                       # Test directory
 │
-├── 📁 docx-indexer/                  # ⭐ Global Document Indexing + Semantic Search Baseline (v1.3.1)
+├── 📁 docx-indexer/                  # ⭐ Global Document Indexing + Semantic Search Baseline (v1.4.0)
 │   ├── SKILL.md                     # Operational protocol & agent guide
 │   ├── .metadata                    # Version metadata
 │   └── README.md                    # User documentation

@@ -7,7 +7,7 @@ aliases: [/dxi]
 
 # docx-indexer
 
-**Version:** 1.3.1
+**Version:** 1.4.0
 
 ## Objective
 
@@ -89,21 +89,27 @@ All scripts, configuration, and index files live at:
 
 ```text
 C:\ai\_skills\docx-indexer\
-|-- config\dxi-config.json       # Machine-specific configuration
+|-- config\
+|   |-- dxi-config.json          # Machine-specific configuration
+|   `-- known-entities.json      # Known entity lists for extraction
 |-- scripts\
-|   |-- scan.py                  # Core scanner
-|   |-- common.py                # Shared Stage 2 helpers
+|   |-- __init__.py              # Package init
+|   |-- scan.py                  # Core scanner + diff engine + telemetry
+|   |-- common.py                # Shared constants + atomic write + markdown export
 |   |-- content_reader.py        # Text eligibility and content extraction
 |   |-- enrich.py                # Semantic enrichment pipeline
+|   |-- linker.py                # Semantic linker + link registry
 |   |-- embedding_client.py      # Stage 2.5 provider abstraction
-|   |-- search.py                # Stage 2.5 semantic search baseline
+|   |-- search.py                # Stage 2.5 semantic search baseline (with CLI)
 |   |-- smoke_test_voyage.py     # Controlled real-provider validation
 |   |-- validate.py              # Index integrity validator
 |   `-- export-md.py             # Markdown exporter
 |-- index\
 |   |-- docx-index.json          # Primary index (append-only)
 |   |-- docx-index.json.bak      # Atomic backup
-|   `-- docx-index.md            # Obsidian markdown view
+|   |-- docx-index.md            # Obsidian wikilink view
+|   |-- entity-registry.json     # Entity registry (generated)
+|   |-- link-registry.json       # Link registry (generated)
 |   `-- embeddings.db            # Stage 2.5 vector storage
 |-- test-results\                # Stage evidence artifacts
 `-- tests\                       # 372 tests (all passing)
@@ -222,12 +228,12 @@ Each entry is keyed by absolute path and contains:
 
 | ID | Limitation |
 |----|-----------|
-| LK-01 | No move detection - moved file = soft delete + new entry |
+| LK-01 | ~~No move detection~~ — resolved in Stage 2.4: UUID-based move tracking via moved_from/moved_to |
 | LK-02 | Hash is partial for files > 500MB (first 1MB + last 1MB) |
 | LK-03 | No local sparse/hybrid retrieval yet - semantic baseline exists, but Stage 3.1 remains future work |
 | LK-04 | Single-machine - cross-machine merge requires manual merge.py (deferred) |
 | LK-05 | No watch mode - batch scan only |
-| LK-06 | Telemetry calculation is O(D*E) - manageable at current scale |
+| LK-06 | ~~Telemetry O(D*E)~~ — resolved in W1 (CF-01): now O(N) single-pass |
 | LK-07 | Full chunking/reranking stack not implemented - current semantic search is controlled baseline only |
 | LK-08 | Some formats require future extractors (`pdf`, `docx`, `xlsx`, `pbip`, `pbix`) before deeper enrichment is possible |
 

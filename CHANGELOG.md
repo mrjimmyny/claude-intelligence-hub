@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.13.0] - 2026-03-16
+
+### Changed
+- **docx-indexer** v1.3.1 -> v1.4.0 — Phase 2 Reworking complete (25/25 findings)
+  - SKILL.md file tree updated with all Phase 2 files (linker.py, known-entities.json, entity-registry.json, link-registry.json, __init__.py)
+  - Known Limitations updated (LK-01 move detection resolved, LK-06 telemetry O(N) resolved)
+  - W1-W5 implemented via AOP headless: perf optimizations, atomic writes, client reuse, config externalization, CLI entry points, README update, word-boundary entity matching, conftest.py, .gitignore
+- Hub version bumped 2.12.0 -> 2.13.0
+
 ## [2.12.0] - 2026-03-16
 
 ### Changed

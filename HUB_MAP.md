@@ -52,7 +52,7 @@
 | 13 | **core_catalog** | v1.0.0 | `/catalog` | Bootstrap system data |
 | 15 | **codex-governance-framework** | v1.0.0 | `/governance` | Institutional governance docs |
 | 16 | **daily-tasks-oih** | v1.0.0 | `/daily-tasks-oih` | Daily tasks pool and per-agent execution workflow |
-| 17 | **docx-indexer** | v1.3.1 | `/docx-indexer` | Global document indexing + semantic enrichment + semantic search baseline |
+| 17 | **docx-indexer** | v1.4.0 | `/docx-indexer` | Global document indexing + semantic enrichment + semantic search baseline |
 
 ---
 
