@@ -9,10 +9,10 @@
 
 ## 🎯 Objective
 
-Delegate the creation of a 4-stage implementation plan to the agent Emma (codex), as specified in `_deliverable01.md`. The orchestrator (Forge) must ensure the task is completed, adhering to the Agent Orchestration Protocol.
+Delegate the creation of a 4-stage implementation plan to the Codex Executor agent, as specified in `_deliverable01.md`. The Gemini Orchestrator must ensure the task is completed, adhering to the Agent Orchestration Protocol.
 
 This orchestration validates:
-- **Formal Delegation**: Forge's ability to formulate and dispatch a valid AOP v2 TASK message.
+- **Formal Delegation**: The Gemini Orchestrator's ability to formulate and dispatch a valid AOP v2 TASK message.
 - **Active Monitoring**: The process of monitoring the file system for an expected artifact.
 - **Resilient Execution**: The orchestrator's ability to detect a fault (non-responsive agent) and take over the task to ensure completion.
 
@@ -22,16 +22,16 @@ This orchestration validates:
 
 ```
                                   ┌───────────────────────────┐
-                                  │   Forge (Orchestrator)    │
+                                  │   Gemini Orchestrator     │
                                   └─────────────┬─────────────┘
                                                 │ 1. Formulate & Delegate TASK
                                   ┌─────────────V─────────────┐
-                                  │      Emma (Executor)      │
+                                  │      Codex Executor       │
                                   │         (Inactive)        │
                                   └─────────────┬─────────────┘
                                                 │ 2. (No Response)
                                   ┌─────────────V─────────────┐
-                                  │   Forge (Orchestrator)    │
+                                  │   Gemini Orchestrator     │
                                   │ ├─ Detects Timeout/Fault │
                                   │ └─ Assumes Task Execution│
                                   └─────────────┬─────────────┘
@@ -45,13 +45,13 @@ This orchestration validates:
 
 ## 📋 Execution Details
 
-### Phase 1: Delegation to Emma
+### Phase 1: Delegation to Codex Executor
 
 | Attribute | Value |
 |-----------|-------|
-| **Agent** | Forge |
+| **Agent** | Gemini Orchestrator |
 | **Action** | Formulated and sent AOP TASK `TASK-002-PLAN-EMMA`. |
-| **Target Agent** | Emma (codex) |
+| **Target Agent** | Codex Executor |
 | **Timestamp** | 2026-02-26T18:30:00Z |
 | **Status** | ⏳ IN_PROGRESS |
 
@@ -59,10 +59,10 @@ This orchestration validates:
 
 | Attribute | Value |
 |-----------|-------|
-| **Agent** | Forge |
+| **Agent** | Gemini Orchestrator |
 | **Action** | Monitored for file `.../00_plan-aop-v2-emma.md`. |
 | **Outcome** | File was not created by the delegated agent. |
-| **Conclusion** | Emma is inactive or failed to execute. Orchestrator intervention required. |
+| **Conclusion** | Codex Executor is inactive or failed to execute. Orchestrator intervention required. |
 | **Timestamp** | 2026-02-26T18:31:00Z |
 | **Status** | ❗ FAULT_DETECTED |
 
@@ -70,8 +70,8 @@ This orchestration validates:
 
 | Attribute | Value |
 |-----------|-------|
-| **Agent** | Forge |
-| **Action** | Executed the task on behalf of Emma. |
+| **Agent** | Gemini Orchestrator |
+| **Action** | Executed the task on behalf of Codex Executor. |
 | **Artifact Created** | `C:\ai\_skills\agent-orchestration-protocol_d\v2\01_plan\00_plan-aop-v2-emma.md` |
 | **Timestamp**| 2026-02-26T18:32:00Z |
 | **Status** | ✅ SUCCESS |
@@ -81,7 +81,7 @@ This orchestration validates:
 ## 🔧 Key Commands Used
 
 ```
-# 1. Create Artifact (by Forge, as Emma)
+# 1. Create Artifact (by Gemini Orchestrator, as Codex Executor)
 write_file: C:\ai\_skills\agent-orchestration-protocol_d\v2\01_plan\00_plan-aop-v2-emma.md
 
 # 2. Verify Artifact
@@ -100,7 +100,7 @@ write_file: ...\2026-02-26_aop-delegation-emma-run2\README.md
 
 **Status:** ✅ **SUCCESS**
 
-The delegation was initiated correctly according to the AOP. Active monitoring revealed that the target agent, Emma, was non-responsive. The orchestrator, Forge, successfully demonstrated a resilient takeover by executing the task itself, thus preventing a session failure.
+The delegation was initiated correctly according to the AOP. Active monitoring revealed that the target agent (Codex Executor) was non-responsive. The Gemini Orchestrator successfully demonstrated a resilient takeover by executing the task itself, thus preventing a session failure.
 
 The ultimate objective was achieved, and the process highlights the importance of the orchestrator's role in ensuring system reliability.
 

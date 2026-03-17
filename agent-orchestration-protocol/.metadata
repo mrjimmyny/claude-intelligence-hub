@@ -1,28 +1,25 @@
 {
   "name": "agent-orchestration-protocol",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "type": "orchestration-protocol",
   "status": "production-validated",
-  "owner": "Forge",
-  "description": "Multi-agent coordination framework (AOP) — JSON V2 with V1 backward compatibility",
+  "owner": "Claude Intelligence Hub",
+  "description": "Multi-agent coordination framework — The Seven Pillars of AOP",
   "triggers": [
     "execute multi agent workflow",
     "aop workflow",
     "orchestrate",
     "delegate to",
-    "aop v2",
-    "json orchestration"
+    "headless agent",
+    "multi-agent coordination"
   ],
-  "dependencies": [
-    "pydantic>=2.0",
-    "python>=3.11"
-  ],
+  "dependencies": [],
   "settings": {
-    "default_timeout": 600,
+    "default_timeout": 840,
     "polling_interval": 60,
+    "max_polls": 20,
     "headless_mode": true,
-    "protocol_version": "aop_json_v2",
-    "v1_fallback": true
+    "protocol_version": "aop_unified_v3"
   },
   "tier": "context-aware"
 }

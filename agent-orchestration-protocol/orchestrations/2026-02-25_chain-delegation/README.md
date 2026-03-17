@@ -10,11 +10,11 @@
 ## 🎯 Objective
 
 Demonstrate the ability to orchestrate a **chain of agents** where:
-1. **Orchestrator (Magneto)** delegates to **Executor 1 (Emma)**
-2. **Emma** creates her artifact AND acts as **Sub-Orchestrator**
-3. **Emma** then delegates to **Executor 2 (Forge)**
-4. **Forge** creates his artifact
-5. **Magneto** verifies integrity of both artifacts
+1. **Orchestrator (Claude Code)** delegates to **Executor 1 (Codex)**
+2. **Codex Executor** creates its artifact AND acts as **Sub-Orchestrator**
+3. **Codex Executor** then delegates to **Executor 2 (Gemini)**
+4. **Gemini Executor** creates its artifact
+5. **Claude Code Orchestrator** verifies integrity of both artifacts
 
 This validates that **AOP supports multi-level delegation** and that **executor agents can also orchestrate** other agents.
 
@@ -25,25 +25,25 @@ This validates that **AOP supports multi-level delegation** and that **executor 
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                    ORCHESTRATOR                         │
-│                Magneto (Claude Sonnet 4.5)              │
+│                Claude Code (claude-sonnet-4-5)          │
 └───────────────────────┬─────────────────────────────────┘
                         │
                         │ delegates to
                         ↓
 ┌─────────────────────────────────────────────────────────┐
 │              EXECUTOR 1 + SUB-ORCHESTRATOR              │
-│                  Emma (Codex v0.101.0)                  │
+│                  Codex Executor (v0.101.0)               │
 │                                                         │
 │  Tasks:                                                 │
 │  1. Create file_test_emma_v1.txt          ✅           │
-│  2. Delegate to Forge                     ✅           │
+│  2. Delegate to Gemini Executor           ✅           │
 └───────────────────────┬─────────────────────────────────┘
                         │
                         │ delegates to
                         ↓
 ┌─────────────────────────────────────────────────────────┐
 │                     EXECUTOR 2                          │
-│              Forge (Gemini 2.0 Flash Exp)               │
+│              Gemini CLI (gemini-2.0-flash-exp)          │
 │                                                         │
 │  Task:                                                  │
 │  1. Create file_test_forge_v1.txt         ✅           │
@@ -54,14 +54,14 @@ This validates that **AOP supports multi-level delegation** and that **executor 
 
 ## 📋 Execution Details
 
-### **Agent 1: Emma (Codex)**
+### **Agent 1: Codex Executor**
 
 | Attribute | Value |
 |-----------|-------|
 | **Role** | Executor 1 + Sub-Orchestrator |
 | **CLI** | `codex` v0.101.0 |
 | **Model** | gpt-5.2-codex |
-| **Task** | Create file and delegate to Forge |
+| **Task** | Create file and delegate to Gemini Executor |
 | **Command** | `codex exec --dangerously-bypass-approvals-and-sandbox "..."` |
 | **Workspace** | `C:\ai\temp` |
 | **Artifact** | `file_test_emma_v1.txt` (66 bytes) |
@@ -71,19 +71,19 @@ This validates that **AOP supports multi-level delegation** and that **executor 
 
 **Artifact Content:**
 ```
-File created by Emma (Codex) at Wed, Feb 25, 2026  4:04:36 PM
+File created by Codex Executor at Wed, Feb 25, 2026  4:04:36 PM
 ```
 
 ---
 
-### **Agent 2: Forge (Gemini)**
+### **Agent 2: Gemini Executor**
 
 | Attribute | Value |
 |-----------|-------|
 | **Role** | Executor 2 |
 | **CLI** | `gemini` |
 | **Model** | gemini-2.0-flash-exp |
-| **Task** | Create file (delegated by Emma) |
+| **Task** | Create file (delegated by Codex Executor) |
 | **Command** | `gemini --approval-mode yolo -p "..."` |
 | **Workspace** | `C:\ai\temp` |
 | **Artifact** | `file_test_forge_v1.txt` (63 bytes) |
@@ -93,7 +93,7 @@ File created by Emma (Codex) at Wed, Feb 25, 2026  4:04:36 PM
 
 **Artifact Content:**
 ```
-File created by Forge (Gemini) at Wed, Feb 25, 2026  4:05:12 PM
+File created by Gemini Executor at Wed, Feb 25, 2026  4:05:12 PM
 ```
 
 ---
@@ -114,32 +114,32 @@ File created by Forge (Gemini) at Wed, Feb 25, 2026  4:05:12 PM
 
 ## 🔍 Key Commands Used
 
-### **Delegating to Emma (Codex):**
+### **Delegating to Codex Executor:**
 ```bash
 cd /c/ai/temp
 codex exec --dangerously-bypass-approvals-and-sandbox \
   "Create a file named file_test_emma_v1.txt in C:/ai/temp \
-   with content 'File created by Emma (Codex) at [timestamp]'. \
+   with content 'File created by Codex Executor at [timestamp]'. \
    Use PowerShell Write-Output and Out-File. \
    Return only YES when done."
 ```
 
-### **Emma Delegating to Forge (Gemini):**
+### **Codex Executor Delegating to Gemini Executor:**
 ```bash
 cd /c/ai/temp
 gemini --approval-mode yolo -p \
-  "Forge, create a file named file_test_forge_v1.txt in C:/ai/temp \
-   with content 'File created by Forge (Gemini) at [timestamp]'. \
+  "Create a file named file_test_forge_v1.txt in C:/ai/temp \
+   with content 'File created by Gemini Executor at [timestamp]'. \
    Use PowerShell commands. Return only YES when completed."
 ```
 
 ### **Integrity Verification:**
 ```bash
-# Verify Emma's artifact
+# Verify Codex Executor's artifact
 ls -lh /c/ai/temp/file_test_emma_v1.txt
 cat /c/ai/temp/file_test_emma_v1.txt
 
-# Verify Forge's artifact
+# Verify Gemini Executor's artifact
 ls -lh /c/ai/temp/file_test_forge_v1.txt
 cat /c/ai/temp/file_test_forge_v1.txt
 ```
@@ -156,7 +156,7 @@ cat /c/ai/temp/file_test_forge_v1.txt
 - **Status:** ✅ RESOLVED
 
 ### **Issue 2: Gemini AttachConsole Error**
-- **When:** After Forge completed task
+- **When:** After Gemini Executor completed task
 - **What:** Node.js AttachConsole error
 - **Impact:** None - Artifact created successfully
 - **Resolution:** Ignored (known Gemini CLI issue, post-execution)
@@ -168,7 +168,7 @@ cat /c/ai/temp/file_test_forge_v1.txt
 
 | Metric | Value |
 |--------|-------|
-| **Total Agents** | 2 (Emma + Forge) |
+| **Total Agents** | 2 (Codex + Gemini) |
 | **Commands Executed** | 2 |
 | **Artifacts Created** | 2 |
 | **Success Rate** | 100% |
@@ -181,7 +181,7 @@ cat /c/ai/temp/file_test_forge_v1.txt
 
 1. ✅ **Bypass flags are critical** for automated orchestration
 2. ✅ **Absolute paths eliminate confusion** across agents
-3. ✅ **Emma can be Sub-Orchestrator** (dual role validated)
+3. ✅ **Codex Executor can be Sub-Orchestrator** (dual role validated)
 4. ✅ **Gemini errors are often cosmetic** (don't block execution)
 5. ✅ **Direct CLI > PowerShell scripts** for cross-agent orchestration
 6. ✅ **Active vigilance builds confidence** in closeout
@@ -203,15 +203,15 @@ Without bypass flags, human intervention would be required at each step.
 Verification confirms tasks completed as expected, even when agent output is ambiguous.
 
 ### ✅ **Cross-LLM Orchestration Is Stable**
-Claude (Magneto) → OpenAI (Emma) → Google (Forge) chain worked seamlessly.
+Claude Code → OpenAI Codex → Gemini chain worked seamlessly.
 
 ---
 
 ## 📁 Artifacts
 
 All artifacts are temporary test files (not committed):
-- `file_test_emma_v1.txt` - Created by Emma ✅
-- `file_test_forge_v1.txt` - Created by Forge ✅
+- `file_test_emma_v1.txt` - Created by Codex Executor ✅
+- `file_test_forge_v1.txt` - Created by Gemini Executor ✅
 
 Permanent documentation:
 - `orchestration_report.json` - Structured report ✅
@@ -224,8 +224,8 @@ Permanent documentation:
 This orchestration is **100% reproducible**. To replicate:
 
 1. Ensure workspace exists: `mkdir -p C:\ai\temp`
-2. Execute Emma delegation (see commands above)
-3. Execute Forge delegation (via Emma or Magneto)
+2. Execute Codex Executor delegation (see commands above)
+3. Execute Gemini Executor delegation (via Codex Executor or Claude Code Orchestrator)
 4. Verify artifacts created
 5. Generate integrity report
 
@@ -241,7 +241,7 @@ This orchestration validates that:
 - Chain delegation works reliably
 - Executors can act as sub-orchestrators
 - All seven AOP pillars can be applied in practice
-- Cross-LLM orchestration (Claude → OpenAI → Google) is stable
+- Cross-LLM orchestration (Claude Code → OpenAI → Google) is stable
 - Bypass flags enable true automation
 
 **Pattern:** Production-validated and ready for reuse.

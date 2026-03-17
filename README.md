@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.13.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.14.0-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -185,7 +185,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[context-guardian](context-guardian/) | v1.1.0 | ✅ Production | Context preservation system | Xavier ↔ Magneto account switching, 3-strategy symlinks, rollback protection, .contextignore support, dry-run mode, verify-backup reports. |
 | **[repo-auditor](repo-auditor/)** | v2.0.0 | ✅ Production | End-to-end audit skill | Mandatory proof-of-read fingerprinting, accumulative AUDIT_TRAIL.md, validate-trail.sh for CI. |
 | **[conversation-memoria](conversation-memoria/)** | v1.0.0 | ✅ Production | Persistent conversation storage | Intelligent metadata extraction, 95-98% token savings, week-based organization, natural language triggers, cross-agent memory sharing. |
-| **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v2.1.0 | ✅ Production-Validated | Multi-agent coordination framework | The Seven Pillars of AOP mastery, recursive/parallel workflows, production-validated prompt cookbook. |
+| **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v3.0.0 | ✅ Production-Validated | Multi-agent coordination framework | The Seven Pillars of AOP mastery, unified protocol, security boundaries, error recovery. |
 | **[daily-tasks-oih](daily-tasks-oih/)** | v1.0.0 | ✅ Production | Daily task workflow for OIH | Pool capture, per-agent dispatch, execution tracking, close protocol, English-only operational docs. |
 | **[docx-indexer](docx-indexer/)** | v1.4.0 | ✅ Production | Global document indexing system | Append-only JSON index, UUID identity, SHA256 hashing, structural telemetry, semantic enrichment, validated Voyage-backed semantic search baseline, and explicit invocation judgment rules. |
 | **[codex-task-notifier](codex-task-notifier/)** | v1.0.0 | ✅ Production | Codex task completion email notifier | Local Windows-first HTTPS pipeline (Resend -> Mailgun), explicit task-end emails, dynamic agent subjects, cross-machine portable. |
@@ -466,7 +466,7 @@ claude-intelligence-hub/
 │   │   └── templates/               # Conversation templates
 │   └── README.md                    # Main documentation
 │
-├── 📁 agent-orchestration-protocol/ # ⭐ Multi-Agent Coordination (v2.1.0)
+├── 📁 agent-orchestration-protocol/ # ⭐ Multi-Agent Coordination (v3.0.0)
 │   ├── SKILL.md                     # The Seven Pillars of AOP
 │   ├── README.md                    # Complete guide
 │   ├── AOP-EXECUTIVE-SUMMARY.md     # Executive summary

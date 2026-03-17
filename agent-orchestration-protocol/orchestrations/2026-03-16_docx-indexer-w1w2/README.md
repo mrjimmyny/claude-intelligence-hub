@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Date | 2026-03-16 |
-| Orchestrator | Magneto (Claude Code Opus 4.6) |
+| Orchestrator | Claude Code CLI (Opus 4.6) |
 | Executor | Claude Sonnet 4.6 (headless via `claude -p`) |
 | Project | docx-indexer v1.3.1 |
 | Task | Implement 11 findings from consolidated deep analysis |
@@ -21,7 +21,7 @@ Jimmy approved all 25 findings from 7 independent deep analysis reports of docx-
 Jimmy (Human)
   |
   v
-Magneto (Opus 4.6, Orchestrator)
+Claude Code Orchestrator (Opus 4.6)
   |-- Writes AOP_EXECUTOR_PROMPT.md (detailed prompt file)
   |-- Launches: cat PROMPT | claude -p --dangerously-skip-permissions --model claude-sonnet-4-6
   |-- Polls for AOP_HEADLESS_COMPLETE.json (4 polls, ~2 min)
@@ -70,7 +70,7 @@ Complex prompts (with code snippets, tables, exact line references) break when p
 Instead of parsing Executor stdout or waiting synchronously, the Executor creates a JSON file as its last action. The Orchestrator polls for this file — simple, reliable, no false positives.
 
 ### 3. Claude-to-Claude Orchestration
-Magneto (Opus 4.6 interactive) orchestrating Sonnet 4.6 headless. The Orchestrator preserves its interactive context with the user while the Executor gets a clean 1M-token context for focused work.
+Claude Code Orchestrator (Opus 4.6 interactive) orchestrating Sonnet 4.6 headless. The Orchestrator preserves its interactive context with the user while the Executor gets a clean 1M-token context for focused work.
 
 ### 4. Documentation Delegation
 A second headless session proved that Executors can update structured markdown documents (session logs, project docs) if given:
