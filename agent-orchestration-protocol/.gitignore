@@ -25,10 +25,14 @@ ENV/
 htmlcov/
 .tox/
 
-# Audit trails (runtime generated, keep .gitkeep only)
-v2/audit_trails/*.json
-v2/audit_trails/*.jsonl
-!v2/audit_trails/.gitkeep
+# AOP temporary files (prompts and artifacts from headless sessions)
+AOP_PROMPT_*.md
+AOP_COMPLETE_*.json
+AOP_ROUND*_PROMPT.md
+AOP_ROUND*_COMPLETE.json
+AOP_HEADLESS_*_PROMPT.md
+AOP_HEADLESS_*_COMPLETE.json
+error_*.json
 
 # OS
 .DS_Store

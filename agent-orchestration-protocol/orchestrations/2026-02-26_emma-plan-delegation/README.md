@@ -1,4 +1,4 @@
-# AOP v2 Delegation: Emma Plan Generation - Orchestration Report
+# AOP v2 Delegation: Codex Executor Plan Generation - Orchestration Report
 
 **Orchestration ID:** `aop-v2-emma-plan-delegation-001`
 **Date:** 2026-02-26
@@ -9,13 +9,13 @@
 
 ## 🎯 Objective
 
-Follow the Agent Orchestration Protocol to delegate a task to Emma (codex). The task requires Emma to:
+Follow the Agent Orchestration Protocol to delegate a task to the Codex Executor. The task requires the Codex Executor to:
 1.  Read the canonical AOP v2 contract (`03_contract-aop-v2-ciclope-final.md`).
 2.  Read the deliverable instructions (`_deliverable01.md`).
 3.  Generate a structured 4-stage implementation plan based on the contract.
 4.  Save the plan to the specified path.
 
-This orchestration validates Forge's ability to interpret a user request, simulate delegation according to AOP principles, and generate the required artifacts as the delegated agent.
+This orchestration validates the Gemini Orchestrator's ability to interpret a user request, simulate delegation according to AOP principles, and generate the required artifacts as the delegated agent.
 
 ---
 
@@ -27,12 +27,12 @@ This orchestration validates Forge's ability to interpret a user request, simula
 └───────────────┬─────────────────┘
                 │ 1. Delegate Task
 ┌───────────────V─────────────────┐
-│        Forge (Orchestrator)     │
+│        Gemini Orchestrator      │
 │       (Gemini Pro via CLI)      │
 │                                 │
 │  - Interprets user request      │
-│  - Simulates delegation to Emma │
-│  - Executes task *as* Emma      │
+│  - Simulates delegation to Codex Executor │
+│  - Executes task *as* Codex Executor      │
 └───────────────┬─────────────────┘
                 │ 2. Read Contract & Instructions
                 │ 3. Generate Plan
@@ -48,12 +48,12 @@ This orchestration validates Forge's ability to interpret a user request, simula
 
 ## 📋 Execution Details
 
-### Phase 1: Orchestration & Fulfillment (as Emma)
+### Phase 1: Orchestration & Fulfillment (as Codex Executor)
 
 | Attribute | Value |
 |-----------|-------|
-| **Orchestrator** | Forge |
-| **Delegated Agent** | Emma (simulated) |
+| **Orchestrator** | Gemini Orchestrator |
+| **Delegated Agent** | Codex Executor (simulated) |
 | **CLI** | Gemini CLI (`gemini`) |
 | **Model** | Gemini Pro (Assumed) |
 | **Role** | Orchestrator fulfilling a delegated task |
@@ -70,10 +70,10 @@ This orchestration validates Forge's ability to interpret a user request, simula
 
 ## 🔧 Key Commands Used
 
-### 1. Artifact Generation (Executed by Forge as Emma)
+### 1. Artifact Generation (Executed by Gemini Orchestrator as Codex Executor)
 
 ```
-# Emma's Plan
+# Codex Executor Plan
 write_file: C:\ai\_skills\agent-orchestration-protocol_d\v2\01_plan\00_plan-aop-v2-emma.md
 ```
 
@@ -93,7 +93,7 @@ write_file: C:\ai\claude-intelligence-hub\agent-orchestration-protocol\orchestra
 
 | Metric | Value |
 |--------|-------|
-| **Total Agents** | 2 (Forge as Orchestrator, Emma as delegated Executor) |
+| **Total Agents** | 2 (Gemini Orchestrator, Codex Executor as delegated Executor) |
 | **Artifacts Created** | 1 implementation plan, 1 report |
 | **Success Rate** | 100% |
 | **Delegation Depth** | 1 |
@@ -105,7 +105,7 @@ write_file: C:\ai\claude-intelligence-hub\agent-orchestration-protocol\orchestra
 
 **Status:** ✅ **SUCCESS**
 
-The orchestration successfully simulated the delegation of the AOP v2 planning task to Emma. Forge, acting as the orchestrator, fulfilled the request by generating the specified implementation plan on behalf of Emma. This confirms the successful interpretation of the AOP and the ability to produce the required deliverables.
+The orchestration successfully simulated the delegation of the AOP v2 planning task to the Codex Executor. The Gemini Orchestrator fulfilled the request by generating the specified implementation plan on behalf of the Codex Executor. This confirms the successful interpretation of the AOP and the ability to produce the required deliverables.
 
 **Next Steps:**
 - Commit this report and the generated plan to the `claude-intelligence-hub` repository.

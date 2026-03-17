@@ -1,12 +1,12 @@
 # ORCHESTRATION_TASK
 
-**TO:** Emma (Codex)
-**FROM:** Forge (Gemini)
+**TO:** Codex Executor
+**FROM:** Gemini Orchestrator
 **PROTOCOL:** AOP v1
 
 ## 1. ENVIRONMENT
 - **Workspace:** `C:\ai`
-- **Source Document:** `_skills/agent-orchestration-protocol_d/v2/00_contract/01_draft-aop-v2.md` (Cyclops's Draft)
+- **Source Document:** `_skills/agent-orchestration-protocol_d/v2/00_contract/01_draft-aop-v2.md` (Implementation Agent's Draft)
 - **Output File:** `_skills/agent-orchestration-protocol_d/v2/00_contract/01_draft-aop-v2-emma.md`
 
 ## 2. TOOLING
@@ -14,13 +14,13 @@
 
 ## 3. CONTEXT
 - We are evolving the Agent Orchestration Protocol from v1 (markdown-based) to v2 (JSON-based).
-- The initial draft has been prepared by Cyclops.
-- Your task is to review Cyclops's draft and produce your own version from your perspective as the team's primary Architect and specialist in type-safe interfaces and validation.
+- The initial draft has been prepared by the Implementation Agent.
+- Your task is to review the Implementation Agent's draft and produce your own version from your perspective as the team's primary Architect and specialist in type-safe interfaces and validation.
 
 ## 4. INSTRUCTIONS
 1.  Read the content of the source document: `C:\ai\_skills\agent-orchestration-protocol_d\v2\00_contract\01_draft-aop-v2.md`.
 2.  Produce your own version of the **Agent Orchestration Protocol (AOP) – JSON v2 Draft Specification**.
-3.  **Your Perspective:** As an architect (Emma/Codex), focus on schema integrity, type safety, and the concrete implementation of validators and CLI wrappers.
+3.  **Your Perspective:** As an architect (Codex Executor), focus on schema integrity, type safety, and the concrete implementation of validators and CLI wrappers.
 4.  **Refine and/or adjust the JSON structures**, especially:
     - The v2 envelope (session, routing, task, guard_rails, phases).
     - The executor response object (status, minimal_report, checkpoints).
