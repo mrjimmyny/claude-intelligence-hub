@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.14.0] - 2026-03-17
+
+### Changed
+- **agent-orchestration-protocol** v2.1.0 -> v3.0.0 — Unified rewrite, single protocol (no V1/V2 split)
+  - SKILL.md rewritten as single authoritative document (611 lines)
+  - New sections: Security Boundaries, Error Recovery, Governance Lightweight
+  - Seven Pillars converted to 3-part actionable format (definition + command + verification)
+  - Bash primary, file-based prompt as recommended default
+  - Completion artifact schema formalized with required/optional fields
+  - Cross-LLM command reference updated with known CLI quirks
+  - Executed via AOP headless (dogfooding) in Git Worktree
+- Hub version bumped 2.13.0 -> 2.14.0
+
 ## [2.13.0] - 2026-03-16
 
 ### Changed
