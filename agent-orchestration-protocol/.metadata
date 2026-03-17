@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "type": "orchestration-protocol",
   "status": "production-validated",
-  "owner": "Forge",
+  "owner": "Claude Intelligence Hub",
   "description": "Multi-agent coordination framework — The Seven Pillars of AOP",
   "triggers": [
     "execute multi agent workflow",

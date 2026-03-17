@@ -1,5 +1,26 @@
 # Changelog — Agent Orchestration Protocol
 
+## [3.0.0] - 2026-03-17
+
+### Changed
+- **Unified protocol rewrite.** Merged V1 and V2 into a single operational protocol. No more V1/V2 split.
+- **Agent-agnostic.** Removed all agent-specific names (Forge, Emma, Magneto). AOP now works with any orchestrator CLI.
+- **Bash-primary.** All examples standardized on bash with PowerShell as documented alternative.
+- **SKILL.md is the authoritative document.** README.md serves as entry point and summary.
+
+### Added
+- **Security Boundaries section** in SKILL.md — trusted workspaces, write_paths, bypass table, post-execution verification.
+- **Error Recovery section** in SKILL.md — timeout kill, crash recovery, orphaned processes, rollback protocol.
+- **Governance (Lightweight) section** in SKILL.md — JSONL audit trail, guard rails defaults, cost tracking.
+- **Seven Pillars in 3-part format** — each pillar now has Definition + Implementation Command + Verification Test.
+- **Completion Artifact Schema** formalized with required/optional fields and naming convention.
+- **Cross-LLM Known Quirks** sub-section with platform-specific gotchas.
+
+### Removed
+- **v2/ directory** — Python implementation (Pydantic models, 141 tests, schemas) removed. Zero production usage. Concepts absorbed into SKILL.md protocol rules.
+- **V1/V2 distinction** — single protocol, version-agnostic.
+- **Agent-specific references** — all persona names removed from all documents.
+
 ## [2.1.0] - 2026-03-16
 
 ### Added

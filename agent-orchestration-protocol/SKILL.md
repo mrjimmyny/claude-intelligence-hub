@@ -12,8 +12,6 @@ aliases: [/orchestrate, /delegate]
 **Version:** 3.0.0
 **Status:** Production-Validated
 **Category:** Multi-Agent Coordination
-**Author:** Forge (Senior Software Engineer & Context Specialist)
-**Reworked by:** Magneto, Agent Alpha, Agent Bravo
 
 ---
 

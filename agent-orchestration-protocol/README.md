@@ -1,217 +1,171 @@
-# 🚀 Agent Orchestration Protocol (AOP) - Complete Guide
+# Agent Orchestration Protocol (AOP)
 
-Welcome to the **Agent Orchestration Protocol (AOP)**, a revolutionary framework for multi-agent coordination in the Claude ecosystem. This guide will take you from zero to orchestration mastery.
+**Version:** 3.0.0 | **Status:** Production-Validated | **Category:** Multi-Agent Coordination
 
----
+AOP is a methodology for coordinating independent headless agent processes via shell commands. An Orchestrator launches one or more Executor agents as separate OS processes, monitors their completion via artifact polling, and verifies their work before reporting back to the user.
 
-## 🆕 AOP V2 — Now Available
-
-**Version 2.0.0** is live! The new JSON-native protocol adds:
-- Role-based, model-agnostic architecture
-- Structured JSON envelopes with schema validation
-- Guard rail enforcement (budgets, timeouts, payload limits)
-- Full audit trail system with Repo-Auditor
-- Backward compatibility with V1
-
-👉 See [`v2/`](./v2/) for the complete implementation.
-👉 See [`CHANGELOG.md`](./CHANGELOG.md) for version history.
+Full reference: [SKILL.md](./SKILL.md) | Worked examples: [AOP_WORKED_EXAMPLES.md](./AOP_WORKED_EXAMPLES.md) | Version history: [CHANGELOG.md](./CHANGELOG.md)
 
 ---
 
-## 📑 Table of Contents
+## What AOP Is — and What It Is NOT
 
-1. [What is AOP?](#what-is-aop)
-2. [Quick Start](#quick-start)
-3. [The Seven Pillars Explained](#the-seven-pillars-explained)
-4. [Step-by-Step Tutorial](#step-by-step-tutorial)
-5. [Fallback & Recovery](#fallback--recovery)
-6. [Best Practices](#best-practices)
-7. [Troubleshooting](#troubleshooting)
-8. [Advanced Patterns](#advanced-patterns)
+| Aspect | Internal Sub-agent (NOT AOP) | AOP Headless Session (Real AOP) |
+| :--- | :--- | :--- |
+| **Process** | Child of parent session | Independent OS process |
+| **Context** | Shares parent context | Clean, isolated context |
+| **Launch** | Agent tool / internal API call | `claude -p` / `codex exec` / `gemini -p` in shell |
+| **Completion** | Synchronous return | Requires polling (Pillar 4) |
+| **Pillar 1 compliant** | No | Yes |
+
+**Rule:** If the Orchestrator does not run a shell command (`Bash` tool, terminal, PowerShell), it is NOT AOP. Internal sub-agent tools are useful — they are just a different pattern.
 
 ---
 
-## 🧠 What is AOP?
+## Quick Start
 
-The **Agent Orchestration Protocol** is a methodology and set of practices that enables a **single Orchestrator Agent** to coordinate **multiple Executor Agents** working on complex, multi-step tasks.
+```bash
+# Step 1: Write executor prompt to a file
+SESSION_ID="$(date +%s | tail -c 5)"
+PROMPT_FILE="AOP_PROMPT_${SESSION_ID}.md"
+ARTIFACT="AOP_COMPLETE_${SESSION_ID}.json"
 
-<details>
-<summary><b>📊 Click to view the AOP Flow Architecture</b></summary>
+cat > "${PROMPT_FILE}" << 'PROMPT_EOF'
+You are an Executor Agent. Your working directory: /c/ai/target-project
 
-```mermaid
-graph TD
-    A[User Prompt] --> B(Orchestrator Agent - Forge)
-    B -->|Delegate Task 1| C{Executor Agent - Emma}
-    B -->|Delegate Task 2| D{Executor Agent - Magneto}
-    C -->|Output| E[Artifact 1]
-    D -->|Output| F[Artifact 2]
-    B -->|Active Vigilance / Polling| E
-    B -->|Active Vigilance / Polling| F
-    E --> G[Final Validation & Merge]
-    F --> G
-    G -->|Status Report| A
+WRITE SCOPE: /c/ai/target-project/src/, /c/ai/target-project/AOP_COMPLETE_${SESSION_ID}.json
+
+TASK:
+[detailed task instructions here]
+
+COMPLETION REQUIREMENT:
+As your LAST action, write AOP_COMPLETE_${SESSION_ID}.json with status SUCCESS.
+PROMPT_EOF
+
+# Step 2: Launch headless executor
+cd /c/ai/target-project
+cat "${PROMPT_FILE}" | claude -p --dangerously-skip-permissions --model claude-sonnet-4-6 &
+EXECUTOR_PID=$!
+echo "Executor PID: $EXECUTOR_PID"
+
+# Step 3: Poll for completion artifact
+POLLS=0; MAX_POLLS=20
+while [ $POLLS -lt $MAX_POLLS ]; do
+  test -f "${ARTIFACT}" && test -s "${ARTIFACT}" && { echo "Done."; cat "${ARTIFACT}"; break; }
+  POLLS=$((POLLS+1))
+  [ $POLLS -le 4 ] && sleep 30 || sleep 60
+done
+[ $POLLS -ge $MAX_POLLS ] && kill "${EXECUTOR_PID}"
+
+# Step 4: Cleanup after success
+rm -f "${PROMPT_FILE}" "${ARTIFACT}"
 ```
 
-</details>
+---
 
-### Key Concepts
+## The Seven Pillars
 
-- 🎩 **Orchestrator Agent:** The "conductor" - typically Forge - who delegates and monitors tasks.
-- 🛠️ **Executor Agent:** The "specialist" - Codex (Emma), Claude Code (Magneto), or any CLI-invocable agent.
-- 🤖 **Headless Mode:** Running agents in non-interactive terminal sessions for automation.
-- 🛡️ **Trusted Workspace:** Pre-approved directories where permission bypass is allowed.
+AOP is structured around seven operational pillars. Each pillar has a definition, an implementation command, and a verification test. See [SKILL.md](./SKILL.md) for the full actionable checklist.
+
+| Pillar | Core Rule |
+| :--- | :--- |
+| **1. Environment Isolation** | Executors are independent OS processes — not sub-agents of the parent session |
+| **2. Absolute Referencing** | All paths are absolute. Relative paths cause silent failures |
+| **3. Permission Bypass** | Bypass flags are used only in pre-approved trusted workspaces |
+| **4. Active Vigilance** | Orchestrator polls for a completion artifact — never waits synchronously |
+| **5. Integrity Verification** | Orchestrator independently verifies outputs, not just the artifact status |
+| **6. Closeout Protocol** | Always returns explicit `SUCCESS` or `FAIL` with concrete evidence |
+| **7. Constraint Adaptation** | If Orchestrator cannot access a resource, it delegates to a properly-scoped executor |
 
 ---
 
-## ⚡ Quick Start
+## File-Based Prompt Pattern
 
-### Your First Orchestration (5 Minutes)
+The file-based prompt is the production-proven default for complex executor instructions. Piping a `.md` file avoids all shell escaping issues with code blocks, JSON, tables, and special characters.
 
-**Objective:** Have Forge orchestrate Emma (Codex) to create a test file.
+```bash
+# Write prompt to file — avoids escaping issues
+cat > AOP_PROMPT_${SESSION_ID}.md << 'EOF'
+[full executor instructions here]
+EOF
 
-<details>
-<summary><b>💻 View Prompt Example</b></summary>
-
-```prompt
-Forge, execute this basic test:
-1. Open a PowerShell terminal: powershell -NoProfile -Command
-2. Change directory: Set-Location C:\Workspaces\llms_projects
-3. Launch Codex CLI using the bypass flag: codex exec --dangerously-bypass-approvals-and-sandbox
-4. Ask Codex to create a file named hello_aop.md with content "AOP Test Successful"
-5. Verify the file exists
-6. Report: SUCCESS or FAIL
+# Pipe file into headless executor
+cat AOP_PROMPT_${SESSION_ID}.md | claude -p --dangerously-skip-permissions --model claude-sonnet-4-6 &
 ```
 
-</details>
+Use inline `claude -p "..."` only for simple instructions with no special characters or code blocks.
+
+For the complete prompt template with `write_paths` declaration and completion artifact schema, see [SKILL.md — Execution Standard](./SKILL.md#execution-standard).
 
 ---
 
-## 🏛️ The Seven Pillars Explained
+## Polling and Completion
 
-### 1️⃣ Pillar 1: Environment Isolation
-Ensure Executor Agents operate in clean, predictable environments.
-*Implementation:* Spawning agents in dedicated terminal processes.
+Polling is artifact-based — the Executor writes a JSON file as its last action. The Orchestrator polls for this file:
 
-### 2️⃣ Pillar 2: Absolute Referencing
-Eliminate path ambiguity.
-*Implementation:* Always use full absolute paths (`C:\Workspaces\llms_projects\document.md`).
+```bash
+test -f AOP_COMPLETE_${SESSION_ID}.json && test -s AOP_COMPLETE_${SESSION_ID}.json
+```
 
-### 3️⃣ Pillar 3: Permission Bypass (Trusted Workspaces Only)
-Enable fully automated workflows in pre-approved safe directories.
-⚠️ **CRITICAL SECURITY NOTE:** Only use in explicitly trusted workspaces.
+**Key rules:**
+- Non-empty check is mandatory (`test -s`): a 0-byte file means the executor crashed mid-write.
+- Maximum 20 polls (~14 min). After timeout, kill the executor and escalate.
+- Adaptive intervals: 30s for the first 4 polls, then 60s.
 
-### 4️⃣ Pillar 4: Active Vigilance (Polling)
-Monitor progress and detect task completion.
-*Implementation:* Orchestrator polls the file system or git history.
-
-### 5️⃣ Pillar 5: Integrity Verification
-Ensure generated artifacts meet quality standards (Existence, Non-Empty, Content).
-
-### 6️⃣ Pillar 6: Closeout Protocol
-Provide clear, actionable status reports (`SUCCESS` or `FAIL`).
-
-### 7️⃣ Pillar 7: Constraint Adaptation
-Overcome sandbox or environment limitations.
-*Implementation:* If an Orchestrator cannot access a resource directly, it MUST delegate the verification task to a new, properly-scoped agent.
+For the full polling loop, error recovery, and rollback protocol, see [SKILL.md — Polling and Error Recovery](./SKILL.md#polling--completion).
 
 ---
 
-## 🔒 Execution & Routing Standard (MANDATORY)
+## Security Boundaries
 
-To ensure reliable execution, orchestrators must adhere to the **Flexible Security Routing** standard. 
+Every executor session requires:
 
-**Rule:** Orchestrators can route executors to ANY trusted, pre-configured project directory (e.g., `C:\ai`, `C:\Workspaces`) using the `Set-Location` syntax, **provided the path is explicitly verified before handover.**
+1. **Trusted workspace verification** — confirm the target path is in the pre-approved allow-list before launching with bypass flags.
+2. **`write_paths` declaration** — every executor prompt must declare what it is allowed to write.
+3. **Post-execution git diff check** — compare files written against the declared scope.
 
-<details>
-<summary><b>🛠️ View Execution Options for Codex & Gemini</b></summary>
+Bypass flags skip interactive prompts — they do NOT grant new capabilities or OS-level permissions.
 
-**For Codex (Emma):**
-**Option A (Simple, reliable execution):**
-```powershell
-Set-Location <Target_Path>
-codex exec --dangerously-bypass-approvals-and-sandbox '<Complex_Instructions_Wrapped_In_Single_Quotes>'
-```
+Do not use bypass flags for production repositories without a PR review step, system directories, credential stores, or paths outside the trusted allow-list.
 
-**Option B (One-liner - Highly Recommended for automated orchestration):**
-```powershell
-Set-Location <Target_Path>; codex exec --dangerously-bypass-approvals-and-sandbox '<Complex_Instructions_Wrapped_In_Single_Quotes>'
-```
-
-**For Gemini (Forge):**
-**Option B (One-liner):**
-```powershell
-Set-Location <Target_Path>; gemini --approval-mode yolo -p "<Complex_Instructions_Wrapped_In_Double_Quotes>"
-```
-
-**Option C (Spawn in a completely new terminal instance):**
-```powershell
-Start-Process powershell -WorkingDirectory <Target_Path>
-```
-
-</details>
+Full details in [SKILL.md — Security Boundaries](./SKILL.md#security-boundaries).
 
 ---
 
-## 🚑 Fallback & Recovery
+## Production Case Studies
 
-### Standardized `error.json` Reporting
-When an Executor Agent fails, it should generate an `error.json` file in its workspace for the Orchestrator to parse.
-
-<details>
-<summary><b>📄 View error.json schema</b></summary>
-
-```json
-{
-  "failed_step": "Step 3: Writing to file '...'",
-  "reason": "Permission denied",
-  "details": "The agent did not have write access to the specified directory.",
-  "executor_agent_id": "Forge B" 
-}
-```
-
-</details>
-
-### Polling Best Practices
-💡 **Boolean Polling Strategy:** When polling a sub-agent, use boolean prompts like `"Return ONLY 'YES' or 'NO'"` to avoid conversational drift. 
-
-💡 **Delegate the Loop:** Do not spawn a new agent for every check; delegate the entire polling loop to a single, long-lived sub-agent.
-
----
-
-## 📚 Production Case Studies
-
-Real-world orchestration executions are documented in the `orchestrations/` directory. Each case study includes:
-- Complete execution report (JSON)
-- Detailed documentation (README)
-- Metrics and lessons learned
-- Application of all Seven Pillars
+Real-world executions are documented in [orchestrations/](./orchestrations/). Each case study includes a JSON execution report, documentation, metrics, and pillar verification.
 
 **Featured Case Studies:**
-- **[Chain Delegation with Sub-Orchestration](./orchestrations/2026-02-25_chain-delegation/)** - Validates multi-level delegation where Emma (Codex) acts as both Executor and Sub-Orchestrator, delegating to Forge (Gemini). Demonstrates cross-LLM orchestration (Claude → OpenAI → Google) with 100% success rate.
-- **[docx-indexer W1+W2 Production Execution](./orchestrations/2026-03-16_docx-indexer-w1w2/)** - First real production AOP: Magneto (Opus 4.6) orchestrates Sonnet 4.6 headless to implement 11 code findings across 8 files. Validates file-based prompt pattern, artifact-based polling, and documentation delegation. 372/372 tests maintained.
 
-For additional worked examples and prompt templates, see [AOP_WORKED_EXAMPLES.md](./AOP_WORKED_EXAMPLES.md).
+- **[Chain Delegation with Sub-Orchestration](./orchestrations/2026-02-25_chain-delegation/)** — Multi-level delegation where an Executor acts as both Executor and Sub-Orchestrator, delegating to a third agent. Demonstrates cross-LLM orchestration (Claude → Codex → Gemini) with 100% success rate.
 
----
-
-## 🤝 Support and Contribution
-
-For issues, questions, or contributions to the AOP framework:
-- Review the [Security Boundaries](./SKILL.md#security-boundaries) before implementation.
-- Check existing worked examples before creating new patterns.
+- **[docx-indexer W1+W2 Production Execution](./orchestrations/2026-03-16_docx-indexer-w1w2/)** — First real production AOP: an Opus 4.6 Orchestrator launches a Sonnet 4.6 headless Executor to implement 11 code findings across 8 files. File-based prompt, artifact-based polling, documentation delegation. 372/372 tests maintained.
 
 ---
 
-## Lessons from Production (2026-03-16)
+## Cross-LLM Reference
 
-Key learnings from the first real production AOP execution:
+AOP works with any orchestrator CLI. See [SKILL.md — Cross-LLM Command Reference](./SKILL.md#cross-llm-command-reference) for the full table including known quirks.
 
-1. **Sub-agents are NOT AOP.** Internal sub-agent tools (Claude Code's Agent tool, etc.) run inside the parent session. True AOP requires `claude -p` / `codex exec` / `gemini -p` launching an independent OS process.
-2. **File-based prompts for complex instructions.** Write the Executor prompt to a `.md` file and pipe via `cat file | claude -p`. Avoids all escaping issues with code snippets, tables, and special characters.
-3. **Artifact-based completion detection.** Have the Executor create a JSON file as its last step. The Orchestrator polls for this file. Simpler and more reliable than parsing stdout.
-4. **Executors can handle documentation.** With the right instructions (absolute paths, exact content, formatting rules), Executors update structured documents as reliably as code.
-5. **Prompt quality determines success.** The more precise the prompt (exact line numbers, before/after code, verification steps), the fewer iterations needed.
+| Task | Claude Code | Codex | Gemini |
+| :--- | :--- | :--- | :--- |
+| Headless execution | `claude -p "..."` | `codex exec "..."` | `gemini -p "..."` |
+| File-based prompt | `cat FILE \| claude -p` | Not supported natively | Not supported natively |
+| Bypass flag | `--dangerously-skip-permissions` | `--dangerously-bypass-approvals-and-sandbox` | `--approval-mode yolo` |
+| Background | Append `&` | Append `&` | Append `&` |
 
-**Version:** 2.1.0
-**Last Updated:** 2026-03-16
-**Maintained by:** Claude Intelligence Hub Team
+---
+
+## Lessons from Production
+
+1. **Sub-agents are not AOP.** Internal sub-agent tools run inside the parent session. Real AOP requires `claude -p` / `codex exec` / `gemini -p` launching an independent OS process.
+2. **File-based prompts for complex instructions.** Write the executor prompt to a `.md` file and pipe via `cat file | claude -p`. Eliminates all escaping issues with code, tables, and special characters.
+3. **Artifact-based completion detection.** Have the Executor write a JSON file as its last step. The Orchestrator polls for this file. More reliable than parsing stdout.
+4. **Executors handle documentation reliably.** With precise instructions (absolute paths, exact content, formatting rules), executors update structured documents as reliably as code.
+5. **Prompt quality determines success.** The more precise the prompt (exact scope, verification steps, completion format), the fewer iterations needed.
+
+---
+
+**Version:** 3.0.0 | **Status:** Production-Validated | **Last Updated:** 2026-03-17T01:35:56-0300
+See [CHANGELOG.md](./CHANGELOG.md) for full version history.
