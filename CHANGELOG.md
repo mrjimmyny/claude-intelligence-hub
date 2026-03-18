@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.15.0] - 2026-03-18
+### Added
+- **daily-doc-information v1.0.0** — Session docs, daily reports, and project governance automation skill. 8 operations, 12 skip conditions, 16 failure modes, 15 prohibited behaviors, 13 hygiene rules. Cross-agent and cross-machine compatible. Full test suite with 162 integration checks. G-02 audited CONDITIONAL PASS (0 FAIL). G-03 authorized by Jimmy.
+
 ## [2.14.0] - 2026-03-17
 
 ### Changed

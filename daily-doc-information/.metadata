@@ -1,0 +1,15 @@
+{
+  "name": "daily-doc-information",
+  "version": "1.0.0",
+  "description": "Automates creation, update, and closure of session documents, daily executive reports, and project documentation governance. Cross-agent and cross-machine compatible.",
+  "status": "production",
+  "author": "Magneto (Claude Code - Opus 4.6)",
+  "created": "2026-03-18",
+  "hub_target": "claude-intelligence-hub",
+  "tags": [
+    "documentation",
+    "session-management",
+    "daily-reports",
+    "project-governance"
+  ]
+}

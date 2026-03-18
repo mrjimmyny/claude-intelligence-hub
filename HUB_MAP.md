@@ -1,8 +1,8 @@
 # 🗺️ Claude Intelligence Hub - Visual Skill Router
 
-**Version:** 2.11.0
+**Version:** 2.15.0
 **Status:** 🟢 Active & Synchronized
-**Registry:** 18 Production Skills
+**Registry:** 19 Production Skills
 
 ---
 
@@ -10,7 +10,7 @@
 
 | Metric | Count | Status |
 | :--- | :--- | :--- |
-| **Total Skills** | 18 | ✅ Verified |
+| **Total Skills** | 19 | ✅ Verified |
 | **Governance** | 100% | 🟢 Compliant |
 | **Architecture** | 3-Tier | 🏗️ Structured |
 
@@ -37,6 +37,7 @@
 | 7 | **xavier-memory** | v1.1.0 | `/xavier-memory` | Cross-project sync |
 | 12 | **agent-orchestration-protocol** | v3.0.0 | `/aop` | "orchestrate", "delegate" |
 | 18 | **codex-task-notifier** | v1.0.0 | `/codex-task-notifier` | "email me when done", "me manda um email" |
+| 19 | **daily-doc-information** | v1.0.0 | `/daily-doc-information` | Session docs, daily reports, and project governance automation |
 
 ### 🟡 Tier 3: Explicit (On-Demand)
 *Only loads when manually invoked by the user.*
@@ -133,6 +134,15 @@
 - **Path:** `codex-task-notifier/`
 - **Notification:** Local Windows-first email notifier for Codex task completion. Sends explicit task-end emails through HTTPS pipeline (Resend -> Mailgun) without altering the Codex native UI.
 - **Triggers:** "email me when done", "send completion email", "me manda um email", "mande um email quando terminar"
+
+### 19. daily-doc-information
+- **Path:** `daily-doc-information/`
+- **Version:** v1.0.0
+- **Tier:** 2 (Active skill)
+- **Command:** `/daily-doc-information`
+- **Description:** Automates creation, update, and closure of session documents, daily executive reports, and project documentation (PROJECT_CONTEXT, status-atual, next-step, decisoes). Cross-agent (Claude, Codex, Gemini) and cross-machine compatible.
+- **Operations:** create-session, update-session, close-session, create-daily-report, create-project, update-project-status, register-decision, update-next-step
+- **Dependencies:** None (self-contained with embedded templates)
 
 ---
 

@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.14.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.15.0-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -920,7 +920,7 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 
 ## 📈 Version History
 
-**Current Version:** v2.11.0 ✅ **codex-task-notifier v1.0.0 - Local Windows-first email notifier for Codex task completion**
+**Current Version:** v2.15.0 ✅ **daily-doc-information v1.0.0 - Session docs, daily reports, and project governance automation**
 **Last Updated:** March 15, 2026
 **Status:** Production | Context Preservation + Cloud Backup | Actively Maintained
 
