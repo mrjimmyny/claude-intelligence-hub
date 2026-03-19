@@ -2,7 +2,7 @@
 name: daily-doc-information
 description: Automates creation, update, closure of session docs and daily reports, plus project governance operations (create-project, update-project-status, register-decision, update-next-step) with identity, hygiene, and gate enforcement
 command: /daily-doc-information
-version: 1.1.1
+version: 1.2.0
 category: Documentation Automation
 trigger: When user invokes /daily-doc-information or asks to create/update/close session docs, create daily reports, or perform project governance operations (create/update projects, register decisions, update next steps)
 tags:
@@ -15,7 +15,7 @@ tags:
 
 # daily-doc-information
 
-**Version:** 1.1.1
+**Version:** 1.2.0
 
 > **Objective:** Automates the creation, structured update, and clean-state closure of session documents and daily reports, plus project governance operations (project creation, status updates, decision registration, next-step management) according to the continuity-documentation contract.
 
@@ -264,14 +264,14 @@ Result: PASS / FAIL
 ## 4. Operation: close-session
 
 ### What it does
-Validates all 6 clean-state criteria and, if all pass, closes the session document with final status and timestamp.
+Validates all 7 clean-state criteria and, if all pass, closes the session document with final status and timestamp.
 
 ### Additional Inputs
 
 | Input | Type | Notes |
 |---|---|---|
 | `target_path` | string | Absolute path to session doc to close |
-| `clean_state_evidence` | object | Explicit evidence for all 6 criteria (see below) |
+| `clean_state_evidence` | object | Explicit evidence for all 7 criteria (see below) |
 
 ### Outputs
 - Gate result: `PASS` or `BLOCKED` with itemized criteria results
@@ -282,7 +282,7 @@ Validates all 6 clean-state criteria and, if all pass, closes the session docume
 
 ### Clean-State Criteria
 
-All 6 criteria MUST pass. If ANY is `BLOCKED`, return gate result with failing criteria and **STOP — do NOT modify the document**.
+All 7 criteria MUST pass. If ANY is `BLOCKED`, return gate result with failing criteria and **STOP — do NOT modify the document**.
 
 | ID | Criterion | Requirement |
 |---|---|---|
@@ -292,6 +292,7 @@ All 6 criteria MUST pass. If ANY is `BLOCKED`, return gate result with failing c
 | CS-04 | At least one validation recorded with result | Current block has at least one row in Validations table with a result value |
 | CS-05 | Temporary artifacts accounted for | All temp artifacts committed, discarded, or deferred with justification |
 | CS-06 | Commit/push justification stated | If changes were made: commit hash recorded; if no changes: explicit statement |
+| CS-07 | `project docs synchronized` | If the session doc references any project (`context_type: Project`), the project's `status-atual.md`, `next-step.md`, and `decisoes.md` must reflect the work performed in this session. The agent must verify that project progress, decisions, and next steps recorded in the session blocks are also recorded in the project operational docs. If any referenced project's docs are stale relative to the session content, the gate is BLOCKED. |
 
 ### Execution Steps
 
@@ -299,10 +300,10 @@ All 6 criteria MUST pass. If ANY is `BLOCKED`, return gate result with failing c
 2. **Read existing document** at `target_path`.
 3. **Verify status** is `in_progress` or `pre_open`. If `complete` or `done`, fire SC-05.
    > **Note:** The canonical closed status is `complete`. For backward compatibility with pre-skill documents that use `done`, both values are treated as equivalent closed states.
-4. **Evaluate all 6 clean-state criteria** against the document content and `clean_state_evidence`:
+4. **Evaluate all 7 clean-state criteria** against the document content and `clean_state_evidence`:
    - For each criterion, record `PASS` or `BLOCKED` with specific evidence.
 5. **If ANY criterion is BLOCKED:**
-   - Return gate result with all 6 criteria itemized (showing which passed and which failed).
+   - Return gate result with all 7 criteria itemized (showing which passed and which failed).
    - Fire FM-09 (CLEAN_STATE_BLOCKED).
    - **STOP. Do NOT modify the document.**
 6. **If ALL criteria PASS:**
@@ -329,6 +330,7 @@ Criteria:
   CS-04 validation recorded: PASS/BLOCKED — [evidence]
   CS-05 temp artifacts accounted: PASS/BLOCKED — [evidence]
   CS-06 commit justification stated: PASS/BLOCKED — [evidence]
+  CS-07 project docs synchronized: PASS/BLOCKED — [evidence]
 Actions Taken:
   - status set to complete: YES/NO
   - closed_at_local set: YES/NO
@@ -725,7 +727,7 @@ Failure modes fire **DURING execution**. Each has a trigger condition, severity,
 | ID | Rule | Description |
 |---|---|---|
 | PB-01 | NO_ID_FABRICATION | Never generate, invent, or guess session IDs. Session IDs MUST be provided externally. |
-| PB-02 | NO_PARTIAL_CLOSE | Never mark a session as `complete` without full clean-state gate passing all 6 criteria. |
+| PB-02 | NO_PARTIAL_CLOSE | Never mark a session as `complete` without full clean-state gate passing all 7 criteria. |
 | PB-03 | NO_NW_WRITE | Never write to any path listed as non-writable (NW-01 to NW-10) from session/report operations. Note: project governance operations have their own write authorizations (WS-04 to WS-07). |
 | PB-04 | NO_DIRTY_ARTIFACT | Never deliver a document containing `TODO`, `TBD`, `FIXME`, `{{...}}` placeholders, or unresolved `pending` values (except where `pending` is the legitimate initial state). |
 | PB-05 | NO_VCS_OPERATION | Never execute git commands (commit, push, pull, branch, merge, rebase, etc.). |
@@ -755,11 +757,12 @@ Failure modes fire **DURING execution**. Each has a trigger condition, severity,
 | DH-07 | ALIAS_IN_FILENAME | New files use the `ddi-email` alias in the filename where applicable (planning docs, specs, audits — not session docs or daily reports). |
 | DH-08 | COMMIT_HASH_RECORDED | When commits happen (outside this skill), the commit hash must be recorded in the session doc's history table. |
 | DH-09 | TEMP_ARTIFACTS_ACCOUNTED | All temporary artifacts (scratch files, debug logs, test outputs) must be accounted for: committed, discarded, or deferred with justification. |
-| DH-10 | CLEAN_STATE_ITEMIZED | Clean-state evidence must be itemized per criterion (CS-01 through CS-06). Blanket "all good" statements are not acceptable. |
+| DH-10 | CLEAN_STATE_ITEMIZED | Clean-state evidence must be itemized per criterion (CS-01 through CS-07). Blanket "all good" statements are not acceptable. |
 | DH-11 | DECISION_FORMAT | Every decision entry in `decisoes.md` must have all three fields: `Decision:`, `Reason:`, `Impact:`. No partial entries. An entry missing any field is a hygiene violation. |
 | DH-12 | STATUS_DATE | `Last Update` in `status-atual.md` must always reflect the date of the most recent change. After any write to `status-atual.md`, the `Last Update` field must be set to the current date. |
 | DH-13 | PROJECT_WIKILINKS | All 5 operational docs (`PROJECT_CONTEXT.md`, `status-atual.md`, `next-step.md`, `decisoes.md`, `README.md`) must have wikilinks connecting them to each other and to `[[projects]]`. A doc without its wikilinks section is non-compliant. |
 | DH-14 | WIKILINK_NO_ORPHANS | Every document under the `obsidian/` directory tree must have a `## Wikilinks` section at the bottom. No document may be orphaned (disconnected from the graph). Additionally: (a) any document related to a project must include `[[projects]]` in its wikilinks; (b) any document related to or associated with a skill must also include `[[skills]]` in its wikilinks. These two wikilinks (`[[projects]]` and `[[skills]]`) are mandatory connectors when applicable. |
+| DH-15 | PROJECT_SYNC_BEFORE_CLOSE | Before closing a session doc or creating a daily report, the agent MUST update the operational docs (status-atual.md, next-step.md, decisoes.md) of every project referenced in the session. This includes: (a) moving completed items from In Progress to Completed in status-atual.md; (b) updating next-step.md with the current immediate action; (c) registering any decisions made during the session in decisoes.md. Session closure without project sync is a hygiene violation. |
 
 ---
 
@@ -1298,6 +1301,7 @@ This format is embedded in every `PROJECT_CONTEXT.md` created by `create-project
 
 | Version | Date | Author | Changes |
 |---|---|---|---|
+| 1.2.0 | 2026-03-19 | Magneto (Orchestrator) | Added CS-07 (project docs synchronized) as mandatory clean-state criterion — blocks session closure if referenced project docs are stale. Added DH-15 (PROJECT_SYNC_BEFORE_CLOSE) hygiene rule. Prevents drift between session docs and project operational docs. |
 | 1.1.1 | 2026-03-19 | Magneto (Orchestrator) | Added DH-14 (WIKILINK_NO_ORPHANS): no orphaned docs under obsidian/, mandatory [[projects]] and [[skills]] wikilinks when applicable. |
 | 1.1.0 | 2026-03-19 | Magneto (Orchestrator) | Full English translation of all embedded templates and body references. Portuguese section headers, field labels, and status summary format replaced with American English equivalents. Backward compatible — existing docs retain original language. |
 | 1.0.0 | 2026-03-18 | Magneto (Orchestrator) | First official publication. G-03 approved by Jimmy. 8 operations, cross-agent, cross-machine, full test suite. |

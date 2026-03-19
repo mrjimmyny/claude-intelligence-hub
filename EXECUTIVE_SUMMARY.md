@@ -5,8 +5,8 @@
 **Repository:** https://github.com/mrjimmyny/claude-intelligence-hub
 **Developed by:** Xavier (Claude Sonnet 4.5) & Jimmy
 **Purpose:** Centralized AI intelligence system - Skills, memory, automation, and routing
-**Version:** 2.18.1 (Hub v2.18.1 + AOP v4.0.1)
-**Component Versions:** Preferences v2.2.1, Memoria v1.2.0, PBI v1.3.0, GDrive v1.0.0, Registry v1.1.0, X-MEM v1.0.0, Xavier-Memory v1.1.0, Xavier-Memory-Sync v1.0.0, Context-Guardian v1.1.0, Repo-Auditor v2.0.0, Conv-Memoria v1.0.0, AOP v4.0.1, Catalog v1.0.0, Token-Economy v1.0.0, Codex-Governance v1.0.0, daily-tasks-oih v1.0.0, docx-indexer v1.4.0, codex-task-notifier v1.0.0, daily-doc-information v1.1.1
+**Version:** 2.19.0 (Hub v2.19.0 + AOP v4.0.1)
+**Component Versions:** Preferences v2.3.0, Memoria v1.2.0, PBI v1.3.0, GDrive v1.0.0, Registry v1.1.0, X-MEM v1.0.0, Xavier-Memory v1.1.0, Xavier-Memory-Sync v1.0.0, Context-Guardian v1.1.0, Repo-Auditor v2.0.0, Conv-Memoria v1.0.0, AOP v4.0.1, Catalog v1.0.0, Token-Economy v1.0.0, Codex-Governance v1.0.0, daily-tasks-oih v1.0.0, docx-indexer v1.4.0, codex-task-notifier v1.0.0, daily-doc-information v1.2.0
 **Status:** ✅ Production - Enterprise-Ready - **ZERO TO HERO COMPLETE** (Modules 1-4) + Context Preservation + Repo Auditor + Navigation Roadmap + AOP
 
 ---
@@ -19,8 +19,8 @@ Successfully developed and deployed a **complete AI intelligence system** that t
 
 | Component | Version | Status | Key Metric |
 |-----------|---------|--------|------------|
-| **Hub Repository** | 2.18.1 | ✅ Production | 19 skill collections, HUB_MAP routing, CIH-ROADMAP |
-| **Jimmy Core Preferences** | 2.2.1 | ✅ Production | Global cross-agent framework, prompt governance, Documentation Language Standard, hybrid session governance, curator-only daily reports, project status summary standard, DAX overlay, AOP dispatch guardrails, and global skill symlink integrity |
+| **Hub Repository** | 2.19.0 | ✅ Production | 19 skill collections, HUB_MAP routing, CIH-ROADMAP |
+| **Jimmy Core Preferences** | 2.3.0 | ✅ Production | Global cross-agent framework, prompt governance, Documentation Language Standard, hybrid session governance, curator-only daily reports, mandatory project sync before session close, project status summary standard, DAX overlay, AOP dispatch guardrails, and global skill symlink integrity |
 | **Session Memoria** | 1.2.0 | ✅ Production | 3-tier archiving, 200x faster indexing |
 | **PBI Claude Skills** | 1.3.0 | ✅ Production | 50-97% token savings |
 | **GDrive Sync Memoria** | 1.0.0 | ✅ Production | ChatLLM integration |
@@ -38,7 +38,7 @@ Successfully developed and deployed a **complete AI intelligence system** that t
 | **daily-tasks-oih** | 1.0.0 | ✅ Production | Pool capture, per-agent dispatch, and task execution workflow |
 | **docx-indexer** | 1.4.0 | ✅ Production | Global document indexing, semantic enrichment, and semantic search baseline |
 | **codex-task-notifier** | 1.0.0 | ✅ Production | Local Windows-first task completion email notifier |
-| **daily-doc-information** | 1.1.1 | ✅ Production | Session docs, daily reports, project governance automation |
+| **daily-doc-information** | 1.2.0 | ✅ Production | Session docs, daily reports, project governance automation |
 | **Windows Junction Setup** | 1.0.0 | ✅ Production | Auto-sync to Git |
 | **Mobile Support** | 1.0.0 | ✅ Production | MOBILE_SESSION_STARTER.md |
 | **Cross-Device Sync** | - | ✅ Active | Desktop ↔ Mobile via Git |
@@ -168,7 +168,7 @@ Module 2 transformed the hub from a skill repository into a complete AI intellig
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  Tier 1: Master Framework                                   │
-│  - jimmy-core-preferences v2.2.1                            │
+│  - jimmy-core-preferences v2.3.0                            │
 │  - Core principles (Radical Honesty, Proactivity)           │
 │  - Identity management (Xavier + Jimmy)                     │
 │  - Self-learning system                                     │
@@ -195,7 +195,7 @@ Module 2 transformed the hub from a skill repository into a complete AI intellig
 
 ### Module 2 Components
 
-**1. jimmy-core-preferences (v2.2.1)**
+**1. jimmy-core-preferences (v2.3.0)**
 - Master AI behavior framework
 - 7 workflow patterns
 - Token economy enforcement
@@ -238,7 +238,7 @@ Module 2 transformed the hub from a skill repository into a complete AI intellig
 ### Module 2 Deliverables
 
 **Skills:**
-- `jimmy-core-preferences/` (v2.2.1)
+- `jimmy-core-preferences/` (v2.3.0)
 - `session-memoria/` (v1.2.0)
 - `gdrive-sync-memoria/` (v1.0.0)
 - `claude-session-registry/` (v1.1.0)
@@ -1092,7 +1092,7 @@ Any Device → Edit files → Git commit + push
 ### Skill Collection Stats
 | Collection | Files | Size | Auto-Load | Version | Status |
 |------------|-------|------|-----------|---------|--------|
-| jimmy-core-preferences | 5 | ~80KB | ✅ Yes | v2.2.1 | ✅ Production |
+| jimmy-core-preferences | 5 | ~80KB | ✅ Yes | v2.3.0 | ✅ Production |
 | session-memoria | 15+ | ~70KB | ✅ Yes | v1.2.0 | ✅ Production |
 | pbi-claude-skills | 20+ | ~50KB | ⚠️ Project | v1.3.0 | ✅ Production |
 

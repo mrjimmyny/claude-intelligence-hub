@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.18.1-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.19.0-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -175,7 +175,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 
 | Collection | Version | Status | Description | Key Features |
 |------------|---------|--------|-------------|--------------|
-| **[jimmy-core-preferences](jimmy-core-preferences/)** | v2.2.1 | ✅ Production | Global cross-agent operating framework | Radical honesty, prompt governance, documentation language standard, hybrid session governance, curator-only daily reports, DAX overlay, cross-agent bootstrap, AOP dispatch guardrails, and global skill symlink integrity. See [HUB_MAP.md](HUB_MAP.md) for triggers. |  
+| **[jimmy-core-preferences](jimmy-core-preferences/)** | v2.3.0 | ✅ Production | Global cross-agent operating framework | Radical honesty, prompt governance, documentation language standard, hybrid session governance, curator-only daily reports, mandatory project sync before session close, DAX overlay, cross-agent bootstrap, AOP dispatch guardrails, and global skill symlink integrity. See [HUB_MAP.md](HUB_MAP.md) for triggers. |  
 | **[session-memoria](session-memoria/)** | v1.2.0 | ✅ Production | Knowledge management system | 100% conversation retention, triple-index search, lifecycle tracking, Git-synced. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
 | **[gdrive-sync-memoria](gdrive-sync-memoria/)** | v1.0.0 | ✅ Production | Google Drive integration | ChatLLM Teams sync, auto-import to session-memoria, zero-friction automation. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
 | **[claude-session-registry](claude-session-registry/)** | v1.1.0 | ✅ Production | Session tracking & backup | Resume ID tracking, Git context, Golden Close protocol, **automatic backup to GitHub**. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
@@ -193,7 +193,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[daily-tasks-oih](daily-tasks-oih/)** | v1.0.0 | ✅ Production | Daily task workflow for OIH | Pool capture, per-agent dispatch, execution tracking, close protocol, English-only operational docs. |
 | **[docx-indexer](docx-indexer/)** | v1.4.0 | ✅ Production | Global document indexing system | Append-only JSON index, UUID identity, SHA256 hashing, structural telemetry, semantic enrichment, validated Voyage-backed semantic search baseline, and explicit invocation judgment rules. |
 | **[codex-task-notifier](codex-task-notifier/)** | v1.0.0 | ✅ Production | Codex task completion email notifier | Local Windows-first HTTPS pipeline (Resend -> Mailgun), explicit task-end emails, dynamic agent subjects, cross-machine portable. |
-| **[daily-doc-information](daily-doc-information/)** | v1.1.1 | ✅ Production | Documentation governance automation | Session docs, daily executive reports, project governance operations, English-first embedded templates, and cross-agent/cross-machine portability. |
+| **[daily-doc-information](daily-doc-information/)** | v1.2.0 | ✅ Production | Documentation governance automation | Session docs, daily executive reports, project governance operations, English-first embedded templates, and cross-agent/cross-machine portability. |
 
 ---
 
@@ -386,7 +386,7 @@ claude
 ```
 claude-intelligence-hub/
 │
-├── 📁 jimmy-core-preferences/       # ⭐ Global Cross-Agent Framework (v2.2.1)
+├── 📁 jimmy-core-preferences/       # ⭐ Global Cross-Agent Framework (v2.3.0)
 │   ├── SKILL.md                     # Universal AI behavior rules (15KB)       
 │   ├── EXECUTIVE_SUMMARY.MD         # 49KB comprehensive doc
 │   ├── CHANGELOG.md                 # v1.0 → v1.5 evolution
@@ -509,7 +509,7 @@ claude-intelligence-hub/
 │   ├── fixtures/                    # Test payload fixtures
 │   └── tests/                       # Test directory
 │
-├── 📁 daily-doc-information/         # ⭐ Daily Documentation Information (v1.1.1)
+├── 📁 daily-doc-information/         # ⭐ Daily Documentation Information (v1.2.0)
 │   ├── SKILL.md                     # DDI operational protocol
 │   ├── .metadata                    # Version metadata
 │   └── README.md                    # User documentation
@@ -934,7 +934,7 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 
 ## 📈 Version History
 
-**Current Version:** v2.18.1 ✅ **Global skills symlink manager + documentation sync**
+**Current Version:** v2.19.0 ✅ **Mandatory project sync gate before session close**
 **Last Updated:** March 19, 2026
 **Status:** Production | Context Preservation + Cloud Backup | Actively Maintained
 
@@ -958,6 +958,7 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 - **v2.3.0** (2026-02-17): repo-auditor skill v1.0.0 — proof-of-read fingerprinting, accumulative AUDIT_TRAIL.md, validate-trail.sh for CI
 - **v2.4.0** (2026-02-17): CIH-ROADMAP.md — single-entry-point navigation guide with 5 contextual paths
 - **v2.5.0** (2026-02-18): Development Impact Analysis — DEVELOPMENT_IMPACT_ANALYSIS.md + README section (17 days, 92–94% time savings, 95–98% cost savings)
+- **v2.19.0** (2026-03-19): Mandatory project sync gate — CS-07 and DH-15 added to daily-doc-information, jimmy-core-preferences Section G rule 13 added, and root Session Close Protocol references added to CLAUDE.md, AGENTS.md, and GEMINI.md
 - **v2.18.1** (2026-03-19): Global skills symlink integrity — new `manage-global-skills.sh`, jimmy-core-preferences Section D rules, and root cross-agent documentation references
 - **v2.18.0** (2026-03-19): AOP dispatch guardrails — new Claude/Gemini dispatch adapters, mandatory pre-dispatch gate in AOP, and global orchestrator guardrails in jimmy-core-preferences
 

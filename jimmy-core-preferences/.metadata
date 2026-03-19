@@ -1,6 +1,6 @@
 {
   "name": "jimmy-core-preferences",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "Global cross-agent operating framework for Jimmy.",
   "status": "production",
   "author": "mrjimmyny",

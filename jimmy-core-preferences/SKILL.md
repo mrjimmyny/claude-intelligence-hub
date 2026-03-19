@@ -1,6 +1,6 @@
 ---
 name: jimmy-core-preferences
-version: 2.2.1
+version: 2.3.0
 description: Global cross-agent operating framework for Jimmy.
 command: /preferences
 aliases: [/prefs, /jimmy]
@@ -8,7 +8,7 @@ aliases: [/prefs, /jimmy]
 
 # Jimmy Core Preferences — Global Cross-Agent Operating Framework
 
-**Version:** 2.2.1
+**Version:** 2.3.0
 **Last Updated:** 2026-03-19
 **Auto-Load:** Yes (Priority: Highest)
 
@@ -196,6 +196,11 @@ Every agent session must be documented. This is not optional.
    - What must not be reopened
    - Which files to read first
 12. From 2026-03-19 onward, all session doc and daily report content must be written in American English per Section K.
+13. **Mandatory project sync before session close.** Before closing any session doc or ending the day, the agent MUST update the operational docs (`status-atual.md`, `next-step.md`, `decisoes.md`) of EVERY project referenced in that session. This means:
+   - Move completed items to the Completed section in `status-atual.md`
+   - Update `next-step.md` with the current immediate action
+   - Register any decisions made in `decisoes.md`
+   - This is non-negotiable. Session closure without project sync is prohibited.
 
 ---
 
