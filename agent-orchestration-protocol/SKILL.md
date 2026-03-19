@@ -698,9 +698,9 @@ Cycle N: t3 completes → slot opens → dispatch t2
 
 | Tier | Anthropic | OpenAI | Google | Use When |
 |---|---|---|---|---|
-| 1 (Architect) | `claude-opus-4-6` | `gpt-5.4` (high/xhigh) | `gemini-3.1-pro` | Complex reasoning, multi-doc synthesis, audits |
-| 2 (Engineer) | `claude-sonnet-4-6` | `gpt-5.4-mini` / `gpt-5.3-codex` | `gemini-3-flash` | Implementation, coding, daily work (80% of tasks) |
-| 3 (Operator) | `claude-haiku-4-5` | `gpt-5.1-codex-mini` / `gpt-5.4-nano` | `gemini-3.1-flash-lite` | Mechanical tasks, templates, bulk ops |
+| 1 (Architect) | `claude-opus-4-6` | `gpt-5.4` (high/xhigh) | `gemini-2.5-pro` | Complex reasoning, multi-doc synthesis, audits |
+| 2 (Engineer) | `claude-sonnet-4-6` | `gpt-5.4-mini` / `gpt-5.3-codex` | `gemini-2.5-flash` | Implementation, coding, daily work (80% of tasks) |
+| 3 (Operator) | `claude-haiku-4-5` | `gpt-5.1-codex-mini` / `gpt-5.4-nano` | `gemini-2.5-flash` (low effort) | Mechanical tasks, templates, bulk ops |
 
 **Full guide with 25+ task examples, mixed-model patterns, cost analysis, and provider-specific CLI syntax:**
 See `06-operationalization/llm-model-selection-guide-for-aop-orchestrators-magneto-2026-03-18-v2.0.md` in the AOP project documentation.
@@ -918,7 +918,7 @@ git -C /c/ai/target-project diff --name-only HEAD
 
 ```bash
 # 1. Check for error artifact
-test -f "error_${SESSION_ID}.json" && cat "error_${SESSION_ID}.json"
+test -f "error_${TASK_ID}_${SESSION_ID}.json" && cat "error_${TASK_ID}_${SESSION_ID}.json"
 
 # 2. Check git state
 git -C /c/ai/target-project status
@@ -1058,7 +1058,6 @@ $EXECUTOR_PID = $proc.Id
   "status": "SUCCESS",
   "task_id": "round-1-skill-rewrite",
   "session_id": "a1b2c3d4",
-  "executor_id": "exec_round-1-skill-rewrite_a1b2c3d4",
   "timestamp": "2026-03-18T14:30:00-03:00",
   "executor": "Claude Sonnet 4.6 (headless AOP)",
   "files_changed": ["agent-orchestration-protocol/SKILL.md"]
