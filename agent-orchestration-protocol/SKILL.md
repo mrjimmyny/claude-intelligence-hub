@@ -1047,6 +1047,22 @@ $proc = Start-Process claude -ArgumentList "-p --dangerously-skip-permissions --
 $EXECUTOR_PID = $proc.Id
 ```
 
+### Codex Dispatch Script (Windows — Recommended)
+
+Codex on Windows wraps bash inside PowerShell, causing escaping failures with complex inline commands. Use the dispatch script instead:
+
+```bash
+# Recommended: Use the dispatch script for reliable Codex headless execution
+bash scripts/aop-codex-dispatch.sh \
+  /c/ai/temp/AOP_PROMPT_${TASK_ID}_${SESSION_ID}.md \
+  /c/ai/temp/AOP_COMPLETE_${TASK_ID}_${SESSION_ID}.json \
+  /c/ai/target-project
+```
+
+**Full implementation:** See [`scripts/aop-codex-dispatch.sh`](./scripts/aop-codex-dispatch.sh)
+
+**Why this exists:** Codex CLI v0.101.0 on Windows uses `powershell.exe -Command "bash -lc '...'"` internally. Complex commands with nested quotes fail due to double escaping. The dispatch script bypasses this by providing a clean bash entry point that pipes the prompt file directly to `codex exec` via stdin.
+
 ---
 
 ## Completion Artifact Schema
@@ -1142,6 +1158,7 @@ All implementation scripts are in the [`scripts/`](./scripts/) directory. Each s
 | `aop-deadlock-detector.sh` | 4-stage deadlock escalation (NORMAL→WARN→ESCALATE→DEADLOCK) | `source scripts/aop-deadlock-detector.sh` |
 | `aop-priority-queue.sh` | Priority comparator + bounded concurrency dispatch | `source scripts/aop-priority-queue.sh` |
 | `aop-post-audit.sh` | Per-executor write scope audit via git diff | `bash scripts/aop-post-audit.sh <dir> "task:scope" ...` |
+| `aop-codex-dispatch.sh` | Codex dispatch adapter (Windows PowerShell escaping fix) | `bash scripts/aop-codex-dispatch.sh <prompt> <artifact> [workdir]` |
 
 ---
 
