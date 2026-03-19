@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.17.0] - 2026-03-19
+### Changed
+- **jimmy-core-preferences** v2.0.3 -> v2.1.0 — Added Section K: Documentation Language Standard (all generated docs must be in American English from 2026-03-19). Updated Section F status summary labels to English. Added rule 12 to Section G.
+- **daily-doc-information** v1.0.0 -> v1.1.0 — Full English translation of all embedded templates (session doc, daily report, project docs) and body references. Portuguese section headers, field labels, status summary format replaced with American English equivalents.
+### Added
+- Documentation Language enforcement rule in root config files (CLAUDE.md, AGENTS.md, GEMINI.md)
+
 ## [2.16.0] - 2026-03-18
 ### Changed
 - **agent-orchestration-protocol** v3.0.0 -> v4.0.0 — Multi-executor robust orchestration

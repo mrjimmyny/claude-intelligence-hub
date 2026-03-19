@@ -2,7 +2,7 @@
 name: daily-doc-information
 description: Automates creation, update, closure of session docs and daily reports, plus project governance operations (create-project, update-project-status, register-decision, update-next-step) with identity, hygiene, and gate enforcement
 command: /daily-doc-information
-version: 1.0.0
+version: 1.1.0
 category: Documentation Automation
 trigger: When user invokes /daily-doc-information or asks to create/update/close session docs, create daily reports, or perform project governance operations (create/update projects, register decisions, update next steps)
 tags:
@@ -15,7 +15,7 @@ tags:
 
 # daily-doc-information
 
-**Version:** 1.0.0
+**Version:** 1.1.0
 
 > **Objective:** Automates the creation, structured update, and clean-state closure of session documents and daily reports, plus project governance operations (project creation, status updates, decision registration, next-step management) according to the continuity-documentation contract.
 
@@ -162,7 +162,7 @@ session-[session_id_short]-[YYYY-MM-DD]-[agent_slug].md
    - `{{CONTEXT_TYPE}}` → `context_type`
    - `{{PROJECT}}` → `project`
    - `{{PROJECT_TAG}}` → Lowercase, hyphenated project tag
-   - `{{TIME_OF_DAY}}` → Macro period: `manha`, `tarde`, `noite`, or `madrugada`
+   - `{{TIME_OF_DAY}}` → Macro period: `morning`, `afternoon`, `evening`, or `late-night`
    - `{{DAY_TYPE}}` → `weekday` or `weekend`
    - `{{MAIN_SUBJECT}}` → Derived from session_name or project
    - `{{SUBJECT_1}}` → First secondary subject or `documentation`
@@ -229,11 +229,11 @@ Adds structured content to a specific section of an existing, open session docum
 
 | update_type | Target Section | Placement Rule |
 |---|---|---|
-| `history` | Historico de Modificacoes table | **Prepend** new row at TOP (newest first, per DH-03) |
-| `decision` | Decisoes table in current block | **Append** new row at bottom of table |
-| `validation` | Validacoes table in current block | **Append** new row at bottom of table |
-| `next_action` | Proxima acao in Snapshot Atual AND current block | **Replace** existing value |
-| `block_status` | Status in current block AND Blocos de Trabalho table | **Replace** existing value |
+| `history` | Modification History table | **Prepend** new row at TOP (newest first, per DH-03) |
+| `decision` | Decisions table in current block | **Append** new row at bottom of table |
+| `validation` | Validations table in current block | **Append** new row at bottom of table |
+| `next_action` | Next action in Current Snapshot AND current block | **Replace** existing value |
+| `block_status` | Status in current block AND Work Blocks table | **Replace** existing value |
 
 5. **Update `last_updated_at_local`** in BOTH frontmatter AND body header to current `timestamp_local`. Both values MUST match (DH-02).
 6. **Verify no stale paths or placeholders** were introduced (DH-05, DH-06).
@@ -288,8 +288,8 @@ All 6 criteria MUST pass. If ANY is `BLOCKED`, return gate result with failing c
 |---|---|---|
 | CS-01 | `next_action` is single and explicit | Not empty, not a list of alternatives, not `pending` |
 | CS-02 | `blockers` are declared | At least one blocker listed OR explicit "no blockers" / "nenhum bloqueio" |
-| CS-03 | At least one decision recorded | Current block has at least one row in Decisoes table |
-| CS-04 | At least one validation recorded with result | Current block has at least one row in Validacoes table with a result value |
+| CS-03 | At least one decision recorded | Current block has at least one row in Decisions table |
+| CS-04 | At least one validation recorded with result | Current block has at least one row in Validations table with a result value |
 | CS-05 | Temporary artifacts accounted for | All temp artifacts committed, discarded, or deferred with justification |
 | CS-06 | Commit/push justification stated | If changes were made: commit hash recorded; if no changes: explicit statement |
 
@@ -309,8 +309,8 @@ All 6 criteria MUST pass. If ANY is `BLOCKED`, return gate result with failing c
    - Set `status` to `complete` in frontmatter.
    - Set `closed_at_local` to `timestamp_local` in frontmatter AND body.
    - Update `last_updated_at_local` to `timestamp_local` in frontmatter AND body.
-   - Prepend final history row: `[date] | [period] | [time] | [tz] | [agent] | [machine] | Fechamento da sessao. Clean-state gate: PASS.`
-   - Update Snapshot Atual: `Status geral` → `complete`, `Clean-state gate` → `PASS`.
+   - Prepend final history row: `[date] | [period] | [time] | [tz] | [agent] | [machine] | Session closure. Clean-state gate: PASS.`
+   - Update Current Snapshot: `Overall status` → `complete`, `Clean-state gate` → `PASS`.
    - Update Handoff section with final values.
 7. **Produce closure evidence block:**
 
@@ -333,7 +333,7 @@ Actions Taken:
   - status set to complete: YES/NO
   - closed_at_local set: YES/NO
   - final history row added: YES/NO
-  - Snapshot Atual updated: YES/NO
+  - Current Snapshot updated: YES/NO
 Result: PASS / BLOCKED
 === END EVIDENCE ===
 ```
@@ -370,13 +370,13 @@ daily-report-executive-[YYYY-MM-DD]-v1.md
 4. **Read each source session doc** from `source_session_docs`.
 5. **Extract from each source doc:**
    - Projects worked on (from `project` frontmatter and block context_type)
-   - Key actions (from Historico de Modificacoes and block content)
-   - Decisions (from Decisoes tables)
-   - Blockers (from Snapshot Atual and block content)
+   - Key actions (from Modification History and block content)
+   - Decisions (from Decisions tables)
+   - Blockers (from Current Snapshot and block content)
    - Session metadata (session_id, agent, project, status)
 6. **Populate template sections:**
    - **Frontmatter:** Fill all fields — `agents`, `sessions_covered`, `total_sessions`, dates, author.
-   - **Snapshot Atual:** Summarize project work and general work.
+   - **Current Snapshot:** Summarize project work and general work.
    - **Project Work:** Group actions by project. For each project, fill Key Actions, Progress, Major Decisions, Blockers.
    - **General Work:** Group non-project actions by theme.
    - **Sessoes Oficiais Vinculadas:** One row per source session doc with Session ID, Agent, Project, Status.
@@ -747,9 +747,9 @@ Failure modes fire **DURING execution**. Each has a trigger condition, severity,
 | ID | Rule | Description |
 |---|---|---|
 | DH-01 | EVIDENCE_REQUIRED | An evidence block must be produced after every operation (create, update, close, daily-report, and all project operations). |
-| DH-02 | TIMESTAMP_COHERENCE | `last_updated_at_local` in frontmatter MUST equal `Ultima atualizacao local` in body header. Both update together, always. |
-| DH-03 | HISTORY_PREPEND | New rows in the Historico de Modificacoes table are always prepended at the TOP. Newest first. |
-| DH-04 | CANONICAL_DISCRIMINATOR | The canonical discriminator (`[session_id_short]-[machine_id]-[agent_slug]-[YYYY-MM-DD]`) must appear in frontmatter (`session_key`) AND in body (`Discriminador canonico operacional`). |
+| DH-02 | TIMESTAMP_COHERENCE | `last_updated_at_local` in frontmatter MUST equal `Last local update` in body header. Both update together, always. |
+| DH-03 | HISTORY_PREPEND | New rows in the Modification History table are always prepended at the TOP. Newest first. |
+| DH-04 | CANONICAL_DISCRIMINATOR | The canonical discriminator (`[session_id_short]-[machine_id]-[agent_slug]-[YYYY-MM-DD]`) must appear in frontmatter (`session_key`) AND in body (`Canonical operational discriminator`). |
 | DH-05 | NO_STALE_PATHS | All paths in documents must include the `skills/` segment where applicable. Old-format paths without `skills/` are stale and must be corrected. |
 | DH-06 | NO_PLACEHOLDERS | No `{{...}}` template markers, `TODO`, `TBD`, or `FIXME` in delivered documents. |
 | DH-07 | ALIAS_IN_FILENAME | New files use the `ddi-email` alias in the filename where applicable (planning docs, specs, audits — not session docs or daily reports). |
@@ -830,7 +830,7 @@ agent: {{AGENT_LABEL}}
 provider: {{PROVIDER}}
 timezone: America/Sao_Paulo
 location: Brasilia, Brasil
-time_reference: horario local da maquina
+time_reference: machine local time
 opened_at_local: {{YYYY-MM-DD HH:MM}}
 last_updated_at_local: {{YYYY-MM-DD HH:MM}}
 closed_at_local: pending
@@ -857,57 +857,57 @@ aliases:
 
 # Session Log - {{AGENT_NAME}} - {{YYYY-MM-DD}}
 
-> **Data:** {{YYYY-MM-DD}}
-> **Maquina:** {{MACHINE_NAME}} (`{{OS_USER}}`)
+> **Date:** {{YYYY-MM-DD}}
+> **Machine:** {{MACHINE_NAME}} (`{{OS_USER}}`)
 > **Session ID:** `{{SESSION_ID}}`
-> **Session ID curto (filename):** `{{SESSION_ID_SHORT}}`
-> **Discriminador canonico operacional:** `{{SESSION_ID_SHORT}}-{{MACHINE_NAME}}-{{AGENT_SLUG}}-{{YYYY-MM-DD}}`
+> **Session ID short (filename):** `{{SESSION_ID_SHORT}}`
+> **Canonical operational discriminator:** `{{SESSION_ID_SHORT}}-{{MACHINE_NAME}}-{{AGENT_SLUG}}-{{YYYY-MM-DD}}`
 > **Session Name:** `{{SESSION_NAME}}`
-> **Agente:** {{AGENT_LABEL}}
+> **Agent:** {{AGENT_LABEL}}
 > **Provider:** {{PROVIDER}}
 > **Context Type:** `{{CONTEXT_TYPE}}`
 > **Project:** `{{PROJECT}}`
-> **Periodo macro:** {{TIME_OF_DAY}}
-> **Abertura local real:** {{YYYY-MM-DD HH:MM}}
-> **Ultima atualizacao local:** {{YYYY-MM-DD HH:MM}}
-> **Fechamento local real:** pending
-> **Fuso horario:** `America/Sao_Paulo`
-> **Localidade de referencia:** `Brasilia, Brasil`
-> **Referencia de horario:** `horario local da maquina`
-> **Sessao anterior:** {{PREVIOUS_SESSION}}
-> **Arquivo/Prompt alvo:** {{TARGET_FILE}}
+> **Macro period:** {{TIME_OF_DAY}}
+> **Actual local open:** {{YYYY-MM-DD HH:MM}}
+> **Last local update:** {{YYYY-MM-DD HH:MM}}
+> **Actual local close:** pending
+> **Timezone:** `America/Sao_Paulo`
+> **Reference locality:** `Brasilia, Brasil`
+> **Time reference:** `machine local time`
+> **Previous session:** {{PREVIOUS_SESSION}}
+> **Target file/prompt:** {{TARGET_FILE}}
 
 ---
 
-## Snapshot Atual
+## Current Snapshot
 
-| Campo | Valor |
+| Field | Value |
 |---|---|
 | Owner | {{AGENT_NAME}} |
-| Status geral | in_progress |
-| Contexto principal | {{CONTEXT_TYPE}} |
-| Projeto principal | {{PROJECT}} |
-| Bloco ativo | B01 |
-| Proxima acao | pending |
-| Bloqueios | pending |
+| Overall status | in_progress |
+| Main context | {{CONTEXT_TYPE}} |
+| Main project | {{PROJECT}} |
+| Active block | B01 |
+| Next action | pending |
+| Blockers | pending |
 | Clean-state gate | pending |
-| Daily curado por | pending |
+| Daily curated by | pending |
 
 ---
 
-## Historico de Modificacoes
+## Modification History
 
-| Data | Periodo macro | Hora local | Timezone | Agente | Maquina | Mudanca |
+| Date | Macro period | Local time | Timezone | Agent | Machine | Change |
 |---|---|---|---|---|---|---|
-| {{YYYY-MM-DD}} | {{TIME_OF_DAY}} | {{HH:MM}} | America/Sao_Paulo | {{AGENT_LABEL}} | {{MACHINE_NAME}} | Criacao do session doc. |
+| {{YYYY-MM-DD}} | {{TIME_OF_DAY}} | {{HH:MM}} | America/Sao_Paulo | {{AGENT_LABEL}} | {{MACHINE_NAME}} | Session doc created. |
 
-> Regra: novas linhas entram no topo da tabela.
+> Rule: new rows go at the top of the table.
 
 ---
 
-## Blocos de Trabalho
+## Work Blocks
 
-| Bloco | Context Type | Project | Status | Ultima Atualizacao | Proxima Acao |
+| Block | Context Type | Project | Status | Last Update | Next Action |
 |---|---|---|---|---|---|
 | B01 - {{BLOCK_TITLE}} | {{CONTEXT_TYPE}} | {{PROJECT}} | In Progress | {{HH:MM}} | pending |
 
@@ -915,16 +915,16 @@ aliases:
 
 ## Handoff
 
-### Onde esta sessao para
+### Where this session stopped
 - pending
 
-### Onde retomar
+### Where to resume
 - pending
 
-### O que nao reabrir
+### What not to reopen
 - pending
 
-### Arquivos para ler primeiro
+### Files to read first
 1. pending
 
 ---
@@ -946,7 +946,7 @@ report_type: executive
 report_period: daily
 timezone: America/Sao_Paulo
 location: Brasilia, Brasil
-time_reference: horario local da maquina
+time_reference: machine local time
 opened_at_local: {{YYYY-MM-DD HH:MM}}
 updated_at_local: {{YYYY-MM-DD HH:MM}}
 agents:
@@ -969,25 +969,25 @@ aliases:
 
 # Daily Executive Report - {{YYYY-MM-DD}}
 
-> **Periodo:** {{YYYY-MM-DD}}
-> **Fuso horario:** `America/Sao_Paulo`
-> **Localidade de referencia:** `Brasilia, Brasil`
-> **Referencia de horario:** `horario local da maquina`
-> **Ultima atualizacao local:** {{YYYY-MM-DD HH:MM}}
+> **Period:** {{YYYY-MM-DD}}
+> **Timezone:** `America/Sao_Paulo`
+> **Reference locality:** `Brasilia, Brasil`
+> **Time reference:** `machine local time`
+> **Last local update:** {{YYYY-MM-DD HH:MM}}
 > **Status:** in_progress
 
 ---
 
-## Snapshot Atual
+## Current Snapshot
 
-| Campo | Valor |
+| Field | Value |
 |---|---|
 | Project Work | {{SUMMARY}} |
 | General Work | {{SUMMARY}} |
-| Momento da consolidacao | fechamento do dia |
-| Proxima consolidacao | pending |
-| Janela ativa | `2026-03-13+` |
-| Curadoria | {{AUTHOR}} |
+| Consolidation moment | end of day |
+| Next consolidation | pending |
+| Active window | `2026-03-13+` |
+| Curation | {{AUTHOR}} |
 
 ---
 
@@ -1014,7 +1014,7 @@ aliases:
 
 ---
 
-## Sessoes Oficiais Vinculadas
+## Linked Official Sessions
 
 | # | Session ID | Agent | Project | Status |
 |---|---|---|---|---|
@@ -1022,12 +1022,12 @@ aliases:
 
 ---
 
-## Regra de Uso
+## Usage Rules
 
-- este documento e consolidado uma vez por dia, no fechamento;
-- use os session docs do dia como fonte de verdade operacional;
-- nao tratar este arquivo como log de iteracao de cada agente;
-- documentos de 2026-03-12 para tras ficam congelados.
+- this document is consolidated once per day, at closure;
+- use the day's session docs as the operational source of truth;
+- do not treat this file as an iteration log for each agent;
+- documents from 2026-03-12 and earlier are frozen.
 
 ---
 
@@ -1069,13 +1069,13 @@ Standard Project Status Summary:
 
 When Jimmy asks for the current status of a project, answer in this fixed shape:
 
-- Fase atual
-- Progresso geral
-- Ja concluido
-- Onde paramos
-- Bloqueios
-- Proximo passo oficial
-- Guardrails / fora de escopo agora
+- Current phase
+- Overall progress
+- Already completed
+- Where we stopped
+- Blockers
+- Official next step
+- Guardrails / out of scope now
 
 Keep the answer short, literal, and derived from `PROJECT_CONTEXT.md`, `status-atual.md`, `next-step.md`, and `decisoes.md`.
 
@@ -1108,7 +1108,7 @@ Before executing any task:
 #### 15.3.2 status-atual.md
 
 ```markdown
-# Status Atual
+# Current Status
 
 Current Phase:
 {{CURRENT_PHASE}}
@@ -1280,13 +1280,13 @@ See [status-atual.md](status-atual.md) for current status.
 When any agent is asked for the current status of a project, it MUST answer in this fixed shape. The data sources for each field are specified.
 
 ```
-- Fase atual: [from PROJECT_CONTEXT.md Current Phase]
-- Progresso geral: [from status-atual.md Overall Progress]
-- Ja concluido: [from status-atual.md Completed section]
-- Onde paramos: [from status-atual.md In Progress + last update]
-- Bloqueios: [from status-atual.md Blocked section]
-- Proximo passo oficial: [from next-step.md Immediate Action]
-- Guardrails / fora de escopo agora: [from PROJECT_CONTEXT.md or decisoes.md]
+- Current phase: [from PROJECT_CONTEXT.md Current Phase]
+- Overall progress: [from status-atual.md Overall Progress]
+- Already completed: [from status-atual.md Completed section]
+- Where we stopped: [from status-atual.md In Progress + last update]
+- Blockers: [from status-atual.md Blocked section]
+- Official next step: [from next-step.md Immediate Action]
+- Guardrails / out of scope now: [from PROJECT_CONTEXT.md or decisoes.md]
 ```
 
 This format is embedded in every `PROJECT_CONTEXT.md` created by `create-project` and must not be modified or abbreviated by any agent. If any of the source fields is empty or not yet populated, the agent must report `(not yet defined)` rather than fabricating content.
@@ -1297,6 +1297,7 @@ This format is embedded in every `PROJECT_CONTEXT.md` created by `create-project
 
 | Version | Date | Author | Changes |
 |---|---|---|---|
+| 1.1.0 | 2026-03-19 | Magneto (Orchestrator) | Full English translation of all embedded templates and body references. Portuguese section headers, field labels, and status summary format replaced with American English equivalents. Backward compatible — existing docs retain original language. |
 | 1.0.0 | 2026-03-18 | Magneto (Orchestrator) | First official publication. G-03 approved by Jimmy. 8 operations, cross-agent, cross-machine, full test suite. |
 | 0.3.1-prototype | 2026-03-18 | Magneto (Orchestrator) | Fix 3 audit findings: F-01 (accept done+complete as closed), F-02 (backward-compat folder names), F-03 (SC-05 accepts done+complete) |
 | 0.3.0-prototype | 2026-03-17 | Magneto (Orchestrator) | Cross-agent compatibility section, environment configuration for cross-machine portability, project notes/threads template added to embedded templates and create-project operation |
