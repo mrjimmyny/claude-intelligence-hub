@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.18.1] - 2026-03-19
+### Added
+- `scripts/manage-global-skills.sh` — Global skills symlink manager. Verifies and fixes junctions between `~/.claude/skills/` and the hub. Operations: verify, fix, list.
+### Changed
+- **jimmy-core-preferences** v2.2.0 -> v2.2.1 — Added Global Skill Symlink Integrity rules to Section D. Verification and fix commands documented.
+- Root config files (CLAUDE.md, AGENTS.md, GEMINI.md) updated with symlink integrity reference.
+
 ## [2.18.0] - 2026-03-19
 ### Added
 - **agent-orchestration-protocol** v4.0.0 -> v4.0.1 — Pre-Dispatch Mandatory Gate: non-negotiable guardrail requiring dispatch scripts before any headless session. New dispatch scripts: `aop-claude-dispatch.sh`, `aop-gemini-dispatch.sh` (Codex script already existed).

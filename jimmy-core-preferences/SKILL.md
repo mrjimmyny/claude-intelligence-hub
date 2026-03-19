@@ -1,6 +1,6 @@
 ---
 name: jimmy-core-preferences
-version: 2.2.0
+version: 2.2.1
 description: Global cross-agent operating framework for Jimmy.
 command: /preferences
 aliases: [/prefs, /jimmy]
@@ -8,7 +8,7 @@ aliases: [/prefs, /jimmy]
 
 # Jimmy Core Preferences — Global Cross-Agent Operating Framework
 
-**Version:** 2.2.0
+**Version:** 2.2.1
 **Last Updated:** 2026-03-19
 **Auto-Load:** Yes (Priority: Highest)
 
@@ -62,6 +62,28 @@ For agents without native global-skill auto-loading (e.g., Codex, Gemini):
 For agents with native auto-load (Claude Code with skill support):
 - `jimmy-core-preferences` loads automatically at session start (Tier 1).
 - Route all requests through `HUB_MAP.md` before acting.
+
+### Global Skill Symlink Integrity
+
+All skills in `~/.claude/skills/` MUST be junctions (Windows) or symlinks (Linux/Mac) pointing to `claude-intelligence-hub/`. **Never copies.** A copy drifts on the next hub update and breaks cross-machine bootstrap.
+
+**Verification:**
+```bash
+bash scripts/manage-global-skills.sh verify
+```
+
+**Fix (replaces copies with junctions):**
+```bash
+bash scripts/manage-global-skills.sh fix
+```
+
+Run from the `claude-intelligence-hub/` directory. This script is cross-agent — any agent can invoke it.
+
+When adding a new skill to the hub, always create the junction via the script or manually:
+```bash
+bash scripts/manage-global-skills.sh fix
+```
+Never copy skill directories into `~/.claude/skills/`.
 
 ---
 

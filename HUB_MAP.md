@@ -1,6 +1,6 @@
 # 🗺️ Claude Intelligence Hub - Visual Skill Router
 
-**Version:** 2.18.0
+**Version:** 2.18.1
 **Status:** 🟢 Active & Synchronized
 **Registry:** 19 Production Skills
 
@@ -23,7 +23,7 @@
 
 | # | Skill Name | Version | Command | Role |
 | :--- | :--- | :--- | :--- | :--- |
-| 1 | **jimmy-core-preferences** | v2.2.0 | `/preferences` | Master AI Behavior |
+| 1 | **jimmy-core-preferences** | v2.2.1 | `/preferences` | Master AI Behavior |
 | 14 | **token-economy** | v1.0.0 | `/token-economy` | Budget Enforcement |
 
 ### 🟢 Tier 2: Context-Aware (Suggested)
