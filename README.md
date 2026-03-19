@@ -35,6 +35,7 @@ All skills are available as **slash commands** for instant access. Just type `/c
 | **claude-session-registry** | `/registry` | /register-session | Session tracking & backup |
 | **x-mem** | `/xmem` | /learn, /recall | Self-learning from failures/successes |
 | **core_catalog** | `/catalog` | /core | System configurations & bootstrap |
+| **daily-doc-information** | `/daily-doc-information` | - | Session docs, daily reports, and project governance automation |
 | **codex-governance** | `/governance` | /codex | Institutional governance framework |
 | **daily-tasks-oih** | `/daily-tasks-oih` | /dtoih, /daily-tasks | Daily tasks pool and per-agent execution workflow |
 | **docx-indexer** | `/docx-indexer` | /dxi | Global document indexing + semantic enrichment + semantic search baseline |
@@ -182,13 +183,17 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[x-mem](x-mem/)** | v1.0.0 | ✅ Production | Self-learning protocol | Failure/success capture, proactive recall, NDJSON storage, 15K token budget. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
 | **[xavier-memory](xavier-memory/)** | v1.1.0 | ✅ Production | Global memory infrastructure | Master MEMORY.md, cross-project sync, 3-layer backup (Git/Hard links/GDrive). Foundation for X-MEM protocol. |
 | **[xavier-memory-sync](xavier-memory-sync/)** | v1.0.0 | ✅ Production | Memory sync automation | Trigger phrases for backup/restore/status, Google Drive integration, zero-duplicate guarantee. |
-| **[context-guardian](context-guardian/) | v1.1.0 | ✅ Production | Context preservation system | Xavier ↔ Magneto account switching, 3-strategy symlinks, rollback protection, .contextignore support, dry-run mode, verify-backup reports. |
+| **[context-guardian](context-guardian/)** | v1.1.0 | ✅ Production | Context preservation system | Xavier ↔ Magneto account switching, 3-strategy symlinks, rollback protection, .contextignore support, dry-run mode, verify-backup reports. |
 | **[repo-auditor](repo-auditor/)** | v2.0.0 | ✅ Production | End-to-end audit skill | Mandatory proof-of-read fingerprinting, accumulative AUDIT_TRAIL.md, validate-trail.sh for CI. |
 | **[conversation-memoria](conversation-memoria/)** | v1.0.0 | ✅ Production | Persistent conversation storage | Intelligent metadata extraction, 95-98% token savings, week-based organization, natural language triggers, cross-agent memory sharing. |
-| **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v3.0.0 | ✅ Production-Validated | Multi-agent coordination framework | The Seven Pillars of AOP mastery, unified protocol, security boundaries, error recovery. |
+| **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v4.0.0 | ✅ Production-Validated | Multi-agent coordination framework | Multi-executor robust orchestration, task-ID namespaced artifacts, fan-in/fan-out, DAG dependency management, deadlock detection, and priority-aware execution. |
+| **[core_catalog](core_catalog/)** | v1.0.0 | ✅ Production | Core system catalog | Bootstrap compatibility data, centralized configuration references, and environment initialization mappings. |
+| **[token-economy](token-economy/)** | v1.0.0 | ✅ Production | Token budget governance | Budget enforcement adapter, preflight token discipline, and response-size reduction rules. |
+| **[codex-governance-framework](codex-governance-framework/)** | v1.0.0 | ✅ Production | Institutional governance framework | Codex bootstrap governance, playbook guidance, onboarding references, and CI-ready contracts. |
 | **[daily-tasks-oih](daily-tasks-oih/)** | v1.0.0 | ✅ Production | Daily task workflow for OIH | Pool capture, per-agent dispatch, execution tracking, close protocol, English-only operational docs. |
 | **[docx-indexer](docx-indexer/)** | v1.4.0 | ✅ Production | Global document indexing system | Append-only JSON index, UUID identity, SHA256 hashing, structural telemetry, semantic enrichment, validated Voyage-backed semantic search baseline, and explicit invocation judgment rules. |
 | **[codex-task-notifier](codex-task-notifier/)** | v1.0.0 | ✅ Production | Codex task completion email notifier | Local Windows-first HTTPS pipeline (Resend -> Mailgun), explicit task-end emails, dynamic agent subjects, cross-machine portable. |
+| **[daily-doc-information](daily-doc-information/)** | v1.0.0 | ✅ Production | Documentation governance automation | Session docs, daily executive reports, project governance operations, and cross-agent/cross-machine portability. |
 
 ---
 
@@ -224,7 +229,7 @@ For complete trigger list and routing patterns, see **[HUB_MAP.md](HUB_MAP.md)**
 git clone https://github.com/mrjimmyny/claude-intelligence-hub.git
 cd claude-intelligence-hub
 
-# Run automated setup (installs 10 production skills)
+# Run automated setup (installs 19 production skills)
 .\scripts\setup_local_env.ps1
 
 # Force recreate existing junctions (if needed)
@@ -406,7 +411,7 @@ claude-intelligence-hub/
 │   ├── temp/                        # Download cache (git-ignored)
 │   └── logs/                        # Sync history (git-ignored)
 │
-├── 📁 claude-session-registry/      # ⭐ Session Tracking (v1.0.0)
+├── 📁 claude-session-registry/      # ⭐ Session Tracking (v1.1.0)
 │   ├── SKILL.md                     # Session tracking workflows (15KB)
 │   ├── README.md                    # User guide (4KB)
 │   ├── SETUP_GUIDE.md               # Installation instructions
@@ -433,7 +438,7 @@ claude-intelligence-hub/
 │   ├── docs/                        # 4 comprehensive guides
 │   └── README.md                    # Main documentation
 │
-├── 📁 xavier-memory/                # ⭐ Global Memory Infrastructure (v1.0.0)
+├── 📁 xavier-memory/                # ⭐ Global Memory Infrastructure (v1.1.0)
 │   ├── MEMORY.md                    # Master memory file (single source of truth)
 │   ├── README.md                    # User guide
 │   ├── setup_memory_junctions.bat   # Hard link setup script (Windows)
@@ -466,7 +471,7 @@ claude-intelligence-hub/
 │   │   └── templates/               # Conversation templates
 │   └── README.md                    # Main documentation
 │
-├── 📁 agent-orchestration-protocol/ # ⭐ Multi-Agent Coordination (v3.0.0)
+├── 📁 agent-orchestration-protocol/ # ⭐ Multi-Agent Coordination (v4.0.0)
 │   ├── SKILL.md                     # The Seven Pillars of AOP
 │   ├── README.md                    # Complete guide
 │   ├── AOP-EXECUTIVE-SUMMARY.md     # Executive summary
@@ -482,6 +487,11 @@ claude-intelligence-hub/
 │   ├── next-steps/                  # CI-ready contracts
 │   ├── README.md                    # Framework overview
 │   └── START_HERE.md                # Onboarding guide
+|
+|-- daily-tasks-oih/              # Daily Task Workflow for OIH (v1.0.0)
+|   |-- SKILL.md                  # Pool capture, dispatch, execution, and close protocol
+|   |-- .metadata                 # Version metadata
+|   `-- README.md                 # User documentation
 ├── 📁 core_catalog/                 # ⭐ Core Catalog (v1.0.0)
 │   ├── SKILL.md                     # Core catalog skill definition
 │   ├── README.md                    # Catalog overview
@@ -924,7 +934,7 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 
 ## 📈 Version History
 
-**Current Version:** v2.16.0 ✅ **AOP v4.0.0-rc.2 - Multi-executor robust orchestration**
+**Current Version:** v2.16.0 ✅ **AOP v4.0.0 - Multi-executor robust orchestration**
 **Last Updated:** March 18, 2026
 **Status:** Production | Context Preservation + Cloud Backup | Actively Maintained
 

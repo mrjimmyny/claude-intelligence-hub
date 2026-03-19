@@ -1,6 +1,6 @@
 # 🗺️ Claude Intelligence Hub - Visual Skill Router
 
-**Version:** 2.15.0
+**Version:** 2.16.0
 **Status:** 🟢 Active & Synchronized
 **Registry:** 19 Production Skills
 
@@ -35,7 +35,7 @@
 | 4 | **claude-session-registry** | v1.1.0 | `/registry` | "registra sessão", Golden Close |
 | 5 | **pbi-claude-skills** | v1.3.0 | `/pbi` | `.pbip` project detection |
 | 7 | **xavier-memory** | v1.1.0 | `/xavier-memory` | Cross-project sync |
-| 12 | **agent-orchestration-protocol** | v4.0.0-rc.2 | `/aop` | "orchestrate", "delegate" |
+| 12 | **agent-orchestration-protocol** | v4.0.0 | `/aop` | "orchestrate", "delegate" |
 | 18 | **codex-task-notifier** | v1.0.0 | `/codex-task-notifier` | "email me when done", "me manda um email" |
 | 19 | **daily-doc-information** | v1.0.0 | `/daily-doc-information` | Session docs, daily reports, and project governance automation |
 

@@ -44,10 +44,12 @@
 |---|---|---|---|
 | `/aop` | /orchestrate, /delegate | agent-orchestration-protocol | Multi-agent coordination framework |
 | `/catalog` | /core | core_catalog | System configurations & bootstrap data |
+| `/codex-task-notifier` | /ctn | codex-task-notifier | Local Windows-first task completion email notifier |
 | `/context-guardian` | /guardian, /switch | context-guardian | Account switching (Xavier ↔ Magneto) |
 | `/conversation` | /conv, /history | conversation-memoria | Save/Load session history |
+| `/daily-doc-information` | - | daily-doc-information | Session docs, daily reports, and project governance automation |
 | `/daily-tasks-oih` | /dtoih, /daily-tasks | daily-tasks-oih | Daily tasks pool, dispatch, and execution workflow |
-| `/docx-indexer` | /dxi | docx-indexer | Global document indexing + manual-first enrichment |
+| `/docx-indexer` | /dxi | docx-indexer | Global document indexing + semantic enrichment + semantic search baseline |
 | `/gdrive-sync` | /gdrive | gdrive-sync-memoria | Sync ChatLLM Teams content to session-memoria |
 | `/governance` | /codex | codex-governance-framework | Institutional governance framework |
 | `/memoria` | /memory, /save | session-memoria | Permanent conversation storage |
@@ -79,6 +81,8 @@
 |---|---|
 | /preferences | Master AI behavior settings |
 | /token-economy | Enforce token budgets |
+| /daily-doc-information | Govern session docs and daily reports |
+| /codex-task-notifier | Send task completion emails |
 | /repo-auditor | Deep repository audit |
 | /docx-indexer | Global document indexing + enrichment |
 | /governance | Codex governance framework |
@@ -90,6 +94,8 @@
 | /aop | Orchestrate multi-agent tasks |
 | /registry | Track Claude sessions |
 | /context-guardian | Switch between accounts |
+| /codex-task-notifier | Task completion email notifications |
+| /daily-doc-information | Session docs and project governance workflow |
 | /daily-tasks-oih | Dispatch and execute daily task workflow |
 
 ### 📊 Power BI Optimization
@@ -119,6 +125,8 @@ These skills load based on triggers or project detection:
 | /pbi | Power BI tools | .pbip project detected |
 | /xavier-memory | Global memory | Cross-project sync |
 | /aop | Multi-agent | "orchestrate", "delegate" |
+| /codex-task-notifier | Task completion email | "email me when done", "me manda um email" |
+| /daily-doc-information | Documentation governance | session docs, daily reports, project governance |
 
 ### 🟡 Tier 3: Explicit (On-Demand)
 These skills only load when manually invoked:
@@ -278,5 +286,5 @@ The repo-auditor automatically validates:
 
 ---
 
-**Last Updated:** 2026-03-07
-**Version:** 2.9.1
+**Last Updated:** 2026-03-18
+**Version:** 2.16.0

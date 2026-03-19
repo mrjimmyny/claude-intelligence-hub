@@ -1,6 +1,7 @@
 ---
 name: daily-doc-information
 description: Automates creation, update, closure of session docs and daily reports, plus project governance operations (create-project, update-project-status, register-decision, update-next-step) with identity, hygiene, and gate enforcement
+command: /daily-doc-information
 version: 1.0.0
 category: Documentation Automation
 trigger: When user invokes /daily-doc-information or asks to create/update/close session docs, create daily reports, or perform project governance operations (create/update projects, register decisions, update next steps)
