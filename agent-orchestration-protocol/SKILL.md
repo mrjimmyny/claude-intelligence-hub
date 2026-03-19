@@ -692,15 +692,15 @@ Cycle N: t3 completes → slot opens → dispatch t2
 **MANDATORY:** Before dispatching any headless session, the Orchestrator MUST select the appropriate model based on task complexity. Do NOT default to the most expensive model for every task.
 
 **Quick rule:** Does this task need a brain, or just hands?
-- **Hands** (mechanical, template, notification) → Tier 3: Haiku / GPT-4o-mini / Flash-Lite
-- **Brain** (implementation, coding, structured writing) → Tier 2: Sonnet / o4-mini / Flash
-- **Big brain** (synthesis, audit, architecture, 5+ doc cross-reference) → Tier 1: Opus / o3 / Pro
+- **Hands** (mechanical, template, notification) → Tier 3: Haiku / GPT-5.1-codex-mini / Flash-Lite
+- **Brain** (implementation, coding, structured writing) → Tier 2: Sonnet / GPT-5.4-mini / Flash
+- **Big brain** (synthesis, audit, architecture, 5+ doc cross-reference) → Tier 1: Opus / GPT-5.4 high / Pro
 
 | Tier | Anthropic | OpenAI | Google | Use When |
 |---|---|---|---|---|
-| 1 (Architect) | `claude-opus-4-6` | `o3` / `gpt-4.1` | `gemini-3.1-pro` | Complex reasoning, multi-doc synthesis, audits |
-| 2 (Engineer) | `claude-sonnet-4-6` | `o4-mini` / `gpt-4o` | `gemini-3-flash` | Implementation, coding, daily work (80% of tasks) |
-| 3 (Operator) | `claude-haiku-4-5` | `gpt-4o-mini` | `gemini-3.1-flash-lite` | Mechanical tasks, templates, bulk ops |
+| 1 (Architect) | `claude-opus-4-6` | `gpt-5.4` (high/xhigh) | `gemini-3.1-pro` | Complex reasoning, multi-doc synthesis, audits |
+| 2 (Engineer) | `claude-sonnet-4-6` | `gpt-5.4-mini` / `gpt-5.3-codex` | `gemini-3-flash` | Implementation, coding, daily work (80% of tasks) |
+| 3 (Operator) | `claude-haiku-4-5` | `gpt-5.1-codex-mini` / `gpt-5.4-nano` | `gemini-3.1-flash-lite` | Mechanical tasks, templates, bulk ops |
 
 **Full guide with 25+ task examples, mixed-model patterns, cost analysis, and provider-specific CLI syntax:**
 See `06-operationalization/llm-model-selection-guide-for-aop-orchestrators-magneto-2026-03-18-v2.0.md` in the AOP project documentation.
