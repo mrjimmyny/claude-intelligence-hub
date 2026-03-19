@@ -1013,17 +1013,19 @@ Executors self-report in the completion artifact:
 
 | Task | Claude Code | Codex | Gemini |
 | :--- | :--- | :--- | :--- |
-| **Headless execution** | `claude -p "..."` | `codex exec "..."` | `gemini -p "..."` |
-| **File-based prompt** | `cat FILE.md \| claude -p` | Not supported natively | Not supported natively |
-| **Bypass sandbox/approval** | `--dangerously-skip-permissions` | `--dangerously-bypass-approvals-and-sandbox` | `--approval-mode yolo` |
-| **Model selection** | `--model claude-sonnet-4-6` | `--model o4-mini` (or similar) | `--model gemini-3-flash` |
+| **Headless execution** | `claude -p "..."` | `codex exec "..."` | `gemini -m MODEL -p "..." --approval-mode yolo` |
+| **File-based prompt** | `cat FILE.md \| claude -p` | `cat FILE.md \| codex exec` | `cat FILE.md \| gemini -m MODEL -p --approval-mode yolo` |
+| **Bypass sandbox/approval** | `--dangerously-skip-permissions` | `--dangerously-bypass-approvals-and-sandbox` | `--approval-mode yolo` (MANDATORY for headless) |
+| **Model selection** | `--model claude-sonnet-4-6` | `--model gpt-5.4` | `-m gemini-2.5-pro` |
 | **Background execution** | Append `&` in bash | Append `&` in bash | Append `&` in bash |
 | **Set workspace** | `cd /c/ai/project` before launch | `cd /c/ai/project` before launch | `cd /c/ai/project` before launch |
 | **Git bypass (non-git dir)** | N/A | `--skip-git-repo-check` | N/A |
 
 ### Known CLI Quirks
 
-- **Gemini `-y` alias:** The `-y` flag as an alias for `--approval-mode yolo` is unverified. Use the full flag: `--approval-mode yolo`.
+- **Codex uses PowerShell by default on Windows.** This causes file-write failures with complex strings. **MANDATORY:** Every AOP prompt sent to Codex MUST include: "Use Git Bash (bash), NOT PowerShell. Write files using `cat > file << 'EOF'` syntax, never PowerShell `Set-Content`."
+- **Gemini requires `--approval-mode yolo` for headless.** Without it, the CLI waits for interactive approval and produces no output. Always include this flag in headless dispatches.
+- **Gemini `-y` alias:** The `-y` flag works as shorthand for `--approval-mode yolo`. Both are valid.
 - **Codex single quotes:** Codex CLI parses instructions wrapped in single quotes. Double quotes inside single-quoted instructions cause parse errors — use escaped chars or the file-based pattern.
 - **Claude inline escaping:** Backticks, `$`, and `"` in inline `-p` instructions cause shell expansion issues. Use the file-based prompt pattern for any instruction with code snippets.
 - **PowerShell pipe syntax:** In PowerShell, use `Get-Content FILE | claude -p` instead of `cat FILE | claude -p` for reliability.
