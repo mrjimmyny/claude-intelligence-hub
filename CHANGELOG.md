@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.16.0] - 2026-03-18
+### Changed
+- **agent-orchestration-protocol** v3.0.0 -> v4.0.0 — Multi-executor robust orchestration
+  - 6 new components: task-ID namespaced artifacts, write path conflict detection, multi-executor polling + event-driven orchestration, fan-in/fan-out protocol, DAG dependency management, deadlock detection + task priority
+  - 15 implementation scripts extracted to `scripts/` directory
+  - SKILL.md: 635 lines (v3.0.0) → 1175 lines (v4.0.0)
+  - New worked examples: Prompt 17 (parallel fan-out/fan-in), Prompt 18 (DAG with priorities)
+  - Backward compatible with single-executor workflows
+  - Supporting docs updated: CHANGELOG, README, Executive Summary, ROADMAP
+
 ## [2.15.0] - 2026-03-18
 ### Added
 - **daily-doc-information v1.0.0** — Session docs, daily reports, and project governance automation skill. 8 operations, 12 skip conditions, 16 failure modes, 15 prohibited behaviors, 13 hygiene rules. Cross-agent and cross-machine compatible. Full test suite with 162 integration checks. G-02 audited CONDITIONAL PASS (0 FAIL). G-03 authorized by Jimmy.

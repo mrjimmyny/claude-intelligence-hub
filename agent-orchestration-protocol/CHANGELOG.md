@@ -1,5 +1,34 @@
 # Changelog — Agent Orchestration Protocol
 
+## [4.0.0-rc.1] - 2026-03-18
+
+### Added
+- **Multi-Executor Coordination (C1)** — Pre-dispatch write path validation (pairwise disjoint check), executor isolation rules (`executor_id` format, artifact namespacing, no cross-reads), per-executor post-execution write scope audit.
+- **Fan-In/Fan-Out Orchestration (C2)** — Fan-out protocol with task manifest and parallel dispatch, fan-in aggregation artifact (`AOP_FANIN_{session_id}.json`) with partial success handling (`SUCCESS`/`PARTIAL_SUCCESS`/`FAILURE`), Orchestrator State File (`AOP_STATE_{session_id}.json`) with atomic writes, crash recovery protocol (state file scan, PID liveness check, artifact detection, polling resume).
+- **Task Dependency Management (C3)** — DAG declaration format with `depends_on`, `priority`, and `weight` fields. DAG execution engine with topological dispatch ordering. Dependency failure propagation (transitive SKIPPED marking).
+- **DAG Cycle Detection + Deadlock Detection (C4)** — DFS-based cycle detection with three-color marking (WHITE/GRAY/BLACK) and cycle path reporting. Deadlock detection with 4-stage escalation: NORMAL → WARN → ESCALATE → DEADLOCK (stall counter across consecutive poll cycles).
+- **Task Priority & Weight System (C5)** — Four priority levels (CRITICAL/HIGH/MEDIUM/LOW) with rank-based dispatch ordering. Numeric weight (1-5) for secondary sorting. Priority-adjusted timeouts (CRITICAL=2x, LOW=0.5x). Model tier suggestions per priority level.
+- **Bounded Concurrency Queue (C6)** — Configurable `MAX_CONCURRENT` parameter limiting parallel executor count. Priority-ordered dispatch queue. Tuning guidance for different environments.
+- **Multi-Executor Polling Loop** — Concurrent artifact monitoring with per-executor status tracking and per-executor timeout (kill only timed-out executor, others continue).
+- **Event-Driven Detection** — Fast-polling at 3s interval for multi-executor. Optional Python (`watchdog`) and Node.js (`chokidar`) file watcher patterns for <1s detection latency.
+- **Collision-safe Session ID** — 8-char hex, nanosecond-seeded (`date +%s%N | sha256sum | head -c 8`) with macOS fallback.
+- **Task-ID namespaced artifacts** — `AOP_COMPLETE_{task_id}_{session_id}.json` naming convention prevents collisions in parallel dispatches.
+- **Prompt 17** in AOP_WORKED_EXAMPLES.md — Parallel fan-out/fan-in with 3 executors (full end-to-end script).
+- **Prompt 18** in AOP_WORKED_EXAMPLES.md — DAG execution with dependencies, priority dispatch, bounded concurrency, and deadlock detection.
+- **Model Selection guide** — Mandatory pre-dispatch model selection with 3-tier system (Architect/Engineer/Operator) and cross-provider reference table.
+
+### Changed
+- **`task_id` promoted to REQUIRED** in completion artifact schema (was optional). Single-executor workflows may still omit it for backward compatibility.
+- **`executor_id` added** as recommended optional field (`exec_{task_id}_{session_id}`).
+- **Orchestration flow diagram** updated to show parallel executors, DAG-aware polling, and fan-in aggregation.
+- **Pillar 4 (Active Vigilance)** updated with scaling guidance: standard polling for single-executor, fast-polling/event-driven for multi-executor.
+- **Key Rules** expanded with multi-executor rules (per-executor timeouts, sweep-per-interval, intermediate progress reporting).
+- **Status** changed from `Development (v4.0.0-beta)` to `Release Candidate (v4.0.0-rc.1)`.
+
+### Fixed
+- **Bash code quality:** Removed `local` keyword used outside functions in DAG execution loop (invalid in bash outside function scope).
+- **Model reference inconsistency:** Fixed `gemini-2.0-flash` → `gemini-3-flash` in Cross-LLM Command Reference to match Model Selection table.
+
 ## [3.0.0] - 2026-03-17
 
 ### Changed

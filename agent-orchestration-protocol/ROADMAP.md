@@ -64,7 +64,7 @@ AOP breaks these barriers by introducing **orchestration as a first-class capabi
 
 ---
 
-### Present: Production Phase (AOP v3.0.0)
+### Present: Production Phase (AOP v3.0.0) + Multi-Executor (v4.0.0-rc.1)
 
 **Current State:**
 
@@ -84,6 +84,13 @@ AOP breaks these barriers by introducing **orchestration as a first-class capabi
 │  ✅ Cross-LLM Support (Claude, Codex, Gemini)    │
 │  ✅ Production-Validated (real executions)       │
 │  ✅ Multi-Agent Sequential & Parallel Workflows  │
+│  ✅ Multi-Executor Coordination (v4.0)           │
+│  ✅ Fan-In/Fan-Out Orchestration (v4.0)          │
+│  ✅ Task Dependency DAG Engine (v4.0)            │
+│  ✅ Deadlock Detection & Priority System (v4.0)  │
+│  ✅ Bounded Concurrency Queue (v4.0)             │
+│  ✅ Crash Recovery via State File (v4.0)         │
+│  ✅ Event-Driven Detection Options (v4.0)        │
 └──────────────────────────────────────────────────┘
 ```
 
@@ -106,24 +113,24 @@ AOP breaks these barriers by introducing **orchestration as a first-class capabi
 
 ---
 
-### Future: Evolution Roadmap (v3.x and Beyond)
+### Future: Evolution Roadmap (v4.x and Beyond)
 
 #### Phase 1: Enhanced Monitoring (Q2 2026)
 
-**Goal:** Move from polling to event-driven orchestration
+**Goal:** Move from polling to full event-driven orchestration
 
 ```
 Features:
 ├─ Real-time event streams from executor agents
 ├─ WebSocket-based status notifications
 ├─ Live progress dashboards for orchestrations
-└─ Reduced latency from 60s polling to <5s event response
+└─ Reduced latency from 3s fast-polling to <1s event response
 ```
 
-**Current state:** AOP v3.0.0 uses a lightweight JSONL audit trail and guard rails as protocol rules. The full event-driven, WebSocket-based, live-dashboard vision described here remains aspirational — it was not delivered and is still a future goal.
+**Current state:** AOP v4.0 introduces fast-polling (3s) and optional file watcher patterns (<1s detection). The full WebSocket-based, live-dashboard vision described here remains aspirational.
 
 **Impact when delivered:**
-- 10x faster failure detection
+- Consistent sub-second failure detection
 - Resource efficiency (no wasted polling cycles)
 - Better user experience with live status
 
@@ -192,7 +199,7 @@ Intelligent Features:
 ## The Seven Pillars: Expansion Vision
 
 ### Pillar 1: Environment Isolation
-**Current:** Independent OS processes launched via `claude -p`, `codex exec`, or `gemini -p`; isolated from Orchestrator context with separate PID.
+**Current:** Independent OS processes launched via `claude -p`, `codex exec`, or `gemini -p`; isolated from Orchestrator context with separate PID. Multi-executor parallel dispatch with disjoint write paths (v4.0).
 **Future:** Containerized execution environments with resource limits and network isolation.
 
 ### Pillar 2: Absolute Referencing
@@ -204,8 +211,8 @@ Intelligent Features:
 **Future:** Token-based authorization with expiring permissions and per-task scoping.
 
 ### Pillar 4: Active Vigilance
-**Current:** Adaptive artifact-based polling (30s for first 4 polls, then 60s); max 20 polls before timeout kill.
-**Future:** Event-driven notifications with <5s latency; WebSocket-based status streams.
+**Current:** Adaptive artifact-based polling (30s/60s single-executor); fast-polling at 3s for multi-executor (v4.0); optional file watcher for <1s detection (v4.0). DAG-aware polling with deadlock detection (v4.0).
+**Future:** Event-driven notifications with <1s latency; WebSocket-based status streams.
 
 ### Pillar 5: Integrity Verification
 **Current:** Non-empty file checks, git diff spot-checks, test suite runs; explicit PASS/FAIL output required.
@@ -272,7 +279,7 @@ Creative Brief → Orchestrator
 
 ## Success Metrics
 
-### Current Metrics (v3.0.0)
+### Current Metrics (v4.0.0-rc.1)
 - ✅ 100% success rate on production orchestrations
 - ✅ <10 minute average completion for standard workflows
 - ✅ Artifact detection in 2-4 polls on average
@@ -334,5 +341,5 @@ The **Agent Orchestration Protocol** represents a systematic approach to multi-a
 ---
 
 **Roadmap Version:** 2.0
-**Last Updated:** 2026-03-17T02:10:05-0300
+**Last Updated:** 2026-03-18
 **Next Review:** Q2 2026

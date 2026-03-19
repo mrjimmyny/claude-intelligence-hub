@@ -1,8 +1,8 @@
 # Agent Orchestration Protocol (AOP)
 
-**Version:** 3.0.0 | **Status:** Production-Validated | **Category:** Multi-Agent Coordination
+**Version:** 4.0.0-rc.1 | **Status:** Production-Validated (v3.0.0), Release Candidate (v4.0.0-rc.1) | **Category:** Multi-Agent Coordination
 
-AOP is a methodology for coordinating independent headless agent processes via shell commands. An Orchestrator launches one or more Executor agents as separate OS processes, monitors their completion via artifact polling, and verifies their work before reporting back to the user.
+AOP is a methodology for coordinating independent headless agent processes via shell commands. An Orchestrator launches one or more Executor agents as separate OS processes, monitors their completion via artifact polling, and verifies their work before reporting back to the user. v4.0 adds multi-executor orchestration with DAG-based task dependencies, deadlock detection, priority scheduling, and fan-in/fan-out coordination.
 
 Full reference: [SKILL.md](./SKILL.md) | Worked examples: [AOP_WORKED_EXAMPLES.md](./AOP_WORKED_EXAMPLES.md) | Version history: [CHANGELOG.md](./CHANGELOG.md)
 
@@ -76,6 +76,22 @@ AOP is structured around seven operational pillars. Each pillar has a definition
 | **5. Integrity Verification** | Orchestrator independently verifies outputs, not just the artifact status |
 | **6. Closeout Protocol** | Always returns explicit `SUCCESS` or `FAIL` with concrete evidence |
 | **7. Constraint Adaptation** | If Orchestrator cannot access a resource, it delegates to a properly-scoped executor |
+
+---
+
+## Multi-Executor Orchestration (v4.0)
+
+v4.0 introduces full multi-executor coordination:
+
+- **Parallel Dispatch** — Fan-out N executors with disjoint write paths, fan-in results into a single aggregation artifact.
+- **Task Dependencies (DAG)** — Declare `depends_on` relationships between tasks. The DAG engine dispatches tasks in dependency order with cycle detection.
+- **Priority Scheduling** — CRITICAL/HIGH/MEDIUM/LOW priority levels with weight-based secondary sorting and priority-adjusted timeouts.
+- **Bounded Concurrency** — `MAX_CONCURRENT` limits parallel executor count with priority-ordered dispatch queue.
+- **Deadlock Detection** — 4-stage escalation (NORMAL → WARN → ESCALATE → DEADLOCK) monitors stalled workflows.
+- **Crash Recovery** — Orchestrator State File enables resumption after Orchestrator crash.
+- **Event-Driven Detection** — Fast-polling (3s) or file watcher (<1s) for multi-executor artifact monitoring.
+
+Single-executor workflows continue to work with the simpler v3.0 patterns. See [SKILL.md](./SKILL.md) for the full protocol.
 
 ---
 
@@ -167,5 +183,5 @@ AOP works with any orchestrator CLI. See [SKILL.md — Cross-LLM Command Referen
 
 ---
 
-**Version:** 3.0.0 | **Status:** Production-Validated | **Last Updated:** 2026-03-17T01:35:56-0300
+**Version:** 4.0.0-rc.1 | **Status:** Release Candidate | **Last Updated:** 2026-03-18
 See [CHANGELOG.md](./CHANGELOG.md) for full version history.

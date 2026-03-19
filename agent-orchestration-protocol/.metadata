@@ -1,6 +1,6 @@
 {
   "name": "agent-orchestration-protocol",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "type": "orchestration-protocol",
   "status": "production-validated",
   "owner": "Claude Intelligence Hub",
@@ -19,7 +19,7 @@
     "polling_interval": 60,
     "max_polls": 20,
     "headless_mode": true,
-    "protocol_version": "aop_unified_v3"
+    "protocol_version": "aop_unified_v4"
   },
   "tier": "context-aware"
 }

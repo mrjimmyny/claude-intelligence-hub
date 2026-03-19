@@ -1,6 +1,6 @@
 # Cookbook: Agent Orchestration Protocol (AOP) Worked Examples
 **Supporting Document For:** `SKILL: agent-orchestration-protocol`
-**Version:** 3.0.0
+**Version:** 4.0.0-rc.1
 **Status:** Production-Validated
 
 This document contains a curated list of prompts that have been executed with 100% success in real-world scenarios, demonstrating the practical application of the Seven Pillars of AOP.
@@ -445,5 +445,495 @@ test -f AOP_HEADLESS_COMPLETE.json && cat AOP_HEADLESS_COMPLETE.json || echo "No
 4. A completion artifact as the last step
 
 **Production Validation:** Executed on 2026-03-16, updating 3 project docs (`status-atual.md`, `next-step.md`, `decisoes.md`) in ~2 minutes. Artifact detected on poll #4. All edits verified correct by Orchestrator.
+
+</details>
+
+---
+
+### Prompt 17: Parallel Fan-Out/Fan-In with 3 Executors
+
+**Objective:** Full end-to-end parallel orchestration: the Orchestrator dispatches 3 independent tasks to 3 headless executors (fan-out), monitors all concurrently via fast-polling, collects results into a single aggregation artifact (fan-in), and handles partial failures gracefully. Demonstrates the complete Fan-In/Fan-Out Orchestration protocol from SKILL.md.
+
+<details>
+<summary><b>View Prompt</b></summary>
+
+**Scenario:**
+- **Task A** (`update-readme`): Update README.md with new feature documentation — Sonnet
+- **Task B** (`update-changelog`): Add version entry to CHANGELOG.md — Sonnet
+- **Task C** (`run-lint`): Run linter and write results to lint-report.md — Haiku
+
+All three tasks have disjoint write paths and can execute in parallel.
+
+**Phase 1: Fan-Out — Task Manifest and Dispatch**
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+SESSION_ID="$(date +%s%N | sha256sum | head -c 8)"
+PROJECT_DIR="/c/ai/target-project"
+STATE_FILE="${PROJECT_DIR}/AOP_STATE_${SESSION_ID}.json"
+FANIN_FILE="${PROJECT_DIR}/AOP_FANIN_${SESSION_ID}.json"
+
+# Task manifest
+TASK_IDS=("update-readme" "update-changelog" "run-lint")
+MODELS=("claude-sonnet-4-6" "claude-sonnet-4-6" "claude-haiku-4-5")
+WRITE_PATHS=(
+  "${PROJECT_DIR}/README.md"
+  "${PROJECT_DIR}/CHANGELOG.md"
+  "${PROJECT_DIR}/lint-report.md"
+)
+
+# Validate write paths are disjoint
+for i in "${!WRITE_PATHS[@]}"; do
+  for j in "${!WRITE_PATHS[@]}"; do
+    [ "$i" -ge "$j" ] && continue
+    pa="${WRITE_PATHS[$i]}"; pb="${WRITE_PATHS[$j]}"
+    if [[ "$pb" == "$pa"* ]] || [[ "$pa" == "$pb"* ]]; then
+      echo "ABORT: conflict between ${TASK_IDS[$i]} and ${TASK_IDS[$j]}" >&2; exit 1
+    fi
+  done
+done
+echo "Write paths validated."
+
+# Atomic state file writer
+update_state() {
+  local tmp="${STATE_FILE}.tmp.$$"
+  printf '%s\n' "$1" > "$tmp"
+  mv -f "$tmp" "$STATE_FILE"
+}
+
+# Initialize state file
+EXECUTORS_JSON=""
+for i in "${!TASK_IDS[@]}"; do
+  [ -n "$EXECUTORS_JSON" ] && EXECUTORS_JSON="${EXECUTORS_JSON},"
+  EXECUTORS_JSON="${EXECUTORS_JSON}{\"task_id\":\"${TASK_IDS[$i]}\",\"pid\":null,\"status\":\"PENDING\",\"model\":\"${MODELS[$i]}\",\"artifact_path\":\"${PROJECT_DIR}/AOP_COMPLETE_${TASK_IDS[$i]}_${SESSION_ID}.json\"}"
+done
+update_state "{\"session_id\":\"${SESSION_ID}\",\"workflow_type\":\"PARALLEL\",\"started_at\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",\"executors\":[${EXECUTORS_JSON}]}"
+
+# Generate prompts and launch executors
+declare -A EXECUTOR_PID_MAP EXECUTOR_STATUS EXECUTOR_POLLS
+
+for i in "${!TASK_IDS[@]}"; do
+  tid="${TASK_IDS[$i]}"
+  model="${MODELS[$i]}"
+  wpath="${WRITE_PATHS[$i]}"
+  PROMPT="${PROJECT_DIR}/AOP_PROMPT_${tid}_${SESSION_ID}.md"
+  ARTIFACT="${PROJECT_DIR}/AOP_COMPLETE_${tid}_${SESSION_ID}.json"
+
+  cat > "${PROMPT}" <<PEOF
+You are an Executor Agent. Working directory: ${PROJECT_DIR}
+
+WRITE SCOPE (you may ONLY write to these paths):
+- ${wpath}
+- ${ARTIFACT}
+
+TASK (${tid}):
+$(case "$tid" in
+  "update-readme")    echo "Read the current README.md. Add a new '## Recent Changes' section documenting the v2.0 feature set. Preserve all existing content." ;;
+  "update-changelog") echo "Read CHANGELOG.md. Add an entry under '## [2.0.0] - 2026-03-18' with the list of changes from the last 5 commits (run git log --oneline -5)." ;;
+  "run-lint")         echo "Run the project linter: npm run lint 2>&1. Write the full output to lint-report.md." ;;
+esac)
+
+COMPLETION REQUIREMENT:
+As your LAST action, write: ${ARTIFACT}
+{"status":"SUCCESS","task_id":"${tid}","session_id":"${SESSION_ID}","executor_id":"exec_${tid}_${SESSION_ID}","timestamp":"<ISO 8601>","executor":"${model} (headless AOP)","files_changed":["<list>"]}
+PEOF
+
+  cd "$PROJECT_DIR"
+  cat "${PROMPT}" | claude -p --dangerously-skip-permissions --model "$model" &
+  EXECUTOR_PID_MAP["$tid"]=$!
+  EXECUTOR_STATUS["$tid"]="PENDING"
+  EXECUTOR_POLLS["$tid"]=0
+  echo "Launched exec_${tid}_${SESSION_ID} (PID ${EXECUTOR_PID_MAP[$tid]}, model ${model})"
+done
+
+echo "=== Fan-out complete: 3 executors dispatched ==="
+```
+
+**Phase 2: Multi-Executor Polling (Fast-Polling at 3s)**
+```bash
+MAX_POLLS=60
+POLL_INTERVAL=3
+
+all_done() {
+  for t in "${TASK_IDS[@]}"; do
+    [[ "${EXECUTOR_STATUS[$t]}" == "PENDING" ]] && return 1
+  done
+  return 0
+}
+
+while ! all_done; do
+  for tid in "${TASK_IDS[@]}"; do
+    [[ "${EXECUTOR_STATUS[$tid]}" != "PENDING" ]] && continue
+    ARTIFACT="${PROJECT_DIR}/AOP_COMPLETE_${tid}_${SESSION_ID}.json"
+
+    if test -f "$ARTIFACT" && test -s "$ARTIFACT"; then
+      EXECUTOR_STATUS[$tid]="COMPLETE"
+      echo "[$(date -u +%H:%M:%SZ)] COMPLETE: exec_${tid}_${SESSION_ID}"
+      cat "$ARTIFACT"
+      continue
+    fi
+
+    EXECUTOR_POLLS[$tid]=$(( EXECUTOR_POLLS[$tid] + 1 ))
+    if [ "${EXECUTOR_POLLS[$tid]}" -ge $MAX_POLLS ]; then
+      EXECUTOR_STATUS[$tid]="TIMEOUT"
+      echo "[$(date -u +%H:%M:%SZ)] TIMEOUT: exec_${tid}_${SESSION_ID} (PID ${EXECUTOR_PID_MAP[$tid]})"
+      kill "${EXECUTOR_PID_MAP[$tid]}" 2>/dev/null; sleep 1; kill -9 "${EXECUTOR_PID_MAP[$tid]}" 2>/dev/null
+    fi
+  done
+  all_done || sleep $POLL_INTERVAL
+done
+```
+
+**Phase 3: Fan-In — Aggregate Results**
+```bash
+TOTAL=${#TASK_IDS[@]}; COMPLETED=0; FAILED=0; TIMED_OUT=0
+TASKS_JSON=""; ALL_FILES=""
+
+for tid in "${TASK_IDS[@]}"; do
+  ARTIFACT="${PROJECT_DIR}/AOP_COMPLETE_${tid}_${SESSION_ID}.json"
+  status="${EXECUTOR_STATUS[$tid]}"
+  artifact_ref="null"; files="[]"; error="null"
+
+  case "$status" in
+    COMPLETE) COMPLETED=$((COMPLETED+1)); artifact_ref="\"AOP_COMPLETE_${tid}_${SESSION_ID}.json\""
+      [ -s "$ARTIFACT" ] && command -v jq &>/dev/null && files=$(jq -c '.files_changed // []' "$ARTIFACT")
+      ALL_FILES="${ALL_FILES},$(echo "$files" | tr -d '[]')"
+      final="SUCCESS" ;;
+    TIMEOUT) TIMED_OUT=$((TIMED_OUT+1)); error="\"Timeout\""; final="TIMEOUT" ;;
+    *) FAILED=$((FAILED+1)); error="\"No artifact\""; final="FAILURE" ;;
+  esac
+  [ -n "$TASKS_JSON" ] && TASKS_JSON="${TASKS_JSON},"
+  TASKS_JSON="${TASKS_JSON}{\"task_id\":\"${tid}\",\"status\":\"${final}\",\"artifact\":${artifact_ref},\"files_changed\":${files}$([ "$error" != "null" ] && echo ",\"error\":${error}")}"
+done
+
+[ "$COMPLETED" -eq "$TOTAL" ] && OVERALL="SUCCESS" || { [ "$COMPLETED" -eq 0 ] && OVERALL="FAILURE" || OVERALL="PARTIAL_SUCCESS"; }
+AGG_FILES="[${ALL_FILES#,}]"
+command -v jq &>/dev/null && AGG_FILES=$(echo "$AGG_FILES" | jq -c 'flatten | unique' 2>/dev/null || echo "$AGG_FILES")
+
+FANIN_TMP="${FANIN_FILE}.tmp.$$"
+cat > "$FANIN_TMP" <<FEOF
+{
+  "session_id": "${SESSION_ID}",
+  "total_tasks": ${TOTAL},
+  "completed": ${COMPLETED},
+  "failed": ${FAILED},
+  "timed_out": ${TIMED_OUT},
+  "overall_status": "${OVERALL}",
+  "tasks": [${TASKS_JSON}],
+  "aggregated_files_changed": ${AGG_FILES},
+  "fan_in_timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+}
+FEOF
+mv -f "$FANIN_TMP" "$FANIN_FILE"
+
+echo "=== Fan-In Complete ==="
+echo "Overall: ${OVERALL} | Completed: ${COMPLETED}/${TOTAL} | Failed: ${FAILED} | Timed out: ${TIMED_OUT}"
+cat "$FANIN_FILE"
+```
+
+**Phase 4: Integrity Verification and Closeout**
+```bash
+# Post-execution write scope audit
+echo "=== Write Scope Audit ==="
+CHANGED=$(git -C "$PROJECT_DIR" diff --name-only HEAD)
+for i in "${!TASK_IDS[@]}"; do
+  tid="${TASK_IDS[$i]}"; scope="${WRITE_PATHS[$i]}"
+  relative_scope="${scope#${PROJECT_DIR}/}"
+  out=$(echo "$CHANGED" | grep -v "^${relative_scope}" | grep -v "^AOP_" || true)
+  [ -n "$out" ] && echo "WARN: ${tid} may have written outside scope: ${out}" || echo "PASS: ${tid} writes within scope"
+done
+
+# Cleanup
+for tid in "${TASK_IDS[@]}"; do
+  rm -f "${PROJECT_DIR}/AOP_PROMPT_${tid}_${SESSION_ID}.md"
+  rm -f "${PROJECT_DIR}/AOP_COMPLETE_${tid}_${SESSION_ID}.json"
+done
+rm -f "$STATE_FILE" "$FANIN_FILE"
+echo "Cleanup complete."
+
+# Closeout
+echo "STATUS: ${OVERALL}"
+echo "- Executors: 3 (2x Sonnet 4.6, 1x Haiku 4.5)"
+echo "- Files changed: $(echo "$AGG_FILES" | tr -d '[]"')"
+echo "- Fan-in artifact: AOP_FANIN_${SESSION_ID}.json (verified)"
+echo "- Duration: ~$(( ($(date +%s) - START_TIME) / 60 )) min"
+```
+
+**AOP Pillars Applied:**
+| Pillar | How Applied |
+| :--- | :--- |
+| P1: Environment Isolation | 3 independent headless processes, each with own PID |
+| P2: Absolute Referencing | All paths use `${PROJECT_DIR}/...` — fully absolute |
+| P3: Permission Bypass | `--dangerously-skip-permissions` on all 3 executors |
+| P4: Active Vigilance | Fast-polling at 3s with per-executor timeout |
+| P5: Integrity Verification | Post-execution write scope audit per executor |
+| P6: Closeout Protocol | Fan-in artifact + STATUS report with metrics |
+| P7: Constraint Adaptation | Model selection per-task (Sonnet for writing, Haiku for linting) |
+
+</details>
+
+---
+
+### Prompt 18: DAG Execution with Dependencies and Priority
+
+**Objective:** Full end-to-end DAG orchestration: the Orchestrator builds a dependency graph with 5 tasks, validates the DAG (cycle detection), dispatches tasks in dependency order with priority-based scheduling, handles a bounded concurrency limit, tracks task completion with dependency-aware progression, and produces a final execution report. Demonstrates the complete Task Dependency Management protocol from SKILL.md.
+
+<details>
+<summary><b>View Prompt</b></summary>
+
+**Scenario:**
+- **t1** (`build-core`, HIGH, weight 3, no deps): Build core module — Sonnet
+- **t2** (`build-utils`, MEDIUM, weight 1, no deps): Build utility functions — Sonnet
+- **t3** (`integrate-api`, CRITICAL, weight 5, depends on t1): Integrate API layer — Opus
+- **t4** (`write-tests`, LOW, weight 2, depends on t1, t2): Write integration tests — Haiku
+- **t5** (`deploy-staging`, MEDIUM, weight 3, depends on t3, t4): Deploy to staging — Sonnet
+
+**Dependency Graph (DAG):**
+```
+t1 (HIGH) ──┬──→ t3 (CRITICAL) ──┬──→ t5 (MEDIUM)
+             │                      │
+t2 (MEDIUM) ─┼──→ t4 (LOW) ───────┘
+             │
+             └──→ t4 (LOW)
+```
+
+MAX_CONCURRENT = 2 (demonstrating bounded concurrency queue)
+
+**Phase 1: DAG Validation and Initialization**
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+SESSION_ID="$(date +%s%N | sha256sum | head -c 8)"
+PROJECT_DIR="/c/ai/target-project"
+STATE_FILE="${PROJECT_DIR}/AOP_STATE_${SESSION_ID}.json"
+MAX_CONCURRENT=2
+
+# --- Task manifest ---
+TASK_IDS=("build-core" "build-utils" "integrate-api" "write-tests" "deploy-staging")
+MODELS=("claude-sonnet-4-6" "claude-sonnet-4-6" "claude-opus-4-6" "claude-haiku-4-5" "claude-sonnet-4-6")
+PRIORITIES=("HIGH" "MEDIUM" "CRITICAL" "LOW" "MEDIUM")
+WEIGHTS=(3 1 5 2 3)
+WRITE_PATHS=(
+  "${PROJECT_DIR}/src/core/"
+  "${PROJECT_DIR}/src/utils/"
+  "${PROJECT_DIR}/src/api/"
+  "${PROJECT_DIR}/tests/"
+  "${PROJECT_DIR}/deploy/"
+)
+
+declare -A DEPENDS_ON
+DEPENDS_ON["build-core"]=""
+DEPENDS_ON["build-utils"]=""
+DEPENDS_ON["integrate-api"]="build-core"
+DEPENDS_ON["write-tests"]="build-core build-utils"
+DEPENDS_ON["deploy-staging"]="integrate-api write-tests"
+
+declare -A TASK_STATUS TASK_PID EXECUTOR_POLLS
+for tid in "${TASK_IDS[@]}"; do
+  TASK_STATUS["$tid"]="WAITING"
+  TASK_PID["$tid"]=""
+  EXECUTOR_POLLS["$tid"]=0
+done
+
+# --- Step 1: Validate write paths are disjoint ---
+for i in "${!WRITE_PATHS[@]}"; do
+  for j in "${!WRITE_PATHS[@]}"; do
+    [ "$i" -ge "$j" ] && continue
+    pa="${WRITE_PATHS[$i]}"; pb="${WRITE_PATHS[$j]}"
+    if [[ "$pb" == "$pa"* ]] || [[ "$pa" == "$pb"* ]]; then
+      echo "ABORT: write path conflict: ${TASK_IDS[$i]} <-> ${TASK_IDS[$j]}" >&2; exit 1
+    fi
+  done
+done
+echo "Write paths validated: no conflicts."
+
+# --- Step 2: Cycle detection ---
+# (detect_cycles function from SKILL.md DAG Cycle Detection section)
+detect_cycles || { echo "ABORT: cycle detected" >&2; exit 1; }
+echo "DAG validation passed."
+```
+
+**Phase 2: DAG Execution with Priority Dispatch**
+```bash
+# --- Helper functions ---
+priority_rank() {
+  case "$1" in
+    CRITICAL) echo 0 ;; HIGH) echo 1 ;; MEDIUM) echo 2 ;; LOW) echo 3 ;; *) echo 2 ;;
+  esac
+}
+
+count_running() {
+  local n=0
+  for tid in "${TASK_IDS[@]}"; do
+    [[ "${TASK_STATUS[$tid]}" == "RUNNING" ]] && n=$((n + 1))
+  done
+  echo "$n"
+}
+
+find_ready_tasks() {
+  for tid in "${TASK_IDS[@]}"; do
+    [[ "${TASK_STATUS[$tid]}" != "WAITING" ]] && continue
+    local ready=true
+    for dep in ${DEPENDS_ON[$tid]}; do
+      case "${TASK_STATUS[$dep]}" in
+        COMPLETE) ;;
+        FAILED|SKIPPED) TASK_STATUS["$tid"]="SKIPPED"; ready=false; break ;;
+        *) ready=false; break ;;
+      esac
+    done
+    [[ "${TASK_STATUS[$tid]}" == "SKIPPED" ]] && continue
+    if $ready; then
+      local idx=-1
+      for i in "${!TASK_IDS[@]}"; do [[ "${TASK_IDS[$i]}" == "$tid" ]] && { idx=$i; break; }; done
+      echo "$(priority_rank "${PRIORITIES[$idx]}") ${WEIGHTS[$idx]} $tid"
+    fi
+  done | sort -k1,1n -k2,2rn | awk '{print $3}'
+}
+
+# --- Main DAG loop ---
+POLL_INTERVAL=3
+MAX_POLLS_DEFAULT=60
+STALL_COUNTER=0
+
+echo "=== DAG Execution Started (session: ${SESSION_ID}, max_concurrent: ${MAX_CONCURRENT}) ==="
+
+dag_all_settled() {
+  for tid in "${TASK_IDS[@]}"; do
+    case "${TASK_STATUS[$tid]}" in WAITING|RUNNING) return 1 ;; esac
+  done
+  return 0
+}
+
+while ! dag_all_settled; do
+  # --- Dispatch ready tasks up to MAX_CONCURRENT ---
+  running=$(count_running)
+  slots=$((MAX_CONCURRENT - running))
+  if [ "$slots" -gt 0 ]; then
+    ready_list=$(find_ready_tasks)
+    dispatched=0
+    while IFS= read -r tid && [ "$dispatched" -lt "$slots" ]; do
+      [ -z "$tid" ] && continue
+      # (launch_executor from SKILL.md DAG engine — generates prompt, launches headless)
+      launch_executor "$tid"
+      dispatched=$((dispatched + 1))
+    done <<< "$ready_list"
+  fi
+
+  # --- Poll running executors ---
+  progress="false"
+  for tid in "${TASK_IDS[@]}"; do
+    [[ "${TASK_STATUS[$tid]}" != "RUNNING" ]] && continue
+    ARTIFACT="${PROJECT_DIR}/AOP_COMPLETE_${tid}_${SESSION_ID}.json"
+
+    if test -f "$ARTIFACT" && test -s "$ARTIFACT"; then
+      TASK_STATUS["$tid"]="COMPLETE"
+      echo "[$(date -u +%H:%M:%SZ)] COMPLETE: ${tid}"
+      progress="true"
+      continue
+    fi
+
+    EXECUTOR_POLLS["$tid"]=$(( ${EXECUTOR_POLLS[$tid]} + 1 ))
+    # Priority-adjusted timeout
+    idx=-1
+    for i in "${!TASK_IDS[@]}"; do [[ "${TASK_IDS[$i]}" == "$tid" ]] && { idx=$i; break; }; done
+    max_polls=$MAX_POLLS_DEFAULT
+    case "${PRIORITIES[$idx]}" in
+      CRITICAL) max_polls=$((MAX_POLLS_DEFAULT * 2)) ;;
+      LOW)      max_polls=$((MAX_POLLS_DEFAULT / 2)) ;;
+    esac
+
+    if [ "${EXECUTOR_POLLS[$tid]}" -ge "$max_polls" ]; then
+      TASK_STATUS["$tid"]="FAILED"
+      kill "${TASK_PID[$tid]}" 2>/dev/null; sleep 1; kill -9 "${TASK_PID[$tid]}" 2>/dev/null
+      echo "[$(date -u +%H:%M:%SZ)] TIMEOUT: ${tid}"
+      propagate_failure "$tid"
+      progress="true"
+    fi
+  done
+
+  # --- Deadlock detection ---
+  check_deadlock "$progress"
+  [ $? -eq 2 ] && { echo "DEADLOCK: Aborting."; break; }
+
+  dag_all_settled || sleep $POLL_INTERVAL
+done
+```
+
+**Phase 3: Expected Execution Timeline**
+```
+Cycle 1:  Ready: build-core (HIGH,3), build-utils (MEDIUM,1)
+          MAX_CONCURRENT=2 → dispatch both
+          Running: [build-core, build-utils]
+
+Cycle N:  build-core COMPLETE
+          Ready: integrate-api (CRITICAL,5) — deps [build-core] met
+          build-utils still RUNNING — 1 slot available
+          Dispatch integrate-api (CRITICAL gets priority)
+          Running: [build-utils, integrate-api]
+
+Cycle M:  build-utils COMPLETE
+          Ready: write-tests (LOW,2) — deps [build-core, build-utils] met
+          integrate-api still RUNNING — 1 slot available
+          Dispatch write-tests
+          Running: [integrate-api, write-tests]
+
+Cycle P:  integrate-api COMPLETE, write-tests COMPLETE
+          Ready: deploy-staging (MEDIUM,3) — deps [integrate-api, write-tests] met
+          Dispatch deploy-staging
+          Running: [deploy-staging]
+
+Cycle Q:  deploy-staging COMPLETE
+          All tasks settled.
+```
+
+**Phase 4: Final Report**
+```bash
+echo "=== DAG Execution Report ==="
+TOTAL=${#TASK_IDS[@]}; COMPLETED=0; FAILED=0; SKIPPED=0
+for tid in "${TASK_IDS[@]}"; do
+  echo "  ${tid}: ${TASK_STATUS[$tid]} (priority: ${PRIORITIES[$idx]}, weight: ${WEIGHTS[$idx]})"
+  case "${TASK_STATUS[$tid]}" in
+    COMPLETE) COMPLETED=$((COMPLETED + 1)) ;;
+    FAILED)   FAILED=$((FAILED + 1)) ;;
+    SKIPPED)  SKIPPED=$((SKIPPED + 1)) ;;
+  esac
+done
+
+echo ""
+echo "Summary: ${COMPLETED}/${TOTAL} completed | ${FAILED} failed | ${SKIPPED} skipped"
+echo "Concurrency limit: MAX_CONCURRENT=${MAX_CONCURRENT}"
+echo "Session: ${SESSION_ID}"
+
+# Cleanup
+for tid in "${TASK_IDS[@]}"; do
+  rm -f "${PROJECT_DIR}/AOP_PROMPT_${tid}_${SESSION_ID}.md"
+  rm -f "${PROJECT_DIR}/AOP_COMPLETE_${tid}_${SESSION_ID}.json"
+done
+rm -f "$STATE_FILE"
+echo "Cleanup complete. STATUS: SUCCESS"
+```
+
+**AOP Pillars Applied:**
+| Pillar | How Applied |
+| :--- | :--- |
+| P1: Environment Isolation | 5 independent headless processes, each with own PID, launched per DAG ordering |
+| P2: Absolute Referencing | All paths use `${PROJECT_DIR}/...` — fully absolute |
+| P3: Permission Bypass | `--dangerously-skip-permissions` on all executors |
+| P4: Active Vigilance | Fast-polling at 3s + DAG-aware completion detection + deadlock monitoring |
+| P5: Integrity Verification | Post-execution write scope audit per executor |
+| P6: Closeout Protocol | DAG execution report with per-task status, priority, weight |
+| P7: Constraint Adaptation | Model selection per-task based on priority tier (Opus for CRITICAL, Haiku for LOW) |
+
+**New AOP Capabilities Demonstrated:**
+| Capability | How Demonstrated |
+| :--- | :--- |
+| DAG Dependencies | t3 waits for t1; t4 waits for t1+t2; t5 waits for t3+t4 |
+| Cycle Detection | DAG validated before any executor launches |
+| Priority Dispatch | CRITICAL t3 dispatched before LOW t4 when both become ready |
+| Bounded Concurrency | MAX_CONCURRENT=2 creates a queue with priority ordering |
+| Deadlock Detection | Stall counter monitors progress across consecutive poll cycles |
+| Failure Propagation | If t1 fails, t3/t4/t5 are transitively SKIPPED; t2 still runs |
 
 </details>

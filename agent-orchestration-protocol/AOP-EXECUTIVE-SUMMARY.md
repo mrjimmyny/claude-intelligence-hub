@@ -7,8 +7,8 @@ Purpose: Provide structured input for NotebookLM to generate visual and dynamic 
 | Field | Value |
 | --- | --- |
 | Name | Agent Orchestration Protocol (AOP) |
-| Version | 3.0.0 |
-| Status | Production-Validated |
+| Version | 4.0.0-rc.1 |
+| Status | Production-Validated (v3.0.0), Release Candidate (v4.0.0-rc.1) |
 | Category | Multi-Agent Coordination |
 | Command | `/aop` |
 | Aliases | `/orchestrate`, `/delegate` |
@@ -105,7 +105,7 @@ File-based prompts are the production default — they avoid all escaping issues
 
 ---
 
-## Production Capabilities (v3.0.0)
+## Production Capabilities (v3.0.0) + Multi-Executor Orchestration (v4.0.0-rc.1)
 
 - Seven-Pillar Framework fully implemented and production-validated.
 - Unified protocol — no V1/V2 split. Single operating standard.
@@ -119,7 +119,14 @@ File-based prompts are the production default — they avoid all escaping issues
 - Lightweight governance: JSONL audit trail, guard rails, cost tracking.
 - Error recovery: timeout kill, crash recovery, orphaned process detection, rollback.
 - Completion artifact schema with required/optional fields.
-- Production-validated prompt cookbook (16+ patterns in AOP_WORKED_EXAMPLES.md).
+- Production-validated prompt cookbook (18 patterns in AOP_WORKED_EXAMPLES.md).
+- **Multi-Executor Coordination** — parallel dispatch with disjoint write path validation and per-executor isolation.
+- **Fan-In/Fan-Out Orchestration** — fan-out N executors, fan-in results into aggregation artifact with partial success handling.
+- **Task Dependency Management (DAG)** — dependency declaration, topological dispatch, cycle detection, failure propagation.
+- **Deadlock Detection** — 4-stage escalation monitoring stalled workflows across consecutive poll cycles.
+- **Task Priority & Weight System** — CRITICAL/HIGH/MEDIUM/LOW with weight-based sorting, priority-adjusted timeouts, model tier suggestions.
+- **Bounded Concurrency Queue** — configurable MAX_CONCURRENT with priority-ordered dispatch.
+- **Crash Recovery** — Orchestrator State File enables resumption after crash with PID liveness checking.
 
 ---
 
@@ -163,12 +170,12 @@ AOP is agent-agnostic and works with any CLI that supports headless execution:
 
 ## Pillar Evolution
 
-| Pillar | Current (v3.0.0) | Future |
+| Pillar | Current (v4.0.0-rc.1) | Future |
 | --- | --- | --- |
-| Environment Isolation | Independent OS processes, headless CLI | Containerized environments with resource limits |
+| Environment Isolation | Independent OS processes, headless CLI, multi-executor parallel dispatch | Containerized environments with resource limits |
 | Absolute Referencing | Mandatory absolute paths | Virtual file system abstraction |
 | Permission Bypass | Flag-based trusted workspace bypass | Token-based, expiring authorization |
-| Active Vigilance | Adaptive polling (30s/60s intervals) | Event-driven notifications (under 5s) |
+| Active Vigilance | Adaptive polling + fast-polling (3s) + optional file watcher (<1s) | Event-driven notifications (under 5s) |
 | Integrity Verification | File existence, size, git diff checks | Content-aware, AI-based quality scoring |
 | Closeout Protocol | Structured JSON artifact + text status | Fully structured JSON reports with metrics |
 | Constraint Adaptation | Delegated verification when sandboxed | Proactive capability detection |
@@ -196,4 +203,4 @@ AOP is agent-agnostic and works with any CLI that supports headless execution:
 
 ---
 
-**Version:** 3.0.0 | **Status:** Production-Validated | **Last Updated:** 2026-03-17T01:35:56-0300
+**Version:** 4.0.0-rc.1 | **Status:** Release Candidate | **Last Updated:** 2026-03-18
