@@ -9,9 +9,7 @@
 
 ## 2026
 
-### Week 07 (Feb 16-22)
-
-**2026-02-18** | Ciclope | Conversation Memoria Skill Development | `conversation-memoria` `skill-development` `token-optimization` | Creation and implementation of conversation-memoria skill v1.0.0 for persistent conversation storage with intelligent metadata extraction and token-optimized retrieval. | [Link](./2026/02-february/week-07/2026-02-18_ciclope_conversation-memoria-creation.md)
+*No conversations yet*
 
 ---
 

@@ -146,7 +146,7 @@ Xavier's MEMORY.md contains:
 
 ## 🔗 Related
 
-- [X-MEM Protocol](../docs/X-MEM_PROTOCOL.md) - Memory governance rules
+- X-MEM Protocol (X-MEM_PROTOCOL.md — removed, see GOVERNANCE.md)
 - [Windows Junction Setup](../WINDOWS_JUNCTION_SETUP.md) - Junction point guide
 - [gdrive-sync-memoria](../gdrive-sync-memoria/) - Google Drive sync skill
 - [context-guardian](../context-guardian/) - Full system backup (global config + projects)

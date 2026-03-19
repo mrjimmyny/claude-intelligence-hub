@@ -331,9 +331,9 @@ This orchestration demonstrates:
 
 ## 📚 Related Documentation
 
-- [AOP v2.0.0 (Implementation Agent Merge)](../v2/00_contract/02_draft-aop-v2-merge-ciclope.md)
-- [AOP v2.0.1-M (Claude Code Orchestrator Revision)](../v2/00_contract/02_draft-aop-v2-merge-magneto.md)
-- [AOP v2.0.1-E (Codex Executor Revision)](../v2/00_contract/02_draft-aop-v2-merge-emma.md)
+- AOP v2.0.0 (Implementation Agent Merge) — removed in AOP v3.0.0 rewrite
+- AOP v2.0.1-M (Claude Code Orchestrator Revision) — removed in AOP v3.0.0 rewrite
+- AOP v2.0.1-E (Codex Executor Revision) — removed in AOP v3.0.0 rewrite
 - [AOP README](../../README.md)
 - [Previous Orchestration: Chain Delegation](../2026-02-25_chain-delegation/README.md)
 

@@ -631,7 +631,7 @@ claude-intelligence-hub/
 - 100% success rate (20/20 tests)
 - 1 project migrated (8 more planned)
 
-[📄 Executive Summary in Downloads](../Downloads/EXECUTIVE_SUMMARY_PBI_SKILLS.md)
+📄 Executive Summary (previously available in Downloads — file removed)
 
 ---
 

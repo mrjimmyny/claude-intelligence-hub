@@ -240,7 +240,7 @@ Each entry MUST follow this structure:
 - [MEMORY.md](MEMORY.md) - The actual memory file
 - [README.md](README.md) - System overview
 - [SKILL.md](../xavier-memory-sync/SKILL.md) - Sync skill documentation
-- [MODULE_3_GOVERNANCE_XAVIER.md](../docs/MODULE_3_GOVERNANCE_XAVIER.md) - Original X-MEM protocol
+- Original X-MEM protocol (MODULE_3_GOVERNANCE_XAVIER.md — removed)
 
 ---
 

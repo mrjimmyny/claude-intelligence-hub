@@ -1228,9 +1228,7 @@ User: *doesn't even notice, just works*
 - **[CHANGELOG.md](session-memoria/CHANGELOG.md)** - Version history
 
 ### PBI Claude Skills Documentation
-- **[EXECUTIVE_SUMMARY.md](pbi-claude-skills/EXECUTIVE_SUMMARY.md)** (43KB) - Complete system overview
 - **[README.md](pbi-claude-skills/README.md)** - User guide
-- **[IMPLEMENTATION_GUIDE.md](pbi-claude-skills/IMPLEMENTATION_GUIDE.md)** - Technical details
 
 ### Repo Auditor, Conversation Memoria, AOP & Core Catalog Documentation
 - **[Repo Auditor SKILL.md](repo-auditor/SKILL.md)** - Audit protocol (v2.0.0)
