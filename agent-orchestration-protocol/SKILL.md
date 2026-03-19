@@ -698,9 +698,9 @@ Cycle N: t3 completes → slot opens → dispatch t2
 
 | Tier | Anthropic | OpenAI | Google | Use When |
 |---|---|---|---|---|
-| 1 (Architect) | `claude-opus-4-6` | `gpt-5.4` (high/xhigh) | `gemini-2.5-pro` | Complex reasoning, multi-doc synthesis, audits |
-| 2 (Engineer) | `claude-sonnet-4-6` | `gpt-5.4-mini` / `gpt-5.3-codex` | `gemini-2.5-flash` | Implementation, coding, daily work (80% of tasks) |
-| 3 (Operator) | `claude-haiku-4-5` | `gpt-5.1-codex-mini` / `gpt-5.4-nano` | `gemini-2.5-flash` (low effort) | Mechanical tasks, templates, bulk ops |
+| 1 (Architect) | `claude-opus-4-6` | `gpt-5.4` (high/xhigh) | `gemini-3.1-pro` | Complex reasoning, multi-doc synthesis, audits |
+| 2 (Engineer) | `claude-sonnet-4-6` | `gpt-5.4-mini` / `gpt-5.3-codex` | `gemini-3-flash` | Implementation, coding, daily work (80% of tasks) |
+| 3 (Operator) | `claude-haiku-4-5` | `gpt-5.1-codex-mini` / `gpt-5.4-nano` | `gemini-2.5-flash` | Mechanical tasks, templates, bulk ops |
 
 **Full guide with 25+ task examples, mixed-model patterns, cost analysis, and provider-specific CLI syntax:**
 See `06-operationalization/llm-model-selection-guide-for-aop-orchestrators-magneto-2026-03-18-v2.0.md` in the AOP project documentation.
@@ -1016,7 +1016,7 @@ Executors self-report in the completion artifact:
 | **Headless execution** | `claude -p "..."` | `codex exec "..."` | `gemini -m MODEL -p "..." --approval-mode yolo` |
 | **File-based prompt** | `cat FILE.md \| claude -p` | `cat FILE.md \| codex exec` | `cat FILE.md \| gemini -m MODEL -p --approval-mode yolo` |
 | **Bypass sandbox/approval** | `--dangerously-skip-permissions` | `--dangerously-bypass-approvals-and-sandbox` | `--approval-mode yolo` (MANDATORY for headless) |
-| **Model selection** | `--model claude-sonnet-4-6` | `--model gpt-5.4` | `-m gemini-2.5-pro` |
+| **Model selection** | `--model claude-sonnet-4-6` | `--model gpt-5.4` | `-m gemini-3.1-pro` |
 | **Background execution** | Append `&` in bash | Append `&` in bash | Append `&` in bash |
 | **Set workspace** | `cd /c/ai/project` before launch | `cd /c/ai/project` before launch | `cd /c/ai/project` before launch |
 | **Git bypass (non-git dir)** | N/A | `--skip-git-repo-check` | N/A |
