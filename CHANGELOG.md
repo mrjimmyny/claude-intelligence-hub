@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.18.0] - 2026-03-19
+### Added
+- **agent-orchestration-protocol** v4.0.0 -> v4.0.1 — Pre-Dispatch Mandatory Gate: non-negotiable guardrail requiring dispatch scripts before any headless session. New dispatch scripts: `aop-claude-dispatch.sh`, `aop-gemini-dispatch.sh` (Codex script already existed).
+- **jimmy-core-preferences** v2.1.1 -> v2.2.0 — Section L: AOP Dispatch Guardrails. Mandatory use of dispatch scripts, prohibition on memory-based CLI invocation, file-based prompt requirement.
+
 ## [2.17.1] - 2026-03-19
 ### Changed
 - **jimmy-core-preferences** v2.1.0 -> v2.1.1 — Added Wikilink Hygiene rule to Section F (no orphaned docs under obsidian/, mandatory [[projects]] and [[skills]] connectors)

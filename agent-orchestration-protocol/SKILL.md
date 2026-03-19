@@ -1,6 +1,6 @@
 ---
 name: agent-orchestration-protocol
-version: 4.0.0
+version: 4.0.1
 description: Multi-agent coordination framework - The Seven Pillars of AOP
 command: /aop
 aliases: [/orchestrate, /delegate]
@@ -9,7 +9,7 @@ aliases: [/orchestrate, /delegate]
 # Agent Orchestration Protocol (AOP)
 
 **Skill ID:** `agent-orchestration-protocol`
-**Version:** 4.0.0
+**Version:** 4.0.1
 **Status:** Production-Validated
 **Category:** Multi-Agent Coordination
 
@@ -1009,6 +1009,26 @@ Executors self-report in the completion artifact:
 
 ## Cross-LLM Command Reference
 
+### Pre-Dispatch Mandatory Gate
+
+**This gate is NON-NEGOTIABLE. No agent may skip it. No exception.**
+
+Before dispatching ANY headless session to ANY agent (Claude, Codex, Gemini, or other), the orchestrator MUST:
+
+1. **Use the dispatch script** for the target agent. This is the PRIMARY and PREFERRED path:
+   - Codex: `bash scripts/aop-codex-dispatch.sh <prompt> <artifact> [workdir]`
+   - Claude: `bash scripts/aop-claude-dispatch.sh <prompt> <artifact> [workdir] [model]`
+   - Gemini: `bash scripts/aop-gemini-dispatch.sh <prompt> <artifact> [workdir] [model]`
+
+2. **If a dispatch script is not available** (new agent, custom setup), the orchestrator MUST read the Launch Commands table below and use the EXACT flags documented there. Never rely on memory. Never guess flags. Never improvise CLI syntax.
+
+3. **Why this exists:** A single wrong flag wastes 10,000+ tokens per failed dispatch. With 10 parallel agents, that is 100,000+ tokens burned. The dispatch scripts eliminate this risk entirely — the correct flags are baked in, tested, and version-controlled.
+
+**Red flags that mean STOP:**
+- "I remember the syntax" — No. Use the script or read the table.
+- "It's probably --full-auto" — No. Use the script or read the table.
+- "Let me try this flag" — No. Use the script or read the table.
+
 ### Launch Commands
 
 | Task | Claude Code | Codex | Gemini |
@@ -1159,6 +1179,8 @@ All implementation scripts are in the [`scripts/`](./scripts/) directory. Each s
 | `aop-priority-queue.sh` | Priority comparator + bounded concurrency dispatch | `source scripts/aop-priority-queue.sh` |
 | `aop-post-audit.sh` | Per-executor write scope audit via git diff | `bash scripts/aop-post-audit.sh <dir> "task:scope" ...` |
 | `aop-codex-dispatch.sh` | Codex dispatch adapter (Windows PowerShell escaping fix) | `bash scripts/aop-codex-dispatch.sh <prompt> <artifact> [workdir]` |
+| `aop-claude-dispatch.sh` | Claude Code dispatch adapter (correct --dangerously-skip-permissions flag) | `bash scripts/aop-claude-dispatch.sh <prompt> <artifact> [workdir] [model]` |
+| `aop-gemini-dispatch.sh` | Gemini CLI dispatch adapter (mandatory --approval-mode yolo flag) | `bash scripts/aop-gemini-dispatch.sh <prompt> <artifact> [workdir] [model]` |
 
 ---
 
@@ -1181,6 +1203,7 @@ Real-world case studies are in [orchestrations/](./orchestrations/).
 
 ## Version History
 
+- **v4.0.1** — Added a non-negotiable Pre-Dispatch Mandatory Gate requiring version-controlled dispatch scripts before any headless session. Added `aop-claude-dispatch.sh` and `aop-gemini-dispatch.sh` as audited launch adapters for Claude Code and Gemini CLI.
 - **v4.0.0** — Modularization: extracted 15 implementation scripts from SKILL.md to scripts/. Protocol document reduced from 2195 to 1175 lines (46% reduction). No functional changes.
 - **v4.0.0-rc.1** — Release Candidate. Final validation and polish round (R5). Fixed bash code quality issues (`local` keyword used outside functions in DAG execution loop). Fixed model reference inconsistency in Cross-LLM Command Reference (`gemini-2.0-flash` → `gemini-3-flash`). Updated status to Release Candidate. All supporting documents updated (CHANGELOG, README, Executive Summary, ROADMAP, Worked Examples). Full validation checklist passed: 20/20 checks. Components: C1 (Multi-Executor Coordination), C2 (Fan-In/Fan-Out Orchestration), C3 (Task Dependency Management), C4 (DAG Cycle Detection + Deadlock Detection), C5 (Task Priority & Weight System), C6 (Bounded Concurrency Queue).
 - **v4.0.0-beta.1** — Task Dependency Management: DAG execution engine with topological ordering, DFS-based cycle detection, dependency failure propagation (transitive SKIPPED marking), deadlock detection with 4-stage escalation (NORMAL → WARN → ESCALATE → DEADLOCK), task priority system (CRITICAL/HIGH/MEDIUM/LOW) with weight-based secondary sorting, priority-adjusted timeouts, and bounded concurrency queue (MAX_CONCURRENT). New worked example: Prompt 18 (DAG execution with dependencies and priority).
