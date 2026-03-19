@@ -2,7 +2,7 @@
 name: daily-doc-information
 description: Automates creation, update, closure of session docs and daily reports, plus project governance operations (create-project, update-project-status, register-decision, update-next-step) with identity, hygiene, and gate enforcement
 command: /daily-doc-information
-version: 1.1.0
+version: 1.1.1
 category: Documentation Automation
 trigger: When user invokes /daily-doc-information or asks to create/update/close session docs, create daily reports, or perform project governance operations (create/update projects, register decisions, update next steps)
 tags:
@@ -15,7 +15,7 @@ tags:
 
 # daily-doc-information
 
-**Version:** 1.1.0
+**Version:** 1.1.1
 
 > **Objective:** Automates the creation, structured update, and clean-state closure of session documents and daily reports, plus project governance operations (project creation, status updates, decision registration, next-step management) according to the continuity-documentation contract.
 
@@ -759,6 +759,7 @@ Failure modes fire **DURING execution**. Each has a trigger condition, severity,
 | DH-11 | DECISION_FORMAT | Every decision entry in `decisoes.md` must have all three fields: `Decision:`, `Reason:`, `Impact:`. No partial entries. An entry missing any field is a hygiene violation. |
 | DH-12 | STATUS_DATE | `Last Update` in `status-atual.md` must always reflect the date of the most recent change. After any write to `status-atual.md`, the `Last Update` field must be set to the current date. |
 | DH-13 | PROJECT_WIKILINKS | All 5 operational docs (`PROJECT_CONTEXT.md`, `status-atual.md`, `next-step.md`, `decisoes.md`, `README.md`) must have wikilinks connecting them to each other and to `[[projects]]`. A doc without its wikilinks section is non-compliant. |
+| DH-14 | WIKILINK_NO_ORPHANS | Every document under the `obsidian/` directory tree must have a `## Wikilinks` section at the bottom. No document may be orphaned (disconnected from the graph). Additionally: (a) any document related to a project must include `[[projects]]` in its wikilinks; (b) any document related to or associated with a skill must also include `[[skills]]` in its wikilinks. These two wikilinks (`[[projects]]` and `[[skills]]`) are mandatory connectors when applicable. |
 
 ---
 
@@ -1297,6 +1298,7 @@ This format is embedded in every `PROJECT_CONTEXT.md` created by `create-project
 
 | Version | Date | Author | Changes |
 |---|---|---|---|
+| 1.1.1 | 2026-03-19 | Magneto (Orchestrator) | Added DH-14 (WIKILINK_NO_ORPHANS): no orphaned docs under obsidian/, mandatory [[projects]] and [[skills]] wikilinks when applicable. |
 | 1.1.0 | 2026-03-19 | Magneto (Orchestrator) | Full English translation of all embedded templates and body references. Portuguese section headers, field labels, and status summary format replaced with American English equivalents. Backward compatible — existing docs retain original language. |
 | 1.0.0 | 2026-03-18 | Magneto (Orchestrator) | First official publication. G-03 approved by Jimmy. 8 operations, cross-agent, cross-machine, full test suite. |
 | 0.3.1-prototype | 2026-03-18 | Magneto (Orchestrator) | Fix 3 audit findings: F-01 (accept done+complete as closed), F-02 (backward-compat folder names), F-03 (SC-05 accepts done+complete) |

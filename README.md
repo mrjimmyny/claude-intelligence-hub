@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.17.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.17.1-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -175,7 +175,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 
 | Collection | Version | Status | Description | Key Features |
 |------------|---------|--------|-------------|--------------|
-| **[jimmy-core-preferences](jimmy-core-preferences/)** | v2.1.0 | ✅ Production | Global cross-agent operating framework | Radical honesty, prompt governance, documentation language standard, hybrid session governance, curator-only daily reports, DAX overlay, cross-agent bootstrap. See [HUB_MAP.md](HUB_MAP.md) for triggers. |  
+| **[jimmy-core-preferences](jimmy-core-preferences/)** | v2.1.1 | ✅ Production | Global cross-agent operating framework | Radical honesty, prompt governance, documentation language standard, hybrid session governance, curator-only daily reports, DAX overlay, cross-agent bootstrap. See [HUB_MAP.md](HUB_MAP.md) for triggers. |  
 | **[session-memoria](session-memoria/)** | v1.2.0 | ✅ Production | Knowledge management system | 100% conversation retention, triple-index search, lifecycle tracking, Git-synced. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
 | **[gdrive-sync-memoria](gdrive-sync-memoria/)** | v1.0.0 | ✅ Production | Google Drive integration | ChatLLM Teams sync, auto-import to session-memoria, zero-friction automation. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
 | **[claude-session-registry](claude-session-registry/)** | v1.1.0 | ✅ Production | Session tracking & backup | Resume ID tracking, Git context, Golden Close protocol, **automatic backup to GitHub**. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
@@ -193,7 +193,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[daily-tasks-oih](daily-tasks-oih/)** | v1.0.0 | ✅ Production | Daily task workflow for OIH | Pool capture, per-agent dispatch, execution tracking, close protocol, English-only operational docs. |
 | **[docx-indexer](docx-indexer/)** | v1.4.0 | ✅ Production | Global document indexing system | Append-only JSON index, UUID identity, SHA256 hashing, structural telemetry, semantic enrichment, validated Voyage-backed semantic search baseline, and explicit invocation judgment rules. |
 | **[codex-task-notifier](codex-task-notifier/)** | v1.0.0 | ✅ Production | Codex task completion email notifier | Local Windows-first HTTPS pipeline (Resend -> Mailgun), explicit task-end emails, dynamic agent subjects, cross-machine portable. |
-| **[daily-doc-information](daily-doc-information/)** | v1.1.0 | ✅ Production | Documentation governance automation | Session docs, daily executive reports, project governance operations, English-first embedded templates, and cross-agent/cross-machine portability. |
+| **[daily-doc-information](daily-doc-information/)** | v1.1.1 | ✅ Production | Documentation governance automation | Session docs, daily executive reports, project governance operations, English-first embedded templates, and cross-agent/cross-machine portability. |
 
 ---
 
@@ -386,7 +386,7 @@ claude
 ```
 claude-intelligence-hub/
 │
-├── 📁 jimmy-core-preferences/       # ⭐ Global Cross-Agent Framework (v2.1.0)
+├── 📁 jimmy-core-preferences/       # ⭐ Global Cross-Agent Framework (v2.1.1)
 │   ├── SKILL.md                     # Universal AI behavior rules (15KB)       
 │   ├── EXECUTIVE_SUMMARY.MD         # 49KB comprehensive doc
 │   ├── CHANGELOG.md                 # v1.0 → v1.5 evolution
@@ -509,7 +509,7 @@ claude-intelligence-hub/
 │   ├── fixtures/                    # Test payload fixtures
 │   └── tests/                       # Test directory
 │
-├── 📁 daily-doc-information/         # ⭐ Daily Documentation Information (v1.1.0)
+├── 📁 daily-doc-information/         # ⭐ Daily Documentation Information (v1.1.1)
 │   ├── SKILL.md                     # DDI operational protocol
 │   ├── .metadata                    # Version metadata
 │   └── README.md                    # User documentation

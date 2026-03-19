@@ -1,6 +1,6 @@
 ---
 name: jimmy-core-preferences
-version: 2.1.0
+version: 2.1.1
 description: Global cross-agent operating framework for Jimmy.
 command: /preferences
 aliases: [/prefs, /jimmy]
@@ -8,7 +8,7 @@ aliases: [/prefs, /jimmy]
 
 # Jimmy Core Preferences — Global Cross-Agent Operating Framework
 
-**Version:** 2.1.0
+**Version:** 2.1.1
 **Last Updated:** 2026-03-19
 **Auto-Load:** Yes (Priority: Highest)
 
@@ -132,6 +132,14 @@ When Jimmy asks for the current status of a formal project, answer in this fixed
 
 The answer must stay short and should be derived from the project root operational files first:
 `PROJECT_CONTEXT.md` | `status-atual.md` | `next-step.md` | `decisoes.md`
+
+### Wikilink Hygiene (Obsidian)
+
+Every document under `obsidian/` must have a `## Wikilinks` section — no orphaned files allowed. Mandatory connectors:
+- Project-related docs: must include `[[projects]]`
+- Skill-related docs: must also include `[[skills]]`
+
+Documents created before 2026-03-18 are exempt (legacy). From 2026-03-18 onward, all agents must ensure wikilink compliance.
 
 ---
 

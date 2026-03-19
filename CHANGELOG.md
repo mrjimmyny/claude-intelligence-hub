@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.17.1] - 2026-03-19
+### Changed
+- **jimmy-core-preferences** v2.1.0 -> v2.1.1 — Added Wikilink Hygiene rule to Section F (no orphaned docs under obsidian/, mandatory [[projects]] and [[skills]] connectors)
+- **daily-doc-information** v1.1.0 -> v1.1.1 — Added DH-14 (WIKILINK_NO_ORPHANS) hygiene rule
+### Fixed
+- Wikilink compliance scan: 21 docs checked; 15 docs dated 2026-03-18 or later fixed where needed, 6 legacy docs dated 2026-03-17 left unchanged per exemption rule
+
 ## [2.17.0] - 2026-03-19
 ### Changed
 - **jimmy-core-preferences** v2.0.3 -> v2.1.0 — Added Section K: Documentation Language Standard (all generated docs must be in American English from 2026-03-19). Updated Section F status summary labels to English. Added rule 12 to Section G.
