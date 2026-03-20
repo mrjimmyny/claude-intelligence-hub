@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.20.0] - 2026-03-20
+### Changed
+- **jimmy-core-preferences** v2.3.0 -> v3.0.0 — Major revision from core-x project (P5 R5-A). 22 changes: fixed stale session paths, aligned folder baseline with DDI, updated session model, added Sections M (Minimum Viable Config), N (Email Triggers), O (Skill Usage Guide). Extracted Section I to pbi-claude-skills pointer. Added Portuguese filename exception to Section K. Universal HUB_MAP routing for all agents.
+
 ## [2.19.0] - 2026-03-19
 ### Added
 - **daily-doc-information** v1.1.1 -> v1.2.0 — CS-07 (project docs synchronized): mandatory clean-state criterion that blocks session closure if referenced project docs are stale. DH-15 (PROJECT_SYNC_BEFORE_CLOSE): hygiene rule requiring project doc updates before session close.
