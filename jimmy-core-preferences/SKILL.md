@@ -226,6 +226,7 @@ Every agent session must be documented. This is not optional.
    - Agents seeing `indexed` in session docs MUST NOT attempt to resolve or re-register. Current status lives in the master index only.
    - This applies to ALL orchestrators, not just Magneto.
 16. Before closing any project, sweep ALL session docs of that project and reconcile all findings with the master index. No project closes with unreconciled findings. See DDI CS-08.
+18. When changing a finding's status in the master index (e.g., pending → assigned → resolved), simultaneously update the corresponding `FND-XXXX.md` detail file with the same status, dates, and agent information. Both documents must always be in sync. Updating only one is a hygiene violation.
 
 ---
 
