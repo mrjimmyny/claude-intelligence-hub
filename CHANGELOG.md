@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.21.0] - 2026-03-20
+### Added
+- **Findings Tracking System** — Global findings registry at `_findings/findings-master-index.md`. Tracks cross-project (CP), project-level (PL), and internal (INT) findings with status flow (pending → in_progress → resolved/cancelled/deferred).
+- **daily-doc-information** v1.2.0 -> v1.3.0 — CS-08 (findings reconciled): mandatory clean-state criterion for project closure. DH-16 (FINDINGS_TRACKING): hygiene rule for findings registration. `has_findings` frontmatter flag. Conditional Findings section in session template. Findings Summary in daily report template.
+- **jimmy-core-preferences** v3.0.0 -> v3.1.0 — Section G rules 15-16: Findings Tracking Protocol. Mandatory for all orchestrators.
+
 ## [2.20.0] - 2026-03-20
 ### Changed
 - **jimmy-core-preferences** v2.3.0 -> v3.0.0 — Major revision from core-x project (P5 R5-A). 22 changes: fixed stale session paths, aligned folder baseline with DDI, updated session model, added Sections M (Minimum Viable Config), N (Email Triggers), O (Skill Usage Guide). Extracted Section I to pbi-claude-skills pointer. Added Portuguese filename exception to Section K. Universal HUB_MAP routing for all agents.

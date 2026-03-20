@@ -15,7 +15,7 @@ tags:
 
 # daily-doc-information
 
-**Version:** 1.2.0
+**Version:** 1.3.0
 
 > **Objective:** Automates the creation, structured update, and clean-state closure of session documents and daily reports, plus project governance operations (project creation, status updates, decision registration, next-step management) according to the continuity-documentation contract.
 
@@ -282,7 +282,7 @@ Validates all 7 clean-state criteria and, if all pass, closes the session docume
 
 ### Clean-State Criteria
 
-All 7 criteria MUST pass. If ANY is `BLOCKED`, return gate result with failing criteria and **STOP — do NOT modify the document**.
+All 8 criteria MUST pass. If ANY is `BLOCKED`, return gate result with failing criteria and **STOP — do NOT modify the document**.
 
 | ID | Criterion | Requirement |
 |---|---|---|
@@ -293,6 +293,7 @@ All 7 criteria MUST pass. If ANY is `BLOCKED`, return gate result with failing c
 | CS-05 | Temporary artifacts accounted for | All temp artifacts committed, discarded, or deferred with justification |
 | CS-06 | Commit/push justification stated | If changes were made: commit hash recorded; if no changes: explicit statement |
 | CS-07 | `project docs synchronized` | If the session doc references any project (`context_type: Project`), the project's `status-atual.md`, `next-step.md`, and `decisoes.md` must reflect the work performed in this session. The agent must verify that project progress, decisions, and next steps recorded in the session blocks are also recorded in the project operational docs. If any referenced project's docs are stale relative to the session content, the gate is BLOCKED. |
+| CS-08 | `findings reconciled` | If `has_findings: true`, all findings in the session doc must also be registered in `C:\ai\obsidian\CIH\projects\_findings\findings-master-index.md`. For project closure sessions: sweep ALL session docs of the project, collect all findings, and verify each appears in the master index. Any unreconciled finding blocks closure. This is non-negotiable. |
 
 ### Execution Steps
 
@@ -300,7 +301,7 @@ All 7 criteria MUST pass. If ANY is `BLOCKED`, return gate result with failing c
 2. **Read existing document** at `target_path`.
 3. **Verify status** is `in_progress` or `pre_open`. If `complete` or `done`, fire SC-05.
    > **Note:** The canonical closed status is `complete`. For backward compatibility with pre-skill documents that use `done`, both values are treated as equivalent closed states.
-4. **Evaluate all 7 clean-state criteria** against the document content and `clean_state_evidence`:
+4. **Evaluate all 8 clean-state criteria** against the document content and `clean_state_evidence`:
    - For each criterion, record `PASS` or `BLOCKED` with specific evidence.
 5. **If ANY criterion is BLOCKED:**
    - Return gate result with all 7 criteria itemized (showing which passed and which failed).
@@ -763,6 +764,7 @@ Failure modes fire **DURING execution**. Each has a trigger condition, severity,
 | DH-13 | PROJECT_WIKILINKS | All 5 operational docs (`PROJECT_CONTEXT.md`, `status-atual.md`, `next-step.md`, `decisoes.md`, `README.md`) must have wikilinks connecting them to each other and to `[[projects]]`. A doc without its wikilinks section is non-compliant. |
 | DH-14 | WIKILINK_NO_ORPHANS | Every document under the `obsidian/` directory tree must have a `## Wikilinks` section at the bottom. No document may be orphaned (disconnected from the graph). Additionally: (a) any document related to a project must include `[[projects]]` in its wikilinks; (b) any document related to or associated with a skill must also include `[[skills]]` in its wikilinks. These two wikilinks (`[[projects]]` and `[[skills]]`) are mandatory connectors when applicable. |
 | DH-15 | PROJECT_SYNC_BEFORE_CLOSE | Before closing a session doc or creating a daily report, the agent MUST update the operational docs (status-atual.md, next-step.md, decisoes.md) of every project referenced in the session. This includes: (a) moving completed items from In Progress to Completed in status-atual.md; (b) updating next-step.md with the current immediate action; (c) registering any decisions made during the session in decisoes.md. Session closure without project sync is a hygiene violation. |
+| DH-16 | FINDINGS_TRACKING | When a finding (bug, gap, drift, failure, process error) is discovered during any session: (a) add a `## Findings` section right after `## Current Snapshot` in the session doc; (b) set `has_findings: true` in frontmatter; (c) register the finding simultaneously in the master index at `C:\ai\obsidian\CIH\projects\_findings\findings-master-index.md` with a sequential `FND-XXXX` ID; (d) findings in session docs are ALWAYS `pending` — resolution is tracked in the master index only. For project closure: sweep all session docs for findings and reconcile with the master index (CS-08). |
 
 ---
 
@@ -855,6 +857,7 @@ tags:
   - {{AGENT_SLUG}}
   - {{PROJECT_TAG}}
 status: in_progress
+has_findings: false
 aliases:
   - session-{{SESSION_ID_SHORT}}-{{YYYY-MM-DD}}-{{AGENT_SLUG}}
 ---
@@ -898,6 +901,23 @@ aliases:
 | Daily curated by | pending |
 
 ---
+
+<!-- FINDINGS SECTION: Add this section ONLY when findings are discovered during the session.
+     When adding this section, set has_findings: true in the frontmatter.
+     Place it here — right after Current Snapshot, before Modification History.
+
+## Findings
+
+| ID | Type | Severity | Description | Root Cause | Solution | Affected Skill | Status |
+|---|---|---|---|---|---|---|---|
+| FND-XXXX | CP/PL/INT | CRITICAL/HIGH/MEDIUM/LOW | Short description | Why it happened | How to fix | Skill or process affected | pending |
+
+Rules:
+- ID from findings-master-index.md (next sequential FND-XXXX)
+- Type: CP (cross-project), PL (project-level), INT (internal/self)
+- Status is ALWAYS pending in session docs. Resolution tracked in master index.
+- Register in findings-master-index.md simultaneously.
+-->
 
 ## Modification History
 
@@ -994,6 +1014,18 @@ aliases:
 | Curation | {{AUTHOR}} |
 
 ---
+
+<!-- FINDINGS SUMMARY: Include this section ONLY if any session doc from this day has has_findings: true.
+     Place here — after Current Snapshot, before Project Work.
+
+## Findings Summary
+
+| ID | Source Session | Type | Severity | Description | Status |
+|---|---|---|---|---|---|
+| FND-XXXX | session-XXXX | CP | HIGH | Short description | pending |
+
+Total: X findings | Y pending | Z resolved
+-->
 
 ## Project Work
 
@@ -1301,6 +1333,7 @@ This format is embedded in every `PROJECT_CONTEXT.md` created by `create-project
 
 | Version | Date | Author | Changes |
 |---|---|---|---|
+| 1.3.0 | 2026-03-20 | Magneto (Orchestrator) | Findings tracking system: CS-08 (findings reconciled) as mandatory clean-state criterion for project closure. DH-16 (FINDINGS_TRACKING) hygiene rule. `has_findings` frontmatter field in session template. Conditional Findings section after Current Snapshot. Findings Summary in daily report template. Master index at `_findings/findings-master-index.md`. |
 | 1.2.0 | 2026-03-19 | Magneto (Orchestrator) | Added CS-07 (project docs synchronized) as mandatory clean-state criterion — blocks session closure if referenced project docs are stale. Added DH-15 (PROJECT_SYNC_BEFORE_CLOSE) hygiene rule. Prevents drift between session docs and project operational docs. |
 | 1.1.1 | 2026-03-19 | Magneto (Orchestrator) | Added DH-14 (WIKILINK_NO_ORPHANS): no orphaned docs under obsidian/, mandatory [[projects]] and [[skills]] wikilinks when applicable. |
 | 1.1.0 | 2026-03-19 | Magneto (Orchestrator) | Full English translation of all embedded templates and body references. Portuguese section headers, field labels, and status summary format replaced with American English equivalents. Backward compatible — existing docs retain original language. |

@@ -23,7 +23,7 @@
 
 | # | Skill Name | Version | Command | Role |
 | :--- | :--- | :--- | :--- | :--- |
-| 1 | **jimmy-core-preferences** | v3.0.0 | `/preferences` | Master AI Behavior |
+| 1 | **jimmy-core-preferences** | v3.1.0 | `/preferences` | Master AI Behavior |
 | 14 | **token-economy** | v1.0.0 | `/token-economy` | Budget Enforcement |
 
 ### 🟢 Tier 2: Context-Aware (Suggested)
@@ -37,7 +37,7 @@
 | 7 | **xavier-memory** | v1.1.0 | `/xavier-memory` | Cross-project sync |
 | 12 | **agent-orchestration-protocol** | v4.0.1 | `/aop` | "orchestrate", "delegate" |
 | 18 | **codex-task-notifier** | v1.0.0 | `/codex-task-notifier` | "email me when done", "me manda um email" |
-| 19 | **daily-doc-information** | v1.2.0 | `/daily-doc-information` | Session docs, daily reports, and project governance automation |
+| 19 | **daily-doc-information** | v1.3.0 | `/daily-doc-information` | Session docs, daily reports, and project governance automation |
 
 ### 🟡 Tier 3: Explicit (On-Demand)
 *Only loads when manually invoked by the user.*

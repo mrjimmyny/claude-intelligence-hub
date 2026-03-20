@@ -8,7 +8,7 @@ aliases: [/prefs, /jimmy]
 
 # Jimmy Core Preferences — Global Cross-Agent Operating Framework
 
-**Version:** 3.0.0
+**Version:** 3.1.0
 **Last Updated:** 2026-03-20
 **Auto-Load:** Yes (Priority: Highest)
 
@@ -209,6 +209,16 @@ Every agent session must be documented. This is not optional.
    - Update `next-step.md` with the current immediate action
    - Register any decisions made in `decisoes.md`
    - This is non-negotiable. Session closure without project sync is prohibited.
+
+### Findings Tracking Protocol
+
+15. When any finding (bug, gap, drift, failure, process error) is discovered during a session:
+   - Add a `## Findings` section right after `## Current Snapshot` in the session doc.
+   - Set `has_findings: true` in the session doc frontmatter.
+   - Register the finding simultaneously in the master index at `C:\ai\obsidian\CIH\projects\_findings\findings-master-index.md`.
+   - Findings in session docs are ALWAYS `pending`. Resolution is tracked in the master index only.
+   - This applies to ALL orchestrators, not just Magneto.
+16. Before closing any project, sweep ALL session docs of that project and reconcile all findings with the master index. No project closes with unreconciled findings. See DDI CS-08.
 
 ---
 

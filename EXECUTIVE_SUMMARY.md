@@ -5,8 +5,8 @@
 **Repository:** https://github.com/mrjimmyny/claude-intelligence-hub
 **Developed by:** Xavier (Claude Sonnet 4.5) & Jimmy
 **Purpose:** Centralized AI intelligence system - Skills, memory, automation, and routing
-**Version:** 2.20.0 (Hub v2.20.0 + AOP v4.0.1)
-**Component Versions:** Preferences v3.0.0, Memoria v1.2.0, PBI v1.3.0, GDrive v1.0.0, Registry v1.1.0, X-MEM v1.0.0, Xavier-Memory v1.1.0, Xavier-Memory-Sync v1.0.0, Context-Guardian v1.1.0, Repo-Auditor v2.0.0, Conv-Memoria v1.0.0, AOP v4.0.1, Catalog v1.0.0, Token-Economy v1.0.0, Codex-Governance v1.0.0, daily-tasks-oih v1.0.0, docx-indexer v1.4.0, codex-task-notifier v1.0.0, daily-doc-information v1.2.0
+**Version:** 2.21.0 (Hub v2.21.0 + AOP v4.0.1)
+**Component Versions:** Preferences v3.0.0, Memoria v1.2.0, PBI v1.3.0, GDrive v1.0.0, Registry v1.1.0, X-MEM v1.0.0, Xavier-Memory v1.1.0, Xavier-Memory-Sync v1.0.0, Context-Guardian v1.1.0, Repo-Auditor v2.0.0, Conv-Memoria v1.0.0, AOP v4.0.1, Catalog v1.0.0, Token-Economy v1.0.0, Codex-Governance v1.0.0, daily-tasks-oih v1.0.0, docx-indexer v1.4.0, codex-task-notifier v1.0.0, daily-doc-information v1.3.0
 **Status:** ✅ Production - Enterprise-Ready - **ZERO TO HERO COMPLETE** (Modules 1-4) + Context Preservation + Repo Auditor + Navigation Roadmap + AOP
 
 ---
@@ -19,7 +19,7 @@ Successfully developed and deployed a **complete AI intelligence system** that t
 
 | Component | Version | Status | Key Metric |
 |-----------|---------|--------|------------|
-| **Hub Repository** | 2.20.0 | ✅ Production | 19 skill collections, HUB_MAP routing, CIH-ROADMAP |
+| **Hub Repository** | 2.21.0 | ✅ Production | 19 skill collections, HUB_MAP routing, CIH-ROADMAP |
 | **Jimmy Core Preferences** | 3.0.0 | ✅ Production | Global cross-agent framework, prompt governance, Documentation Language Standard, hybrid session governance, curator-only daily reports, mandatory project sync before session close, project status summary standard, DAX overlay, AOP dispatch guardrails, and global skill symlink integrity |
 | **Session Memoria** | 1.2.0 | ✅ Production | 3-tier archiving, 200x faster indexing |
 | **PBI Claude Skills** | 1.3.0 | ✅ Production | 50-97% token savings |
@@ -168,7 +168,7 @@ Module 2 transformed the hub from a skill repository into a complete AI intellig
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  Tier 1: Master Framework                                   │
-│  - jimmy-core-preferences v3.0.0                            │
+│  - jimmy-core-preferences v3.1.0                            │
 │  - Core principles (Radical Honesty, Proactivity)           │
 │  - Identity management (Xavier + Jimmy)                     │
 │  - Self-learning system                                     │
