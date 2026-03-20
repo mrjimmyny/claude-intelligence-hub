@@ -8,7 +8,7 @@ aliases: [/prefs, /jimmy]
 
 # Jimmy Core Preferences — Global Cross-Agent Operating Framework
 
-**Version:** 3.1.0
+**Version:** 3.2.0
 **Last Updated:** 2026-03-20
 **Auto-Load:** Yes (Priority: Highest)
 
@@ -227,6 +227,59 @@ Every agent session must be documented. This is not optional.
    - This applies to ALL orchestrators, not just Magneto.
 16. Before closing any project, sweep ALL session docs of that project and reconcile all findings with the master index. No project closes with unreconciled findings. See DDI CS-08.
 18. When changing a finding's status in the master index (e.g., pending → assigned → resolved), simultaneously update the corresponding `FND-XXXX.md` detail file with the same status, dates, and agent information. Both documents must always be in sync. Updating only one is a hygiene violation.
+
+---
+
+## G2. Mandatory Pre-Pause / Pre-Close Documentation Gate
+
+**Effective date:** 2026-03-20
+
+When Jimmy signals ANY form of work stoppage — pause, break, day close, or period transition — the agent MUST execute the applicable checklist BEFORE acknowledging the pause. This is non-negotiable. The agent does NOT wait for Jimmy to ask "any drifts?" — the gate fires automatically.
+
+**Trigger phrases (any variant, English or Portuguese):**
+- "let's stop here" / "vamos parar aqui"
+- "let's take a break" / "vamos fazer uma pausa"
+- "closing for today" / "encerrando por hoje" / "por hoje é isso"
+- "that's enough for now" / "por enquanto é isso"
+- "I'm going to rest" / "vou descansar"
+- "let's pause the project" / "vamos pausar o projeto"
+- Any indication that work is stopping, even temporarily
+
+### Pre-Pause Checklist (8 items — mandatory for ANY pause)
+
+The agent must verify ALL of the following and report the result to Jimmy:
+
+| # | Check | What to verify |
+|---|---|---|
+| PP-01 | Project status current | Every referenced project's `status-atual.md` reflects reality (correct phase, completed items, in-progress items, blockers) |
+| PP-02 | Next step current | Every referenced project's `next-step.md` reflects the actual next action, not a stale previous step |
+| PP-03 | Decisions registered | Every referenced project's `decisoes.md` has all decisions from this session |
+| PP-04 | Session snapshot current | Session doc `Current Snapshot` matches actual state (active block, next action, blockers) |
+| PP-05 | History complete | Session doc `Modification History` has a row for the current block of work |
+| PP-06 | Findings counters match | `findings-master-index.md` frontmatter counters match actual table data |
+| PP-07 | Findings flag correct | Session doc `has_findings` flag matches whether findings exist in the session |
+| PP-08 | No stale values | No outdated percentages, scores, phase names, or status values anywhere |
+
+### Pre-Close Checklist (extends Pre-Pause — mandatory for day close / session close)
+
+All 8 Pre-Pause checks, PLUS:
+
+| # | Check | What to verify |
+|---|---|---|
+| PC-09 | Handoff populated | Session doc Handoff section fully filled (where stopped, where to resume, what not to reopen, files to read) |
+| PC-10 | Clean-state gate | All DDI clean-state criteria (CS-01 through CS-08) evaluated |
+| PC-11 | Daily report | Created if applicable (end of day) |
+
+### Gate Execution Protocol
+
+1. Agent detects pause/close intent in Jimmy's message
+2. Agent executes the applicable checklist (Pre-Pause or Pre-Close)
+3. Agent reports results to Jimmy in a compact table: `PP-01: PASS`, `PP-02: PASS`, etc.
+4. If ANY check is `FAIL`: agent fixes the drift BEFORE confirming pause
+5. After all checks pass: agent confirms "Gate PASSED — safe to pause/close"
+6. Agent commits and pushes if there are uncommitted changes
+
+**Prohibited behavior:** An agent must NEVER say "everything looks good" or "ready to close" without having executed the checklist. Blanket confirmation without itemized evidence is a hygiene violation.
 
 ---
 

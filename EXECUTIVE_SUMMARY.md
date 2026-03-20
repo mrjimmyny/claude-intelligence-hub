@@ -168,7 +168,7 @@ Module 2 transformed the hub from a skill repository into a complete AI intellig
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  Tier 1: Master Framework                                   │
-│  - jimmy-core-preferences v3.1.0                            │
+│  - jimmy-core-preferences v3.2.0                            │
 │  - Core principles (Radical Honesty, Proactivity)           │
 │  - Identity management (Xavier + Jimmy)                     │
 │  - Self-learning system                                     │

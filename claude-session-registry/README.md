@@ -217,7 +217,7 @@ claude --resume [session-id]
 
 ### Documentation
 - **[docs/BACKUP_SYSTEM.md](docs/BACKUP_SYSTEM.md)** - Complete backup system documentation
-- **[RESTORE_GUIDE.md](~/claude-session-backups/docs/RESTORE_GUIDE.md)** - How to restore sessions
+- `~/claude-session-backups/docs/RESTORE_GUIDE.md` - How to restore sessions
 
 ---
 

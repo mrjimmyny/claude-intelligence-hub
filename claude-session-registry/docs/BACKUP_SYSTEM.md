@@ -362,7 +362,7 @@ done
 
 ## Restore Procedures
 
-See **[RESTORE_GUIDE.md](~/claude-session-backups/docs/RESTORE_GUIDE.md)** for detailed instructions.
+See `~/claude-session-backups/docs/RESTORE_GUIDE.md` for detailed instructions.
 
 ### Quick Restore (Critical Sessions)
 
@@ -615,9 +615,9 @@ Auto-generated index of all sessions tagged with `#critical`.
 
 ## Related Documentation
 
-- [RESTORE_GUIDE.md](~/claude-session-backups/docs/RESTORE_GUIDE.md) - How to restore critical sessions
+- `~/claude-session-backups/docs/RESTORE_GUIDE.md` - How to restore critical sessions
 - [claude-session-registry/SKILL.md](../SKILL.md) - Session registration workflow
-- [claude-session-backups/README.md](~/claude-session-backups/README.md) - Backup repository overview
+- `~/claude-session-backups/README.md` - Backup repository overview
 
 ---
 
