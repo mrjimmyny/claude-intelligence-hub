@@ -165,6 +165,8 @@ Every document under `obsidian/` must have a `## Wikilinks` section — no orpha
 
 Documents created before 2026-03-18 are exempt (legacy). From 2026-03-18 onward, all agents must ensure wikilink compliance. Note: the wikilink requirement (2026-03-18) predates the English language mandate (2026-03-19) by one day. Both are independently in effect.
 
+**Creation-time enforcement (non-negotiable):** Every `.md` file created under `obsidian/` MUST include a `## Wikilinks` section at the time of creation. No `.md` file may be committed without wikilinks. This applies to all agents — orchestrators, executors, testers — and all file types including prompts, reports, audits, and templates. Forgetting wikilinks is a hygiene violation (see DH-14).
+
 ---
 
 ## G. Session Log and Daily Report Protocol
@@ -201,6 +203,10 @@ Every agent session must be documented. This is not optional.
 ### Within-Day Session Transitions
 
 14. When Jimmy opens a new chat window on the same day with a new session ID, create a new session doc. The previous session doc for that day remains valid. Multiple session docs per day per agent are permitted when Jimmy provides distinct session IDs.
+
+### Session Doc Update at Phase Boundaries
+
+17. At every phase, round, or milestone boundary, the orchestrator MUST update the session doc (Modification History, Work Blocks, Current Snapshot) BEFORE committing and pushing. This is at the same priority level as "commit", "push", and "email". Failing to update the session doc at boundaries results in lost timestamps and requires reconstruction from git log.
 
 ### Mandatory Project Sync Before Session Close
 
