@@ -8,18 +8,23 @@
 #          waits for interactive approval and produces no output).
 #
 # Usage:
-#   bash scripts/aop-gemini-dispatch.sh <prompt_file> <artifact_path> [working_dir] [model]
+#   bash scripts/aop-gemini-dispatch.sh <prompt_file> <artifact_path> [working_dir] [model] [include_dirs]
 #
 # Arguments:
 #   prompt_file   - Path to the AOP prompt file
 #   artifact_path - Path where completion artifact should be written
 #   working_dir   - Optional working directory (defaults to current dir)
-#   model         - Optional model override (defaults to gemini-3-flash)
+#   model         - Optional model override (defaults to gemini-2.5-flash)
+#   include_dirs  - Optional --include-directories value (defaults to working_dir).
+#                   Use this to expand Gemini's workspace boundary beyond the nearest
+#                   .git root. Pass a comma-separated list or a single absolute path.
 #
 # Example:
 #   bash scripts/aop-gemini-dispatch.sh \
 #     /c/ai/temp/AOP_PROMPT_task1.md \
 #     /c/ai/temp/AOP_COMPLETE_task1.json \
+#     /c/ai \
+#     gemini-2.5-flash \
 #     /c/ai
 # ============================================================
 
@@ -28,7 +33,8 @@ set -euo pipefail
 PROMPT_FILE="${1:?Usage: aop-gemini-dispatch.sh <prompt_file> <artifact_path> [working_dir] [model]}"
 ARTIFACT_PATH="${2:?Usage: aop-gemini-dispatch.sh <prompt_file> <artifact_path> [working_dir] [model]}"
 WORKING_DIR="${3:-$(pwd)}"
-MODEL="${4:-gemini-3-flash}"
+MODEL="${4:-gemini-2.5-flash}"
+INCLUDE_DIRS="${5:-$WORKING_DIR}"
 
 # Validate inputs
 if [ ! -f "$PROMPT_FILE" ]; then
@@ -43,6 +49,7 @@ echo "=== AOP Gemini Dispatch ==="
 echo "Prompt:    $PROMPT_FILE"
 echo "Artifact:  $ARTIFACT_PATH"
 echo "WorkDir:   $WORKING_DIR"
+echo "IncDirs:   $INCLUDE_DIRS"
 echo "Model:     $MODEL"
 echo "Time:      $(date -u +%Y-%m-%dT%H:%M:%SZ)"
 echo "==========================="
@@ -51,7 +58,8 @@ echo "==========================="
 # --approval-mode yolo is MANDATORY for headless Gemini
 cat "$PROMPT_FILE" | gemini \
   -m "$MODEL" \
-  -p \
+  -p "Execute the full instructions provided via stdin." \
+  --include-directories "$INCLUDE_DIRS" \
   --approval-mode yolo
 
 # Check if artifact was created

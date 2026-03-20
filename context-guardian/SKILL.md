@@ -42,6 +42,11 @@ Context Guardian activates on these phrases (flexible matching):
 - `~/.claude/plugins/` (all config files + cache if <50 MB)
 - `~/.claude/skills/user/*` (metadata for symlinks, full copy for directories)
 
+**Critical workspace config files (`C:\ai\` root):**
+- `C:\ai\AGENTS.md` — Global agent configuration files. Updated by core-x project (2026-03-20). Must be verified on every machine onboarding.
+- `C:\ai\CLAUDE.md` — Global agent configuration files. Updated by core-x project (2026-03-20). Must be verified on every machine onboarding.
+- `C:\ai\GEMINI.md` — Global agent configuration files. Updated by core-x project (2026-03-20). Must be verified on every machine onboarding.
+
 **Steps:**
 
 1. **Pre-flight Checks**
@@ -292,6 +297,12 @@ bash scripts/backup-global.sh --dry-run
    - Download `PROJECTS_INDEX.json`
    - Display last backup info
 
+3b. **Verify Critical Workspace Config Files**
+   - Check `C:\ai\AGENTS.md` exists and is current version
+   - Check `C:\ai\CLAUDE.md` exists and is current version
+   - Check `C:\ai\GEMINI.md` exists and is current version
+   - If any missing: Warn user — restore from backup or core-x project
+
 4. **Interactive Menu**
    ```
    What would you like to restore?
@@ -357,6 +368,10 @@ bash scripts/backup-global.sh --dry-run
 6. **Broken Symlinks**
    - Detect broken symlinks in `~/.claude/skills/user/`
    - Result: ✅ ALL VALID or ❌ BROKEN (list them)
+
+7. **Critical Workspace Config Files**
+   - Verify `C:\ai\AGENTS.md`, `C:\ai\CLAUDE.md`, `C:\ai\GEMINI.md` exist
+   - Result: ✅ ALL PRESENT or ❌ MISSING (list which ones)
 
 **Output:**
 ```
