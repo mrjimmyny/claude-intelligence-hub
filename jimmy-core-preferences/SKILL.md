@@ -216,7 +216,8 @@ Every agent session must be documented. This is not optional.
    - Add a `## Findings` section right after `## Current Snapshot` in the session doc.
    - Set `has_findings: true` in the session doc frontmatter.
    - Register the finding simultaneously in the master index at `C:\ai\obsidian\CIH\projects\_findings\findings-master-index.md`.
-   - Findings in session docs are ALWAYS `pending`. Resolution is tracked in the master index only.
+   - Set finding status in session doc to `indexed` once registered in master. `pending` is transient (only between discovery and registration — must not persist past session close).
+   - Agents seeing `indexed` in session docs MUST NOT attempt to resolve or re-register. Current status lives in the master index only.
    - This applies to ALL orchestrators, not just Magneto.
 16. Before closing any project, sweep ALL session docs of that project and reconcile all findings with the master index. No project closes with unreconciled findings. See DDI CS-08.
 

@@ -764,7 +764,7 @@ Failure modes fire **DURING execution**. Each has a trigger condition, severity,
 | DH-13 | PROJECT_WIKILINKS | All 5 operational docs (`PROJECT_CONTEXT.md`, `status-atual.md`, `next-step.md`, `decisoes.md`, `README.md`) must have wikilinks connecting them to each other and to `[[projects]]`. A doc without its wikilinks section is non-compliant. |
 | DH-14 | WIKILINK_NO_ORPHANS | Every document under the `obsidian/` directory tree must have a `## Wikilinks` section at the bottom. No document may be orphaned (disconnected from the graph). Additionally: (a) any document related to a project must include `[[projects]]` in its wikilinks; (b) any document related to or associated with a skill must also include `[[skills]]` in its wikilinks. These two wikilinks (`[[projects]]` and `[[skills]]`) are mandatory connectors when applicable. |
 | DH-15 | PROJECT_SYNC_BEFORE_CLOSE | Before closing a session doc or creating a daily report, the agent MUST update the operational docs (status-atual.md, next-step.md, decisoes.md) of every project referenced in the session. This includes: (a) moving completed items from In Progress to Completed in status-atual.md; (b) updating next-step.md with the current immediate action; (c) registering any decisions made during the session in decisoes.md. Session closure without project sync is a hygiene violation. |
-| DH-16 | FINDINGS_TRACKING | When a finding (bug, gap, drift, failure, process error) is discovered during any session: (a) add a `## Findings` section right after `## Current Snapshot` in the session doc; (b) set `has_findings: true` in frontmatter; (c) register the finding simultaneously in the master index at `C:\ai\obsidian\CIH\projects\_findings\findings-master-index.md` with a sequential `FND-XXXX` ID; (d) findings in session docs are ALWAYS `pending` — resolution is tracked in the master index only. For project closure: sweep all session docs for findings and reconcile with the master index (CS-08). |
+| DH-16 | FINDINGS_TRACKING | When a finding is discovered during any session: (a) add `## Findings` section right after `## Current Snapshot`; (b) set `has_findings: true` in frontmatter; (c) register in master index at `C:\ai\obsidian\CIH\projects\_findings\findings-master-index.md` with sequential `FND-XXXX` ID; (d) set status in session doc to `indexed` once registered in master (`pending` is transient — only until registration completes, must not persist past session close); (e) agents seeing `indexed` MUST NOT attempt to resolve or re-register — current status lives in master index only. For project closure: sweep all session docs and reconcile with master index (CS-08). |
 
 ---
 
@@ -910,13 +910,16 @@ aliases:
 
 | ID | Type | Severity | Description | Root Cause | Solution | Affected Skill | Status |
 |---|---|---|---|---|---|---|---|
-| FND-XXXX | CP/PL/INT | CRITICAL/HIGH/MEDIUM/LOW | Short description | Why it happened | How to fix | Skill or process affected | pending |
+| FND-XXXX | CP/PL/INT | CRITICAL/HIGH/MEDIUM/LOW | Short description | Why it happened | How to fix | Skill or process affected | pending → indexed |
 
 Rules:
 - ID from findings-master-index.md (next sequential FND-XXXX)
 - Type: CP (cross-project), PL (project-level), INT (internal/self)
-- Status is ALWAYS pending in session docs. Resolution tracked in master index.
-- Register in findings-master-index.md simultaneously.
+- Status flow in session docs: `pending` (just discovered, not yet in master) → `indexed` (registered in master with FND-XXXX).
+- `pending` is transient — must be resolved to `indexed` before session close.
+- `indexed` is permanent — means "tracked in master index, no action needed here."
+- An agent seeing `indexed` MUST NOT attempt to resolve or re-register the finding. Current status is in the master index only.
+- Register in findings-master-index.md simultaneously upon discovery.
 -->
 
 ## Modification History
