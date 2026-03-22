@@ -15,7 +15,7 @@ tags:
 
 # daily-doc-information
 
-**Version:** 1.3.0
+**Version:** 1.4.0
 
 > **Objective:** Automates the creation, structured update, and clean-state closure of session documents and daily reports, plus project governance operations (project creation, status updates, decision registration, next-step management) according to the continuity-documentation contract.
 
@@ -765,6 +765,7 @@ Failure modes fire **DURING execution**. Each has a trigger condition, severity,
 | DH-14 | WIKILINK_NO_ORPHANS | Every document under the `obsidian/` directory tree must have a `## Wikilinks` section at the bottom. No document may be orphaned (disconnected from the graph). Additionally: (a) any document related to a project must include `[[projects]]` in its wikilinks; (b) any document related to or associated with a skill must also include `[[skills]]` in its wikilinks. These two wikilinks (`[[projects]]` and `[[skills]]`) are mandatory connectors when applicable. |
 | DH-15 | PROJECT_SYNC_BEFORE_CLOSE | Before closing a session doc or creating a daily report, the agent MUST update the operational docs (status-atual.md, next-step.md, decisoes.md) of every project referenced in the session. This includes: (a) moving completed items from In Progress to Completed in status-atual.md; (b) updating next-step.md with the current immediate action; (c) registering any decisions made during the session in decisoes.md. Session closure without project sync is a hygiene violation. |
 | DH-16 | FINDINGS_TRACKING | When a finding is discovered during any session: (a) add `## Findings` section right after `## Current Snapshot`; (b) set `has_findings: true` in frontmatter; (c) register in master index at `C:\ai\obsidian\CIH\projects\_findings\findings-master-index.md` with sequential `FND-XXXX` ID; (d) set status in session doc to `indexed` once registered in master (`pending` is transient — only until registration completes, must not persist past session close); (e) agents seeing `indexed` MUST NOT attempt to resolve or re-register — current status lives in master index only; (f) when changing a finding's status in the master index, simultaneously update the corresponding `FND-XXXX.md` detail file — both must always be in sync, updating only one is a hygiene violation; (g) **COUNTER SYNC (FND-0018):** the master index has TWO counter locations — frontmatter fields AND the `## Summary` table in the body. When ANY finding is added, resolved, or changes status, BOTH locations MUST be updated atomically in the same edit. A mismatch between frontmatter and Summary is a hygiene violation. For project closure: sweep all session docs and reconcile with master index (CS-08). |
+| DH-17 | ORPHAN_DETECTION | Before session close or daily report creation, the agent MUST verify that no new orphaned documents were introduced during the session. An orphan is a `.md` file under `obsidian/` that either: (a) lacks a `## Wikilinks` section, or (b) has zero incoming `[[wikilinks]]` from any other file. Detection can be performed by running `_skills/daily-doc-information/orphan-detector.sh` or by manual inspection. New orphans introduced during the session block closure (PP-09). Pre-existing orphans should be reported but do not block closure. |
 
 ---
 
@@ -1336,6 +1337,7 @@ This format is embedded in every `PROJECT_CONTEXT.md` created by `create-project
 
 | Version | Date | Author | Changes |
 |---|---|---|---|
+| 1.4.0 | 2026-03-22 | Magneto (Orchestrator) | Orphan detection: DH-17 (ORPHAN_DETECTION) hygiene rule. PP-09 check in Pre-Close gate. `orphan-detector.sh` script for automated scanning of missing `## Wikilinks` sections and true orphans (zero incoming links). Runs in ~1.5s for 370+ files. |
 | 1.3.0 | 2026-03-20 | Magneto (Orchestrator) | Findings tracking system: CS-08 (findings reconciled) as mandatory clean-state criterion for project closure. DH-16 (FINDINGS_TRACKING) hygiene rule. `has_findings` frontmatter field in session template. Conditional Findings section after Current Snapshot. Findings Summary in daily report template. Master index at `_findings/findings-master-index.md`. |
 | 1.2.0 | 2026-03-19 | Magneto (Orchestrator) | Added CS-07 (project docs synchronized) as mandatory clean-state criterion — blocks session closure if referenced project docs are stale. Added DH-15 (PROJECT_SYNC_BEFORE_CLOSE) hygiene rule. Prevents drift between session docs and project operational docs. |
 | 1.1.1 | 2026-03-19 | Magneto (Orchestrator) | Added DH-14 (WIKILINK_NO_ORPHANS): no orphaned docs under obsidian/, mandatory [[projects]] and [[skills]] wikilinks when applicable. |

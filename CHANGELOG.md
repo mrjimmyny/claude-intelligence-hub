@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.22.0] - 2026-03-22
+### Added
+- **daily-doc-information** v1.3.0 -> v1.4.0 — DH-17 (ORPHAN_DETECTION): hygiene rule requiring orphan verification before session close. `orphan-detector.sh` script for automated scanning (~1.5s for 370+ files). Detects missing `## Wikilinks` sections and true orphans (zero incoming wikilinks).
+- **jimmy-core-preferences** — PP-09 (Wikilink orphans checked): new Pre-Pause gate check. Only new orphans introduced during the session block closure; pre-existing orphans are reported but do not block.
+
 ## [2.21.0] - 2026-03-20
 ### Added
 - **Findings Tracking System** — Global findings registry at `_findings/findings-master-index.md`. Tracks cross-project (CP), project-level (PL), and internal (INT) findings with status flow (pending → in_progress → resolved/cancelled/deferred).

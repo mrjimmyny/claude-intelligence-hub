@@ -264,10 +264,11 @@ The agent must verify ALL of the following and report the result to Jimmy:
 | PP-06 | Findings counters match | `findings-master-index.md` frontmatter counters match actual table data |
 | PP-07 | Findings flag correct | Session doc `has_findings` flag matches whether findings exist in the session |
 | PP-08 | No stale values | No outdated percentages, scores, phase names, or status values anywhere |
+| PP-09 | Wikilink orphans checked | No new orphaned `.md` files introduced under `obsidian/` during this session (run `_skills/daily-doc-information/orphan-detector.sh` or manual check). Pre-existing orphans are reported but do not block. |
 
 ### Pre-Close Checklist (extends Pre-Pause — mandatory for day close / session close)
 
-All 8 Pre-Pause checks, PLUS:
+All 9 Pre-Pause checks, PLUS:
 
 | # | Check | What to verify |
 |---|---|---|
