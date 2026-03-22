@@ -416,4 +416,21 @@ When working with skills from `C:\ai\claude-intelligence-hub`:
 
 ---
 
+## P. CEM Protection — JSON and Skin Edits are Destructive Actions
+
+CEM (Canvas Element Map) JSON files and Skin baselines are the **source of truth** for BI dashboard designs in bi-designerx projects. Modifying them is classified as a **destructive action**.
+
+**Rules (non-negotiable, all agents, all machines):**
+
+1. **NEVER modify** a CEM JSON file (`bidx-cem-*-v*.json`) or Skin baseline (`bidx-cem-*-v*.0.md`) without Jimmy's **explicit approval for that specific modification**.
+2. This applies to ALL versions (v2, v3, vN), whether `locked: true` (permanent, per Decision 12) or `locked: false` (active development).
+3. Approval does NOT carry over between operations — each modification requires fresh approval.
+4. DRAFT-OWNER files (`*-DRAFT-OWNER.md`) are **NOT protected** — they are disposable working copies, freely editable.
+5. If you are unsure whether an operation will modify JSON or Skin, **ask Jimmy first**.
+6. Creating a new JSON for the first time (new version) also requires Jimmy's explicit approval.
+
+**Context:** FND-0019 (2026-03-21). The Version Lock Protocol (Decision 12) only seals permanently locked versions. During active development, JSON and Skin had zero protection. This rule closes that gap. See bi-designerx Decision 16.
+
+---
+
 *Part of the [Claude Intelligence Hub](https://github.com/mrjimmyny/claude-intelligence-hub)*
