@@ -439,4 +439,22 @@ CEM (Canvas Element Map) JSON files and Skin baselines are the **source of truth
 
 ---
 
+## Q. CEM JSON Generation — Paper Scan Mandatory
+
+**Effective date:** 2026-03-23
+
+CEM JSON files MUST be generated exclusively via real-time Paper MCP scan. NEVER from memory, mental models, cached data, or manually compiled element lists.
+
+**Rules (non-negotiable, all agents, all machines):**
+
+1. Before generating any CEM JSON, perform a COMPLETE Paper MCP scan: `get_children` + `get_computed_styles` + `get_node_info` for EVERY element.
+2. Every element's `active` flag must reflect its ACTUAL visibility in Paper (`isVisible` from `get_node_info`).
+3. Every element's position (x, y, w, h) must come from `get_computed_styles`, not from session memory.
+4. If Paper MCP is unavailable, BLOCK JSON generation. Do not fall back to memory-based generation.
+5. This rule applies to ALL CEM versions (locked or unlocked) and ALL agents.
+
+**Context:** FND-0023 (2026-03-23). CEM JSON v4 was generated from agent memory instead of a Paper scan. Elements had incorrect `active` states and potentially wrong positions. DRAFT derived from bad JSON induced agents to make unwanted modifications. See Decision 13 P4 gate.
+
+---
+
 *Part of the [Claude Intelligence Hub](https://github.com/mrjimmyny/claude-intelligence-hub)*

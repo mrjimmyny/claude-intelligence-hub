@@ -3,6 +3,7 @@
 operation: create-session
 agent_name: TestAgent
 agent_slug: testagent
+llm_model: claude-opus-4-6
 machine_id: TEST-MACHINE-001
 timestamp_local: 2026-03-17 14:30
 timezone: America/Sao_Paulo

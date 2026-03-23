@@ -32,6 +32,7 @@ All of the following must be present and non-empty:
 | `agent_name` | `TestAgent` | From input |
 | `agent_slug` | `testagent` | From input |
 | `agent` | `TestAgent (testagent)` | Combined label |
+| `llm_model` | `claude-opus-4-6` | From input |
 | `timezone` | `America/Sao_Paulo` | From input |
 | `opened_at_local` | `2026-03-17 14:30` | From timestamp_local |
 | `last_updated_at_local` | `2026-03-17 14:30` | Same as opened_at_local on creation |

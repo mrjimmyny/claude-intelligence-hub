@@ -37,7 +37,7 @@
 | 7 | **xavier-memory** | v1.1.0 | `/xavier-memory` | Cross-project sync |
 | 12 | **agent-orchestration-protocol** | v4.0.1 | `/aop` | "orchestrate", "delegate" |
 | 18 | **codex-task-notifier** | v1.1.0 | `/codex-task-notifier` | "email me when done", "me manda um email" |
-| 19 | **daily-doc-information** | v1.4.0 | `/daily-doc-information` | Session docs, daily reports, and project governance automation |
+| 19 | **daily-doc-information** | v1.5.0 | `/daily-doc-information` | Session docs, daily reports, and project governance automation |
 
 ### 🟡 Tier 3: Explicit (On-Demand)
 *Only loads when manually invoked by the user.*

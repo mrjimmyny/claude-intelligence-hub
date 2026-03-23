@@ -15,7 +15,7 @@ tags:
 
 # daily-doc-information
 
-**Version:** 1.4.0
+**Version:** 1.5.0
 
 > **Objective:** Automates the creation, structured update, and clean-state closure of session documents and daily reports, plus project governance operations (project creation, status updates, decision registration, next-step management) according to the continuity-documentation contract.
 
@@ -114,6 +114,7 @@ These inputs are **required for ALL operations**. If any is absent or empty, fir
 | I-04 | `machine_id` | string | Hostname from real environment |
 | I-05 | `timestamp_local` | string | Current machine timestamp `YYYY-MM-DD HH:MM` from real clock |
 | I-06 | `timezone` | string | IANA timezone (e.g., `America/Sao_Paulo`) |
+| I-07 | `llm_model` | string | Specific LLM model ID that opened the session (e.g., `claude-opus-4-6`, `claude-sonnet-4-6`, `gemini-2.5-pro`) |
 
 ---
 
@@ -154,6 +155,7 @@ session-[session_id_short]-[YYYY-MM-DD]-[agent_slug].md
    - `{{AGENT_SLUG}}` → `agent_slug`
    - `{{AGENT_LABEL}}` → `agent_name (agent_slug)`
    - `{{PROVIDER}}` → Provider name (e.g., `Anthropic`)
+   - `{{LLM_MODEL}}` → `llm_model`
    - `{{MACHINE_NAME}}` → `machine_id`
    - `{{OS_USER}}` → Current OS user
    - `{{YYYY-MM-DD}}` → Date from `timestamp_local`
@@ -835,6 +837,7 @@ agent_name: {{AGENT_NAME}}
 agent_slug: {{AGENT_SLUG}}
 agent: {{AGENT_LABEL}}
 provider: {{PROVIDER}}
+llm_model: {{LLM_MODEL}}
 timezone: America/Sao_Paulo
 location: Brasilia, Brasil
 time_reference: machine local time
@@ -873,6 +876,7 @@ aliases:
 > **Session Name:** `{{SESSION_NAME}}`
 > **Agent:** {{AGENT_LABEL}}
 > **Provider:** {{PROVIDER}}
+> **LLM Model:** {{LLM_MODEL}}
 > **Context Type:** `{{CONTEXT_TYPE}}`
 > **Project:** `{{PROJECT}}`
 > **Macro period:** {{TIME_OF_DAY}}
