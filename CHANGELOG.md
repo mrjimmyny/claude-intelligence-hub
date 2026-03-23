@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.23.3] - 2026-03-23
+### Changed
+- **jimmy-core-preferences** v3.3.0 -> v3.4.0 — Section R "Learned Rules from Field Experience": migrated 12 behavioral feedback rules from agent-local memory to cross-agent canonical source. Added feedback governance rule (all behavioral feedback MUST go to Section R). Pre-Start gate documented.
+
 ## [2.23.2] - 2026-03-23
 ### Changed
 - **jimmy-core-preferences** v3.2.0 -> v3.3.0 — Added "checkpoint" and "close day" keyword triggers to G2 Pre-Pause/Pre-Close gate. Documented automated enforcement via UserPromptSubmit hook and checkpoint-verify.sh script. Updated Pre-Pause checklist count from 8 to 9 items.

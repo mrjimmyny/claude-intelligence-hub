@@ -1,6 +1,6 @@
 ---
 name: jimmy-core-preferences
-version: 3.3.0
+version: 3.4.0
 description: Global cross-agent operating framework for Jimmy.
 command: /preferences
 aliases: [/prefs, /jimmy]
@@ -8,7 +8,7 @@ aliases: [/prefs, /jimmy]
 
 # Jimmy Core Preferences — Global Cross-Agent Operating Framework
 
-**Version:** 3.3.0
+**Version:** 3.4.0
 **Last Updated:** 2026-03-23
 **Auto-Load:** Yes (Priority: Highest)
 
@@ -458,6 +458,76 @@ CEM JSON files MUST be generated exclusively via real-time Paper MCP scan. NEVER
 5. This rule applies to ALL CEM versions (locked or unlocked) and ALL agents.
 
 **Context:** FND-0023 (2026-03-23). CEM JSON v4 was generated from agent memory instead of a Paper scan. Elements had incorrect `active` states and potentially wrong positions. DRAFT derived from bad JSON induced agents to make unwanted modifications. See Decision 13 P4 gate.
+
+---
+
+## R. Learned Rules from Field Experience
+
+**Effective date:** 2026-03-23
+
+Rules learned from real failures, user corrections, and operational incidents. Each rule is battle-tested — it exists because an agent violated it at least once and caused harm.
+
+**Governance:** When ANY agent receives behavioral feedback from Jimmy (corrections, "don't do X", "always do Y"), the feedback MUST be added here as a new rule. Memory-only feedback (Claude Code auto-memory, Gemini context, Codex notes) is insufficient — it does not cross agent boundaries. This section is the canonical, cross-agent source of truth for behavioral rules.
+
+### R-01. Never Fabricate Email Addresses
+**Origin:** FND — Magneto sent email to wrong address derived from OS username.
+**Rule:** NEVER guess or derive email addresses. Always check `codex-task-notifier` SKILL.md Transport Routing section. Canonical recipient: `mrjimmyny@gmail.com`. If unsure, ask Jimmy.
+**Related:** Section N
+
+### R-02. Always Read Skill Before AOP Dispatch
+**Origin:** 2026-03-19 — Magneto failed 2 Codex dispatches guessing CLI flags from memory.
+**Rule:** ALWAYS read the AOP SKILL.md Launch Commands table before ANY headless dispatch (`claude -p`, `codex exec`, `gemini -p`). Use dispatch scripts when available (`aop-codex-dispatch.sh`). Never improvise flags from memory.
+**Related:** Section L
+
+### R-03. Checkpoint After Each Delivery
+**Origin:** Crash during accumulated work caused drift that required re-explanation.
+**Rule:** After EACH completed task/round: (1) update project docs, (2) update session doc, (3) commit, (4) push. Only then start the next task. Never accumulate.
+**Related:** Section G, rule 13
+
+### R-04. Findings Dual Counter Sync
+**Origin:** FND-0018 — Counters drifted because only one location was updated.
+**Rule:** `findings-master-index.md` has counters in BOTH frontmatter AND Summary table. When ANY finding changes status, update BOTH atomically in the same edit session.
+**Related:** Section G, rules 15-19
+
+### R-05. Codex Defaults to PowerShell on Windows
+**Origin:** 2026-03-18 — 7/140 commands failed silently due to PowerShell escaping.
+**Rule:** Every AOP prompt dispatched to Codex MUST include: "Use Git Bash (bash), NOT PowerShell. Write files using `cat > file << 'EOF'` syntax, never PowerShell `Set-Content`." Also applies to Gemini if it defaults to PowerShell.
+**Related:** Section L
+
+### R-06. rm -rf Blocked — Use find -delete
+**Origin:** Claude Code blocks `rm -rf` even with bypass permissions enabled.
+**Rule:** Never use `rm -rf` or `rm -f` with wildcards. Use `find /path -type f -delete` instead. Never tell user "permission denied" — use the alternative immediately.
+**Related:** Tool safety
+
+### R-07. NotebookLM Infographic Rate Limit
+**Origin:** FND-0008 — 5 infographics in sequence triggered 24h+ block.
+**Rule:** Never batch-generate infographics. Max 1 at a time, evaluate, do other work, then generate next. Conservative limit: ~5-6/day with spacing. Other artifact types can still be generated while infographics are blocked.
+**Related:** NotebookLM operations
+
+### R-08. NotebookLM On-Demand Generation Only
+**Origin:** 2026-03-22 — SKILL.md review revealed agents proactively generating extras.
+**Rule:** Generate ONLY the exact artifact type and exact quantity the user explicitly requests. "1 infographic" = 1 infographic, nothing else. Never assume "generate all."
+**Related:** NotebookLM operations
+
+### R-09. Paper Design — No Frames Architecture
+**Origin:** FND-0015 — Flex frames lock child positioning, making manual adjustments impossible.
+**Rule:** NEVER use frames/containers/groupings in Paper.design. ALL elements must be direct children of the artboard with `position: absolute` + explicit `left`/`top` pixel values + unique `layer-name` with prefix convention (`bg_`, `icon_`, `title_`, `lgd_`, etc.). Artboard must use `display: block`, not flex.
+**Related:** Section P
+
+### R-10. Paper MCP Relative Coordinates
+**Origin:** FND-0022 — CSS overrides in Paper are parent-relative, not artboard-absolute.
+**Rule:** NEVER apply artboard-absolute coordinates directly via `update_styles`. Convert first: `css = json_absolute - parent_content_origin`. NEVER use `unset` — it destroys positioning permanently. Always check `parentId` via `get_node_info` and verify with `get_computed_styles` first.
+**Related:** Section P
+
+### R-11. Project Assets Are Documental
+**Origin:** Architecture decision — assets must be isolated per project.
+**Rule:** Assets (images, icons, logos) go in `obsidian/CIH/projects/{project}/assets/`, not shared across projects. Sandbox/dev uses `_skills/bi-designerx/assets/`. Real projects use the documental layer.
+**Related:** Section D
+
+### R-12. Session Terminology
+**Origin:** 2026-03-16 — Formalized distinction to prevent confusion.
+**Rule:** "Documento de Sessão" = the `.md` log file (one per day/agent/project, same Session ID all day). "Sessão de Trabalho" = physical chat window (multiple per day, each has own resume ID). When switching chats same day: keep same doc, register work session IDs in tracking table.
+**Related:** Section G
 
 ---
 

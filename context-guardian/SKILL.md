@@ -101,6 +101,8 @@ bash scripts/backup-global.sh --dry-run
 - `AUDIT_TRAIL.md` (if exists — critical file from repo-auditor skill)
 - `.claude/skills/` (project-local skills)
 - `.claude/commands/` (custom commands)
+- `.claude/hooks/` (project-level hook configurations — event triggers and scripts)
+- `.claude/settings.json` (project-level Claude settings — permissions, allowed/denied tools, etc.)
 
 **Excluded (via `.contextignore`):**
 - node_modules/, .git/, __pycache__/, dist/, build/
@@ -123,6 +125,8 @@ bash scripts/backup-global.sh --dry-run
    - Copy CLAUDE.md
    - Copy MEMORY.md (if NOT hard link)
    - Copy local skills
+   - Copy `.claude/hooks/` directory (if exists)
+   - Copy `.claude/settings.json` (if exists)
 
 4. **Generate Metadata**
    - Calculate checksums
@@ -249,11 +253,15 @@ bash scripts/backup-global.sh --dry-run
    - Copy CLAUDE.md
    - Copy MEMORY.md (if not hard link)
    - Copy local skills
+   - Copy `.claude/hooks/` (if backed up)
+   - Copy `.claude/settings.json` (if backed up)
 
 7. **Post-Restore Validation**
    - CLAUDE.md exists (if expected)
    - MEMORY.md exists (if expected and not skipped)
    - Local skills directory exists
+   - `.claude/hooks/` exists (if expected)
+   - `.claude/settings.json` exists and valid JSON (if expected)
    - Checksums match
 
 8. **Cleanup or Rollback**
@@ -578,5 +586,5 @@ grep ERROR ~/.claude/context-guardian/logs/*.log
 
 ---
 
-**Last Updated:** 2026-03-03
+**Last Updated:** 2026-03-23
 **Status:** ✅ Production (v1.1.0 - Junction Point fix + cross-machine path adaptation)
