@@ -6,7 +6,7 @@ aliases: [/ctn]
 ---
 
 # codex-task-notifier
-**Version:** 1.0.0
+**Version:** 1.1.0
 
 ## Objective
 
@@ -35,6 +35,9 @@ When the user says any of these (English or Portuguese), run `send-manual-notifi
 | `me avise por email no final` | Run `send-manual-notification.ps1` ao final da tarefa |
 | `me manda um email` | Run `send-manual-notification.ps1` ao final da tarefa |
 | `mande um email quando terminar` | Run `send-manual-notification.ps1` ao final da tarefa |
+| `send the result by email` | Run with `-Attachment` if there's an output file |
+| `email me the infographic` | Run with `-Attachment <file>` |
+| `me manda o resultado por email` | Run with `-Attachment <arquivo>` |
 
 ## Required Paths
 
@@ -84,15 +87,32 @@ powershell -NoProfile -ExecutionPolicy Bypass -File C:\ai\_skills\codex-task-not
 ## Usage Example
 
 ```powershell
-# Run at the end of a Codex task when email was requested
+# Basic notification (no attachment)
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\ai\_skills\codex-task-notifier\scripts\send-manual-notification.ps1 `
   -TaskTitle "Review X" `
   -Summary "The requested review finished. Open Codex to inspect the final answer." `
   -AgentName "Magneto" `
   -LlmModel "Claude Sonnet 4.6"
+
+# With file attachment (e.g., infographic, report, screenshot)
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\ai\_skills\codex-task-notifier\scripts\send-manual-notification.ps1 `
+  -TaskTitle "Infographic Generated" `
+  -Summary "Corporate infographic created and attached." `
+  -AgentName "Magneto" `
+  -LlmModel "Claude Opus 4.6" `
+  -Attachment "C:\ai\_skills\notebooklmx\test-output\phase03-batch2\style-08-collage.png"
 ```
 
 Expected outcome: `delivery.status = sent`, email delivered to `mrjimmyny@gmail.com`.
+
+## Attachment Support
+
+The `-Attachment` parameter accepts a file path. When provided:
+
+- **Resend** (tier 1): File is base64-encoded and sent in the JSON body as `attachments[]`
+- **Mailgun** (tier 2): File is sent as multipart form data with field name `attachment`
+- If the file path is invalid or the file does not exist, the email is sent **without** the attachment (no error)
+- The existing failover chain (Resend -> Mailgun) works identically with or without attachments
 
 ## Transport Routing
 

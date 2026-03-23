@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.23.0] - 2026-03-23
+### Changed
+- **codex-task-notifier** v1.0.0 -> v1.1.0 — WP7 attachment support. `-Attachment` parameter in `send-manual-notification.ps1`. Resend (base64 JSON) and Mailgun (multipart form) adapters both support file attachments. SKILL.md updated with attachment docs, usage examples, and new triggers. Fixed `.gitignore` exclusion that prevented `lib/` directory from being tracked in hub.
+
 ## [2.22.0] - 2026-03-22
 ### Added
 - **daily-doc-information** v1.3.0 -> v1.4.0 — DH-17 (ORPHAN_DETECTION): hygiene rule requiring orphan verification before session close. `orphan-detector.sh` script for automated scanning (~1.5s for 370+ files). Detects missing `## Wikilinks` sections and true orphans (zero incoming wikilinks).

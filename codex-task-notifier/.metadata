@@ -1,11 +1,11 @@
 {
   "name": "codex-task-notifier",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Local Windows-first notifier for Codex task completion emails via HTTPS pipeline (Resend -> Mailgun). Sends explicit task-end emails without altering the Codex native UI.",
   "status": "production",
   "author": "Magneto (Claude Code) + Emma (Codex) + Jimmy",
   "created": "2026-03-15",
-  "updated": "2026-03-15",
+  "updated": "2026-03-23",
   "type": "notification-automation",
   "auto_load": false,
   "triggers": {

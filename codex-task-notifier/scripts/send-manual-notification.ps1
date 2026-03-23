@@ -23,7 +23,9 @@ param(
 
     [string]$OwnerName = "Jimmy",
 
-    [string]$MachineId = $env:COMPUTERNAME
+    [string]$MachineId = $env:COMPUTERNAME,
+
+    [string]$Attachment = $null
 )
 
 $ErrorActionPreference = "Stop"
@@ -36,18 +38,19 @@ if (-not $ThreadId) { $ThreadId = $SessionId }
 if (-not $TurnId) { $TurnId = "manual-turn-" + ([guid]::NewGuid().ToString("N")) }
 
 $payload = [ordered]@{
-    type       = if ($Status -eq "completed") { "task.completed" } else { "task.failed" }
-    status     = $Status
-    session_id = $SessionId
-    thread_id  = $ThreadId
-    turn_id    = $TurnId
-    cwd        = $ProjectPath
-    title      = $TaskTitle
-    summary    = $Summary
-    agent_name = $AgentName
-    llm_model  = $LlmModel
-    owner_name = $OwnerName
-    machine_id = $MachineId
+    type            = if ($Status -eq "completed") { "task.completed" } else { "task.failed" }
+    status          = $Status
+    session_id      = $SessionId
+    thread_id       = $ThreadId
+    turn_id         = $TurnId
+    cwd             = $ProjectPath
+    title           = $TaskTitle
+    summary         = $Summary
+    agent_name      = $AgentName
+    llm_model       = $LlmModel
+    owner_name      = $OwnerName
+    machine_id      = $MachineId
+    attachment_path = $Attachment
 }
 
 $payloadJson = $payload | ConvertTo-Json -Depth 10
