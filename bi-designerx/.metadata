@@ -1,0 +1,12 @@
+{
+  "name": "bi-designerx",
+  "version": "0.1.0",
+  "description": "End-to-end BI dashboard design workflow for non-designers. AI-driven design generation in Paper.design with Canvas Element Map (CEM) management system.",
+  "category": "Design & BI",
+  "status": "draft",
+  "command": "/bidx",
+  "aliases": ["/bi-designerx"],
+  "dependencies": ["paper-mcp", "frontend-design"],
+  "author": "Jimmy (OWNER) + Magneto (Claude Code)",
+  "created": "2026-03-24"
+}

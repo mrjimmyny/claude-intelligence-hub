@@ -1,8 +1,8 @@
 # 🗺️ Claude Intelligence Hub - Visual Skill Router
 
-**Version:** 2.19.0
+**Version:** 2.25.0
 **Status:** 🟢 Active & Synchronized
-**Registry:** 20 Production Skills
+**Registry:** 21 Production Skills
 
 ---
 
@@ -10,7 +10,7 @@
 
 | Metric | Count | Status |
 | :--- | :--- | :--- |
-| **Total Skills** | 20 | ✅ Verified |
+| **Total Skills** | 21 | ✅ Verified |
 | **Governance** | 100% | 🟢 Compliant |
 | **Architecture** | 3-Tier | 🏗️ Structured |
 
@@ -55,6 +55,7 @@
 | 15 | **codex-governance-framework** | v1.0.0 | `/governance` | Institutional governance docs |
 | 16 | **daily-tasks-oih** | v1.0.0 | `/daily-tasks-oih` | Daily tasks pool and per-agent execution workflow |
 | 17 | **docx-indexer** | v1.4.0 | `/docx-indexer` | Global document indexing + semantic enrichment + semantic search baseline |
+| 21 | **bi-designerx** | v0.1.0 | `/bidx` | BI dashboard design for non-designers (Paper.design + CEM system) |
 
 ---
 
@@ -152,6 +153,16 @@
 - **Command:** `/notebooklmx`
 - **Description:** Unified programmatic interface for Google NotebookLM. Content generation (audio, video, infographics, slides, quizzes, flashcards, mind maps, data tables, reports), Clarity-First design system, 15 PDF catalog + 5 Havas brand infographic templates, spaced generation protocol, cross-tool auth (nlm + notebooklm-py), MCP integration.
 - **Triggers:** "create a podcast", "generate infographic", "notebooklm", "make a quiz", "summarize these URLs"
+
+### 21. bi-designerx
+- **Path:** `bi-designerx/`
+- **Version:** v0.1.0
+- **Tier:** 3 (Explicit/On-Demand)
+- **Command:** `/bidx`
+- **Aliases:** `/bi-designerx`
+- **Description:** End-to-end BI dashboard design workflow for non-designers. AI-driven design generation in Paper.design with Canvas Element Map (CEM) management system. 7-phase pipeline (P0 Kickstart → P6 Version Lock), Multi-Agent Paper Protocol for concurrent artboard access, 7-artifact CEM Package per locked version, front-end agnostic (PBI, Tableau, Looker).
+- **Dependencies:** Paper MCP (`http://127.0.0.1:29979/mcp`), `frontend-design` plugin
+- **Key files:** `_skills/bi-designerx/` (technical), `obsidian/CIH/projects/skills/bi-designerx/` (documental)
 
 ---
 

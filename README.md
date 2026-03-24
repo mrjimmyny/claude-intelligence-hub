@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.24.1-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.25.0-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -71,7 +71,7 @@ The **Claude Intelligence Hub** is a centralized system that:
 
 > **How much effort would this take to build manually?**
 
-This hub represents **19 production-ready skills, 310KB of documentation, 530+ automated tests, and a complete CI/CD pipeline**. But here's the surprising part: it was built in **41 days** using AI-assisted development.
+This hub represents **20 skill collections (19 production + 1 draft), 310KB of documentation, 530+ automated tests, and a complete CI/CD pipeline**. But here's the surprising part: it was built in **41 days** using AI-assisted development.
 
 ### The Numbers
 
@@ -195,6 +195,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[codex-task-notifier](codex-task-notifier/)** | v1.1.0 | ✅ Production | Codex task completion email notifier | Local Windows-first HTTPS pipeline (Resend -> Mailgun), explicit task-end emails, dynamic agent subjects, cross-machine portable, file attachments. |
 | **[daily-doc-information](daily-doc-information/)** | v1.5.0 | ✅ Production | Documentation governance automation | Session docs, daily executive reports, project governance operations, English-first embedded templates, orphan detection, LLM model tracking, and cross-agent/cross-machine portability. |
 | **[notebooklmx](notebooklmx/)** | v1.1.0 | ✅ Production | Google NotebookLM automation | Unified interface for NotebookLM content generation (audio, video, infographics, slides, quizzes), Clarity-First design system, 20 style templates, spaced protocol, MCP integration. |
+| **[bi-designerx](bi-designerx/)** | v0.1.0 | ⚠️ Draft | BI dashboard design for non-designers | End-to-end AI-driven dashboard design workflow using Paper.design, CEM (Canvas Element Map) system, skin generation, and stakeholder-ready outputs. |
 
 ---
 
@@ -230,7 +231,7 @@ For complete trigger list and routing patterns, see **[HUB_MAP.md](HUB_MAP.md)**
 git clone https://github.com/mrjimmyny/claude-intelligence-hub.git
 cd claude-intelligence-hub
 
-# Run automated setup (installs 19 production skills)
+# Run automated setup (installs 20 skills)
 .\scripts\setup_local_env.ps1
 
 # Force recreate existing junctions (if needed)
@@ -254,7 +255,7 @@ bash scripts/setup_local_env.sh --force
 ```
 
 **What it does:**
-- ✅ Auto-installs 19 production skills (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih, docx-indexer, codex-task-notifier, daily-doc-information)
+- ✅ Auto-installs 20 skills (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih, docx-indexer, codex-task-notifier, daily-doc-information, bi-designerx)
 - ✅ Creates junctions/symlinks (auto-sync with Git)
 - ✅ Validates installation with integrity checks
 - ✅ Takes ~15 minutes from zero to production
@@ -517,6 +518,10 @@ claude-intelligence-hub/
 │
 ├── 📁 notebooklmx/                   # ⭐ NotebookLM Automation (v1.1.0)
 │   ├── SKILL.md                     # Operational protocol & template library
+│   └── .metadata                    # Version metadata
+│
+├── 📁 bi-designerx/                  # ⭐ BI Dashboard Design for Non-Designers (v0.1.0)
+│   ├── SKILL.md                     # Operational protocol & CEM workflow
 │   └── .metadata                    # Version metadata
 │
 ├── 📁 docx-indexer/                  # ⭐ Global Document Indexing + Semantic Search Baseline (v1.4.0)
