@@ -5,7 +5,7 @@ description: End-to-end BI dashboard design workflow for non-designers. Generate
 command: /bidx
 aliases: [/bi-designerx]
 category: Design & BI
-status: draft
+status: production
 dependencies:
   - paper-mcp (http://127.0.0.1:29979/mcp)
   - frontend-design (claude-plugins-official)
@@ -14,7 +14,7 @@ dependencies:
 # bi-designerx
 
 **Version:** 0.1.0
-**Status:** Draft (Phase 00 — Pre-Project/Testing validated)
+**Status:** Production (Phase 00 validated — CEM system production-ready, 3 locked versions)
 **Published:** 2026-03-24
 **Maintained by:** Magneto (Claude Code)
 **Project:** bi-designerx

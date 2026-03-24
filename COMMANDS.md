@@ -43,6 +43,7 @@
 | Command | Aliases | Skill | Description |
 |---|---|---|---|
 | `/aop` | /orchestrate, /delegate | agent-orchestration-protocol | Multi-agent coordination framework |
+| `/bidx` | /bi-designerx | bi-designerx | End-to-end BI dashboard design for non-designers. Paper.design + CEM system, 7-phase pipeline, Multi-Agent Protocol. |
 | `/catalog` | /core | core_catalog | System configurations & bootstrap data |
 | `/codex-task-notifier` | /ctn | codex-task-notifier | Local Windows-first task completion email notifier |
 | `/context-guardian` | /guardian, /switch | context-guardian | Account switching (Xavier ↔ Magneto) |
@@ -53,6 +54,7 @@
 | `/gdrive-sync` | /gdrive | gdrive-sync-memoria | Sync ChatLLM Teams content to session-memoria |
 | `/governance` | /codex | codex-governance-framework | Institutional governance framework |
 | `/memoria` | /memory, /save | session-memoria | Permanent conversation storage |
+| `/notebooklmx` | /nblmx | notebooklmx | Unified programmatic interface for Google NotebookLM. Content generation, Clarity-First design, infographic styles, spaced protocol. |
 | `/pbi` | /powerbi | pbi-claude-skills | Power BI PBIP optimization |
 | `/preferences` | /prefs, /jimmy | jimmy-core-preferences | Master AI behavior framework |
 | `/registry` | /register-session | claude-session-registry | Session tracking & backup |
@@ -286,5 +288,5 @@ The repo-auditor automatically validates:
 
 ---
 
-**Last Updated:** 2026-03-18
-**Version:** 2.16.0
+**Last Updated:** 2026-03-24
+**Version:** 2.25.0

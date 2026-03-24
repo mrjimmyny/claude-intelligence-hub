@@ -19,8 +19,8 @@ Successfully developed and deployed a **complete AI intelligence system** that t
 
 | Component | Version | Status | Key Metric |
 |-----------|---------|--------|------------|
-| **Hub Repository** | 2.25.0 | ✅ Production | 20 skill collections, HUB_MAP routing, CIH-ROADMAP |
-| **Jimmy Core Preferences** | 3.0.0 | ✅ Production | Global cross-agent framework, prompt governance, Documentation Language Standard, hybrid session governance, curator-only daily reports, mandatory project sync before session close, project status summary standard, DAX overlay, AOP dispatch guardrails, and global skill symlink integrity |
+| **Hub Repository** | 2.25.0 | ✅ Production | 21 skill collections, HUB_MAP routing, CIH-ROADMAP |
+| **Jimmy Core Preferences** | 3.4.0 | ✅ Production | Global cross-agent framework, prompt governance, Documentation Language Standard, hybrid session governance, curator-only daily reports, mandatory project sync before session close, project status summary standard, DAX overlay, AOP dispatch guardrails, and global skill symlink integrity |
 | **Session Memoria** | 1.2.0 | ✅ Production | 3-tier archiving, 200x faster indexing |
 | **PBI Claude Skills** | 1.3.0 | ✅ Production | 50-97% token savings |
 | **GDrive Sync Memoria** | 1.0.0 | ✅ Production | ChatLLM integration |
@@ -38,8 +38,8 @@ Successfully developed and deployed a **complete AI intelligence system** that t
 | **daily-tasks-oih** | 1.0.0 | ✅ Production | Pool capture, per-agent dispatch, and task execution workflow |
 | **docx-indexer** | 1.4.0 | ✅ Production | Global document indexing, semantic enrichment, and semantic search baseline |
 | **codex-task-notifier** | 1.1.0 | ✅ Production | Local Windows-first task completion email notifier |
-| **daily-doc-information** | 1.2.0 | ✅ Production | Session docs, daily reports, project governance automation |
-| **bi-designerx** | 0.1.0 | ⚠️ Draft | End-to-end BI dashboard design for non-designers, CEM system |
+| **daily-doc-information** | 1.5.0 | ✅ Production | Session docs, daily reports, project governance automation |
+| **bi-designerx** | 0.1.0 | ✅ Production | End-to-end BI dashboard design for non-designers, CEM system |
 | **Windows Junction Setup** | 1.0.0 | ✅ Production | Auto-sync to Git |
 | **Mobile Support** | 1.0.0 | ✅ Production | MOBILE_SESSION_STARTER.md |
 | **Cross-Device Sync** | - | ✅ Active | Desktop ↔ Mobile via Git |
@@ -196,7 +196,7 @@ Module 2 transformed the hub from a skill repository into a complete AI intellig
 
 ### Module 2 Components
 
-**1. jimmy-core-preferences (v2.3.0)**
+**1. jimmy-core-preferences (v3.4.0)**
 - Master AI behavior framework
 - 7 workflow patterns
 - Token economy enforcement
@@ -239,7 +239,7 @@ Module 2 transformed the hub from a skill repository into a complete AI intellig
 ### Module 2 Deliverables
 
 **Skills:**
-- `jimmy-core-preferences/` (v2.3.0)
+- `jimmy-core-preferences/` (v3.4.0)
 - `session-memoria/` (v1.2.0)
 - `gdrive-sync-memoria/` (v1.0.0)
 - `claude-session-registry/` (v1.1.0)
@@ -588,7 +588,7 @@ Module 4 transforms the Claude Intelligence Hub from a production system into an
 
 ## 📦 Skill Collections Overview
 
-### 1. Jimmy Core Preferences (v2.0.0)
+### 1. Jimmy Core Preferences (v3.4.0)
 
 **Purpose:** Global cross-agent operating framework — prompts, sessions, DAX overlay, cross-agent bootstrap
 
@@ -1093,7 +1093,7 @@ Any Device → Edit files → Git commit + push
 ### Skill Collection Stats
 | Collection | Files | Size | Auto-Load | Version | Status |
 |------------|-------|------|-----------|---------|--------|
-| jimmy-core-preferences | 5 | ~80KB | ✅ Yes | v2.3.0 | ✅ Production |
+| jimmy-core-preferences | 5 | ~80KB | ✅ Yes | v3.4.0 | ✅ Production |
 | session-memoria | 15+ | ~70KB | ✅ Yes | v1.2.0 | ✅ Production |
 | pbi-claude-skills | 20+ | ~50KB | ⚠️ Project | v1.3.0 | ✅ Production |
 

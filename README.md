@@ -30,16 +30,18 @@ All skills are available as **slash commands** for instant access. Just type `/c
 | **xavier-memory-sync** | `/xavier-sync` | /sync-memory | Memory sync to Google Drive |
 | **context-guardian** | `/context-guardian` | /guardian, /switch | Account switching (Xavier ↔ Magneto) |
 | **conversation-memoria** | `/conversation` | /conv, /history | Save/Load session history |
-| **agent-orchestration** | `/aop` | /orchestrate, /delegate | Multi-agent coordination |
+| **agent-orchestration-protocol** | `/aop` | /orchestrate, /delegate | Multi-agent coordination |
 | **gdrive-sync-memoria** | `/gdrive-sync` | /gdrive | Google Drive integration |
 | **claude-session-registry** | `/registry` | /register-session | Session tracking & backup |
 | **x-mem** | `/xmem` | /learn, /recall | Self-learning from failures/successes |
 | **core_catalog** | `/catalog` | /core | System configurations & bootstrap |
 | **daily-doc-information** | `/daily-doc-information` | - | Session docs, daily reports, and project governance automation |
-| **codex-governance** | `/governance` | /codex | Institutional governance framework |
+| **codex-governance-framework** | `/governance` | /codex | Institutional governance framework |
 | **daily-tasks-oih** | `/daily-tasks-oih` | /dtoih, /daily-tasks | Daily tasks pool and per-agent execution workflow |
 | **docx-indexer** | `/docx-indexer` | /dxi | Global document indexing + semantic enrichment + semantic search baseline |
 | **codex-task-notifier** | `/codex-task-notifier` | /ctn | Local Windows-first email notifier for Codex task completion |
+| **notebooklmx** | `/notebooklmx` | /nlmx | Google NotebookLM automation (audio, video, infographics, slides, quizzes) |
+| **bi-designerx** | `/bidx` | /bi-designer | BI dashboard design for non-designers (Paper.design + CEM system) |
 
 **Example usage:**
 ```bash
@@ -71,20 +73,20 @@ The **Claude Intelligence Hub** is a centralized system that:
 
 > **How much effort would this take to build manually?**
 
-This hub represents **20 skill collections (19 production + 1 draft), 310KB of documentation, 530+ automated tests, and a complete CI/CD pipeline**. But here's the surprising part: it was built in **41 days** using AI-assisted development.
+This hub represents **21 skill collections, 280KB+ of documentation, 160+ automated tests, and a complete CI/CD pipeline**. The initial 9 skills were built in **17 days** (Feb 2026), expanded to 21 skills by March 2026. The numbers below are from the [v2.4.0 case study](./DEVELOPMENT_IMPACT_ANALYSIS.md) and reflect the original 9-skill scope.
 
 ### The Numbers
 
 | Metric | Manual Development | AI-Assisted Development | Savings |
 |--------|-------------------|------------------------|---------|
-| **Time to Production** | 12–18 months | 41 days | **91–93%** |
-| **Person-Hours** | ~1,680–2,360 hours | ~123–205 hours | **91–93%** |
+| **Time to Production** | 12–18 months | 17 days (initial 9 skills) | **92–94%** |
+| **Person-Hours** | ~1,680–2,360 hours | ~136–218 hours | **92–94%** |
 | **Team Size Required** | 3–4 developers | 1 architect + AI team | **67–75%** |
 | **Estimated Cost** | $230k–$500k | $5k–$10k | **95–98%** |
-| **Lines of Code/Docs** | ~40k–60k lines | ~40k–60k lines | Same quality\* |
-| **Test Coverage** | 530+ tests | 530+ tests | Same rigor |
+| **Lines of Code/Docs** | ~20k–30k lines | ~20k–30k lines | Same quality\* |
+| **Test Coverage** | 160+ tests | 160+ tests | Same rigor |
 
-\*Same quality means equivalent production-grade output with 99% test pass rate, comprehensive documentation, and full CI/CD coverage — achieved in 91–93% less time.
+\*Same quality means equivalent production-grade output with 99% test pass rate, comprehensive documentation, and full CI/CD coverage — achieved in 92–94% less time.
 
 ### The Elite League: Agents & Models
 
@@ -106,7 +108,7 @@ This structure allows for a robust, multi-faceted approach to development, combi
 Traditional development wisdom says "you can't have fast, cheap, and good — pick two."
 
 **AI-assisted development breaks that rule:**
-- ✅ **Fast** — 41 days vs 12–18 months
+- ✅ **Fast** — 17 days (initial scope) vs 12–18 months
 - ✅ **Cheap** — $5k–$10k vs $230k–$500k
 - ✅ **Good** — 99% test pass rate, production-grade quality
 
@@ -195,7 +197,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[codex-task-notifier](codex-task-notifier/)** | v1.1.0 | ✅ Production | Codex task completion email notifier | Local Windows-first HTTPS pipeline (Resend -> Mailgun), explicit task-end emails, dynamic agent subjects, cross-machine portable, file attachments. |
 | **[daily-doc-information](daily-doc-information/)** | v1.5.0 | ✅ Production | Documentation governance automation | Session docs, daily executive reports, project governance operations, English-first embedded templates, orphan detection, LLM model tracking, and cross-agent/cross-machine portability. |
 | **[notebooklmx](notebooklmx/)** | v1.1.0 | ✅ Production | Google NotebookLM automation | Unified interface for NotebookLM content generation (audio, video, infographics, slides, quizzes), Clarity-First design system, 20 style templates, spaced protocol, MCP integration. |
-| **[bi-designerx](bi-designerx/)** | v0.1.0 | ⚠️ Draft | BI dashboard design for non-designers | End-to-end AI-driven dashboard design workflow using Paper.design, CEM (Canvas Element Map) system, skin generation, and stakeholder-ready outputs. |
+| **[bi-designerx](bi-designerx/)** | v0.1.0 | ✅ Production | BI dashboard design for non-designers | End-to-end AI-driven dashboard design workflow using Paper.design, CEM (Canvas Element Map) system, skin generation, and stakeholder-ready outputs. |
 
 ---
 
@@ -231,7 +233,7 @@ For complete trigger list and routing patterns, see **[HUB_MAP.md](HUB_MAP.md)**
 git clone https://github.com/mrjimmyny/claude-intelligence-hub.git
 cd claude-intelligence-hub
 
-# Run automated setup (installs 20 skills)
+# Run automated setup (installs 21 skills)
 .\scripts\setup_local_env.ps1
 
 # Force recreate existing junctions (if needed)
@@ -255,7 +257,7 @@ bash scripts/setup_local_env.sh --force
 ```
 
 **What it does:**
-- ✅ Auto-installs 20 skills (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih, docx-indexer, codex-task-notifier, daily-doc-information, bi-designerx)
+- ✅ Auto-installs 21 skills (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih, docx-indexer, codex-task-notifier, daily-doc-information, notebooklmx, bi-designerx)
 - ✅ Creates junctions/symlinks (auto-sync with Git)
 - ✅ Validates installation with integrity checks
 - ✅ Takes ~15 minutes from zero to production
@@ -289,10 +291,10 @@ cd claude-intelligence-hub
 **Setup:**
 ```bash
 # Option 1: Symlink (recommended - auto-updates)
-ln -s ~/claude-intelligence-hub/jimmy-core-preferences ~/.claude/skills/user/jimmy-core-preferences
+ln -s ~/claude-intelligence-hub/jimmy-core-preferences ~/.claude/skills/jimmy-core-preferences
 
 # Option 2: Copy (manual updates required)
-cp -r jimmy-core-preferences ~/.claude/skills/user/
+cp -r jimmy-core-preferences ~/.claude/skills/
 ```
 
 **Verify:**
@@ -326,7 +328,7 @@ claude
 # No additional setup needed if you installed jimmy-core-preferences
 
 # Standalone installation:
-ln -s ~/claude-intelligence-hub/session-memoria ~/.claude/skills/user/session-memoria
+ln -s ~/claude-intelligence-hub/session-memoria ~/.claude/skills/session-memoria
 ```
 
 **Usage:**
