@@ -417,7 +417,7 @@ obsidian/CIH/projects/[PROJECT-NAME]/
 | Agent identity | `C:\ai\_skills\bi-designerx\canvas-maps\.paper-agent-id` |
 | Write guard hook | `C:\ai\_skills\bi-designerx\scripts\paper-write-guard.sh` |
 | Excel generator | `C:\ai\_skills\bi-designerx\scripts\generate-cem-excel.js` |
-| CEM Spec | `C:\ai\obsidian\CIH\projects\skills\bi-designerx\03-spec\bidx-cem-design-spec-v1.0.md` |
+| CEM Spec | `C:\ai\obsidian\CIH\projects\skills\bi-designerx\03-spec\bidx-cem-design-spec-v1.1.md` (v1.0 preserved as historical) |
 | Q2 Protocol Spec | `C:\ai\obsidian\CIH\projects\skills\bi-designerx\03-spec\bidx-multi-agent-paper-protocol-spec-v1.0.md` |
 | Decision Log | `C:\ai\obsidian\CIH\projects\skills\bi-designerx\decisoes.md` |
 | Paper Sandbox | `https://app.paper.design/file/01KM5XES71P7BK5ZG2W99576NN` |
