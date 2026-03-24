@@ -529,6 +529,23 @@ Rules learned from real failures, user corrections, and operational incidents. E
 **Rule:** "Documento de Sessão" = the `.md` log file (one per day/agent/project, same Session ID all day). "Sessão de Trabalho" = physical chat window (multiple per day, each has own resume ID). When switching chats same day: keep same doc, register work session IDs in tracking table.
 **Related:** Section G
 
+### R-13. Never Dump Files in Repository Root
+**Origin:** FND-0025 — Playwright screenshots and test outputs dumped in `C:\ai\` root, polluting the workspace.
+**Rule:** NEVER create files in the repository root (`C:\ai\`). ALL generated artifacts (screenshots, test outputs, scripts, temp files) MUST go to the appropriate project directory: `_skills/<project>/` for skill technical artifacts, `projects/<project>/` for non-skill technical artifacts. When using tools that default to CWD output (Playwright, pandoc, etc.), ALWAYS specify an absolute path in the project directory. If unsure where a file belongs, ask Jimmy.
+**Related:** Workspace hygiene
+
+### R-14. Email Fallback — GWS Gmail Unavailable → Use Resend
+**Origin:** FND-0027 — Agent failed to use the fallback email pipeline, leaving Jimmy without the summary email.
+**Rule:** When GWS Gmail MCP is unavailable (auth expired, "Needs authentication", MCP not connected), do NOT report "can't send email." Instead, fall back to the Resend pipeline via `codex-task-notifier` skill.
+
+**Fallback order:**
+1. Try GWS Gmail MCP (`claude.ai Gmail`)
+2. If unavailable → use `codex-task-notifier` Resend → Mailgun pipeline
+3. If both fail → report failure with both attempted methods
+
+**How to apply:** Before any email send attempt, check if GWS Gmail MCP shows "Needs authentication" in `claude mcp list`. If yes, skip directly to Resend.
+**Related:** Section N
+
 ---
 
 *Part of the [Claude Intelligence Hub](https://github.com/mrjimmyny/claude-intelligence-hub)*
