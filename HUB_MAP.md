@@ -2,7 +2,7 @@
 
 **Version:** 2.19.0
 **Status:** 🟢 Active & Synchronized
-**Registry:** 19 Production Skills
+**Registry:** 20 Production Skills
 
 ---
 
@@ -10,7 +10,7 @@
 
 | Metric | Count | Status |
 | :--- | :--- | :--- |
-| **Total Skills** | 19 | ✅ Verified |
+| **Total Skills** | 20 | ✅ Verified |
 | **Governance** | 100% | 🟢 Compliant |
 | **Architecture** | 3-Tier | 🏗️ Structured |
 
@@ -38,6 +38,7 @@
 | 12 | **agent-orchestration-protocol** | v4.0.1 | `/aop` | "orchestrate", "delegate" |
 | 18 | **codex-task-notifier** | v1.1.0 | `/codex-task-notifier` | "email me when done", "me manda um email" |
 | 19 | **daily-doc-information** | v1.5.0 | `/daily-doc-information` | Session docs, daily reports, and project governance automation |
+| 20 | **notebooklmx** | v1.0.0 | `/notebooklmx` | "create a podcast", "generate infographic", "notebooklm", NotebookLM content generation |
 
 ### 🟡 Tier 3: Explicit (On-Demand)
 *Only loads when manually invoked by the user.*
@@ -143,6 +144,14 @@
 - **Description:** Automates creation, update, and closure of session documents, daily executive reports, and project documentation (PROJECT_CONTEXT, status-atual, next-step, decisoes). Cross-agent (Claude, Codex, Gemini) and cross-machine compatible.
 - **Operations:** create-session, update-session, close-session, create-daily-report, create-project, update-project-status, register-decision, update-next-step
 - **Dependencies:** None (self-contained with embedded templates)
+
+### 20. notebooklmx
+- **Path:** `notebooklmx/`
+- **Version:** v1.0.0
+- **Tier:** 2 (Context-Aware)
+- **Command:** `/notebooklmx`
+- **Description:** Unified programmatic interface for Google NotebookLM. Content generation (audio, video, infographics, slides, quizzes, flashcards, mind maps, data tables, reports), Clarity-First design system, 15 PDF catalog + 5 Havas brand infographic templates, spaced generation protocol, cross-tool auth (nlm + notebooklm-py), MCP integration.
+- **Triggers:** "create a podcast", "generate infographic", "notebooklm", "make a quiz", "summarize these URLs"
 
 ---
 

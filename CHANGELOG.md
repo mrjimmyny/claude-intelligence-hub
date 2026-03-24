@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.24.0] - 2026-03-23
+### Added
+- **notebooklmx** v1.0.0 — NEW SKILL. Unified programmatic interface for Google NotebookLM. Clarity-First design system, 15 PDF catalog + 5 Havas brand infographic templates, spaced generation protocol, cross-tool auth (nlm + notebooklm-py), MCP integration. 20/20 infographic tests PASS. FND-0008 resolved (spaced protocol). Authorized by Jimmy.
+### Changed
+- **CLAUDE.md**, **AGENTS.md**, **GEMINI.md** — NotebookLM Spaced Protocol rule added (MANDATORY).
+
 ## [2.23.3] - 2026-03-23
 ### Changed
 - **jimmy-core-preferences** v3.3.0 -> v3.4.0 — Section R "Learned Rules from Field Experience": migrated 12 behavioral feedback rules from agent-local memory to cross-agent canonical source. Added feedback governance rule (all behavioral feedback MUST go to Section R). Pre-Start gate documented.
