@@ -534,17 +534,18 @@ Rules learned from real failures, user corrections, and operational incidents. E
 **Rule:** NEVER create files in the repository root (`C:\ai\`). ALL generated artifacts (screenshots, test outputs, scripts, temp files) MUST go to the appropriate project directory: `_skills/<project>/` for skill technical artifacts, `projects/<project>/` for non-skill technical artifacts. When using tools that default to CWD output (Playwright, pandoc, etc.), ALWAYS specify an absolute path in the project directory. If unsure where a file belongs, ask Jimmy.
 **Related:** Workspace hygiene
 
-### R-14. Email Fallback — GWS Gmail Unavailable → Use Resend
-**Origin:** FND-0027 — Agent failed to use the fallback email pipeline, leaving Jimmy without the summary email.
-**Rule:** When GWS Gmail MCP is unavailable (auth expired, "Needs authentication", MCP not connected), do NOT report "can't send email." Instead, fall back to the Resend pipeline via `codex-task-notifier` skill.
+### R-14. Email Fallback — 3-Tier Pipeline
+**Origin:** FND-0027 — Agent failed to use the fallback email pipeline, leaving Jimmy without the summary email. Updated per FND-0028 to add gws CLI as Tier 2.
+**Rule:** When GWS Gmail MCP is unavailable (auth expired, "Needs authentication", MCP not connected), do NOT report "can't send email." Instead, fall through the tiered pipeline below.
 
 **Fallback order:**
-1. Try GWS Gmail MCP (`claude.ai Gmail`)
-2. If unavailable → use `codex-task-notifier` Resend → Mailgun pipeline
-3. If both fail → report failure with both attempted methods
+1. **Tier 1 — GWS Gmail MCP** (`claude.ai Gmail`)
+2. **Tier 2 — gws CLI** (`gws gmail +send --to X --subject Y --body Z`) — authenticated as misteranalista@gmail.com. Check availability with `gws auth status`.
+3. **Tier 3 — Resend** (`codex-task-notifier` Resend → Mailgun pipeline)
+4. If all three fail → report failure with all attempted methods
 
-**How to apply:** Before any email send attempt, check if GWS Gmail MCP shows "Needs authentication" in `claude mcp list`. If yes, skip directly to Resend.
-**Related:** Section N
+**How to apply:** Before any email send attempt, check if GWS Gmail MCP shows "Needs authentication" in `claude mcp list`. If yes, try gws CLI (`gws auth status` to verify). If gws CLI also fails, fall back to Resend.
+**Related:** Section N, FND-0028
 
 ---
 
