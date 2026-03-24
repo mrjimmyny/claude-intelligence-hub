@@ -1,6 +1,6 @@
 {
   "name": "notebooklmx",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Unified programmatic interface for Google NotebookLM with Clarity-First design system, curated infographic style library, and brand template support.",
   "status": "production",
   "author": "Magneto (Claude Code - Opus 4.6)",

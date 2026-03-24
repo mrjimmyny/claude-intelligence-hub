@@ -1,6 +1,6 @@
 ---
 name: notebooklmx
-version: 1.0.0
+version: 1.1.0
 description: Unified programmatic interface for Google NotebookLM with Clarity-First design system, curated infographic style library, and brand template support
 command: /notebooklmx
 aliases: [/nblmx]
@@ -10,7 +10,7 @@ status: production
 
 # notebooklmx
 
-**Version:** 1.0.0
+**Version:** 1.1.0
 **Status:** Production (Published to claude-intelligence-hub)
 **Category:** Content Generation & Research
 
@@ -111,7 +111,7 @@ Respect Google's undocumented rate limits:
 - **Infographic rate limit window:** Exceeds 24 hours (rolling, not calendar-based)
 - **Other artifacts:** Less restrictive, but space requests reasonably
 - **On rate limit error:** Switch to non-infographic tasks immediately. Do not retry.
-- **Infographic testing:** SUSPENDED until Jimmy's explicit authorization
+- **Spaced protocol:** Generate 1, wait for completion, pause 1-2 min, then next. See FND-0008.
 
 ---
 
@@ -317,12 +317,12 @@ Custom style prompts with Clarity-First preamble embedded. Used via the `DESCRIP
 | 07 | nblmx-minimalist | Minimalist / Clean | Executive, modern brands | Yes |
 | 08 | nblmx-collage | Collage / Cutouts | Creative briefs, art | Yes |
 | 09 | nblmx-corporate | Corporate / Institutional | Annual reports, governance | Yes |
-| 10 | nblmx-cartoon | Illustrative / Cartoon | Training, youth content | Pending |
-| 11 | nblmx-tech-digital | Technological / Digital | Tech, cybersecurity, AI | Pending |
-| 12 | nblmx-handwritten | Handwritten / Manuscript | Personal, brainstorming | Pending |
-| 13 | nblmx-art-deco | Art Deco / Gatsby | Luxury, events, awards | Pending |
-| 14 | nblmx-timeline | Timeline | Project timelines, roadmaps | Pending |
-| 15 | nblmx-blueprint | Blueprint / Technical | Technical specs, engineering | Pending |
+| 10 | nblmx-cartoon | Illustrative / Cartoon | Training, youth content | Yes |
+| 11 | nblmx-tech-digital | Technological / Digital | Tech, cybersecurity, AI | Yes |
+| 12 | nblmx-handwritten | Handwritten / Manuscript | Personal, brainstorming | Yes |
+| 13 | nblmx-art-deco | Art Deco / Gatsby | Luxury, events, awards | Yes |
+| 14 | nblmx-timeline | Timeline | Project timelines, roadmaps | Yes |
+| 15 | nblmx-blueprint | Blueprint / Technical | Technical specs, engineering | Yes |
 
 Full prompts: `obsidian/CIH/projects/skills/notebooklmx/07-templates/nblmx-infographic-style-templates-v1.0.md`
 
@@ -370,9 +370,9 @@ Custom brand-aligned templates with Havas visual identity.
 |---|---|---|---|
 | nblmx-havas-corporate | H01: Corporate Overview | Company presentations, stakeholder reports | Yes |
 | nblmx-havas-dashboard | H02: Data Dashboard | KPI reports, performance metrics | Yes |
-| nblmx-havas-process | H03: Process Flow | Workflow docs, methodology | Pending |
-| nblmx-havas-intelligence | H04: Intelligence Report | Market intelligence, insights | Pending |
-| nblmx-havas-ecosystem | H05: Converged Ecosystem | Service offerings, capability maps | Pending |
+| nblmx-havas-process | H03: Process Flow | Workflow docs, methodology | Yes |
+| nblmx-havas-intelligence | H04: Intelligence Report | Market intelligence, insights | Yes |
+| nblmx-havas-ecosystem | H05: Converged Ecosystem | Service offerings, capability maps | Yes |
 
 Brand spec: Red #E60000, Blue #B3DAE0, Black, White. Baikal font. Circles + pill shapes.
 

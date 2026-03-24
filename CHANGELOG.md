@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.24.1] - 2026-03-23
+### Changed
+- **notebooklmx** v1.0.0 -> v1.1.0 — FND-0026: Fixed stale test statuses (Pending -> Yes for all 20 styles). Removed SUSPENDED text. Added comprehensive README.md with workflow diagram, style gallery, best practices, FAQ, and file structure.
+
 ## [2.24.0] - 2026-03-23
 ### Added
 - **notebooklmx** v1.0.0 — NEW SKILL. Unified programmatic interface for Google NotebookLM. Clarity-First design system, 15 PDF catalog + 5 Havas brand infographic templates, spaced generation protocol, cross-tool auth (nlm + notebooklm-py), MCP integration. 20/20 infographic tests PASS. FND-0008 resolved (spaced protocol). Authorized by Jimmy.

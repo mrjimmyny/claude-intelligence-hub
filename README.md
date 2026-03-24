@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.24.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.24.1-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -194,7 +194,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[docx-indexer](docx-indexer/)** | v1.4.0 | ✅ Production | Global document indexing system | Append-only JSON index, UUID identity, SHA256 hashing, structural telemetry, semantic enrichment, validated Voyage-backed semantic search baseline, and explicit invocation judgment rules. |
 | **[codex-task-notifier](codex-task-notifier/)** | v1.1.0 | ✅ Production | Codex task completion email notifier | Local Windows-first HTTPS pipeline (Resend -> Mailgun), explicit task-end emails, dynamic agent subjects, cross-machine portable, file attachments. |
 | **[daily-doc-information](daily-doc-information/)** | v1.5.0 | ✅ Production | Documentation governance automation | Session docs, daily executive reports, project governance operations, English-first embedded templates, orphan detection, LLM model tracking, and cross-agent/cross-machine portability. |
-| **[notebooklmx](notebooklmx/)** | v1.0.0 | ✅ Production | Google NotebookLM automation | Unified interface for NotebookLM content generation (audio, video, infographics, slides, quizzes), Clarity-First design system, 20 style templates, spaced protocol, MCP integration. |
+| **[notebooklmx](notebooklmx/)** | v1.1.0 | ✅ Production | Google NotebookLM automation | Unified interface for NotebookLM content generation (audio, video, infographics, slides, quizzes), Clarity-First design system, 20 style templates, spaced protocol, MCP integration. |
 
 ---
 
@@ -515,7 +515,7 @@ claude-intelligence-hub/
 │   ├── .metadata                    # Version metadata
 │   └── README.md                    # User documentation
 │
-├── 📁 notebooklmx/                   # ⭐ NotebookLM Automation (v1.0.0)
+├── 📁 notebooklmx/                   # ⭐ NotebookLM Automation (v1.1.0)
 │   ├── SKILL.md                     # Operational protocol & template library
 │   └── .metadata                    # Version metadata
 │
