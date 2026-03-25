@@ -1,6 +1,6 @@
 {
   "name": "daily-doc-information",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Automates creation, update, and closure of session documents, daily executive reports, and project documentation governance. Cross-agent and cross-machine compatible.",
   "status": "production",
   "author": "Magneto (Claude Code - Opus 4.6)",

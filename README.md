@@ -195,7 +195,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[daily-tasks-oih](daily-tasks-oih/)** | v1.0.0 | ✅ Production | Daily task workflow for OIH | Pool capture, per-agent dispatch, execution tracking, close protocol, English-only operational docs. |
 | **[docx-indexer](docx-indexer/)** | v1.4.0 | ✅ Production | Global document indexing system | Append-only JSON index, UUID identity, SHA256 hashing, structural telemetry, semantic enrichment, validated Voyage-backed semantic search baseline, and explicit invocation judgment rules. |
 | **[codex-task-notifier](codex-task-notifier/)** | v1.1.0 | ✅ Production | Codex task completion email notifier | Local Windows-first HTTPS pipeline (Resend -> Mailgun), explicit task-end emails, dynamic agent subjects, cross-machine portable, file attachments. |
-| **[daily-doc-information](daily-doc-information/)** | v1.5.0 | ✅ Production | Documentation governance automation | Session docs, daily executive reports, project governance operations, English-first embedded templates, orphan detection, LLM model tracking, and cross-agent/cross-machine portability. |
+| **[daily-doc-information](daily-doc-information/)** | v1.6.0 | ✅ Production | Documentation governance automation | Session docs, daily executive reports, project governance operations, strategic project portfolio, stale session detection (PP-10), LLM model tracking, and cross-agent/cross-machine portability. |
 | **[notebooklmx](notebooklmx/)** | v1.1.0 | ✅ Production | Google NotebookLM automation | Unified interface for NotebookLM content generation (audio, video, infographics, slides, quizzes), Clarity-First design system, 20 style templates, spaced protocol, MCP integration. |
 | **[bi-designerx](bi-designerx/)** | v0.1.0 | ✅ Production | BI dashboard design for non-designers | End-to-end AI-driven dashboard design workflow using Paper.design, CEM (Canvas Element Map) system, skin generation, and stakeholder-ready outputs. |
 
@@ -513,7 +513,7 @@ claude-intelligence-hub/
 │   ├── fixtures/                    # Test payload fixtures
 │   └── tests/                       # Test directory
 │
-├── 📁 daily-doc-information/         # ⭐ Daily Documentation Information (v1.5.0)
+├── 📁 daily-doc-information/         # ⭐ Daily Documentation Information (v1.6.0)
 │   ├── SKILL.md                     # DDI operational protocol
 │   ├── .metadata                    # Version metadata
 │   └── README.md                    # User documentation

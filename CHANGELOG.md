@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.25.1] - 2026-03-24
+
+### Changed
+- **daily-doc-information** v1.5.0 -> v1.6.0 — Strategic Project Portfolio: new `update-portfolio` operation, portfolio document. PP-09 retired (orphan detection). PP-10 added (stale session detection, FND-0031). Checkpoint script and hook updated.
+- **jimmy-core-preferences** — Section G2 updated: PP-09 removed, PP-10 (stale sessions) added. Cross-agent pointer docs updated.
+
 ## [2.25.0] - 2026-03-24
 
 ### Added

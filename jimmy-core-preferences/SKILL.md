@@ -252,7 +252,7 @@ When Jimmy signals ANY form of work stoppage — pause, break, day close, or per
 - **"close day" / "call it a day" / "call the day" / "day close" / "end of day"** — triggers full Pre-Close gate (PP-01 through PC-11)
 - Any indication that work is stopping, even temporarily
 
-**Automated Enforcement (Claude Code only):** A `UserPromptSubmit` hook at `.claude/hooks/checkpoint-gate.sh` detects these keywords and injects the applicable checklist as `additionalContext`. Codex and Gemini agents must detect keywords manually and follow the same protocol. A mechanical verification script at `_skills/daily-doc-information/scripts/checkpoint-verify.sh` handles PP-06, PP-07, and PP-09 checks for all agents.
+**Automated Enforcement (Claude Code only):** A `UserPromptSubmit` hook at `.claude/hooks/checkpoint-gate.sh` detects these keywords and injects the applicable checklist as `additionalContext`. Codex and Gemini agents must detect keywords manually and follow the same protocol. A mechanical verification script at `_skills/daily-doc-information/scripts/checkpoint-verify.sh` handles PP-06, PP-07, and PP-10 checks for all agents.
 
 ### Pre-Pause Checklist (9 items — mandatory for ANY pause)
 
@@ -268,7 +268,9 @@ The agent must verify ALL of the following and report the result to Jimmy:
 | PP-06 | Findings counters match | `findings-master-index.md` frontmatter counters match actual table data |
 | PP-07 | Findings flag correct | Session doc `has_findings` flag matches whether findings exist in the session |
 | PP-08 | No stale values | No outdated percentages, scores, phase names, or status values anywhere |
-| PP-09 | Wikilink orphans checked | No new orphaned `.md` files introduced under `obsidian/` during this session (run `_skills/daily-doc-information/orphan-detector.sh` or manual check). Pre-existing orphans are reported but do not block. |
+| PP-10 | Stale sessions closed | No session docs from previous sessions still in `status: in_progress` with `closed_at_local: pending`. Current session excluded. Stale sessions MUST be closed before confirming checkpoint. |
+
+> **Note:** PP-09 (wikilink orphans) was retired on 2026-03-24. The orphan detector remains available as a standalone tool (`_skills/daily-doc-information/orphan-detector.sh`) but no longer blocks checkpoint gates.
 
 ### Pre-Close Checklist (extends Pre-Pause — mandatory for day close / session close)
 

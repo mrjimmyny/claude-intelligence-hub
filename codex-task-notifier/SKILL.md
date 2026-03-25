@@ -122,6 +122,53 @@ The `-Attachment` parameter accepts a file path. When provided:
 - Primary recipient: `mrjimmyny@gmail.com`
 - Preferred sender: `notify@mrjimmyny.org`
 
+## Resend CLI (Alternative Channel)
+
+As of 2026-03-24, the **Resend CLI** (`resend-cli` v1.6.0) is installed globally and available as an alternative to the PowerShell HTTP pipeline for Resend operations.
+
+**Installation (already done on M1):**
+```powershell
+# Windows (PowerShell)
+irm https://resend.com/install.ps1 | iex
+# Or via npm (cross-platform)
+npm install -g resend-cli
+```
+
+**Authentication for agents:**
+```bash
+# Authenticate using existing CTN_RESEND_API_KEY (no browser needed)
+resend login --key $CTN_RESEND_API_KEY
+# Or pass key inline per command
+resend emails send --api-key $CTN_RESEND_API_KEY ...
+```
+
+**Send email via CLI:**
+```bash
+resend emails send \
+  --from "notify@mrjimmyny.org" \
+  --to "mrjimmyny@gmail.com" \
+  --subject "Magneto - Task Finished" \
+  --html "<p>Task completed successfully.</p>"
+```
+
+**Key features for agents:**
+- `--json` flag or piped output → machine-readable JSON (ideal for automated validation)
+- `--api-key` flag → direct auth without browser login
+- `--quiet` → suppresses spinners, implies JSON
+- Idempotency keys supported for safe retries
+- 53 commands across 13 resources (emails, domains, API keys, contacts, broadcasts, webhooks, etc.)
+
+**When to use Resend CLI vs PowerShell pipeline:**
+| Scenario | Recommended |
+|---|---|
+| Standard task-end notification | PowerShell `send-manual-notification.ps1` (production-proven) |
+| Quick ad-hoc email from any agent | `resend emails send` CLI (simpler, no PS dependency) |
+| Agents without PowerShell (Linux, Codex) | Resend CLI (cross-platform via npm) |
+| Email with attachment | PowerShell pipeline (base64 handling built-in) |
+| Domain/API key management | Resend CLI (`resend domains`, `resend api-keys`) |
+
+**Important:** The PowerShell pipeline remains the primary production path with full failover (Resend → Mailgun). The Resend CLI is a complementary tool, not a replacement. It does NOT have Mailgun failover built in.
+
 ## Cross-Machine Notes
 
 - `C:\ai` is stable across machines — do not change.

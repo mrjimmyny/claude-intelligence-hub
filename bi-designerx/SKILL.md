@@ -275,6 +275,23 @@ These are platform-level limitations discovered during Phase 00 testing.
 | Relative coordinates | `get_computed_styles` returns child-relative positions | Conversion: `absolute = parent_pos + child_relative` (FND-0022) |
 | No layer reorder API | No MCP tool for "bring to front" / "send to back" | Create elements in z-order: bg first, text last (Decision 17) |
 | Working indicator | Auto-set on write, clears on inactivity | Visual safety net, no enforcement power |
+| Unreliable descendant map | `duplicate_nodes` can return swapped ID mappings in `descendantIdMap` (FND-0029) | Mandatory post-duplication audit (see below) |
+
+### 8.1 Post-Duplication Element Audit (MANDATORY)
+
+After ANY artboard duplication via `duplicate_nodes`, the agent MUST perform a full element audit before any design modifications. The `descendantIdMap` returned by Paper MCP is **unreliable** — adjacent elements with consecutive original IDs can have their new IDs swapped in the map.
+
+**Mandatory steps:**
+
+1. Run `get_tree_summary` (depth 4+) on the new artboard
+2. Verify ALL element names match actual positions via `get_computed_styles`
+3. Cross-reference the descendant map against the tree summary — **tree is authoritative**
+4. Fix any misplacements BEFORE proceeding with design modifications
+5. Text elements can be verified by content match (self-identifying)
+
+**This audit is non-negotiable.** Skipping it risks silent element misplacement that is invisible until manual visual inspection reveals wrong colors, overlapping elements, or misplaced content.
+
+**Reference:** FND-0029 — In the v4-to-v5 duplication, `bd_iconbg_women` and `bd_iconbg_compensation` had their v5 IDs swapped, causing the purple women icon background to appear on the turnover card.
 
 ---
 
@@ -426,7 +443,7 @@ obsidian/CIH/projects/[PROJECT-NAME]/
 
 ## 16. Decision Summary
 
-20 decisions govern this skill. Key ones:
+21 decisions govern this skill. Key ones:
 
 | # | Decision | Impact |
 |---|----------|--------|
@@ -443,6 +460,7 @@ obsidian/CIH/projects/[PROJECT-NAME]/
 | D18 | CEM Design Rationale artifact | Part of CEM Package (WHY document + technical record) |
 | D19 | Multi-Agent Paper Protocol | 1 agent/artboard, lock file, write guard |
 | D20 | P0 Kickstart | Non-designer entry point via frontend-design + Paper |
+| D21 | Post-Duplication Element Audit | Mandatory audit after duplicate_nodes (FND-0029) |
 
 Full decision log: `obsidian/CIH/projects/skills/bi-designerx/decisoes.md`
 

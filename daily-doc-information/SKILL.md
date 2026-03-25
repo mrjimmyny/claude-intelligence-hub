@@ -1,8 +1,8 @@
 ---
 name: daily-doc-information
-description: Automates creation, update, closure of session docs and daily reports, plus project governance operations (create-project, update-project-status, register-decision, update-next-step) with identity, hygiene, and gate enforcement
+description: Automates creation, update, closure of session docs and daily reports, plus project governance operations (create-project, update-project-status, register-decision, update-next-step, update-portfolio) with identity, hygiene, and gate enforcement
 command: /daily-doc-information
-version: 1.2.0
+version: 1.6.0
 category: Documentation Automation
 trigger: When user invokes /daily-doc-information or asks to create/update/close session docs, create daily reports, or perform project governance operations (create/update projects, register decisions, update next steps)
 tags:
@@ -15,7 +15,7 @@ tags:
 
 # daily-doc-information
 
-**Version:** 1.5.0
+**Version:** 1.6.0
 
 > **Objective:** Automates the creation, structured update, and clean-state closure of session documents and daily reports, plus project governance operations (project creation, status updates, decision registration, next-step management) according to the continuity-documentation contract.
 
@@ -39,6 +39,7 @@ This skill governs **documentation only**. It does NOT:
 | `update-project-status` | Update project status-atual.md | Updated status doc |
 | `register-decision` | Add decision to project decisoes.md | Updated decision log |
 | `update-next-step` | Update project next-step.md | Updated next step doc |
+| `update-portfolio` | Update Strategic Project Portfolio | Updated `strategic-project-portfolio.md` |
 
 ---
 
@@ -108,7 +109,7 @@ These inputs are **required for ALL operations**. If any is absent or empty, fir
 
 | ID | Input | Type | Notes |
 |---|---|---|---|
-| I-01 | `operation` | string | One of: `create-session`, `update-session`, `close-session`, `create-daily-report`, `create-project`, `update-project-status`, `register-decision`, `update-next-step` |
+| I-01 | `operation` | string | One of: `create-session`, `update-session`, `close-session`, `create-daily-report`, `create-project`, `update-project-status`, `register-decision`, `update-next-step`, `update-portfolio` |
 | I-02 | `agent_name` | string | Name of the invoking agent (e.g., `Magneto`) |
 | I-03 | `agent_slug` | string | Lowercase form (e.g., `magneto`) |
 | I-04 | `machine_id` | string | Hostname from real environment |
@@ -679,7 +680,48 @@ Result: PASS / FAIL
 
 ---
 
-## 10. Skip Conditions
+## 10. Operation: update-portfolio
+
+### What it does
+Updates the Strategic Project Portfolio (`obsidian/CIH/projects/strategic-project-portfolio.md`) — a single-page executive view of ALL projects with status, priority, next moves, and responsible parties. Readable in under 60 seconds.
+
+### When to trigger
+- At every checkpoint (as part of PP-01 validation)
+- At every session close (if any project changed status, phase, or priority)
+- When a new project is created
+- When a project changes phase or status
+
+### Additional Inputs
+
+| Input | Type | Notes |
+|---|---|---|
+| `portfolio_path` | path | Default: `obsidian/CIH/projects/strategic-project-portfolio.md` |
+
+### Execution Steps
+
+1. **Read current portfolio** at `portfolio_path`.
+2. **Scan all project `status-atual.md` files** (both `obsidian/CIH/projects/skills/*/status-atual.md` and `obsidian/CIH/projects/*/status-atual.md`).
+3. **Update Project Registry table** — ensure every project has an accurate row with: status, priority, phase, last activity date, next move, responsible party.
+4. **Update Portfolio Summary counters** (total, production, active, paused, archived) and frontmatter.
+5. **Update Active Projects executive detail** — add or update any project that is Active with a detailed breakdown table.
+6. **Update Paused Projects section** — list any project awaiting a decision.
+7. **Update Production Projects key stats** — version numbers and key metrics.
+8. **Add Timeline entry** for the current date if significant events occurred.
+9. **Update `last_updated` and `updated_by`** in frontmatter and body.
+10. **Verify wikilinks** — every project mentioned in the registry MUST appear in the Wikilinks section.
+
+### Portfolio Status Definitions
+
+| Status | Meaning |
+|---|---|
+| Production | Skill published and operational. No active development. |
+| Active | Currently being worked on. Has assigned next moves. |
+| Paused | Work stopped. Awaiting a decision to resume. |
+| Archived | Absorbed into another project or no longer relevant. |
+
+---
+
+## 12. Skip Conditions
 
 Skip conditions fire **BEFORE any work begins**. When a skip condition fires: abort immediately, return the skip condition ID and description. Never silently abort.
 
@@ -700,7 +742,7 @@ Skip conditions fire **BEFORE any work begins**. When a skip condition fires: ab
 
 ---
 
-## 11. Failure Modes
+## 13. Failure Modes
 
 Failure modes fire **DURING execution**. Each has a trigger condition, severity, and required fallback action.
 
@@ -725,7 +767,7 @@ Failure modes fire **DURING execution**. Each has a trigger condition, severity,
 
 ---
 
-## 12. Prohibited Behaviors
+## 14. Prohibited Behaviors
 
 | ID | Rule | Description |
 |---|---|---|
@@ -747,7 +789,7 @@ Failure modes fire **DURING execution**. Each has a trigger condition, severity,
 
 ---
 
-## 13. Documentation Hygiene Rules
+## 15. Documentation Hygiene Rules
 
 | ID | Rule | Description |
 |---|---|---|
@@ -771,7 +813,7 @@ Failure modes fire **DURING execution**. Each has a trigger condition, severity,
 
 ---
 
-## 14. Read/Write Surface Boundaries
+## 16. Read/Write Surface Boundaries
 
 ### Allowed Read Surfaces
 
@@ -821,7 +863,7 @@ Failure modes fire **DURING execution**. Each has a trigger condition, severity,
 
 ---
 
-## 15. Embedded Templates
+## 17. Embedded Templates
 
 ### 15.1 Session Document Template
 
@@ -1308,6 +1350,12 @@ See [status-atual.md](status-atual.md) for current status.
 
 #### {Responder}'s Entry
 {Response here}
+
+---
+
+## Wikilinks
+
+[[projects]] | [[{{PROJECT_NAME}}]]
 ```
 
 **Variable substitution rules for the notes file:**
@@ -1319,7 +1367,7 @@ See [status-atual.md](status-atual.md) for current status.
 
 ---
 
-## 16. Standard Status Summary
+## 18. Standard Status Summary
 
 When any agent is asked for the current status of a project, it MUST answer in this fixed shape. The data sources for each field are specified.
 
@@ -1337,10 +1385,12 @@ This format is embedded in every `PROJECT_CONTEXT.md` created by `create-project
 
 ---
 
-## 17. Version History
+## 19. Version History
 
 | Version | Date | Author | Changes |
 |---|---|---|---|
+| 1.6.0 | 2026-03-24 | Magneto (Orchestrator) | Strategic Project Portfolio: new `update-portfolio` operation (Op 10), portfolio document at `obsidian/CIH/projects/strategic-project-portfolio.md`. PP-09 retired (orphan detection removed from checkpoint gate). PP-10 added (stale session detection, FND-0031). `checkpoint-verify.sh` updated with PP-10 automation. Sections renumbered (11→12 through 17→19). |
+| 1.5.0 | 2026-03-23 | Magneto (Orchestrator) | LLM model tracking (FND-0024): `llm_model` field in session template and universal inputs (I-07). Checkpoint automation: Claude Code hook + verification script + keyword gates. |
 | 1.4.0 | 2026-03-22 | Magneto (Orchestrator) | Orphan detection: DH-17 (ORPHAN_DETECTION) hygiene rule. PP-09 check in Pre-Close gate. `orphan-detector.sh` script for automated scanning of missing `## Wikilinks` sections and true orphans (zero incoming links). Runs in ~1.5s for 370+ files. |
 | 1.3.0 | 2026-03-20 | Magneto (Orchestrator) | Findings tracking system: CS-08 (findings reconciled) as mandatory clean-state criterion for project closure. DH-16 (FINDINGS_TRACKING) hygiene rule. `has_findings` frontmatter field in session template. Conditional Findings section after Current Snapshot. Findings Summary in daily report template. Master index at `_findings/findings-master-index.md`. |
 | 1.2.0 | 2026-03-19 | Magneto (Orchestrator) | Added CS-07 (project docs synchronized) as mandatory clean-state criterion — blocks session closure if referenced project docs are stale. Added DH-15 (PROJECT_SYNC_BEFORE_CLOSE) hygiene rule. Prevents drift between session docs and project operational docs. |

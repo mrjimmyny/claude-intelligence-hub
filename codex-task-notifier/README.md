@@ -49,6 +49,10 @@ Local Windows-first notifier for Codex task completion emails.
 - The Codex TUI `notify` hook also remains supported, but it is a compatibility trail only.
 - Neither path is the recommended default while the UI-preservation requirement is mandatory.
 
+## Resend CLI
+
+The Resend CLI (`resend-cli` v1.6.0) is installed globally (`npm install -g resend-cli`) and provides a cross-platform alternative for sending emails via Resend without PowerShell. Useful for Linux agents, Codex sessions, or quick ad-hoc sends. Authenticate with `resend login --key $CTN_RESEND_API_KEY` or pass `--api-key` per command. See `SKILL.md` for full usage guide.
+
 ## Baseline transport routing
 
 - active channel: `https`
