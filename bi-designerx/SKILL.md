@@ -354,16 +354,27 @@ obsidian/CIH/projects/skills/bi-designerx/
 └── decisoes.md           # Decision log (D1-D20)
 ```
 
-### Per-Project Structure (Future Projects)
+### Per-Project Structure (PBI Projects)
 
 ```
 projects/[PROJECT-NAME]/
-├── user-start-input/     # P0 inputs (screenshots, links, descriptions)
-└── canvas-maps/          # Project-specific CEM files
+├── pbip/                 # PBI .pbip project files (Power BI Project format)
+├── user-inputs/          # P0 inputs (screenshots, links, descriptions)
+├── artifacts/            # ALL CEM package files (8 artifacts per locked version)
+│   └── <page-name>/      # One subfolder per dashboard page
+│       ├── *.json        # CEM JSON
+│       ├── *.md          # Skin baseline, DRAFT-OWNER, Rationale
+│       ├── *.png         # Screenshots
+│       ├── *.pdf         # PDF exports
+│       ├── *.html        # HTML packages
+│       └── *.xlsx        # Excel packages
+└── README.md
 
 obsidian/CIH/projects/[PROJECT-NAME]/
-└── (standard documental structure)
+└── (standard documental structure: PROJECT_CONTEXT, status-atual, next-step, decisoes)
 ```
+
+> **Note:** `canvas-maps/` exists ONLY in the skill's own technical layer (`_skills/bi-designerx/canvas-maps/`) for skill development and testing. PBI projects use `artifacts/` per PROJECT_TYPES.md convention.
 
 ---
 
@@ -429,7 +440,8 @@ obsidian/CIH/projects/[PROJECT-NAME]/
 | Skill (hub) | `C:\ai\claude-intelligence-hub\bi-designerx\` |
 | Technical layer | `C:\ai\_skills\bi-designerx\` |
 | Documental layer | `C:\ai\obsidian\CIH\projects\skills\bi-designerx\` |
-| CEM JSON files | `C:\ai\_skills\bi-designerx\canvas-maps\people-overview\` |
+| CEM JSON files (skill) | `C:\ai\_skills\bi-designerx\canvas-maps\people-overview\` |
+| CEM artifacts (PBI projects) | `C:\ai\projects\[PROJECT-NAME]\artifacts\[page-name]\` |
 | Lock file | `C:\ai\_skills\bi-designerx\canvas-maps\artboard-locks.json` |
 | Agent identity | `C:\ai\_skills\bi-designerx\canvas-maps\.paper-agent-id` |
 | Write guard hook | `C:\ai\_skills\bi-designerx\scripts\paper-write-guard.sh` |
