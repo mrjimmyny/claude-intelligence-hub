@@ -542,11 +542,13 @@ Rules learned from real failures, user corrections, and operational incidents. E
 
 **Fallback order:**
 1. **Tier 1 — gws CLI (DEFAULT):** `gws gmail +send --to mrjimmyny@gmail.com --subject "Subject" --body "<p>Body</p>" --html` — authenticated as misteranalista@gmail.com. **CRITICAL: `--html` flag is mandatory for HTML content.** Without it, tags render as visible text. Check auth: `gws auth status`.
-2. **Tier 2 — Resend:** Resend CLI (`resend emails send --api-key $CTN_RESEND_API_KEY --from "notify@mrjimmyny.org" --to mrjimmyny@gmail.com --subject "Subject" --html "<p>Body</p>"`) or PowerShell pipeline (`send-manual-notification.ps1` with Resend → Mailgun failover).
-3. **Tier 3 — GWS Gmail MCP:** `claude mcp list` → `claude.ai Gmail`. Unreliable (OAuth expires, no CLI re-auth). Use only if Tiers 1-2 both fail.
+2. **Tier 2 — Resend CLI:** `resend emails send --api-key $CTN_RESEND_API_KEY --from "notify@mrjimmyny.org" --to mrjimmyny@gmail.com --subject "Subject" --html "<p>Body</p>"`.
+3. **Tier 3 — Mailgun:** Via codex-task-notifier PowerShell pipeline (`send-manual-notification.ps1`). Mailgun is the last-resort fallback.
 4. If all three fail → report failure with all attempted methods
 
-**How to apply:** Default to gws CLI for all emails. Only fall to Resend if `gws auth status` shows expired token. GWS Gmail MCP is last resort.
+**Note:** GWS Gmail MCP is NOT part of the fallback pipeline (OAuth unreliable, no CLI re-auth). May be used opportunistically if available, never as a planned tier.
+
+**How to apply:** Default to gws CLI for all emails. Only fall to Resend if `gws auth status` shows expired token. Mailgun only if Resend also fails.
 **Related:** Section N, FND-0027, FND-0028, FND-0033
 
 ---
