@@ -21,6 +21,8 @@ The recommended flow is: the agent runs `scripts\send-manual-notification.ps1` a
 3. Never store credentials (API keys, passwords) in markdown or git.
 4. Always use the HTTPS channel (`Resend -> Mailgun`). SMTP is legacy fallback only.
 5. Email subject must use the dynamic-agent pattern: `<AgentName> - Task Finished - <SHORT_ID>-<MACHINE_ID>`.
+6. **Email sending order (R-14):** gws CLI (default, `--html` for HTML) → Resend CLI/PS → GWS Gmail MCP (last resort). See `jimmy-core-preferences` Section R (R-14).
+7. **CRITICAL:** When using gws CLI with HTML body, ALWAYS include `--html` flag: `gws gmail +send --to X --subject Y --body "<html>" --html`. Without it, HTML renders as raw text (FND-0033).
 
 ## Natural Language Triggers
 
