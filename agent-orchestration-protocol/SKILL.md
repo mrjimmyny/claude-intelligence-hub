@@ -692,24 +692,60 @@ Cycle N: t3 completes → slot opens → dispatch t2
 **MANDATORY:** Before dispatching any headless session, the Orchestrator MUST select the appropriate model based on task complexity. Do NOT default to the most expensive model for every task.
 
 **Quick rule:** Does this task need a brain, or just hands?
-- **Hands** (mechanical, template, notification) → Tier 3: Haiku / GPT-5.1-codex-mini / Flash-Lite
-- **Brain** (implementation, coding, structured writing) → Tier 2: Sonnet / GPT-5.4-mini / Flash
-- **Big brain** (synthesis, audit, architecture, 5+ doc cross-reference) → Tier 1: Opus / GPT-5.4 high / Pro
+- **Hands** (mechanical, template, notification) → Tier 3: Haiku / GPT-5-codex-mini / Flash-Lite
+- **Brain** (standard coding, implementation, refactoring) → Tier 2: Sonnet / GPT-5.2-codex (DEFAULT) / Flash
+- **Orchestrating brain** (complex multi-step, multi-agent workflows) → Tier 1.5: GPT-5.3-codex
+- **Big brain** (architecture, planning, reasoning, audits) → Tier 1: Opus / GPT-5.4 high / Pro
 
-| Tier | Anthropic | OpenAI | Google | Use When |
+### Cross-Provider Equivalence Table (v2.2.0 — Official Codex Source)
+
+| Tier | Anthropic | OpenAI (Codex) | Google | Use When |
 |---|---|---|---|---|
-| 1 (Architect) | `claude-opus-4-6` | `gpt-5.4` (high/xhigh) | `gemini-3.1-pro` | Complex reasoning, multi-doc synthesis, audits |
-| 2 (Engineer) | `claude-sonnet-4-6` | `gpt-5.4-mini` / `gpt-5.3-codex` | `gemini-3-flash` | Implementation, coding, daily work (80% of tasks) |
-| 3 (Operator) | `claude-haiku-4-5` | `gpt-5.1-codex-mini` / `gpt-5.4-nano` | `gemini-2.5-flash` | Mechanical tasks, templates, bulk ops |
+| 1 (Architect) | `claude-opus-4-6` | `gpt-5.4` (high/xhigh) | `gemini-2.5-pro` | Architecture, planning, reasoning, decision-making, complex multi-doc synthesis, audits |
+| 1.5 (Senior Engineer) | — | `gpt-5.3-codex` | — | Complex multi-step workflows, long-running processes, multi-agent orchestration |
+| 2 (Engineer) | `claude-sonnet-4-6` | **`gpt-5.2-codex`** (DEFAULT) / `gpt-5.4-mini` | `gemini-2.5-flash` | Standard coding, refactoring, implementation, balanced development (80% of tasks) |
+| 2.5 (Reliable Engineer) | — | `gpt-5.1-codex` / `gpt-5.1-codex-max` | — | High stability + lower cost; large context + many files + long sessions |
+| 3 (Operator) | `claude-haiku-4-5` | `gpt-5-codex-mini` | `gemini-2.5-flash-lite` | Simple, repetitive, fast execution, low cost, templates, notifications, bulk ops |
 
-**Full guide with 25+ task examples, mixed-model patterns, cost analysis, and provider-specific CLI syntax:**
-See `06-operationalization/llm-model-selection-guide-for-aop-orchestrators-magneto-2026-03-18-v2.0.md` in the AOP project documentation.
+### Codex Model Routing Logic (Official — March 2026)
+
+| Condition | Model |
+|---|---|
+| Complex multi-step workflows, multi-agent orchestration | `gpt-5.3-codex` |
+| Standard coding, refactoring, implementation, balanced | **`gpt-5.2-codex`** (DEFAULT) |
+| High stability, lower cost, consistent output | `gpt-5.1-codex` |
+| Large context, many files, long sessions | `gpt-5.1-codex-max` |
+| Simple, repetitive, fast execution, low cost | `gpt-5-codex-mini` |
+| Architecture, planning, reasoning, decision-making | `gpt-5.4` |
+| Light reasoning with speed and efficiency | `gpt-5.4-mini` |
+| No condition clearly matches | Default to `gpt-5.2-codex` |
+
+### Execution Principles (Official Codex Source)
+
+1. **Always analyze the task before selecting a model.** Never select blindly.
+2. **Prefer efficiency over raw power.** The cheapest model that does the job well IS the right model.
+3. **Upgrade model only when task complexity justifies it.**
+4. **Downgrade model for simple or repetitive operations.**
+5. **Ensure consistency across multi-step workflows.** Don't switch models mid-workflow unless task profile changes.
+6. **Allow dynamic switching within the same session if task scope changes.**
+
+### After AOP Orchestration — Mandatory Reporting
+
+After every dispatch, **explicitly state in session docs:**
+```
+Selected model: gpt-5.2-codex
+Reason: Standard implementation from clear spec, no multi-step orchestration needed
+```
+
+**Full guide with 36 task examples, mixed-model patterns, cost analysis, and provider-specific CLI syntax:**
+See `06-operationalization/llm-model-selection-guide-for-aop-orchestrators-magneto-2026-03-18-v2.0.md` (v2.2.0) in the AOP project documentation.
 
 **AOP Integration Rules:**
 1. State in the session doc which model was selected and WHY
 2. For parallel dispatches, assign models per-task, not one model for all
 3. If a task fails on a lower-tier model, escalate to next tier before retrying
 4. Never use Tier 1 for tasks classified as Trivial or Low in the decision matrix
+5. Default to Tier 2 (Sonnet / GPT-5.2-codex / Flash) when in doubt — it covers 80% of tasks
 
 ---
 
@@ -1016,7 +1052,7 @@ Executors self-report in the completion artifact:
 Before dispatching ANY headless session to ANY agent (Claude, Codex, Gemini, or other), the orchestrator MUST:
 
 1. **Use the dispatch script** for the target agent. This is the PRIMARY and PREFERRED path:
-   - Codex: `bash scripts/aop-codex-dispatch.sh <prompt> <artifact> [workdir]`
+   - Codex: `bash scripts/aop-codex-dispatch.sh <prompt> <artifact> [workdir] [model]`
    - Claude: `bash scripts/aop-claude-dispatch.sh <prompt> <artifact> [workdir] [model]`
    - Gemini: `bash scripts/aop-gemini-dispatch.sh <prompt> <artifact> [workdir] [model]`
 
@@ -1033,10 +1069,10 @@ Before dispatching ANY headless session to ANY agent (Claude, Codex, Gemini, or 
 
 | Task | Claude Code | Codex | Gemini |
 | :--- | :--- | :--- | :--- |
-| **Headless execution** | `claude -p "..."` | `codex exec "..."` | `gemini -m MODEL -p "..." --approval-mode yolo` |
-| **File-based prompt** | `cat FILE.md \| claude -p` | `cat FILE.md \| codex exec` | `cat FILE.md \| gemini -m MODEL -p --approval-mode yolo` |
+| **Headless execution** | `claude -p "..."` | `codex exec "..."` | `gemini -m gemini-2.5-flash -p "..." --approval-mode yolo` |
+| **File-based prompt** | `cat FILE.md \| claude -p` | `cat FILE.md \| codex exec` | `cat FILE.md \| gemini -m gemini-2.5-flash -p --approval-mode yolo` |
 | **Bypass sandbox/approval** | `--dangerously-skip-permissions` | `--dangerously-bypass-approvals-and-sandbox` | `--approval-mode yolo` (MANDATORY for headless) |
-| **Model selection** | `--model claude-sonnet-4-6` | `--model gpt-5.4` | `-m gemini-3.1-pro` |
+| **Model selection** | `--model claude-sonnet-4-6` | `--model gpt-5.2-codex` (DEFAULT) | `-m gemini-2.5-flash` |
 | **Background execution** | Append `&` in bash | Append `&` in bash | Append `&` in bash |
 | **Set workspace** | `cd /c/ai/project` before launch | `cd /c/ai/project` before launch | `cd /c/ai/project` before launch |
 | **Git bypass (non-git dir)** | N/A | `--skip-git-repo-check` | N/A |
@@ -1203,7 +1239,7 @@ Real-world case studies are in [orchestrations/](./orchestrations/).
 
 ## Version History
 
-- **v4.0.1** — Added a non-negotiable Pre-Dispatch Mandatory Gate requiring version-controlled dispatch scripts before any headless session. Added `aop-claude-dispatch.sh` and `aop-gemini-dispatch.sh` as audited launch adapters for Claude Code and Gemini CLI.
+- **v4.0.1** — Added a non-negotiable Pre-Dispatch Mandatory Gate requiring version-controlled dispatch scripts before any headless session. Added `aop-claude-dispatch.sh` and `aop-gemini-dispatch.sh` as audited launch adapters for Claude Code and Gemini CLI. **Model Selection v2.2.0 (March 2026):** Updated with official Codex model routing — 5-tier system (Tier 1/1.5/2/2.5/3), GPT-5.2-codex as official DEFAULT, new models (GPT-5.1-codex, GPT-5-codex-mini), Codex Execution Principles, mandatory post-AOP model reporting. Fixed Codex dispatch script (was hardcoded to GPT-5.4, now configurable with GPT-5.2-codex default). Fixed Gemini model IDs (gemini-3.x → gemini-2.5-x).
 - **v4.0.0** — Modularization: extracted 15 implementation scripts from SKILL.md to scripts/. Protocol document reduced from 2195 to 1175 lines (46% reduction). No functional changes.
 - **v4.0.0-rc.1** — Release Candidate. Final validation and polish round (R5). Fixed bash code quality issues (`local` keyword used outside functions in DAG execution loop). Fixed model reference inconsistency in Cross-LLM Command Reference (`gemini-2.0-flash` → `gemini-3-flash`). Updated status to Release Candidate. All supporting documents updated (CHANGELOG, README, Executive Summary, ROADMAP, Worked Examples). Full validation checklist passed: 20/20 checks. Components: C1 (Multi-Executor Coordination), C2 (Fan-In/Fan-Out Orchestration), C3 (Task Dependency Management), C4 (DAG Cycle Detection + Deadlock Detection), C5 (Task Priority & Weight System), C6 (Bounded Concurrency Queue).
 - **v4.0.0-beta.1** — Task Dependency Management: DAG execution engine with topological ordering, DFS-based cycle detection, dependency failure propagation (transitive SKIPPED marking), deadlock detection with 4-stage escalation (NORMAL → WARN → ESCALATE → DEADLOCK), task priority system (CRITICAL/HIGH/MEDIUM/LOW) with weight-based secondary sorting, priority-adjusted timeouts, and bounded concurrency queue (MAX_CONCURRENT). New worked example: Prompt 18 (DAG execution with dependencies and priority).

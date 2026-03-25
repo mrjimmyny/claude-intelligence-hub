@@ -81,6 +81,7 @@ File-based prompts are the production default — they avoid all escaping issues
 | :--- | :--- | :--- | :--- |
 | Headless execution | `claude -p "..."` | `codex exec "..."` | `gemini -p "..."` |
 | Bypass flag | `--dangerously-skip-permissions` | `--dangerously-bypass-approvals-and-sandbox` | `--approval-mode yolo` |
+| Default model | `claude-sonnet-4-6` | `gpt-5.2-codex` (official DEFAULT) | `gemini-2.5-flash` |
 
 ---
 

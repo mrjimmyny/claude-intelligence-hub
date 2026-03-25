@@ -25,8 +25,23 @@ Local Windows-first notifier for Codex task completion emails.
 - The Codex UI remains untouched. `codex` and `emma` keep using the normal CLI surface.
 - When you want email for a specific long-running task, ask the agent to run `scripts\send-manual-notification.ps1` after it finishes the main task.
 - This keeps the workflow explicit, simple, and independent of undocumented TUI internals.
-- Example command:
-  `powershell -NoProfile -ExecutionPolicy Bypass -File C:\ai\_skills\codex-task-notifier\scripts\send-manual-notification.ps1 -TaskTitle "Review X" -Summary "The requested review finished. Open Codex to inspect the final answer." -AgentName "Emma" -LlmModel "GPT-5 Codex"`
+- Example commands (by agent and model):
+  ```
+  # Emma (Codex) — standard coding (DEFAULT model)
+  powershell -NoProfile -ExecutionPolicy Bypass -File C:\ai\_skills\codex-task-notifier\scripts\send-manual-notification.ps1 -TaskTitle "Review X" -Summary "The requested review finished." -AgentName "Emma" -LlmModel "GPT-5.2-codex"
+
+  # Emma (Codex) — complex orchestration
+  powershell ... -AgentName "Emma" -LlmModel "GPT-5.3-codex"
+
+  # Emma (Codex) — architecture/planning
+  powershell ... -AgentName "Emma" -LlmModel "GPT-5.4"
+
+  # Magneto (Claude Code) — standard coding
+  powershell ... -AgentName "Magneto" -LlmModel "Claude Sonnet 4.6"
+
+  # Forge (Gemini) — implementation
+  powershell ... -AgentName "Forge" -LlmModel "Gemini 2.5 Flash"
+  ```
 - Example task instruction:
   `Execute a tarefa abaixo. Quando terminar tudo, envie um email usando C:\ai\_skills\codex-task-notifier\scripts\send-manual-notification.ps1 com um titulo curto e um resumo objetivo do resultado.`
 - Short trigger phrases that should work in `C:\ai`:

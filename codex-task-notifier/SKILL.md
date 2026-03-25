@@ -6,7 +6,7 @@ aliases: [/ctn]
 ---
 
 # codex-task-notifier
-**Version:** 1.1.0
+**Version:** 1.2.0
 
 ## Objective
 
@@ -86,24 +86,72 @@ powershell -NoProfile -ExecutionPolicy Bypass -File C:\ai\_skills\codex-task-not
 # Expected: 3/3 PASS, resend_ready=true, mailgun_ready=true
 ```
 
-## Usage Example
+## Usage Examples
+
+### Basic Examples (by agent)
 
 ```powershell
-# Basic notification (no attachment)
+# Magneto (Claude Code) — standard task completion
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\ai\_skills\codex-task-notifier\scripts\send-manual-notification.ps1 `
   -TaskTitle "Review X" `
   -Summary "The requested review finished. Open Codex to inspect the final answer." `
   -AgentName "Magneto" `
   -LlmModel "Claude Sonnet 4.6"
 
-# With file attachment (e.g., infographic, report, screenshot)
+# Magneto (Claude Code) — with file attachment
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\ai\_skills\codex-task-notifier\scripts\send-manual-notification.ps1 `
   -TaskTitle "Infographic Generated" `
   -Summary "Corporate infographic created and attached." `
   -AgentName "Magneto" `
   -LlmModel "Claude Opus 4.6" `
   -Attachment "C:\ai\_skills\notebooklmx\test-output\phase03-batch2\style-08-collage.png"
+
+# Emma (Codex) — standard coding task
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\ai\_skills\codex-task-notifier\scripts\send-manual-notification.ps1 `
+  -TaskTitle "API Endpoint Implemented" `
+  -Summary "Implemented /api/v2/users endpoint with full CRUD. Tests pass 12/12." `
+  -AgentName "Emma" `
+  -LlmModel "GPT-5.2-codex"
+
+# Emma (Codex) — complex multi-agent orchestration
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\ai\_skills\codex-task-notifier\scripts\send-manual-notification.ps1 `
+  -TaskTitle "AOP Parallel Dispatch Complete" `
+  -Summary "5-agent parallel workflow finished. All agents completed successfully. Report consolidated." `
+  -AgentName "Emma" `
+  -LlmModel "GPT-5.3-codex"
+
+# Emma (Codex) — architecture/planning task
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\ai\_skills\codex-task-notifier\scripts\send-manual-notification.ps1 `
+  -TaskTitle "Architecture Review Done" `
+  -Summary "Microservice architecture reviewed. 3 recommendations documented in decisoes.md." `
+  -AgentName "Emma" `
+  -LlmModel "GPT-5.4"
+
+# Forge (Gemini) — implementation task
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\ai\_skills\codex-task-notifier\scripts\send-manual-notification.ps1 `
+  -TaskTitle "Module Refactored" `
+  -Summary "Auth middleware refactored per compliance requirements. All tests green." `
+  -AgentName "Forge" `
+  -LlmModel "Gemini 2.5 Flash"
 ```
+
+### Model Reference for -LlmModel Parameter
+
+| Agent | Model | When to Use |
+|---|---|---|
+| Magneto | `Claude Opus 4.6` | Architecture, audits, deep synthesis (Tier 1) |
+| Magneto | `Claude Sonnet 4.6` | Standard implementation, coding (Tier 2 — DEFAULT) |
+| Magneto | `Claude Haiku 4.5` | Mechanical tasks, templates (Tier 3) |
+| Emma | `GPT-5.4` | Architecture, planning, reasoning (Tier 1) |
+| Emma | `GPT-5.3-codex` | Complex multi-step, multi-agent orchestration (Tier 1.5) |
+| Emma | `GPT-5.2-codex` | Standard coding, refactoring (Tier 2 — DEFAULT for Codex) |
+| Emma | `GPT-5.1-codex` | High stability, consistent output (Tier 2.5) |
+| Emma | `GPT-5.1-codex-max` | Large context, many files, long sessions (Tier 2.5) |
+| Emma | `GPT-5-codex-mini` | Simple, repetitive, fast (Tier 3) |
+| Emma | `GPT-5.4-mini` | Light reasoning with speed (Tier 2) |
+| Forge | `Gemini 2.5 Pro` | Complex reasoning, large context (Tier 1) |
+| Forge | `Gemini 2.5 Flash` | Standard implementation, agentic tasks (Tier 2) |
+| Forge | `Gemini 2.5 Flash-Lite` | Mechanical, bulk, fast (Tier 3) |
 
 Expected outcome: `delivery.status = sent`, email delivered to `mrjimmyny@gmail.com`.
 

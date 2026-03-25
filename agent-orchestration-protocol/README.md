@@ -167,9 +167,12 @@ AOP works with any orchestrator CLI. See [SKILL.md — Cross-LLM Command Referen
 | Task | Claude Code | Codex | Gemini |
 | :--- | :--- | :--- | :--- |
 | Headless execution | `claude -p "..."` | `codex exec "..."` | `gemini -p "..."` |
-| File-based prompt | `cat FILE \| claude -p` | Not supported natively | Not supported natively |
+| File-based prompt | `cat FILE \| claude -p` | `cat FILE \| codex exec` | `cat FILE \| gemini -p --approval-mode yolo` |
 | Bypass flag | `--dangerously-skip-permissions` | `--dangerously-bypass-approvals-and-sandbox` | `--approval-mode yolo` |
+| Default model | `claude-sonnet-4-6` (Tier 2) | `gpt-5.2-codex` (Tier 2 — DEFAULT) | `gemini-2.5-flash` (Tier 2) |
 | Background | Append `&` | Append `&` | Append `&` |
+
+> **Model Selection:** All dispatches MUST select the appropriate model. See SKILL.md § Model Selection for the full cross-provider equivalence table (Tier 1 through Tier 3, with Codex-specific Tier 1.5 and 2.5). The LLM Model Selection Guide v2.2.0 has 36 task examples and official Codex routing logic.
 
 ---
 

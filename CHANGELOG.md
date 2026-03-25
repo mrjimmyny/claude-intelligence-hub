@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.25.2] - 2026-03-25
+
+### Changed
+- **codex-task-notifier** v1.1.0 -> v1.2.0 — Expanded usage examples (6 examples by agent+model), model reference table for -LlmModel parameter covering all 3 providers and all tiers.
+- **agent-orchestration-protocol** v4.0.1 — Model Selection updated to v2.2.0 with official Codex routing: 5-tier system, GPT-5.2-codex as DEFAULT, Codex Execution Principles, mandatory post-AOP reporting. Fixed aop-codex-dispatch.sh (hardcoded gpt-5.4 → configurable gpt-5.2-codex). Fixed Gemini model IDs (gemini-3.x → gemini-2.5-x).
+
 ## [2.25.1] - 2026-03-24
 
 ### Changed

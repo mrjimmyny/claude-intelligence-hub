@@ -1,5 +1,23 @@
 # Changelog — Agent Orchestration Protocol
 
+## [4.0.1] - 2026-03-25
+
+### Changed
+- **Model Selection updated to v2.2.0** with official Codex model routing data (from official OpenAI/Codex source).
+- **Cross-provider equivalence table** expanded from 3 tiers to 5 tiers: added Tier 1.5 (GPT-5.3-codex for multi-agent orchestration) and Tier 2.5 (GPT-5.1-codex for stability, GPT-5.1-codex-max for large context).
+- **GPT-5.2-codex designated as official DEFAULT** model for Codex (was previously GPT-5.4 in dispatch script, GPT-5.3-codex in docs).
+- **New models added:** `gpt-5.1-codex` (stability-focused), `gpt-5-codex-mini` (fast/cheap Tier 3).
+- **Codex Execution Principles** added (6 official rules: analyze before selecting, prefer efficiency, upgrade only when justified, dynamic switching, etc.).
+- **Mandatory post-AOP model reporting** requirement added — selected model + reason must be stated in session docs.
+- **aop-codex-dispatch.sh** — Model parameter added (4th argument). Was hardcoded to `gpt-5.4`; now defaults to `gpt-5.2-codex` with override support. Matches Claude/Gemini dispatch script pattern.
+- **Cross-LLM Command Reference** — Updated default model IDs: Codex `gpt-5.2-codex` (was `gpt-5.4`), Gemini `gemini-2.5-flash` (was `gemini-3.1-pro`/`gemini-3-flash`).
+- **README.md** — Cross-LLM table expanded with default model row and model selection note.
+- **AOP-EXECUTIVE-SUMMARY.md** — Supported CLIs table updated with default model row.
+
+### Fixed
+- **Gemini model IDs:** Fixed `gemini-3.1-pro` → `gemini-2.5-pro` and `gemini-3-flash` → `gemini-2.5-flash` in SKILL.md and launch command templates.
+- **Codex dispatch default:** Fixed `gpt-5.4` (Tier 1) as default in `aop-codex-dispatch.sh` — should be `gpt-5.2-codex` (Tier 2) per official Codex routing.
+
 ## [4.0.0-rc.1] - 2026-03-18
 
 ### Added
