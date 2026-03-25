@@ -553,6 +553,21 @@ Rules learned from real failures, user corrections, and operational incidents. E
 **How to apply:** Default to gws CLI for all emails. Only fall to Resend if `gws auth status` shows expired token. Mailgun only if Resend also fails. Always reference email templates for consistent formatting.
 **Related:** Section N, FND-0027, FND-0028, FND-0033
 
+### R-15. Email HTML Format — Mandatory Visual Standard
+**Origin:** FND-0033 — Agents sending raw unformatted HTML or plain text. Jimmy requires clean, professional, readable emails.
+**Rule:** ALL HTML emails MUST follow the codex-task-notifier email template visual standard. No exceptions.
+
+**Mandatory elements:**
+- Wrapper: `font-family: 'Segoe UI', Arial, sans-serif; max-width: 680px; margin: 0 auto; color: #2d2d2d`
+- Title: `h2` with `color: #1a1a2e; border-bottom: 3px solid #e63946`
+- Tables: `border-collapse: collapse`, header row `background: #1a1a2e; color: white`, alternating rows `#f8f9fa`, borders `1px solid #dee2e6`
+- Footer: `hr` with `border-top: 2px solid #e63946`, then `font-size: 12px; color: #888` with agent + session + date
+- Use `--html` flag with gws CLI or wrapper script `send-email.sh`
+
+**Wrapper script:** `bash _skills/codex-task-notifier/scripts/send-email.sh --to X --subject Y --body "<html>"` — enforces `--html` automatically.
+**Templates:** 5 reference templates at `claude-intelligence-hub/codex-task-notifier/examples/`.
+**How to apply:** Before sending any HTML email, check the inline format reference in CLAUDE.md/AGENTS.md/GEMINI.md. For complex emails, read the full template from `examples/`.
+
 ---
 
 *Part of the [Claude Intelligence Hub](https://github.com/mrjimmyny/claude-intelligence-hub)*
