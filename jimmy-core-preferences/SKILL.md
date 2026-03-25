@@ -248,11 +248,12 @@ When Jimmy signals ANY form of work stoppage — pause, break, day close, or per
 - "that's enough for now" / "por enquanto é isso"
 - "I'm going to rest" / "vou descansar"
 - "let's pause the project" / "vamos pausar o projeto"
-- **"checkpoint"** — triggers Pre-Pause gate (PP-01 through PP-09). Also valid as a **Pre-Start gate** at session beginning to verify state left by previous sessions (PP-04 and PP-05 are N/A in Pre-Start context since no current session doc exists yet)
+- **"save" / "salva" / "salvar"** — triggers lightweight Save gate: update all project docs + session doc + portfolio, commit, push. No checklist, no report — just execute and confirm with one line.
+- **"checkpoint"** — triggers Pre-Pause gate (PP-01 through PP-08, PP-10). Also valid as a **Pre-Start gate** at session beginning to verify state left by previous sessions (PP-04 and PP-05 are N/A in Pre-Start context since no current session doc exists yet)
 - **"close day" / "call it a day" / "call the day" / "day close" / "end of day"** — triggers full Pre-Close gate (PP-01 through PC-11)
 - Any indication that work is stopping, even temporarily
 
-**Automated Enforcement (Claude Code only):** A `UserPromptSubmit` hook at `.claude/hooks/checkpoint-gate.sh` detects these keywords and injects the applicable checklist as `additionalContext`. Codex and Gemini agents must detect keywords manually and follow the same protocol. A mechanical verification script at `_skills/daily-doc-information/scripts/checkpoint-verify.sh` handles PP-06, PP-07, and PP-10 checks for all agents.
+**Automated Enforcement (Claude Code only):** A `UserPromptSubmit` hook at `.claude/hooks/checkpoint-gate.sh` detects these three keywords (save, checkpoint, close day) and injects the applicable instructions as `additionalContext`. Codex and Gemini agents must detect keywords manually and follow the same protocol. A mechanical verification script at `_skills/daily-doc-information/scripts/checkpoint-verify.sh` handles PP-06, PP-07, and PP-10 checks for checkpoint/close-day gates.
 
 ### Pre-Pause Checklist (9 items — mandatory for ANY pause)
 
