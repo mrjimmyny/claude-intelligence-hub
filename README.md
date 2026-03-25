@@ -52,6 +52,18 @@ All skills are available as **slash commands** for instant access. Just type `/c
 
 📚 **Full command reference:** [COMMANDS.md](COMMANDS.md)
 
+### Keyword Gates (just type the word — no slash needed)
+
+| Keyword | What happens | Verbosity |
+|---|---|---|
+| **save** | Update all project docs + session doc + portfolio → commit → push | Silent (one-line confirm) |
+| **checkpoint** | Full pre-pause checklist (PP-01 through PP-08, PP-10) — validates all docs | Table report |
+| **close day** | Full pre-close checklist + daily report + handoff → commit → push | Full report |
+
+Works in **all agents** — Claude Code (automated via hook), Codex and Gemini (manual keyword detection).
+
+Also accepts Portuguese: **salva** / **salvar** (= save), **por hoje** / **encerrando** (= close day).
+
 ---
 
 ## 🎯 What is This?
