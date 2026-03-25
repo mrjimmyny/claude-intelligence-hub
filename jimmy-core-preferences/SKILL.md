@@ -548,7 +548,9 @@ Rules learned from real failures, user corrections, and operational incidents. E
 
 **Note:** GWS Gmail MCP is NOT part of the fallback pipeline (OAuth unreliable, no CLI re-auth). May be used opportunistically if available, never as a planned tier.
 
-**How to apply:** Default to gws CLI for all emails. Only fall to Resend if `gws auth status` shows expired token. Mailgun only if Resend also fails.
+**Email templates:** 5 HTML reference templates at `claude-intelligence-hub/codex-task-notifier/examples/` (executive-summary, table-report, status-update, project-portfolio, finding-alert). Agents MUST use these as the visual standard.
+
+**How to apply:** Default to gws CLI for all emails. Only fall to Resend if `gws auth status` shows expired token. Mailgun only if Resend also fails. Always reference email templates for consistent formatting.
 **Related:** Section N, FND-0027, FND-0028, FND-0033
 
 ---

@@ -171,6 +171,22 @@ resend emails send \
 
 **Important:** The PowerShell pipeline remains the primary production path with full failover (Resend → Mailgun). The Resend CLI is a complementary tool, not a replacement. It does NOT have Mailgun failover built in.
 
+## Email Templates (examples/)
+
+Ready-to-use HTML templates at `examples/`. Agents MUST use these as reference when composing HTML emails — they define the visual standard Jimmy expects.
+
+| Template | Use When |
+|---|---|
+| `01-executive-summary.html` | Session summary with findings, deliverables, files changed |
+| `02-table-report.html` | Structured data with clean table headers, columns, metrics |
+| `03-status-update.html` | Quick bullet-point status (completed/in-progress/next/blockers) |
+| `04-project-portfolio.html` | Multi-project overview with status pills and priorities |
+| `05-finding-alert.html` | Critical finding notification with full detail card |
+
+**Design rules:** Segoe UI font, 680px max-width, #e63946 accent, #1a1a2e headers, alternating row backgrounds (#f8f9fa), status colors (#d4edda green, #fff3cd yellow, #f8d7da red). See `examples/README.md` for full guide.
+
+**How to use:** Read the relevant template, replace `{{PLACEHOLDER}}` values with actual data, pass as `--body` with `--html` flag via gws CLI.
+
 ## Cross-Machine Notes
 
 - `C:\ai` is stable across machines — do not change.

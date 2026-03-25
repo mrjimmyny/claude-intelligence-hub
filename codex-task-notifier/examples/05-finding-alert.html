@@ -1,0 +1,39 @@
+<div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 680px; margin: 0 auto; color: #2d2d2d;">
+
+<table style="width: 100%; border-collapse: collapse;">
+<tr>
+<td style="padding: 16px; background: #e63946; color: white; text-align: center;">
+<h2 style="margin: 0; font-size: 20px;">FINDING ALERT — {{FND_SEVERITY}}</h2>
+<p style="margin: 4px 0 0; font-size: 14px; opacity: 0.9;">{{FND_ID}} | {{DATE}}</p>
+</td>
+</tr>
+</table>
+
+<table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
+<tr style="background: #f8f9fa;"><td style="padding: 10px; border: 1px solid #dee2e6; font-weight: bold; width: 130px;">Ticket</td><td style="padding: 10px; border: 1px solid #dee2e6;"><strong>{{FND_ID}}</strong> — <code>{{FND_HASH}}</code></td></tr>
+<tr><td style="padding: 10px; border: 1px solid #dee2e6; font-weight: bold;">Type</td><td style="padding: 10px; border: 1px solid #dee2e6;">{{FND_TYPE}}</td></tr>
+<tr style="background: #f8f9fa;"><td style="padding: 10px; border: 1px solid #dee2e6; font-weight: bold;">Severity</td><td style="padding: 10px; border: 1px solid #dee2e6;"><strong style="color: #e63946;">{{FND_SEVERITY}}</strong></td></tr>
+<tr><td style="padding: 10px; border: 1px solid #dee2e6; font-weight: bold;">Affected</td><td style="padding: 10px; border: 1px solid #dee2e6;">{{FND_AFFECTED}}</td></tr>
+<tr style="background: #f8f9fa;"><td style="padding: 10px; border: 1px solid #dee2e6; font-weight: bold;">Discovered By</td><td style="padding: 10px; border: 1px solid #dee2e6;">{{AGENT_NAME}}</td></tr>
+</table>
+
+<h3 style="color: #1a1a2e;">Description</h3>
+<p style="font-size: 14px; line-height: 1.6; padding: 12px; background: #f8f9fa; border-left: 4px solid #e63946;">{{FND_DESCRIPTION}}</p>
+
+<h3 style="color: #1a1a2e;">Root Cause</h3>
+<p style="font-size: 14px; line-height: 1.6;">{{FND_ROOT_CAUSE}}</p>
+
+<h3 style="color: #1a1a2e;">Resolution</h3>
+<p style="font-size: 14px; line-height: 1.6;">{{FND_RESOLUTION}}</p>
+
+<h3 style="color: #1a1a2e;">Status</h3>
+<table style="border-collapse: collapse;">
+<tr>
+<td style="padding: 8px 16px; background: {{STATUS_COLOR}}; color: white; font-weight: bold; border-radius: 4px;">{{FND_STATUS}}</td>
+<td style="padding: 8px 16px; font-size: 13px; color: #555;">{{STATUS_DETAIL}}</td>
+</tr>
+</table>
+
+<hr style="border: none; border-top: 2px solid #e63946; margin: 20px 0;">
+<p style="font-size: 12px; color: #888;">{{AGENT_NAME}} | Session {{SESSION_ID}} | {{DATE}}</p>
+</div>

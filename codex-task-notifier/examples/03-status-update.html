@@ -1,0 +1,34 @@
+<div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 680px; margin: 0 auto; color: #2d2d2d;">
+
+<h2 style="color: #1a1a2e; border-bottom: 3px solid #e63946; padding-bottom: 8px;">{{SUBJECT}}</h2>
+
+<p style="color: #555; font-size: 14px;">Date: {{DATE}} | Agent: {{AGENT_NAME}} | Project: {{PROJECT_NAME}}</p>
+
+<!-- COMPLETED ITEMS -->
+<h3 style="color: #2d6a4f; margin-bottom: 8px;">Completed</h3>
+<ul style="line-height: 2.0; font-size: 14px; list-style: none; padding-left: 0;">
+<li style="padding: 4px 0; border-bottom: 1px solid #eee;">&#10003; <strong>{{DONE_1}}</strong> — {{DONE_1_DETAIL}}</li>
+<li style="padding: 4px 0; border-bottom: 1px solid #eee;">&#10003; <strong>{{DONE_2}}</strong> — {{DONE_2_DETAIL}}</li>
+<li style="padding: 4px 0; border-bottom: 1px solid #eee;">&#10003; <strong>{{DONE_3}}</strong> — {{DONE_3_DETAIL}}</li>
+</ul>
+
+<!-- IN PROGRESS (optional) -->
+<h3 style="color: #e76f51; margin-bottom: 8px;">In Progress</h3>
+<ul style="line-height: 2.0; font-size: 14px; list-style: none; padding-left: 0;">
+<li style="padding: 4px 0; border-bottom: 1px solid #eee;">&#9654; <strong>{{WIP_1}}</strong> — {{WIP_1_DETAIL}}</li>
+</ul>
+
+<!-- NEXT STEPS -->
+<h3 style="color: #1a1a2e; margin-bottom: 8px;">Next Steps</h3>
+<ul style="line-height: 2.0; font-size: 14px; list-style: none; padding-left: 0;">
+<li style="padding: 4px 0; border-bottom: 1px solid #eee;">&#9679; {{NEXT_1}}</li>
+<li style="padding: 4px 0; border-bottom: 1px solid #eee;">&#9679; {{NEXT_2}}</li>
+</ul>
+
+<!-- BLOCKERS (optional, remove if none) -->
+<h3 style="color: #e63946; margin-bottom: 8px;">Blockers</h3>
+<p style="padding: 8px; background: #f8d7da; border-left: 4px solid #e63946; font-size: 14px;">{{BLOCKER_DESCRIPTION}}</p>
+
+<hr style="border: none; border-top: 2px solid #e63946; margin: 20px 0;">
+<p style="font-size: 12px; color: #888;">{{AGENT_NAME}} | Session {{SESSION_ID}} | {{DATE}}</p>
+</div>
