@@ -569,6 +569,11 @@ Rules learned from real failures, user corrections, and operational incidents. E
 **Templates:** 5 reference templates at `claude-intelligence-hub/codex-task-notifier/examples/`.
 **How to apply:** Before sending any HTML email, check the inline format reference in CLAUDE.md/AGENTS.md/GEMINI.md. For complex emails, read the full template from `examples/`.
 
+### R-16. "Via Microsoft" Means microsoft-mail-deliver Protocol
+**Origin:** 2026-03-26 - Jimmy defined a cross-agent shorthand after `microsoft-mail-deliver` became the active Microsoft sender path.
+**Rule:** When Jimmy says phrases like `via Microsoft`, `do Microsoft`, `manda email pelo Microsoft`, `manda email do up4a`, or equivalent, agents MUST route the request through `microsoft-mail-deliver` and MUST NOT ask whether Gmail/Resend/Mailgun should be used. The transport choice is already made: use the Microsoft protocol. Only ask follow-up questions if recipient, content, or send conditions are genuinely missing.
+**Related:** `microsoft-mail-deliver`, Section N
+
 ---
 
 *Part of the [Claude Intelligence Hub](https://github.com/mrjimmyny/claude-intelligence-hub)*
