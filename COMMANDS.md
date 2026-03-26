@@ -54,6 +54,7 @@
 | `/gdrive-sync` | /gdrive | gdrive-sync-memoria | Sync ChatLLM Teams content to session-memoria |
 | `/governance` | /codex | codex-governance-framework | Institutional governance framework |
 | `/memoria` | /memory, /save | session-memoria | Permanent conversation storage |
+| `/microsoft-mail-deliver` | /mmd | microsoft-mail-deliver | Microsoft-native business email, Microsoft transport routing, and saved-recipient batch workflow |
 | `/notebooklmx` | /nblmx | notebooklmx | Unified programmatic interface for Google NotebookLM. Content generation, Clarity-First design, infographic styles, spaced protocol. |
 | `/pbi` | /powerbi | pbi-claude-skills | Power BI PBIP optimization |
 | `/preferences` | /prefs, /jimmy | jimmy-core-preferences | Master AI behavior framework |
@@ -85,6 +86,7 @@
 | /token-economy | Enforce token budgets |
 | /daily-doc-information | Govern session docs and daily reports |
 | /codex-task-notifier | Send task completion emails |
+| /microsoft-mail-deliver | Send email through Microsoft 365 |
 | /repo-auditor | Deep repository audit |
 | /docx-indexer | Global document indexing + enrichment |
 | /governance | Codex governance framework |
@@ -97,6 +99,7 @@
 | /registry | Track Claude sessions |
 | /context-guardian | Switch between accounts |
 | /codex-task-notifier | Task completion email notifications |
+| /microsoft-mail-deliver | Explicit Microsoft transport and recipient-registry workflow |
 | /daily-doc-information | Session docs and project governance workflow |
 | /daily-tasks-oih | Dispatch and execute daily task workflow |
 
@@ -128,6 +131,7 @@ These skills load based on triggers or project detection:
 | /xavier-memory | Global memory | Cross-project sync |
 | /aop | Multi-agent | "orchestrate", "delegate" |
 | /codex-task-notifier | Task completion email | "email me when done", "me manda um email" |
+| /microsoft-mail-deliver | Microsoft email workflow | "via Microsoft", "manda email pelo Microsoft" |
 | /daily-doc-information | Documentation governance | session docs, daily reports, project governance |
 
 ### 🟡 Tier 3: Explicit (On-Demand)
@@ -288,5 +292,5 @@ The repo-auditor automatically validates:
 
 ---
 
-**Last Updated:** 2026-03-24
-**Version:** 2.25.0
+**Last Updated:** 2026-03-26
+**Version:** 2.26.0

@@ -1,0 +1,34 @@
+{
+  "name": "microsoft-mail-deliver",
+  "version": "1.0.0",
+  "description": "Microsoft-native business email and Microsoft transport protocol for CIH agents, with delegated Graph delivery, known-recipient registry support, and a frozen outbound contract for Jimmy-originated emails.",
+  "status": "production",
+  "author": "Emma (Codex) on behalf of Jimmy",
+  "created": "2026-03-26",
+  "updated": "2026-03-26",
+  "command": "/microsoft-mail-deliver",
+  "aliases": [
+    "/mmd"
+  ],
+  "tags": [
+    "microsoft-graph",
+    "email",
+    "business-email",
+    "recipient-registry",
+    "cross-agent"
+  ],
+  "triggers": {
+    "via_microsoft": [
+      "via Microsoft",
+      "do Microsoft",
+      "manda email pelo Microsoft",
+      "manda email do up4a"
+    ],
+    "recipient_registry": [
+      "add email",
+      "list emails",
+      "delete email",
+      "send to all saved emails"
+    ]
+  }
+}

@@ -409,6 +409,7 @@ When Jimmy says any of these phrases (English or Portuguese), the agent must sen
 - Keep the main task as priority 1. Send the email only after the task is fully finished.
 - Use a short task title and a 2-3 line summary in English unless Jimmy asks otherwise.
 - This applies to ALL agents, not just Codex.
+- If Jimmy explicitly says `via Microsoft` or equivalent, this section no longer owns the transport decision. Route the request to `microsoft-mail-deliver` instead of `codex-task-notifier`.
 
 ---
 
@@ -573,6 +574,26 @@ Rules learned from real failures, user corrections, and operational incidents. E
 **Origin:** 2026-03-26 - Jimmy defined a cross-agent shorthand after `microsoft-mail-deliver` became the active Microsoft sender path.
 **Rule:** When Jimmy says phrases like `via Microsoft`, `do Microsoft`, `manda email pelo Microsoft`, `manda email do up4a`, or equivalent, agents MUST route the request through `microsoft-mail-deliver` and MUST NOT ask whether Gmail/Resend/Mailgun should be used. The transport choice is already made: use the Microsoft protocol. Only ask follow-up questions if recipient, content, or send conditions are genuinely missing.
 **Related:** `microsoft-mail-deliver`, Section N
+
+### R-17. Outbound Business Email Contract on Jimmy's Behalf
+**Origin:** 2026-03-26 - Jimmy defined a mandatory composition contract for business emails sent by agents on his behalf.
+**Rule:** When an agent drafts or sends a business email for Jimmy (not a task-end self-notification), the email MUST follow this contract:
+
+- `To`: use exactly the recipient(s) Jimmy provides
+- `Cc`: ALWAYS include `jaderson.almeida@br.havasvillage.com` for every recipient, every transport, every send, with no exceptions
+- title/subject: Jimmy must define it; if missing, do NOT send; always convert the final subject to uppercase
+- opening: mandatory time-of-day salutation plus `Agente <name>, <platform>, <LLM model>`
+- intro: mandatory line stating the email is being sent at Jimmy's request and replies should go to `jaderson.almeida@br.havasvillage.com`
+- body style: formal, professional, executive, short, direct, simple vocabulary, no rambling
+- signature: `Atenciosamente,` then `Agente <name>, <platform>, <LLM model>` then `On behalf of Jimmy`
+
+Do not improvise missing title, remove the mandatory CC, substitute alternate CC recipients, or use a casual tone. This rule applies regardless of transport. It complements `microsoft-mail-deliver` and does NOT replace the task-end notifier rules in Section N / R-14 / R-15.
+**Related:** `microsoft-mail-deliver`, Section N, R-14, R-15
+
+### R-18. Microsoft Recipient Registry Is Persistent Operational State
+**Origin:** 2026-03-26 - Jimmy explicitly required Microsoft recipient add/list/delete behavior to be encoded into the skill instead of repeated ad hoc in chat.
+**Rule:** When Jimmy asks to add, list, remove/delete, or reuse Microsoft business-email recipients, agents MUST use the `microsoft-mail-deliver` known-recipient registry at `C:\ai\_skills\microsoft-mail-deliver\data\known-recipients.json` through `scripts\manage-known-recipients.ps1`. The chat-display format for that list is fixed: numbered, alphabetical, markdown table. When Jimmy asks to send to everyone already saved, agents MUST resolve the selector `all` / `known:all` instead of making Jimmy retype every address.
+**Related:** `microsoft-mail-deliver`, R-16, R-17
 
 ---
 

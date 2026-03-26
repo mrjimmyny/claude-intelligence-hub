@@ -1,8 +1,8 @@
 # 🗺️ Claude Intelligence Hub - Visual Skill Router
 
-**Version:** 2.25.0
+**Version:** 2.26.0
 **Status:** 🟢 Active & Synchronized
-**Registry:** 21 Production Skills
+**Registry:** 22 Production Skills
 
 ---
 
@@ -10,7 +10,7 @@
 
 | Metric | Count | Status |
 | :--- | :--- | :--- |
-| **Total Skills** | 21 | ✅ Verified |
+| **Total Skills** | 22 | ✅ Verified |
 | **Governance** | 100% | 🟢 Compliant |
 | **Architecture** | 3-Tier | 🏗️ Structured |
 
@@ -37,6 +37,7 @@
 | 7 | **xavier-memory** | v1.1.0 | `/xavier-memory` | Cross-project sync |
 | 12 | **agent-orchestration-protocol** | v4.0.1 | `/aop` | "orchestrate", "delegate" |
 | 18 | **codex-task-notifier** | v1.2.0 | `/codex-task-notifier` | "email me when done", "me manda um email" |
+| 22 | **microsoft-mail-deliver** | v1.0.0 | `/microsoft-mail-deliver` | "via Microsoft", "manda email pelo Microsoft", saved Microsoft recipient workflows |
 | 19 | **daily-doc-information** | v1.6.0 | `/daily-doc-information` | Session docs, daily reports, and project governance automation |
 | 20 | **notebooklmx** | v1.1.0 | `/notebooklmx` | "create a podcast", "generate infographic", "notebooklm", NotebookLM content generation |
 
@@ -137,9 +138,14 @@
 - **Notification:** Local Windows-first email notifier for Codex task completion. Sends explicit task-end emails through HTTPS pipeline (Resend -> Mailgun) without altering the Codex native UI.
 - **Triggers:** "email me when done", "send completion email", "me manda um email", "mande um email quando terminar"
 
+### 22. microsoft-mail-deliver
+- **Path:** `microsoft-mail-deliver/`
+- **Notification:** Microsoft-native email delivery protocol for CIH agents. Owns the `via Microsoft` transport path, the frozen outbound business-email contract, and the known-recipient registry with `all` resolution.
+- **Triggers:** "via Microsoft", "do Microsoft", "manda email pelo Microsoft", "manda email do up4a", recipient add/list/delete/send-to-all workflows
+
 ### 19. daily-doc-information
 - **Path:** `daily-doc-information/`
-- **Version:** v1.2.0
+- **Version:** v1.6.0
 - **Tier:** 2 (Active skill)
 - **Command:** `/daily-doc-information`
 - **Description:** Automates creation, update, and closure of session documents, daily executive reports, and project documentation (PROJECT_CONTEXT, status-atual, next-step, decisoes). Cross-agent (Claude, Codex, Gemini) and cross-machine compatible.
@@ -148,7 +154,7 @@
 
 ### 20. notebooklmx
 - **Path:** `notebooklmx/`
-- **Version:** v1.0.0
+- **Version:** v1.1.0
 - **Tier:** 2 (Context-Aware)
 - **Command:** `/notebooklmx`
 - **Description:** Unified programmatic interface for Google NotebookLM. Content generation (audio, video, infographics, slides, quizzes, flashcards, mind maps, data tables, reports), Clarity-First design system, 15 PDF catalog + 5 Havas brand infographic templates, spaced generation protocol, cross-tool auth (nlm + notebooklm-py), MCP integration.

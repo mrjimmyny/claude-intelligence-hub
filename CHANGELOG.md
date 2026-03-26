@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.26.0] - 2026-03-26
+
+### Added
+- **microsoft-mail-deliver** v1.0.0 — NEW SKILL. Microsoft-native email delivery protocol for CIH agents with delegated Graph runtime, frozen outbound business-email contract, known-recipient registry, and `To = all` batch workflow. Published by Emma (Codex) on behalf of Jimmy after real Microsoft-only batch validation.
+
+### Changed
+- **jimmy-core-preferences** — Section N now explicitly distinguishes default task-end email triggers (`codex-task-notifier`) from explicit Microsoft transport requests (`microsoft-mail-deliver`).
+- **CLAUDE.md**, **GEMINI.md**, **AGENTS.md** — added explicit Microsoft routing notes so all agents know when to use `microsoft-mail-deliver`.
+- **Cross-agent bootstrap docs** — added `microsoft-mail-deliver` to the registry and bootstrap guidance as the official Microsoft email lane.
+- **Hub indexes** — `README.md`, `HUB_MAP.md`, `COMMANDS.md`, and `EXECUTIVE_SUMMARY.md` updated for skill count `22` and the new `/microsoft-mail-deliver` command.
+- **setup_local_env.sh** — switched to dynamic skill discovery so new published skills install without hardcoded list drift.
+
 ## [2.25.2] - 2026-03-25
 
 ### Changed

@@ -4,7 +4,7 @@
 # Claude Intelligence Hub - Fresh Machine Setup Script
 # Version: 1.0.0
 # Platform: macOS/Linux (Bash 4+)
-# Purpose: Idempotent setup of 5 mandatory core skills + optional skills
+# Purpose: Idempotent setup of all published hub skills plus optional project-specific skills
 
 set -e  # Exit on error
 
@@ -12,17 +12,11 @@ set -e  # Exit on error
 # CONFIGURATION
 # ═══════════════════════════════════════════════════════════════
 
-MANDATORY_SKILLS=(
-    "jimmy-core-preferences"
-    "session-memoria"
-    "x-mem"
-    "gdrive-sync-memoria"
-    "claude-session-registry"
-)
-
 OPTIONAL_SKILLS=(
     "pbi-claude-skills"
 )
+
+MANDATORY_SKILLS=()
 
 SCRIPT_VERSION="1.0.0"
 HUB_PATH="${HUB_PATH:-/c/ai/claude-intelligence-hub}"
@@ -150,6 +144,29 @@ preflight_checks() {
         log ERROR "ERROR: HUB_MAP.md not found. Invalid hub directory?"
         return 1
     fi
+
+    mapfile -t discovered_skills < <(find "$HUB_PATH" -mindepth 1 -maxdepth 1 -type d | while read -r dir; do
+        if [ -f "$dir/SKILL.md" ]; then
+            basename "$dir"
+        fi
+    done | sort)
+
+    MANDATORY_SKILLS=()
+    for skill in "${discovered_skills[@]}"; do
+        skip_optional=false
+        for optional in "${OPTIONAL_SKILLS[@]}"; do
+            if [ "$skill" == "$optional" ]; then
+                skip_optional=true
+                break
+            fi
+        done
+        if [ "$skip_optional" = false ]; then
+            MANDATORY_SKILLS+=("$skill")
+        fi
+    done
+
+    log INFO "Discovered ${#discovered_skills[@]} skills: ${discovered_skills[*]}"
+    log INFO "Mandatory: ${#MANDATORY_SKILLS[@]} | Optional: ${#OPTIONAL_SKILLS[@]}"
 
     # Create skills directory if it doesn't exist
     if [ ! -d "$SKILLS_PATH" ]; then

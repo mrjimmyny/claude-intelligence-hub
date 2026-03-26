@@ -2,7 +2,7 @@
 # Claude Intelligence Hub - Fresh Machine Setup Script
 # Version: 1.0.0
 # Platform: Windows (PowerShell 5.1+)
-# Purpose: Idempotent setup of 5 mandatory core skills + optional skills
+# Purpose: Idempotent setup of all published hub skills plus optional project-specific skills
 
 param(
     [Parameter(Mandatory=$false)]
