@@ -595,6 +595,19 @@ Do not improvise missing title, remove the mandatory CC, substitute alternate CC
 **Rule:** When Jimmy asks to add, list, remove/delete, or reuse Microsoft business-email recipients, agents MUST use the `microsoft-mail-deliver` known-recipient registry at `C:\ai\_skills\microsoft-mail-deliver\data\known-recipients.json` through `scripts\manage-known-recipients.ps1`. The chat-display format for that list is fixed: numbered, alphabetical, markdown table. When Jimmy asks to send to everyone already saved, agents MUST resolve the selector `all` / `known:all` instead of making Jimmy retype every address.
 **Related:** `microsoft-mail-deliver`, R-16, R-17
 
+### R-19. Microsoft Email Safety Gates (FND-0048)
+**Origin:** FND-0048 — Agent used `known:all` without Jimmy's explicit approval, sending an internal AI test report to 8 business contacts. Additionally, HTML body rendered as raw text due to missing ContentType detection.
+**Rule:** Six non-negotiable safety mechanisms for `microsoft-mail-deliver`:
+1. **`known:all` BLOCKED by default.** The known-recipients list may ONLY be used when Jimmy **explicitly and literally** writes "send to the list" / "send to all" / "known:all" in the current message. Script enforces: `send-microsoft-mail.ps1` blocks without `-ConfirmKnownAll` switch.
+2. **Default recipient = `up4a@up4aoffice.com`** (Jimmy's own Microsoft email). If Jimmy does not specify a recipient, use this. NOT `mrjimmyny@gmail.com` (that belongs to codex-task-notifier). Each skill has its own default.
+3. **Title is mandatory.** If Jimmy does not provide a title/subject, the agent MUST ask. Do NOT fabricate.
+4. **Pre-send confirmation required.** Before sending, show `To`, `Subject`, body preview. Wait for Jimmy's "ok" / "dispara" / "go". Exception: Jimmy pre-authorizes in the same message where he defines all parameters.
+5. **HTML auto-detection.** `send-microsoft-mail.ps1` now auto-detects HTML tags in Body and promotes `BodyContentType` from `Text` to `HTML`.
+6. **Skill exclusivity.** "Via Microsoft" = `microsoft-mail-deliver` only. If not available, do NOT send via other transports. Report failure.
+**Why:** Agent discipline failure caused unauthorized email blast to business contacts. These gates prevent recurrence at both script and agent level.
+**How to apply:** Before any `microsoft-mail-deliver` send, verify: (a) recipient is explicitly authorized, (b) title is Jimmy-provided, (c) summary shown to Jimmy. Default to `up4a@up4aoffice.com` when no recipient specified.
+**Related:** `microsoft-mail-deliver`, R-16, R-17, R-18, FND-0048
+
 ---
 
 *Part of the [Claude Intelligence Hub](https://github.com/mrjimmyny/claude-intelligence-hub)*
