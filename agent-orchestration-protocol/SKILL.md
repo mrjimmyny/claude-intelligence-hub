@@ -9,7 +9,7 @@ aliases: [/orchestrate, /delegate]
 # Agent Orchestration Protocol (AOP)
 
 **Skill ID:** `agent-orchestration-protocol`
-**Version:** 4.1.0
+**Version:** 4.2.0
 **Status:** Production-Validated
 **Category:** Multi-Agent Coordination
 
@@ -809,6 +809,55 @@ You will be graded on algorithmic understanding, not on finding the shortest imp
 
 **Why this exists:** In the aop-domusx stress test (R09, R10), one agent per round used `difflib` instead of a custom LCS implementation, reducing depth scores. For AOP tasks that test algorithmic capability, stdlib delegation bypasses the assessment objective.
 
+### Prompt Guidance: Git-as-Memory
+
+When dispatching AOP executors or starting a new development session, the orchestrator SHOULD include git history context in the prompt:
+
+```
+Before starting work, read the recent git history to understand what has been tried:
+- `git log --oneline -20` — recent commits (kept changes)
+- `git log --oneline --all | grep revert` — reverted experiments (failed approaches)
+
+Use this history to: avoid repeating failed approaches, build on successful patterns,
+and understand the current state of the codebase.
+```
+
+**Why this exists:** Git history serves as a learning signal, not just an audit trail. Agents that read history before starting work avoid repeating mistakes from previous sessions. Extracted from the autoresearch pattern (Karpathy's 700-experiment ML optimization loop).
+
+### Prompt Guidance: Experiment Commit Convention
+
+When agents explore solutions during development or AOP rounds, use this commit message format:
+
+```
+experiment(<scope>): <one-sentence description>
+```
+
+Examples:
+- `experiment(aop-artifact): use json.dumps instead of echo for JSON generation`
+- `experiment(bidx-cem): try absolute positioning for header elements`
+
+For kept experiments that pass verification, the commit stays. For discarded experiments, use `git revert` (preserves the attempt in history as a learning signal for future sessions).
+
+**Why this exists:** Machine-readable experiment history enables future sessions to learn from past attempts. The `experiment()` prefix makes it trivially greppable across the repository.
+
+### Prompt Guidance: Guard Pattern for Skill Development
+
+When modifying skill code (scripts, tools, APIs), always define and run a guard command alongside any changes:
+
+```
+Before making changes, identify:
+1. METRIC: The primary goal (e.g., "tests pass", "script exits 0", "output matches expected")
+2. GUARD: A separate safety check (e.g., "existing tests still pass", "no regression in other features")
+
+After each change:
+- Run METRIC command — did the goal improve?
+- Run GUARD command — did anything else break?
+- Keep only if BOTH pass.
+- Never modify guard/test files during the optimization loop.
+```
+
+**Why this exists:** Separating "did the goal improve?" from "did anything else break?" prevents the common failure mode of optimizing one thing while regressing another. Proven in autoresearch's 700-experiment run where the guard pattern prevented regressions across iterations.
+
 ### After AOP Orchestration — Mandatory Reporting
 
 After every dispatch, **explicitly state in session docs:**
@@ -1430,6 +1479,7 @@ Real-world case studies are in [orchestrations/](./orchestrations/).
 
 ## Version History
 
+- **v4.2.0** — 3 autoresearch-extracted patterns: Git-as-Memory (agents read git log before starting), Experiment Commit Convention (`experiment(<scope>): <description>`), Guard Pattern for skill development (metric + guard dual verification). Cross-agent rule R-20 in jimmy-core-preferences.
 - **v4.1.0** — 8 improvements from aop-domusx stress test: Python-based artifact generation for Codex (FND-0045), mandatory pre-review integrity gate at all tiers, hard-coded executor model names (FND-0046), safety-guard requirements for high-difficulty, minimum test count per tier, Tier 3 structured-output exclusion (FND-0047), JSON repair script, algorithmic depth guidance. Agent environment warning for background processes (FND-0011). Codex Windows path format rule (FND-0049).
 - **v4.0.1** — Added a non-negotiable Pre-Dispatch Mandatory Gate requiring version-controlled dispatch scripts before any headless session. Added `aop-claude-dispatch.sh` and `aop-gemini-dispatch.sh` as audited launch adapters for Claude Code and Gemini CLI. **Model Selection v2.2.0 (March 2026):** Updated with official Codex model routing — 5-tier system (Tier 1/1.5/2/2.5/3), GPT-5.2-codex as official DEFAULT, new models (GPT-5.1-codex, GPT-5-codex-mini), Codex Execution Principles, mandatory post-AOP model reporting. Fixed Codex dispatch script (was hardcoded to GPT-5.4, now configurable with GPT-5.2-codex default). Fixed Gemini model IDs (gemini-3.x → gemini-2.5-x).
 - **v4.0.0** — Modularization: extracted 15 implementation scripts from SKILL.md to scripts/. Protocol document reduced from 2195 to 1175 lines (46% reduction). No functional changes.

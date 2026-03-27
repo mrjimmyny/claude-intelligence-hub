@@ -608,6 +608,16 @@ Do not improvise missing title, remove the mandatory CC, substitute alternate CC
 **How to apply:** Before any `microsoft-mail-deliver` send, verify: (a) recipient is explicitly authorized, (b) title is Jimmy-provided, (c) summary shown to Jimmy. Default to `up4a@up4aoffice.com` when no recipient specified.
 **Related:** `microsoft-mail-deliver`, R-16, R-17, R-18, FND-0048
 
+### R-20. Autoresearch Patterns — Git-as-Memory, Experiment Commits, Guard Pattern
+**Origin:** Autoresearch deep analysis (generalx project, session c7bb66df, 2026-03-27). Three patterns extracted from the autoresearch skill for cross-agent adoption.
+**Rule:** Three patterns for iterative development:
+1. **Git-as-Memory:** Before starting work on any development task, read `git log --oneline -20` and check for reverted experiments. Use history to avoid repeating failed approaches.
+2. **Experiment Commit Convention:** Use `experiment(<scope>): <description>` for exploratory changes. Kept experiments = commit stays. Discarded = `git revert` (preserves attempt in history as learning signal).
+3. **Guard Pattern:** When modifying code, define a METRIC (primary goal) and a GUARD (safety check). Keep changes only if BOTH pass. Never modify guard/test files during the optimization loop.
+**Why:** Agents without historical context repeat failed approaches across sessions. Experiment commits create machine-readable learning signals. Guard pattern prevents regression during optimization.
+**How to apply:** Orchestrators include git-as-memory instructions in AOP dispatch prompts. All agents use experiment commit convention during development. Guard pattern applies to any code modification task.
+**Related:** AOP SKILL.md v4.2.0 Prompt Guidance sections, generalx Autoresearch analysis report
+
 ---
 
 *Part of the [Claude Intelligence Hub](https://github.com/mrjimmyny/claude-intelligence-hub)*

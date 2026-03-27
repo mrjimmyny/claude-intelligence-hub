@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.27.1] - 2026-03-27
+
+### Changed
+- **agent-orchestration-protocol** v4.1.0 -> v4.2.0 — 3 autoresearch-extracted patterns: Git-as-Memory (agents read git log before starting work), Experiment Commit Convention (`experiment(<scope>): <description>`), Guard Pattern for skill development (metric + guard dual verification).
+- **jimmy-core-preferences** — R-20 added: cross-agent rule for autoresearch patterns (Git-as-Memory, Experiment Commits, Guard Pattern).
+
 ## [2.27.0] - 2026-03-27
 
 ### Changed

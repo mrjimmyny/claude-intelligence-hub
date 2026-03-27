@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.27.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.27.1-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -555,8 +555,8 @@ claude-intelligence-hub/
 │
 ├── README.md                        # ⭐ This file
 ├── CHANGELOG.md                     # Version history
-├── EXECUTIVE_SUMMARY.md             # Comprehensive hub overview (v2.27.0)
-├── HUB_MAP.md                       # Skill routing dictionary (v2.27.0)
+├── EXECUTIVE_SUMMARY.md             # Comprehensive hub overview (v2.27.1)
+├── HUB_MAP.md                       # Skill routing dictionary (v2.27.1)
 ├── WINDOWS_JUNCTION_SETUP.md        # Junction setup guide (Windows)
 ├── scripts/                         # Automation & deployment scripts
 │   ├── setup_local_env.ps1          # Windows automated setup (15-min)
@@ -960,7 +960,7 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 
 ## 📈 Version History
 
-**Current Version:** v2.27.0 ✅ **AOP v4.1.0 — 8 improvements from aop-domusx stress test**
+**Current Version:** v2.27.1 ✅ **AOP v4.2.0 — 3 autoresearch-extracted patterns**
 **Last Updated:** March 27, 2026
 **Status:** Production | 22 published skills | Actively Maintained
 
@@ -984,6 +984,7 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 - **v2.3.0** (2026-02-17): repo-auditor skill v1.0.0 — proof-of-read fingerprinting, accumulative AUDIT_TRAIL.md, validate-trail.sh for CI
 - **v2.4.0** (2026-02-17): CIH-ROADMAP.md — single-entry-point navigation guide with 5 contextual paths
 - **v2.5.0** (2026-02-18): Development Impact Analysis — DEVELOPMENT_IMPACT_ANALYSIS.md + README section (17 days, 92–94% time savings, 95–98% cost savings)
+- **v2.27.1** (2026-03-27): AOP v4.2.0 — 3 autoresearch-extracted patterns (Git-as-Memory, Experiment Commits, Guard Pattern), R-20 cross-agent rule
 - **v2.27.0** (2026-03-27): AOP v4.1.0 — 8 improvements from aop-domusx stress test, 5 findings resolved (FND-0045/46/47/10/11), B05 validated
 - **v2.26.1** (2026-03-27): `microsoft-mail-deliver` v1.1.0 — recipient registry enhanced with enabled/level fields, disabled-recipient filtering on batch sends, Update action
 - **v2.26.0** (2026-03-26): `microsoft-mail-deliver` published as skill #22 with Microsoft-native transport routing, known-recipient registry, and first-release Microsoft-only batch validation
