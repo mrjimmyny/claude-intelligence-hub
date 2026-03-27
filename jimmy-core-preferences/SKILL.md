@@ -494,9 +494,9 @@ Rules learned from real failures, user corrections, and operational incidents. E
 **Related:** Section G, rules 15-19
 
 ### R-05. Codex Defaults to PowerShell on Windows
-**Origin:** 2026-03-18 — 7/140 commands failed silently due to PowerShell escaping.
-**Rule:** Every AOP prompt dispatched to Codex MUST include: "Use Git Bash (bash), NOT PowerShell. Write files using `cat > file << 'EOF'` syntax, never PowerShell `Set-Content`." Also applies to Gemini if it defaults to PowerShell.
-**Related:** Section L
+**Origin:** 2026-03-18 — 7/140 commands failed silently due to PowerShell escaping. Updated 2026-03-27 — FND-0045 confirmed PowerShell strips double quotes from bash heredoc, corrupting JSON artifacts.
+**Rule:** Every AOP prompt dispatched to Codex MUST include: "Use Git Bash (bash), NOT PowerShell. Write files using `cat > file << 'EOF'` syntax, never PowerShell `Set-Content`." **CRITICAL addition (AOP v4.1.0):** For JSON artifact generation, always use Python `json.dumps()` — never bash heredoc. The `aop-codex-dispatch.sh` script auto-injects this reminder. Also applies to Gemini if it defaults to PowerShell.
+**Related:** Section L, AOP SKILL.md "Python-Based Artifact Generation"
 
 ### R-06. rm -rf Blocked — Use find -delete
 **Origin:** Claude Code blocks `rm -rf` even with bypass permissions enabled.

@@ -67,12 +67,29 @@ echo "Model:     $MODEL"
 echo "Time:      $(date -u +%Y-%m-%dT%H:%M:%SZ)"
 echo "=========================="
 
-# Read prompt and pass to codex exec via stdin
-# This avoids all escaping issues — the prompt file is read as-is
-cat "$PROMPT_FILE" | codex exec \
+# Inject Python artifact generation reminder into prompt
+# PowerShell strips double quotes from bash heredoc — Python json.dumps() is immune (FND-0045)
+PATCHED_PROMPT=$(mktemp)
+cat "$PROMPT_FILE" > "$PATCHED_PROMPT"
+cat >> "$PATCHED_PROMPT" << 'ARTIFACT_PATCH'
+
+---
+IMPORTANT — ARTIFACT GENERATION RULE:
+Write the AOP completion artifact using Python json.dumps(), NOT bash heredoc.
+Bash heredoc on Windows/PowerShell produces malformed JSON (stripped quotes).
+Use: python3 -c "import json; ..." to write the artifact file.
+Do NOT use: cat > artifact.json << 'EOF' ... EOF
+---
+ARTIFACT_PATCH
+
+# Read patched prompt and pass to codex exec via stdin
+cat "$PATCHED_PROMPT" | codex exec \
   --model "$MODEL" \
   --dangerously-bypass-approvals-and-sandbox \
   -C "$WORKING_DIR"
+
+# Cleanup patched prompt
+rm -f "$PATCHED_PROMPT"
 
 # Check if artifact was created
 if [ -f "$ARTIFACT_PATH" ]; then

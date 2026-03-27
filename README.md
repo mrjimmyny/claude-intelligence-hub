@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.26.1-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.27.0-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -201,7 +201,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[context-guardian](context-guardian/)** | v1.1.0 | ✅ Production | Context preservation system | Xavier ↔ Magneto account switching, 3-strategy symlinks, rollback protection, .contextignore support, dry-run mode, verify-backup reports. |
 | **[repo-auditor](repo-auditor/)** | v2.0.0 | ✅ Production | End-to-end audit skill | Mandatory proof-of-read fingerprinting, accumulative AUDIT_TRAIL.md, validate-trail.sh for CI. |
 | **[conversation-memoria](conversation-memoria/)** | v1.0.0 | ✅ Production | Persistent conversation storage | Intelligent metadata extraction, 95-98% token savings, week-based organization, natural language triggers, cross-agent memory sharing. |
-| **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v4.0.1 | ✅ Production-Validated | Multi-agent coordination framework | Multi-executor robust orchestration, task-ID namespaced artifacts, fan-in/fan-out, DAG dependency management, deadlock detection, priority-aware execution, and dispatch-script guardrails for headless launches. |
+| **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v4.1.0 | ✅ Production-Validated | Multi-agent coordination framework | Multi-executor robust orchestration, task-ID namespaced artifacts, fan-in/fan-out, DAG dependency management, deadlock detection, priority-aware execution, and dispatch-script guardrails for headless launches. |
 | **[core_catalog](core_catalog/)** | v1.0.0 | ✅ Production | Core system catalog | Bootstrap compatibility data, centralized configuration references, and environment initialization mappings. |
 | **[token-economy](token-economy/)** | v1.0.0 | ✅ Production | Token budget governance | Budget enforcement adapter, preflight token discipline, and response-size reduction rules. |
 | **[codex-governance-framework](codex-governance-framework/)** | v1.0.0 | ✅ Production | Institutional governance framework | Codex bootstrap governance, playbook guidance, onboarding references, and CI-ready contracts. |
@@ -489,7 +489,7 @@ claude-intelligence-hub/
 │   │   └── templates/               # Conversation templates
 │   └── README.md                    # Main documentation
 │
-├── 📁 agent-orchestration-protocol/ # ⭐ Multi-Agent Coordination (v4.0.1)
+├── 📁 agent-orchestration-protocol/ # ⭐ Multi-Agent Coordination (v4.1.0)
 │   ├── SKILL.md                     # The Seven Pillars of AOP
 │   ├── README.md                    # Complete guide
 │   ├── AOP-EXECUTIVE-SUMMARY.md     # Executive summary
@@ -555,8 +555,8 @@ claude-intelligence-hub/
 │
 ├── README.md                        # ⭐ This file
 ├── CHANGELOG.md                     # Version history
-├── EXECUTIVE_SUMMARY.md             # Comprehensive hub overview (v2.26.0)
-├── HUB_MAP.md                       # Skill routing dictionary (v2.26.0)
+├── EXECUTIVE_SUMMARY.md             # Comprehensive hub overview (v2.27.0)
+├── HUB_MAP.md                       # Skill routing dictionary (v2.27.0)
 ├── WINDOWS_JUNCTION_SETUP.md        # Junction setup guide (Windows)
 ├── scripts/                         # Automation & deployment scripts
 │   ├── setup_local_env.ps1          # Windows automated setup (15-min)
@@ -960,8 +960,8 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 
 ## 📈 Version History
 
-**Current Version:** v2.26.1 ✅ **microsoft-mail-deliver v1.1.0 — recipient registry enhanced**
-**Last Updated:** March 26, 2026
+**Current Version:** v2.27.0 ✅ **AOP v4.1.0 — 8 improvements from aop-domusx stress test**
+**Last Updated:** March 27, 2026
 **Status:** Production | 22 published skills | Actively Maintained
 
 ### Major Milestones
@@ -984,6 +984,7 @@ Free to use, modify, and distribute. Attribution appreciated but not required.
 - **v2.3.0** (2026-02-17): repo-auditor skill v1.0.0 — proof-of-read fingerprinting, accumulative AUDIT_TRAIL.md, validate-trail.sh for CI
 - **v2.4.0** (2026-02-17): CIH-ROADMAP.md — single-entry-point navigation guide with 5 contextual paths
 - **v2.5.0** (2026-02-18): Development Impact Analysis — DEVELOPMENT_IMPACT_ANALYSIS.md + README section (17 days, 92–94% time savings, 95–98% cost savings)
+- **v2.27.0** (2026-03-27): AOP v4.1.0 — 8 improvements from aop-domusx stress test, 5 findings resolved (FND-0045/46/47/10/11), B05 validated
 - **v2.26.1** (2026-03-27): `microsoft-mail-deliver` v1.1.0 — recipient registry enhanced with enabled/level fields, disabled-recipient filtering on batch sends, Update action
 - **v2.26.0** (2026-03-26): `microsoft-mail-deliver` published as skill #22 with Microsoft-native transport routing, known-recipient registry, and first-release Microsoft-only batch validation
 - **v2.19.0** (2026-03-19): Mandatory project sync gate — CS-07 and DH-15 added to daily-doc-information, jimmy-core-preferences Section G rule 13 added, and root Session Close Protocol references added to CLAUDE.md, AGENTS.md, and GEMINI.md

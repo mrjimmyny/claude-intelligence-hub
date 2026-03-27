@@ -1,6 +1,6 @@
 ---
 name: agent-orchestration-protocol
-version: 4.0.1
+version: 4.1.0
 description: Multi-agent coordination framework - The Seven Pillars of AOP
 command: /aop
 aliases: [/orchestrate, /delegate]
@@ -9,7 +9,7 @@ aliases: [/orchestrate, /delegate]
 # Agent Orchestration Protocol (AOP)
 
 **Skill ID:** `agent-orchestration-protocol`
-**Version:** 4.0.1
+**Version:** 4.1.0
 **Status:** Production-Validated
 **Category:** Multi-Agent Coordination
 
@@ -84,6 +84,21 @@ EXECUTOR_PID=$!
 ```
 
 **Verification:** `ps aux | grep claude` (bash) or `Get-Process claude` (PowerShell) — confirms independent process with its own PID.
+
+**Agent Environment Warning (FND-0011):**
+
+The `&` background pattern shown above works in **native terminal sessions** (human at a bash prompt) and when the **launch + polling loop are in the same shell invocation**. However, in agent tool environments (Claude Code's `Bash` tool, Codex), each tool call creates an ephemeral shell. Background processes launched with `&` receive SIGHUP when that shell exits, killing the executor before it completes.
+
+**Correct patterns for agents:**
+
+| Agent Platform | How to launch | How to poll |
+| :--- | :--- | :--- |
+| **Claude Code** | Use dispatch script synchronously + `run_in_background: true` on the Bash tool call | Claude Code notifies on completion — no manual polling needed |
+| **Codex** | Use `aop-codex-dispatch.sh` (runs synchronously) | Script blocks until Codex finishes |
+| **Gemini** | Use `aop-gemini-dispatch.sh` (runs synchronously) | Script blocks until Gemini finishes |
+| **Native terminal** | `& EXECUTOR_PID=$!` works as documented | Standard polling loop in same shell |
+
+**Rule:** Agents MUST use dispatch scripts (`scripts/aop-*-dispatch.sh`). Do NOT use `&` across separate tool calls — the process will die.
 
 ---
 
@@ -162,6 +177,49 @@ cd /c/ai/target-project && python -m pytest tests/ -q
 ```
 
 **Verification:** Every verification step must produce explicit PASS/FAIL output. Do not assume.
+
+**Pre-Review Integrity Gate (Mandatory at ALL Tiers):**
+
+Before dispatching a reviewer or proceeding to grading, the Orchestrator MUST verify that executor submissions pass a minimum integrity check. This gate applies to basic, medium, AND high difficulty tiers — no exceptions.
+
+| Check | Criteria | Action on Failure |
+| :--- | :--- | :--- |
+| Artifact validity | Valid JSON, parseable by `python3 -c "import json; json.load(open('artifact.json'))"` | REJECT — do not grade |
+| Required fields | `status`, `task_id`, `session_id`, `timestamp`, `executor`, `files_changed` all present | REJECT — do not grade |
+| File existence | Every path in `files_changed` exists and is non-empty | REJECT — do not grade |
+| Test pass | If tests exist, `pytest` / test runner exits 0 | REJECT — do not grade |
+| Minimum threshold | At least N-1 of N executors pass integrity | Proceed with passing submissions only |
+
+```bash
+# Pre-review integrity gate — run for EACH executor before reviewer dispatch
+ARTIFACT="AOP_COMPLETE_${TASK_ID}_${SESSION_ID}.json"
+
+# 1. JSON validity
+python3 -c "import json; json.load(open('${ARTIFACT}'))" 2>/dev/null \
+  && echo "INTEGRITY: JSON valid" \
+  || { echo "INTEGRITY FAIL: malformed JSON"; exit 1; }
+
+# 2. Required fields
+python3 -c "
+import json
+a = json.load(open('${ARTIFACT}'))
+required = ['status','task_id','session_id','timestamp','executor','files_changed']
+missing = [f for f in required if f not in a]
+assert not missing, f'Missing fields: {missing}'
+print('INTEGRITY: all required fields present')
+"
+
+# 3. File existence
+python3 -c "
+import json, os
+a = json.load(open('${ARTIFACT}'))
+for f in a.get('files_changed', []):
+    assert os.path.exists(f) and os.path.getsize(f) > 0, f'Missing/empty: {f}'
+print('INTEGRITY: all files exist and non-empty')
+"
+```
+
+**Why this gate exists:** In the aop-domusx stress test (R01-R03), malformed artifacts were graded instead of rejected, producing misleading FAIL verdicts on grade when they should have been caught earlier as integrity failures. This gate ensures broken submissions never reach the reviewer.
 
 ---
 
@@ -705,7 +763,11 @@ Cycle N: t3 completes → slot opens → dispatch t2
 | 1.5 (Senior Engineer) | — | `gpt-5.3-codex` | — | Complex multi-step workflows, long-running processes, multi-agent orchestration |
 | 2 (Engineer) | `claude-sonnet-4-6` | **`gpt-5.2-codex`** (DEFAULT) / `gpt-5.4-mini` | `gemini-2.5-flash` | Standard coding, refactoring, implementation, balanced development (80% of tasks) |
 | 2.5 (Reliable Engineer) | — | `gpt-5.1-codex` / `gpt-5.1-codex-max` | — | High stability + lower cost; large context + many files + long sessions |
-| 3 (Operator) | `claude-haiku-4-5` | `gpt-5-codex-mini` | `gemini-2.5-flash-lite` | Simple, repetitive, fast execution, low cost, templates, notifications, bulk ops |
+| 3 (Operator) | `claude-haiku-4-5` | `gpt-5-codex-mini` | `gemini-2.5-flash-lite` | Simple, repetitive, fast execution, low cost, templates, notifications, bulk ops — **NOT for structured output** (see below) |
+
+**Tier 3 Limitation — Structured Output (FND-0047):**
+
+Tier 3 models (`gpt-5-codex-mini`, `claude-haiku-4-5`, `gemini-2.5-flash-lite`) have weaker instruction-following for structural formatting constraints. In the aop-domusx stress test, `gpt-5-codex-mini` failed to produce fenced code blocks, proper JSON artifacts, and formatting constraints despite explicit prompt instructions. **Do NOT use Tier 3 for any task requiring:** JSON artifact compliance, structured report output, formatted code blocks, or multi-section document generation. This is an accepted model limitation, not a fixable prompt issue.
 
 ### Codex Model Routing Logic (Official — March 2026)
 
@@ -728,6 +790,24 @@ Cycle N: t3 completes → slot opens → dispatch t2
 4. **Downgrade model for simple or repetitive operations.**
 5. **Ensure consistency across multi-step workflows.** Don't switch models mid-workflow unless task profile changes.
 6. **Allow dynamic switching within the same session if task scope changes.**
+
+### Prompt Guidance: Algorithmic Depth
+
+For **medium and high difficulty** tasks involving algorithmic problems, include this instruction in executor prompts:
+
+```
+## Algorithm Implementation Rule
+For algorithmic problems (diff computation, sorting, graph traversal, string matching, etc.):
+prefer CUSTOM implementations over stdlib/library delegation.
+
+- DO: Implement LCS, Myers diff, Dijkstra, etc. from scratch with clear logic.
+- DO NOT: Delegate to difflib, itertools recipes, or library one-liners that hide complexity.
+
+Stdlib delegation reduces the depth and educational value of the implementation.
+You will be graded on algorithmic understanding, not on finding the shortest import.
+```
+
+**Why this exists:** In the aop-domusx stress test (R09, R10), one agent per round used `difflib` instead of a custom LCS implementation, reducing depth scores. For AOP tasks that test algorithmic capability, stdlib delegation bypasses the assessment objective.
 
 ### After AOP Orchestration — Mandatory Reporting
 
@@ -1028,6 +1108,46 @@ Apply these defaults to every orchestration unless explicitly overridden:
 | Write scope declaration | Mandatory in every executor prompt |
 | Post-execution git diff check | Recommended |
 
+### High-Difficulty Safety Requirements
+
+When dispatching executors for **high-difficulty** tasks (complex state management, mutable data structures, concurrent operations), the Orchestrator MUST include these safety requirements in the prompt:
+
+**Mandatory prompt additions for high-difficulty:**
+
+```
+## Safety Requirements (HIGH DIFFICULTY — NON-NEGOTIABLE)
+
+1. All state-mutating operations MUST guard against uncommitted/dirty state.
+   - Before any checkout, merge, reset, or rebase: check for uncommitted changes.
+   - If dirty state exists: either fail with a clear error or stash/preserve first.
+
+2. Tests MUST verify destructive edge cases:
+   - What happens when the operation runs on dirty state?
+   - What happens when the operation is interrupted mid-execution?
+   - What happens when inputs are partially valid?
+
+3. No silent data loss. If an operation could destroy user data (staged changes,
+   working tree modifications, unsaved state), it MUST either:
+   - Refuse to proceed and raise an error, OR
+   - Create a backup before proceeding.
+```
+
+**Why this exists:** In the aop-domusx stress test (R12), GPT-5.4 at high difficulty produced checkout and merge functions that silently destroyed staged changes. The happy path worked, but destructive edge cases were unguarded. Explicit safety requirements in the prompt prevent this class of failure.
+
+### Minimum Test Count Expectations
+
+Executor prompts SHOULD include minimum test count expectations scaled to task difficulty:
+
+| Difficulty | Minimum Tests | Rationale |
+| :--- | :--- | :--- |
+| Basic | 10+ | Core functionality + basic edge cases |
+| Medium | 20+ | Functionality + edge cases + error handling |
+| High | 40+ | Comprehensive: functionality, edge cases, error handling, concurrency, destructive scenarios |
+
+Include in executor prompts: `"Your test suite MUST contain at least N tests covering: [list categories]."`
+
+**Why this exists:** In the aop-domusx stress test, high-difficulty submissions ranged from 6 tests (GPT-5.4 high effort, R12) to 70 tests (Opus 4.6, R09). Shallow test suites correlate directly with missed edge cases and lower grades. Setting explicit expectations prevents underinvestment in testing.
+
 ### Cost Tracking
 
 Executors self-report in the completion artifact:
@@ -1079,7 +1199,7 @@ Before dispatching ANY headless session to ANY agent (Claude, Codex, Gemini, or 
 
 ### Known CLI Quirks
 
-- **Codex uses PowerShell by default on Windows.** This causes file-write failures with complex strings. **MANDATORY:** Every AOP prompt sent to Codex MUST include: "Use Git Bash (bash), NOT PowerShell. Write files using `cat > file << 'EOF'` syntax, never PowerShell `Set-Content`."
+- **Codex uses PowerShell by default on Windows.** This causes file-write failures with complex strings. **MANDATORY:** Every AOP prompt sent to Codex MUST include: "Use Git Bash (bash), NOT PowerShell. Write files using `cat > file << 'EOF'` syntax, never PowerShell `Set-Content`." **CRITICAL:** For JSON artifact generation, always use Python `json.dumps()` — never bash heredoc. See "Python-Based Artifact Generation" in the Completion Artifact Schema section.
 - **Gemini requires `--approval-mode yolo` for headless.** Without it, the CLI waits for interactive approval and produces no output. Always include this flag in headless dispatches.
 - **Gemini `-y` alias:** The `-y` flag works as shorthand for `--approval-mode yolo`. Both are valid.
 - **Codex single quotes:** Codex CLI parses instructions wrapped in single quotes. Double quotes inside single-quoted instructions cause parse errors — use escaped chars or the file-based pattern.
@@ -1142,8 +1262,19 @@ bash scripts/aop-codex-dispatch.sh \
 | `task_id` | **Yes** | Human-readable task identifier — used in artifact filename |
 | `session_id` | Yes | 8-char hex suffix used in file naming (nanosecond-seeded) |
 | `timestamp` | Yes | ISO 8601 with timezone |
-| `executor` | Yes | Model name + mode |
+| `executor` | Yes | Model name + mode — **MUST be hard-coded by the Orchestrator in the prompt template** (see below) |
 | `files_changed` | Yes | Array of absolute or repo-relative paths |
+
+**Hard-Coded Executor Name (Mandatory):**
+
+The `executor` field MUST be pre-filled by the Orchestrator in the prompt template — executors must NOT self-identify. LLM agents lack reliable access to their own runtime model identifier and will fabricate names from training data (see FND-0046).
+
+**Orchestrator responsibility:** When writing the executor prompt, substitute the actual model name:
+```
+'executor': 'gpt-5.2-codex (headless AOP)'   # Orchestrator fills this, not the executor
+```
+
+The executor copies this value verbatim into the artifact. It never needs to guess its own identity.
 
 ### Optional Fields
 
@@ -1174,6 +1305,66 @@ AOP_COMPLETE_{task_id}_{session_id}.json
 ```
 
 Both `task_id` and `session_id` are embedded so that parallel executors never produce colliding filenames. The artifact is always paired with its prompt file (`AOP_PROMPT_{task_id}_{session_id}.md`).
+
+### Python-Based Artifact Generation (Mandatory for Codex)
+
+**Problem:** Codex on Windows routes bash through PowerShell, which strips double quotes from heredoc content. This produces malformed JSON (`{ status: SUCCESS }` instead of `{ "status": "SUCCESS" }`). See FND-0045.
+
+**Rule:** All AOP executor prompts for Codex MUST instruct artifact generation via Python `json.dumps()`, not bash heredoc. Claude agents are unaffected (bash runs natively) but MAY use Python for consistency.
+
+**Template to include in every Codex executor prompt:**
+
+```
+## Completion Artifact (MANDATORY)
+
+When your task is complete, write the completion artifact using Python — NOT bash heredoc:
+
+python3 -c "
+import json, datetime
+artifact = {
+    'status': 'SUCCESS',
+    'task_id': '{{TASK_ID}}',
+    'session_id': '{{SESSION_ID}}',
+    'timestamp': datetime.datetime.now(datetime.timezone.utc).astimezone().isoformat(),
+    'executor': '{{MODEL_NAME}}',
+    'files_changed': [  # UPDATE THIS LIST with actual files you changed
+        'path/to/file1.py',
+        'path/to/file2.py'
+    ]
+}
+with open('{{ARTIFACT_PATH}}', 'w') as f:
+    json.dump(artifact, f, indent=2)
+print('Artifact written:', '{{ARTIFACT_PATH}}')
+"
+
+If your task FAILED, set 'status' to 'FAILURE' and add 'error_details' with the reason.
+Do NOT use bash heredoc (cat << EOF) to write the artifact — it will produce malformed JSON on Windows.
+```
+
+**Why Python is immune:** Python's `json.dumps()` serializes strings with proper quoting regardless of the shell transport layer. The JSON is constructed in-memory and written to file via Python I/O, bypassing PowerShell escaping entirely.
+
+**CRITICAL — Path format for Codex on Windows:**
+
+Codex routes Python through the Windows Python Launcher (`py -3`), which does NOT understand Git Bash mount paths like `/c/ai/`. Python on Windows resolves `/c/ai/` as `C:\c\ai\` (a literal directory), not `C:\ai\`.
+
+**Rule:** All file paths in the Python artifact template for Codex MUST use Windows format with explicit drive letter: `C:/ai/...` (forward slashes work in Python). The Orchestrator converts paths before injecting them into the prompt.
+
+| Context | Path format | Example |
+| :--- | :--- | :--- |
+| Bash commands in Codex | Git Bash style | `/c/ai/_skills/project/` |
+| Python code in Codex | Windows style | `C:/ai/_skills/project/` |
+| Python code in Claude | Either works | Both `/c/ai/` and `C:/ai/` |
+
+**Fallback — JSON Repair Script:**
+
+If an artifact is produced via bash heredoc (legacy prompts or non-Codex edge cases) and arrives malformed, the Orchestrator can attempt automated repair before rejecting:
+
+```bash
+bash scripts/aop-json-repair.sh /path/to/AOP_COMPLETE_task_session.json
+# Exit 0 = valid/repaired, Exit 1 = unfixable, Exit 2 = missing/empty
+```
+
+The repair script handles unquoted keys, single quotes, and trailing commas. It does NOT handle truncated files. See [`scripts/aop-json-repair.sh`](./scripts/aop-json-repair.sh). This is a last resort — Python-based generation should prevent the need for repair.
 
 **Backward compatibility:** `AOP_COMPLETE_{session_id}.json` (v3.0 format) is accepted for single-executor workflows.
 
@@ -1239,6 +1430,7 @@ Real-world case studies are in [orchestrations/](./orchestrations/).
 
 ## Version History
 
+- **v4.1.0** — 8 improvements from aop-domusx stress test: Python-based artifact generation for Codex (FND-0045), mandatory pre-review integrity gate at all tiers, hard-coded executor model names (FND-0046), safety-guard requirements for high-difficulty, minimum test count per tier, Tier 3 structured-output exclusion (FND-0047), JSON repair script, algorithmic depth guidance. Agent environment warning for background processes (FND-0011). Codex Windows path format rule (FND-0049).
 - **v4.0.1** — Added a non-negotiable Pre-Dispatch Mandatory Gate requiring version-controlled dispatch scripts before any headless session. Added `aop-claude-dispatch.sh` and `aop-gemini-dispatch.sh` as audited launch adapters for Claude Code and Gemini CLI. **Model Selection v2.2.0 (March 2026):** Updated with official Codex model routing — 5-tier system (Tier 1/1.5/2/2.5/3), GPT-5.2-codex as official DEFAULT, new models (GPT-5.1-codex, GPT-5-codex-mini), Codex Execution Principles, mandatory post-AOP model reporting. Fixed Codex dispatch script (was hardcoded to GPT-5.4, now configurable with GPT-5.2-codex default). Fixed Gemini model IDs (gemini-3.x → gemini-2.5-x).
 - **v4.0.0** — Modularization: extracted 15 implementation scripts from SKILL.md to scripts/. Protocol document reduced from 2195 to 1175 lines (46% reduction). No functional changes.
 - **v4.0.0-rc.1** — Release Candidate. Final validation and polish round (R5). Fixed bash code quality issues (`local` keyword used outside functions in DAG execution loop). Fixed model reference inconsistency in Cross-LLM Command Reference (`gemini-2.0-flash` → `gemini-3-flash`). Updated status to Release Candidate. All supporting documents updated (CHANGELOG, README, Executive Summary, ROADMAP, Worked Examples). Full validation checklist passed: 20/20 checks. Components: C1 (Multi-Executor Coordination), C2 (Fan-In/Fan-Out Orchestration), C3 (Task Dependency Management), C4 (DAG Cycle Detection + Deadlock Detection), C5 (Task Priority & Weight System), C6 (Bounded Concurrency Queue).

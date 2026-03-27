@@ -292,5 +292,5 @@ The repo-auditor automatically validates:
 
 ---
 
-**Last Updated:** 2026-03-26
-**Version:** 2.26.0
+**Last Updated:** 2026-03-27
+**Version:** 2.27.0

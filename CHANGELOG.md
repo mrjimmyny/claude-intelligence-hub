@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.27.0] - 2026-03-27
+
+### Changed
+- **agent-orchestration-protocol** v4.0.1 -> v4.1.0 — 8 improvements from aop-domusx stress test: Python-based artifact generation for Codex (eliminates FND-0045 PowerShell escaping), mandatory pre-review integrity gate at all tiers (eliminates P-004), hard-coded executor model names (eliminates FND-0046), safety-guard requirements for high-difficulty prompts, minimum test count expectations per tier, Tier 3 structured-output exclusion (FND-0047), post-execution JSON repair script, algorithmic depth prompt guidance.
+
+### Added
+- **aop-json-repair.sh** — New fallback script for repairing malformed JSON artifacts via Python regex-based repair.
+
 ## [2.26.1] - 2026-03-27
 
 ### Changed
