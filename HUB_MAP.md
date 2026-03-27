@@ -37,7 +37,7 @@
 | 7 | **xavier-memory** | v1.1.0 | `/xavier-memory` | Cross-project sync |
 | 12 | **agent-orchestration-protocol** | v4.0.1 | `/aop` | "orchestrate", "delegate" |
 | 18 | **codex-task-notifier** | v1.2.0 | `/codex-task-notifier` | "email me when done", "me manda um email" |
-| 22 | **microsoft-mail-deliver** | v1.0.0 | `/microsoft-mail-deliver` | "via Microsoft", "manda email pelo Microsoft", saved Microsoft recipient workflows |
+| 22 | **microsoft-mail-deliver** | v1.1.0 | `/microsoft-mail-deliver` | "via Microsoft", "manda email pelo Microsoft", saved Microsoft recipient workflows |
 | 19 | **daily-doc-information** | v1.6.0 | `/daily-doc-information` | Session docs, daily reports, and project governance automation |
 | 20 | **notebooklmx** | v1.1.0 | `/notebooklmx` | "create a podcast", "generate infographic", "notebooklm", NotebookLM content generation |
 

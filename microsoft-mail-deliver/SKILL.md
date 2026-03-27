@@ -7,8 +7,8 @@ aliases: [/mmd]
 
 # microsoft-mail-deliver
 
-**Version:** 1.0.0
-**Stage:** Published first release
+**Version:** 1.1.0
+**Stage:** Published
 
 ## Objective
 
@@ -88,11 +88,12 @@ Runtime notes:
 - `scripts\send-microsoft-mail.ps1` now supports `-MessageFormat Auto|Json|Mime`; `Auto` promotes multi-external-`To` sends to MIME so Exchange receives a standards-based message body instead of the JSON payload path
 - `scripts\send-microsoft-business-email.ps1` is the standard business-email entrypoint and composes the mandatory greeting / intro / signature automatically
 - `scripts\manage-known-recipients.ps1` is the canonical registry manager for Jimmy's saved Microsoft recipient list:
-  - `-Action Add` adds one or many addresses
+  - `-Action Add` adds one or many addresses (accepts `-Enabled $true/$false` and `-Level operational/middle/high`)
   - `-Action List` returns the current registry
-  - `-Action Summary -OutputFormat MarkdownTable` renders the numbered alphabetical table for chat
+  - `-Action Summary -OutputFormat MarkdownTable` renders the numbered alphabetical table for chat (includes Enabled and Level columns)
   - `-Action Remove` / `-Action Delete` removes one or many addresses
-  - `-Action Resolve -Emails all` returns the ready-to-send comma-separated `To` string for the full registry
+  - `-Action Update` changes `enabled` and/or `level` for existing recipients (requires `-Emails` plus at least one of `-Enabled` or `-Level`)
+  - `-Action Resolve -Emails all` returns the ready-to-send comma-separated `To` string — **only enabled recipients are included when using `known:all`** (FND-0048 second safety layer)
 - Graph `202 Accepted` is treated as transport acceptance only, not final delivery proof
 - external sends from `onmicrosoft.com` sender profiles remain unverified until recipient confirmation or mailbox/admin evidence exists
 - external multi-recipient batch delivery now prefers the MIME transport path; split-send remains diagnostic only and is NOT the approved final behavior
@@ -107,6 +108,8 @@ The `known:all` / `all` / `@all` / `known-recipients:all` selectors MUST NOT be 
 - "send to all", "send to the list", "known:all", "manda pra lista"
 
 If Jimmy says "send me an email" or "me manda um email" — that means send to Jimmy ONLY, not to any list. **The script enforces this:** `send-microsoft-mail.ps1` will BLOCK `known:all` unless `-ConfirmKnownAll` switch is passed.
+
+**Second safety layer (v1.1.0):** Even when `known:all` is authorized and `-ConfirmKnownAll` is passed, recipients with `enabled: false` in the registry are **automatically excluded** from the resolved list. Only `enabled: true` recipients receive batch emails. Direct targeting of a specific disabled email is still possible (explicit choice).
 
 ### Rule 2 — Default Recipient
 
@@ -138,9 +141,31 @@ Then wait for Jimmy's "ok" / "dispara" / "go" before executing. Exception: Jimmy
 
 When Jimmy says "via Microsoft" or "protocolo Microsoft", the agent MUST use this skill and ONLY this skill. Do not fall back to gws CLI, Resend, Mailgun, or codex-task-notifier. If this skill is not available, do NOT send. Report the failure instead.
 
+## Known Recipient Registry Schema (v1.1.0)
+
+Each recipient in `known-recipients.json` has these fields:
+
+| Field | Type | Description |
+|---|---|---|
+| `email` | string | Recipient email address |
+| `enabled` | boolean | `true` = can receive batch emails, `false` = excluded from `known:all` |
+| `level` | string | Classification: `operational`, `middle`, `high` |
+| `added_at_local` | string | Local timestamp when added |
+| `added_at_utc` | string | UTC timestamp when added |
+
+**`enabled` flag behavior:**
+- `known:all` resolves to ONLY `enabled: true` recipients
+- Direct targeting of a specific email ignores the flag (explicit choice)
+- Default for new recipients: `enabled: true`, `level: "operational"`
+
+**`level` classifications:**
+- `operational` — day-to-day contacts
+- `middle` — managers
+- `high` — directors/executives
+
 ## Known Recipient Registry Protocol
 
-When Jimmy asks to add, list, remove, or resolve Microsoft recipients:
+When Jimmy asks to add, list, remove, update, or resolve Microsoft recipients:
 
 - use `C:\ai\_skills\microsoft-mail-deliver\scripts\manage-known-recipients.ps1`
 - store the canonical list in `C:\ai\_skills\microsoft-mail-deliver\data\known-recipients.json`
@@ -160,8 +185,11 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "& 'C:\ai\_skills\microso
 # Remove recipients
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& 'C:\ai\_skills\microsoft-mail-deliver\scripts\manage-known-recipients.ps1' -Action Remove -Emails @('a@contoso.com')"
 
-# Resolve all saved recipients into one ready-to-send To string
+# Resolve all saved recipients into one ready-to-send To string (enabled only)
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& 'C:\ai\_skills\microsoft-mail-deliver\scripts\manage-known-recipients.ps1' -Action Resolve -Emails @('all') -OutputFormat RecipientString"
+
+# Update a recipient's enabled flag and level
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& 'C:\ai\_skills\microsoft-mail-deliver\scripts\manage-known-recipients.ps1' -Action Update -Emails @('a@contoso.com') -Enabled $false -Level 'high'"
 
 # Send one business email to all saved Microsoft recipients
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\ai\_skills\microsoft-mail-deliver\scripts\send-microsoft-business-email.ps1 -To all -Title 'SMOKE TEST MICROSOFT BATCH' -MainContent 'Controlled Microsoft-only batch validation.'
@@ -176,12 +204,14 @@ powershell -NoProfile -ExecutionPolicy Bypass -File C:\ai\_skills\microsoft-mail
 
 ## Current Outcome
 
-The first official release is now published around the `up4a@up4aoffice.com` runtime:
+Published v1.1.0 around the `up4a@up4aoffice.com` runtime:
 - delegated auth validated
 - `/me` probe validated
 - sender entrypoints validated
-- persistent known-recipient registry validated
+- persistent known-recipient registry validated with `enabled`/`level` fields (v1.1.0)
 - real Microsoft-only batch send validated with `To = all` and one non-duplicated mandatory `Cc`
+- `known:all` resolution filters disabled recipients (second safety layer, v1.1.0)
+- `Update` action available for changing recipient status without remove/re-add
 
 Known limitation kept explicit:
 - Gmail multi-recipient external batches remain under dated post-release observation until `2026-03-29`

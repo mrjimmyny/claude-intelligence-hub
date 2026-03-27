@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.26.1] - 2026-03-27
+
+### Changed
+- **microsoft-mail-deliver** v1.0.0 -> v1.1.0 — Known-recipient registry enhanced with `enabled` (On/Off) and `level` (operational/middle/high) fields. `known:all` now filters disabled recipients as second safety layer (FND-0048). New `Update` action for changing recipient status. Registry schema bumped to v1.1.0.
+- **jimmy-core-preferences** — R-18 updated with `enabled`/`level` fields and `Update` action. R-19 updated with second safety layer description (disabled recipients excluded from batch).
+- **CLAUDE.md**, **AGENTS.md**, **GEMINI.md** — FND-0048 safety gate 1 updated to document v1.1.0 `enabled` flag filtering behavior.
+
 ## [2.26.0] - 2026-03-26
 
 ### Added
