@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.27.1-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.28.0-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -43,6 +43,7 @@ All skills are available as **slash commands** for instant access. Just type `/c
 | **codex-task-notifier** | `/codex-task-notifier` | /ctn | Local Windows-first email notifier for Codex task completion |
 | **notebooklmx** | `/notebooklmx` | /nlmx | Google NotebookLM automation (audio, video, infographics, slides, quizzes) |
 | **bi-designerx** | `/bidx` | /bi-designer | BI dashboard design for non-designers (Paper.design + CEM system) |
+| **self-improvement** | `/self-improvement` | /improve | Iterative refinement framework (audit + simulation, worktree isolation, scoring) |
 
 **Example usage:**
 ```bash
@@ -86,7 +87,7 @@ The **Claude Intelligence Hub** is a centralized system that:
 
 > **How much effort would this take to build manually?**
 
-This hub represents **22 skill collections, 280KB+ of documentation, 160+ automated tests, and a complete CI/CD pipeline**. The initial 9 skills were built in **17 days** (Feb 2026), expanded to 22 skills by March 2026. The numbers below are from the [v2.4.0 case study](./DEVELOPMENT_IMPACT_ANALYSIS.md) and reflect the original 9-skill scope.
+This hub represents **23 skill collections, 280KB+ of documentation, 160+ automated tests, and a complete CI/CD pipeline**. The initial 9 skills were built in **17 days** (Feb 2026), expanded to 22 skills by March 2026. The numbers below are from the [v2.4.0 case study](./DEVELOPMENT_IMPACT_ANALYSIS.md) and reflect the original 9-skill scope.
 
 ### The Numbers
 
@@ -212,6 +213,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[daily-doc-information](daily-doc-information/)** | v1.6.0 | ✅ Production | Documentation governance automation | Session docs, daily executive reports, project governance operations, strategic project portfolio, stale session detection (PP-10), LLM model tracking, and cross-agent/cross-machine portability. |
 | **[notebooklmx](notebooklmx/)** | v1.1.0 | ✅ Production | Google NotebookLM automation | Unified interface for NotebookLM content generation (audio, video, infographics, slides, quizzes), Clarity-First design system, 20 style templates, spaced protocol, MCP integration. |
 | **[bi-designerx](bi-designerx/)** | v0.1.0 | ✅ Production | BI dashboard design for non-designers | End-to-end AI-driven dashboard design workflow using Paper.design, CEM (Canvas Element Map) system, skin generation, and stakeholder-ready outputs. |
+| **[self-improvement](self-improvement/)** | v1.0.0 | ✅ Production | Iterative refinement framework | Agent-agnostic framework for refining skills, projects, scripts, and protocols via worktree isolation, two-layer testing (audit + simulation), weighted scoring, and historical tracking. |
 
 ---
 
@@ -271,7 +273,7 @@ bash scripts/setup_local_env.sh --force
 ```
 
 **What it does:**
-- ✅ Auto-installs 22 skills (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih, docx-indexer, codex-task-notifier, microsoft-mail-deliver, daily-doc-information, notebooklmx, bi-designerx)
+- ✅ Auto-installs 23 skills (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih, docx-indexer, codex-task-notifier, microsoft-mail-deliver, daily-doc-information, notebooklmx, bi-designerx, self-improvement)
 - ✅ Creates junctions/symlinks (auto-sync with Git)
 - ✅ Validates installation with integrity checks
 - ✅ Takes ~15 minutes from zero to production
@@ -540,6 +542,11 @@ claude-intelligence-hub/
 │   ├── SKILL.md                     # Operational protocol & CEM workflow
 │   └── .metadata                    # Version metadata
 │
+├── 📁 self-improvement/              # ⭐ Iterative Refinement Framework (v1.0.0)
+│   ├── SKILL.md                     # Orchestrator protocol (5 phases, 11 references)
+│   ├── .metadata                    # Version metadata
+│   └── references/                  # 11 modular reference files
+│
 ├── 📁 docx-indexer/                  # ⭐ Global Document Indexing + Semantic Search Baseline (v1.4.0)
 │   ├── SKILL.md                     # Operational protocol & agent guide
 │   ├── .metadata                    # Version metadata
@@ -719,7 +726,7 @@ To maintain the high quality and integrity of the Claude Intelligence Hub, all a
 
 | Metric | Value |
 |--------|-------|
-| **Production Skills** | 22 collections (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih, docx-indexer, codex-task-notifier, microsoft-mail-deliver, daily-doc-information, notebooklmx, bi-designerx) |
+| **Production Skills** | 22 collections (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih, docx-indexer, codex-task-notifier, microsoft-mail-deliver, daily-doc-information, notebooklmx, bi-designerx, self-improvement) |
 | **Total Documentation** | ~320KB (executive summaries, guides, changelogs, handover docs) |
 | **Version History** | 30+ commits (tracked in CHANGELOG.md) |
 | **Setup Time** | 15 minutes (Windows/macOS/Linux automated deployment) |
@@ -732,7 +739,7 @@ To maintain the high quality and integrity of the Claude Intelligence Hub, all a
 
 ### Skills by Status
 
-- ✅ **Production Ready:** 22 (jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills, xavier-memory, xavier-memory-sync, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih, docx-indexer, codex-task-notifier, microsoft-mail-deliver, daily-doc-information, notebooklmx, bi-designerx)
+- ✅ **Production Ready:** 22 (jimmy-core-preferences, session-memoria, x-mem, gdrive-sync-memoria, claude-session-registry, pbi-claude-skills, xavier-memory, xavier-memory-sync, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih, docx-indexer, codex-task-notifier, microsoft-mail-deliver, daily-doc-information, notebooklmx, bi-designerx, self-improvement)
 - 📊 **Governance Modules:** 1 (token-economy)
 - 🚧 **In Development:** 0
 - 📋 **Planned:** 2 (python-claude-skills, git-claude-skills)

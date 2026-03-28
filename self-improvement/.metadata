@@ -1,0 +1,26 @@
+{
+  "name": "self-improvement",
+  "version": "1.0.0",
+  "type": "improvement-framework",
+  "status": "production",
+  "owner": "Claude Intelligence Hub",
+  "author": "Magneto + Jimmy",
+  "created": "2026-03-28",
+  "updated": "2026-03-28",
+  "description": "Agent-agnostic iterative refinement framework for skills, projects, scripts, and protocols. Two-layer testing (audit + simulation), worktree isolation, scoring with historical tracking.",
+  "triggers": [
+    "self-improvement",
+    "improve this skill",
+    "refine this",
+    "run self-improvement on"
+  ],
+  "dependencies": [],
+  "settings": {
+    "default_rounds": 5,
+    "default_theme": "auto",
+    "model_requirement": "opus-4-6",
+    "sub_agents_mandatory": true
+  },
+  "auto_load": false,
+  "tier": "on-demand"
+}

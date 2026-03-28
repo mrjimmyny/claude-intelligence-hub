@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.28.0] - 2026-03-28
+
+### Added
+- **self-improvement** v1.0.0 — NEW SKILL. Agent-agnostic iterative refinement framework for skills, projects, scripts, and protocols. Orchestrator SKILL.md (941 lines) + 11 modular reference files loaded on-demand per phase. Two-layer testing (structural audit gate + functional simulation via sub-agents), worktree isolation, weighted scoring per target type (skill/script/project/protocol), gap-based theme discovery, historical tracking with changelog and index, explicit human approval gate. Sub-agents mandatory (Opus 4.6 only, no fallback). Three-layer deployment: Hub (publication), _skills (technical artifacts/history), obsidian (documental).
+
 ## [2.27.1] - 2026-03-27
 
 ### Changed

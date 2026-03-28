@@ -1,8 +1,8 @@
 # 🗺️ Claude Intelligence Hub - Visual Skill Router
 
-**Version:** 2.27.1
+**Version:** 2.28.0
 **Status:** 🟢 Active & Synchronized
-**Registry:** 22 Production Skills
+**Registry:** 23 Production Skills
 
 ---
 
@@ -10,7 +10,7 @@
 
 | Metric | Count | Status |
 | :--- | :--- | :--- |
-| **Total Skills** | 22 | ✅ Verified |
+| **Total Skills** | 23 | ✅ Verified |
 | **Governance** | 100% | 🟢 Compliant |
 | **Architecture** | 3-Tier | 🏗️ Structured |
 
@@ -57,6 +57,7 @@
 | 16 | **daily-tasks-oih** | v1.0.0 | `/daily-tasks-oih` | Daily tasks pool and per-agent execution workflow |
 | 17 | **docx-indexer** | v1.4.0 | `/docx-indexer` | Global document indexing + semantic enrichment + semantic search baseline |
 | 21 | **bi-designerx** | v0.1.0 | `/bidx` | BI dashboard design for non-designers (Paper.design + CEM system) |
+| 23 | **self-improvement** | v1.0.0 | `/self-improvement` | Iterative refinement framework (audit + simulation, worktree isolation, scoring) |
 
 ---
 
@@ -169,6 +170,15 @@
 - **Description:** End-to-end BI dashboard design workflow for non-designers. AI-driven design generation in Paper.design with Canvas Element Map (CEM) management system. 7-phase pipeline (P0 Kickstart → P6 Version Lock), Multi-Agent Paper Protocol for concurrent artboard access, 7-artifact CEM Package per locked version, front-end agnostic (PBI, Tableau, Looker).
 - **Dependencies:** Paper MCP (`http://127.0.0.1:29979/mcp`), `frontend-design` plugin
 - **Key files:** `_skills/bi-designerx/` (technical), `obsidian/CIH/projects/skills/bi-designerx/` (documental)
+
+### 23. self-improvement
+- **Path:** `self-improvement/`
+- **Version:** v1.0.0
+- **Tier:** 3 (Explicit/On-Demand)
+- **Command:** `/self-improvement`
+- **Description:** Agent-agnostic iterative refinement framework for skills, projects, scripts, and protocols. Two-layer testing (audit gate + functional simulation), worktree isolation, weighted scoring per target type, historical tracking, and explicit approval gate. Sub-agents mandatory (Opus 4.6 only).
+- **Triggers:** "self-improvement", "improve this skill", "refine this", "run self-improvement on"
+- **Key files:** `_skills/self-improvement/` (technical — history/reports), `obsidian/CIH/projects/skills/self-improvement/` (documental)
 
 ---
 
