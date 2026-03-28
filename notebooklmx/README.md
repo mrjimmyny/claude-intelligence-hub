@@ -29,10 +29,44 @@ Sources (URLs, PDFs, YouTube, Drive)
 
 ---
 
+## Authentication (First-Time Setup)
+
+The `nlm` and `notebooklm` CLIs live inside a Python virtual environment, not globally on PATH. You have **three options** to authenticate:
+
+**Option A: Use the full path (no activation needed)**
+```bash
+# From any terminal (Git Bash, PowerShell, CMD):
+C:/ai/_skills/notebooklmx/.venv/Scripts/nlm.exe login    # Browser opens → Google OAuth
+bash C:/ai/_skills/notebooklmx/nblmx.sh sync              # Sync cookies
+bash C:/ai/_skills/notebooklmx/nblmx.sh check             # Verify auth
+```
+
+**Option B: Activate the venv first**
+```bash
+# Git Bash:
+source C:/ai/_skills/notebooklmx/.venv/Scripts/activate
+nlm login           # Now works without full path
+nblmx.sh sync
+nblmx.sh check
+deactivate          # When done
+```
+
+**Option C: Install globally via uv (permanent)**
+```bash
+# One-time setup — makes nlm available everywhere:
+pip install uv
+uv tool install notebooklm-mcp-cli
+# Now 'nlm login' works from any terminal, any directory
+```
+
+> **Common error:** Running `nlm login` in PowerShell without activation → `CommandNotFoundException`. This happens because `nlm` is in the venv, not on the system PATH. Use Option A, B, or C above.
+
+---
+
 ## Quick Start
 
 ```bash
-# 1. Authenticate
+# 1. Authenticate (see section above for details)
 nlm login                          # Opens browser for Google OAuth
 nblmx.sh sync                     # Syncs cookies to Python SDK
 nblmx.sh check                    # Verifies both tools are ready
