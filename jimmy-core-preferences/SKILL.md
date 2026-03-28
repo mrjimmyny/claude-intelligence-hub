@@ -285,14 +285,18 @@ All 9 Pre-Pause checks, PLUS:
 
 ### Gate Execution Protocol
 
+**ALL 6 steps below are NON-NEGOTIABLE. An agent MUST NOT stop at any intermediate step. Skipping any step — especially Step 6 — is a discipline failure (see FND-0050, R-21).**
+
 1. Agent detects pause/close intent in Jimmy's message
 2. Agent executes the applicable checklist (Pre-Pause or Pre-Close)
-3. Agent reports results to Jimmy in a compact table: `PP-01: PASS`, `PP-02: PASS`, etc.
+3. Agent reports results to Jimmy in a compact table: `PP-01: PASS`, `PP-02: PASS`, etc. **Include git working tree status** (dirty file count from `git status --short`)
 4. If ANY check is `FAIL`: agent fixes the drift BEFORE confirming pause
 5. After all checks pass: agent confirms "Gate PASSED — safe to pause/close"
-6. Agent commits and pushes if there are uncommitted changes
+6. **Agent checks `git status`, commits relevant changes, and pushes.** This step is MANDATORY — a checkpoint with uncommitted changes is INCOMPLETE. Each agent commits only their own session's changes.
 
-**Prohibited behavior:** An agent must NEVER say "everything looks good" or "ready to close" without having executed the checklist. Blanket confirmation without itemized evidence is a hygiene violation.
+**Prohibited behavior:**
+- An agent must NEVER say "everything looks good" or "ready to close" without having executed ALL 6 steps. Blanket confirmation without itemized evidence is a hygiene violation.
+- An agent must NEVER report checkpoint results without including git tree status. A clean checklist with a dirty tree is a false positive (FND-0050).
 
 ---
 
@@ -617,6 +621,19 @@ Do not improvise missing title, remove the mandatory CC, substitute alternate CC
 **Why:** Agents without historical context repeat failed approaches across sessions. Experiment commits create machine-readable learning signals. Guard pattern prevents regression during optimization.
 **How to apply:** Orchestrators include git-as-memory instructions in AOP dispatch prompts. All agents use experiment commit convention during development. Guard pattern applies to any code modification task.
 **Related:** AOP SKILL.md v4.2.0 Prompt Guidance sections, generalx Autoresearch analysis report
+
+### R-21. Checkpoint Gate Must Be Executed Completely — ALL Steps Non-Negotiable
+**Origin:** FND-0050 (2026-03-28). Agent (Magneto) ran checkpoint but stopped at Step 3 (report table), skipping Step 4/6 (git status + commit/push). Jimmy discovered 50+ dirty files that should have been reported.
+**Rule:** When executing any checkpoint/save/close-day gate, ALL protocol steps must be completed without exception. No step is optional. Specifically:
+1. Run mechanical verification script
+2. Perform semantic checks (PP-01 through PP-08, PP-10)
+3. Report results including git tree status (dirty file count)
+4. Fix all FAILs
+5. Confirm gate status
+6. Check `git status`, commit relevant changes, push
+Stopping at any intermediate step is a discipline failure. A checkpoint with uncommitted changes is INCOMPLETE — it is a false positive that blinds the user.
+**Why:** Checkpoint gates exist to give Jimmy full visibility into system state. Skipping the git status check means accumulated dirt from other agents/sessions goes undetected. Jimmy cannot trust "all PASS" if the tree is dirty.
+**How to apply:** Every agent, every checkpoint, every time. The mechanical script now includes a git status check (FND-0050 fix), but agents must also commit/push — the script is read-only.
 
 ---
 
