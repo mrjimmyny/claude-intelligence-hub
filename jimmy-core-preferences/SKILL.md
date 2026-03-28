@@ -635,6 +635,12 @@ Stopping at any intermediate step is a discipline failure. A checkpoint with unc
 **Why:** Checkpoint gates exist to give Jimmy full visibility into system state. Skipping the git status check means accumulated dirt from other agents/sessions goes undetected. Jimmy cannot trust "all PASS" if the tree is dirty.
 **How to apply:** Every agent, every checkpoint, every time. The mechanical script now includes a git status check (FND-0050 fix), but agents must also commit/push — the script is read-only.
 
+### R-22. Thread Read Receipt Timestamps Must Come from System Clock
+**Origin:** FND-0052 (2026-03-28). Agent (Magneto) wrote read receipt timestamps by guessing instead of capturing from `date` command. Multiple timestamps off by over an hour in hr_kpis_board thread doc.
+**Rule:** When writing a read receipt (`✅ read-YYYY-MM-DD-HH:MM-{reader-name}`), the timestamp MUST be captured from the system clock by running `date "+%Y-%m-%d-%H:%M"` BEFORE writing the receipt. NEVER estimate, infer from context, or hardcode.
+**Why:** Read receipts are the audit trail for when entries were actually read. Fabricated timestamps make the trail unreliable and mislead Jimmy about response times.
+**How to apply:** Every agent, every read receipt, every time. Run `date` first, use the output. No exceptions.
+
 ---
 
 *Part of the [Claude Intelligence Hub](https://github.com/mrjimmyny/claude-intelligence-hub)*
