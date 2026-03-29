@@ -682,6 +682,18 @@ Stopping at any intermediate step is a discipline failure. A checkpoint with unc
 **Why:** The `claude -p` (stdin pipe mode) appears to conflict with the parent Claude Code process when launched as a child process. The exact mechanism is unknown (possible socket/lock conflict), but the behavior is reproducible.
 **How to apply:** When orchestrating from Claude Code and needing Claude-side parallel execution: use the Agent tool (sub-agents) instead. The `aop-claude-dispatch.sh` script remains the correct choice when dispatching from a terminal, Codex, or Gemini.
 
+### R-25. Timestamp Capture on Windows/Git Bash — No TZ Override
+**Origin:** FND-0057 (2026-03-29). `TZ="America/Sao_Paulo" date` in Git Bash on Windows adds +3h instead of correcting. MSYS2 double-applies the timezone offset when the Windows clock is already in the correct timezone.
+**Rule:** On Windows machines running Git Bash, ALWAYS capture timestamps with bare `date "+%Y-%m-%d-%H:%M"` — NEVER use `TZ=` prefix.
+**Why:** The machine clock is already in the correct local timezone. The `TZ=` override causes MSYS2's `date` to treat the local clock as UTC and apply the offset again, producing timestamps +3h (or +Nh for other timezones) wrong.
+**How to apply:** Every agent, every time a timestamp is needed — read receipts, session docs, daily reports, and any other time-sensitive operation. Canonical command: `date "+%Y-%m-%d-%H:%M"`.
+
+### R-26. Project Lifecycle Is Mandatory — Discovery Before Implementation
+**Origin:** FND-0058 + PROJECT_LIFECYCLE.md (2026-03-29). Agents were jumping straight to folder creation and implementation without conducting discovery interviews, writing specs, or creating execution plans. This resulted in incomplete project structures and missed requirements.
+**Rule:** Every project MUST follow the lifecycle defined in `obsidian/CIH/projects/_templates/PROJECT_LIFECYCLE.md`. The 5 phases are: Phase 0 (Discovery/Brainstorming) → Phase 1 (SDD) → Phase 2 (DEP) → Phase 3 (Implementation with tests) → Phase 4 (Verification). No phase may be skipped. Jimmy approves every phase transition.
+**Why:** Projects that skip discovery start with hidden ambiguities. Projects that skip specs get built wrong. Projects that skip plans get implemented inefficiently. Projects that skip testing ship broken.
+**How to apply:** When Jimmy says "create a project", "new project", "I want to build X", or any equivalent — do NOT create folders or write code. Start Phase 0 Discovery with a structured brainstorming interview. Only proceed after Jimmy's explicit approval at each gate. Verify compliance with: `bash projects/scripts_bootstraps/project-lifecycle-verify.sh --project <path> --auto`.
+
 ---
 
 *Part of the [Claude Intelligence Hub](https://github.com/mrjimmyny/claude-intelligence-hub)*
