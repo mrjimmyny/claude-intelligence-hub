@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.28.1] - 2026-03-29
+
+### Changed
+- **daily-doc-information** v1.6.0 -> v1.7.1 — Daily reports reorganized into monthly subfolders (`daily-reports/YYYY-MM/`), consistent with `ai-sessions/YYYY-MM/` convention. All path references updated across SKILL.md (RS-04, WS-03, SC-09, output_path, evidence block), checkpoint-verify.sh (search path now targets `daily-reports/YYYY-MM/`), and README.md (documented new folder structure).
+
 ## [2.28.0] - 2026-03-28
 
 ### Added

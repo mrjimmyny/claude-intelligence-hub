@@ -2,7 +2,7 @@
 name: daily-doc-information
 description: Automates creation, update, closure of session docs and daily reports, plus project governance operations (create-project, update-project-status, register-decision, update-next-step, update-portfolio) with identity, hygiene, and gate enforcement
 command: /daily-doc-information
-version: 1.6.0
+version: 1.7.1
 category: Documentation Automation
 trigger: When user invokes /daily-doc-information or asks to create/update/close session docs, create daily reports, or perform project governance operations (create/update projects, register decisions, update next steps)
 tags:
@@ -15,7 +15,7 @@ tags:
 
 # daily-doc-information
 
-**Version:** 1.6.0
+**Version:** 1.7.1
 
 > **Objective:** Automates the creation, structured update, and clean-state closure of session documents and daily reports, plus project governance operations (project creation, status updates, decision registration, next-step management) according to the continuity-documentation contract.
 
@@ -34,7 +34,7 @@ This skill governs **documentation only**. It does NOT:
 | `create-session` | Create a new session document from template | New session `.md` in `ai-sessions/YYYY-MM/` |
 | `update-session` | Add structured content to an open session doc | Updated session `.md` with new rows/fields |
 | `close-session` | Validate clean-state and close a session doc | Closed session `.md` with `status: complete` |
-| `create-daily-report` | Consolidate session docs into a daily report | New daily report `.md` in `daily-reports/` |
+| `create-daily-report` | Consolidate session docs into a daily report | New daily report `.md` in `daily-reports/YYYY-MM/` |
 | `create-project` | Create a new formal project with folder structure and docs | New project folder with 5 operational docs |
 | `update-project-status` | Update project status-atual.md | Updated status doc |
 | `register-decision` | Add decision to project decisoes.md | Updated decision log |
@@ -357,7 +357,7 @@ Consolidates one or more session documents into a daily executive report using t
 |---|---|---|
 | `report_date` | string | `YYYY-MM-DD` format |
 | `source_session_docs` | list | List of absolute paths to session docs to consolidate |
-| `output_path` | string | Absolute path, must be inside `daily-reports/` |
+| `output_path` | string | Absolute path, must be inside `daily-reports/YYYY-MM/` (monthly subfolder, consistent with `ai-sessions/YYYY-MM/`) |
 
 ### Outputs
 - New daily report at `output_path` populated from source session docs
@@ -367,6 +367,8 @@ Consolidates one or more session documents into a daily executive report using t
 ```
 daily-report-executive-[YYYY-MM-DD]-v1.md
 ```
+
+> **Monthly subfolder convention:** Daily reports are stored in `daily-reports/YYYY-MM/` subfolders (e.g., `daily-reports/2026-03/`), consistent with the `ai-sessions/YYYY-MM/` convention. The agent must create the `YYYY-MM/` subfolder if it does not exist before writing the report.
 
 ### Execution Steps
 
@@ -402,7 +404,7 @@ Output Path: [output_path]
 Checks:
   - All source docs in active range: YES/NO
   - All source docs readable: YES/NO
-  - Output path inside daily-reports/: YES/NO
+  - Output path inside daily-reports/YYYY-MM/: YES/NO
   - Filename matches pattern: YES/NO
   - No residual placeholders: YES/NO
   - Sessions table complete: YES/NO
@@ -735,7 +737,7 @@ Skip conditions fire **BEFORE any work begins**. When a skip condition fires: ab
 | SC-06 | TARGET_IS_LEGACY | Target document is dated 2026-03-12 or earlier | all |
 | SC-07 | OUTPUT_ALREADY_EXISTS | `output_path` already exists on disk | create-session, create-daily-report |
 | SC-08 | SOURCE_RANGE_VIOLATION | One or more source docs are outside active range (before 2026-03-13) | create-daily-report |
-| SC-09 | OUTPUT_PATH_OUT_OF_BOUNDS | `output_path` is not inside the required subdirectory (`ai-sessions/YYYY-MM/` or `daily-reports/`) | create-session, create-daily-report |
+| SC-09 | OUTPUT_PATH_OUT_OF_BOUNDS | `output_path` is not inside the required subdirectory (`ai-sessions/YYYY-MM/` or `daily-reports/YYYY-MM/`) | create-session, create-daily-report |
 | SC-10 | PROJECT_PATH_INVALID | `project_path` does not point to a valid project root (missing `PROJECT_CONTEXT.md`) | update-project-status, register-decision, update-next-step |
 | SC-11 | PROJECT_ALREADY_EXISTS | Target folder already exists on disk | create-project |
 | SC-12 | MISSING_PROJECT_INPUT | A required project-specific input (as listed in operation inputs) is absent or empty | all project operations |
@@ -822,7 +824,7 @@ Failure modes fire **DURING execution**. Each has a trigger condition, severity,
 | RS-01 | `ai-sessions/ai-session-template.md` | Session document template |
 | RS-02 | `ai-sessions/YYYY-MM/*.md` | Session docs dated 2026-03-13 or later |
 | RS-03 | `daily-reports/daily-report-template.md` | Daily report template |
-| RS-04 | `daily-reports/*.md` | Daily reports dated 2026-03-13 or later |
+| RS-04 | `daily-reports/YYYY-MM/*.md` | Daily reports dated 2026-03-13 or later |
 | RS-05 | `PROJECT_CONTEXT.md` | Project context reference (read-only) |
 | RS-06 | `projects/_templates/*.md` | Templates for project creation |
 | RS-07 | `projects/skills/{project}/PROJECT_CONTEXT.md` | Project identification for skill projects |
@@ -840,7 +842,7 @@ Failure modes fire **DURING execution**. Each has a trigger condition, severity,
 |---|---|---|---|
 | WS-01 | `ai-sessions/YYYY-MM/<new-session>.md` | create-session | New session documents only |
 | WS-02 | `ai-sessions/YYYY-MM/<existing-session>.md` | update-session, close-session | Existing open session documents only |
-| WS-03 | `daily-reports/<new-report>.md` | create-daily-report | New daily reports only |
+| WS-03 | `daily-reports/YYYY-MM/<new-report>.md` | create-daily-report | New daily reports only |
 | WS-04 | `projects/skills/{project}/*.md` | create-project, update-project-status, register-decision, update-next-step | Skill project operational docs |
 | WS-05 | `projects/skills/{project}/*/` | create-project | Skill project subfolders (creation only) |
 | WS-06 | `projects/{project}/*.md` | create-project, update-project-status, register-decision, update-next-step | General project operational docs |
