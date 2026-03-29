@@ -7,6 +7,10 @@ This document contains a curated list of prompts that have been executed with 10
 
 ---
 
+> **Note on Legacy Prompts (1-14):** Prompts 1 through 14 are historical records from earlier AOP versions. They use PowerShell-primary patterns (e.g., `powershell -NoProfile -Command`, `Set-Location`) and legacy paths (`C:\Workspaces\llms_projects`). These prompts executed successfully in their original context but do NOT reflect the current standard. **For new orchestrations, follow the patterns in Prompts 15-18** which use bash-primary, file-based prompts, artifact-based polling, and dispatch scripts per SKILL.md.
+
+---
+
 ## Best Practices for Orchestration
 
 <details>
@@ -16,6 +20,9 @@ This document contains a curated list of prompts that have been executed with 10
 - **Boolean Checks:** Ask agents to return ONLY `YES` or `NO` when verifying state.
 - **Verify Paths:** Always verify the absolute path before executing `cd` (bash) or `Set-Location` (PowerShell).
 - **File-Based Prompts:** For any instruction containing code blocks, JSON, or special characters, write the prompt to a file and pipe it — do not use inline `-p` strings.
+- **Use Dispatch Scripts:** Always use `scripts/aop-*-dispatch.sh` for headless launches. Never rely on remembered CLI syntax. See SKILL.md Pre-Dispatch Mandatory Gate.
+- **Hard-Code Executor Identity:** Pre-fill the `executor` field in the prompt template. Do not let executors self-identify (they fabricate model names).
+- **Codex Artifact via Python:** Always instruct Codex executors to write artifacts with `python3 json.dumps()`, not bash heredoc. PowerShell escaping corrupts JSON.
 
 </details>
 

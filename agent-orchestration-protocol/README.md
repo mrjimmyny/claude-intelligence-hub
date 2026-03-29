@@ -162,10 +162,11 @@ Real-world executions are documented in [orchestrations/](./orchestrations/). Ea
 
 ## Cross-LLM Reference
 
-AOP works with any orchestrator CLI. See [SKILL.md — Cross-LLM Command Reference](./SKILL.md#cross-llm-command-reference) for the full table including known quirks.
+AOP works with any orchestrator CLI. **Recommended: use the dispatch scripts** (`scripts/aop-*-dispatch.sh`) which embed the correct flags, model defaults, and error handling for each platform. See [SKILL.md — Cross-LLM Command Reference](./SKILL.md#cross-llm-command-reference) for the full table including known quirks.
 
 | Task | Claude Code | Codex | Gemini |
 | :--- | :--- | :--- | :--- |
+| **Dispatch script** (recommended) | `bash scripts/aop-claude-dispatch.sh` | `bash scripts/aop-codex-dispatch.sh` | `bash scripts/aop-gemini-dispatch.sh` |
 | Headless execution | `claude -p "..."` | `codex exec "..."` | `gemini -p "..."` |
 | File-based prompt | `cat FILE \| claude -p` | `cat FILE \| codex exec` | `cat FILE \| gemini -p --approval-mode yolo` |
 | Bypass flag | `--dangerously-skip-permissions` | `--dangerously-bypass-approvals-and-sandbox` | `--approval-mode yolo` |
@@ -183,6 +184,9 @@ AOP works with any orchestrator CLI. See [SKILL.md — Cross-LLM Command Referen
 3. **Artifact-based completion detection.** Have the Executor write a JSON file as its last step. The Orchestrator polls for this file. More reliable than parsing stdout.
 4. **Executors handle documentation reliably.** With precise instructions (absolute paths, exact content, formatting rules), executors update structured documents as reliably as code.
 5. **Prompt quality determines success.** The more precise the prompt (exact scope, verification steps, completion format), the fewer iterations needed.
+6. **Always use dispatch scripts.** A single wrong CLI flag wastes 10,000+ tokens per failed dispatch. Dispatch scripts (`scripts/aop-*-dispatch.sh`) eliminate this risk.
+7. **Codex produces malformed JSON via heredoc.** PowerShell escaping strips double quotes. Use Python `json.dumps()` for artifact generation on Codex.
+8. **Hard-code executor model identity.** Executors fabricate model names if asked to self-identify. The Orchestrator must pre-fill the `executor` field in the prompt.
 
 ---
 
