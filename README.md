@@ -89,7 +89,7 @@ The **Claude Intelligence Hub** is a centralized system that:
 >
 > *Metrics as of 2026-03-29 (cutoff date). Original case study at v2.4.0 covered 9 skills; this section reflects the full 23-skill production system.*
 
-This hub represents **23 production skills, 360 tracked files, ~70,000 lines of code and documentation, 78+ automation scripts (Bash + PowerShell + Python), and a CI/CD pipeline** — built from scratch in **49 days** (Feb 8 – Mar 29, 2026). The first 9 skills shipped in 17 days; skills 10–23 followed in the next 32 days at an accelerating pace once the infrastructure was solid.
+This hub represents **23 production skills, 360 tracked files, ~70,000 lines of code and documentation, 78+ automation scripts (Bash + PowerShell + Python), and a CI/CD pipeline**. Conceived in **November 2025**, first commit on **February 8, 2026**, and fully operational by **March 29, 2026** — 49 days from code to 23 production skills. The first 9 skills shipped in 17 days; skills 10–23 followed in the next 32 days at an accelerating pace once the infrastructure was solid.
 
 ### The Numbers
 
@@ -109,7 +109,8 @@ This hub represents **23 production skills, 360 tracked files, ~70,000 lines of 
 
 | Phase | Period | Duration | Skills | Cumulative Lines | Key Milestone |
 |-------|--------|----------|--------|-----------------|---------------|
-| **Bootstrap** | Feb 8 | Day 1 | 0 | ~500 | Repository initialized |
+| **Ideation** | Nov 2025 | — | 0 | 0 | Concept, architecture design, planning |
+| **Bootstrap** | Feb 8 | Day 1 | 0 | ~500 | Repository initialized, first commit |
 | **Core Build** | Feb 10–16 | 6 days | 9 | ~20,000 | First 9 skills to production |
 | **Expansion** | Feb 17–25 | 9 days | 15 | ~35,000 | AOP, token-economy, governance added |
 | **Scale** | Mar 4–28 | 24 days | 23 | ~70,000 | DDI, NotebookLMx, bi-designerx, self-improvement |
@@ -202,6 +203,8 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 ---
 
 ## 📦 Available Skill Collections
+
+> **Total: 23 production skills** | All ✅ Production status | Hub v2.28.1
 
 | Collection | Version | Status | Description | Key Features |
 |------------|---------|--------|-------------|--------------|
