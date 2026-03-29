@@ -131,6 +131,19 @@ When starting a project with a documentary component:
 
 **Rule:** coherence over rigidity. The goal is no loose files, not a rigid template.
 
+### Deterministic Kickoff Bootstrap (Cross-Agent)
+
+For any new project kickoff, use deterministic scripts instead of manual folder-by-folder creation:
+
+- Contract: `C:\ai\obsidian\CIH\projects\_templates\PROJECT_KICKOFF_CONTRACT.md`
+- Bootstrap: `C:\ai\projects\scripts_bootstraps\kickoff-project.ps1`
+- Verification: `C:\ai\projects\scripts_bootstraps\verify-project-doc-structure.ps1`
+
+Minimum gate:
+1. Run bootstrap with explicit `type`, `name`, `owner`, `agent`.
+2. Run verification and require `Result: PASS`.
+3. Only then proceed with project execution.
+
 ### Formal Project Operational State Layer
 
 For formal projects that already exist and need an operational entrypoint, keep these files at the **project root**:
