@@ -657,6 +657,12 @@ Stopping at any intermediate step is a discipline failure. A checkpoint with unc
 **Why:** Read receipts are the audit trail for when entries were actually read. Fabricated timestamps make the trail unreliable and mislead Jimmy about response times.
 **How to apply:** Every agent, every read receipt, every time. Run `date` first, use the output. No exceptions.
 
+### R-23. Never Dispatch `claude -p` from Within an Active Claude Code Session
+**Origin:** FND-0053 (2026-03-29). AOP Claude headless dispatch (`aop-claude-dispatch.sh`) hung indefinitely when launched from within a running Claude Code session. The `claude -p` process started but produced zero output and never completed. Codex dispatch (`aop-codex-dispatch.sh`) worked fine in the same conditions.
+**Rule:** When orchestrating from Claude Code, NEVER use `aop-claude-dispatch.sh` to spawn a headless `claude -p` session. Use the Agent tool (sub-agents) instead for Claude-side parallel execution. The `aop-claude-dispatch.sh` script is only safe when launched from a terminal, Codex, Gemini, or a non-Claude-Code context.
+**Why:** Claude Code CLI appears to conflict with itself when a second instance is launched from within the first. The exact mechanism is unknown (possible socket/lock conflict), but the behavior is reproducible.
+**How to apply:** When dispatching parallel AOP tasks from Claude Code: use `aop-codex-dispatch.sh` for GPT models, and Agent tool sub-agents for Claude models. Reserve `aop-claude-dispatch.sh` for dispatch from external contexts only.
+
 ---
 
 *Part of the [Claude Intelligence Hub](https://github.com/mrjimmyny/claude-intelligence-hub)*
