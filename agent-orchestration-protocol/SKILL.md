@@ -15,9 +15,32 @@ aliases: [/orchestrate, /delegate]
 
 ---
 
+## Document Navigation
+
+This is a long reference document (~1500 lines). Use this guide to jump to what you need:
+
+| If you need to... | Go to |
+| :--- | :--- |
+| Understand what AOP is | [What AOP Is — and What It Is NOT](#what-aop-is--and-what-it-is-not) |
+| Launch a single executor | [Execution Standard](#execution-standard) + [Pillar 1](#pillar-1-environment-isolation) |
+| Launch multiple executors in parallel | [Multi-Executor Coordination](#multi-executor-coordination) + [Fan-In/Fan-Out](#fan-infan-out-orchestration) |
+| Set up task dependencies (DAG) | [Task Dependency Management](#task-dependency-management) |
+| Choose the right model | [Model Selection](#model-selection-for-headless-dispatches) |
+| Handle errors and crashes | [Error Recovery](#error-recovery) |
+| Check CLI syntax for Claude/Codex/Gemini | [Cross-LLM Command Reference](#cross-llm-command-reference) |
+| See the completion artifact format | [Completion Artifact Schema](#completion-artifact-schema) |
+| Find a script | [Scripts Reference](#scripts-reference) |
+
+---
+
 ## What AOP Is — and What It Is NOT
 
 AOP = launching real OS processes via shell commands. If you are not executing a shell command that spawns an independent OS process, you are NOT using AOP. AOP supports multi-executor parallel dispatches with dependency DAGs, deadlock detection, and priority-based scheduling.
+
+**Quick Decision:** How many executors do you need?
+- **1 executor** — Follow Execution Standard + Standard Polling Loop. Simple.
+- **2-3 executors, no dependencies** — Follow Multi-Executor Coordination + Fan-In/Fan-Out.
+- **3+ executors with dependencies** — Follow Task Dependency Management (DAG) + Fan-In/Fan-Out.
 
 | Aspect | Internal Sub-agent (NOT AOP) | AOP Headless Session (Real AOP) |
 | :--- | :--- | :--- |
