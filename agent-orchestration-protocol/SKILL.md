@@ -1,6 +1,6 @@
 ---
 name: agent-orchestration-protocol
-version: 4.1.0
+version: 4.2.0
 description: Multi-agent coordination framework - The Seven Pillars of AOP
 command: /aop
 aliases: [/orchestrate, /delegate]
@@ -15,9 +15,32 @@ aliases: [/orchestrate, /delegate]
 
 ---
 
+## Document Navigation
+
+This is a long reference document (~1500 lines). Use this guide to jump to what you need:
+
+| If you need to... | Go to |
+| :--- | :--- |
+| Understand what AOP is | [What AOP Is — and What It Is NOT](#what-aop-is--and-what-it-is-not) |
+| Launch a single executor | [Execution Standard](#execution-standard) + [Pillar 1](#pillar-1-environment-isolation) |
+| Launch multiple executors in parallel | [Multi-Executor Coordination](#multi-executor-coordination) + [Fan-In/Fan-Out](#fan-infan-out-orchestration) |
+| Set up task dependencies (DAG) | [Task Dependency Management](#task-dependency-management) |
+| Choose the right model | [Model Selection](#model-selection-for-headless-dispatches) |
+| Handle errors and crashes | [Error Recovery](#error-recovery) |
+| Check CLI syntax for Claude/Codex/Gemini | [Cross-LLM Command Reference](#cross-llm-command-reference) |
+| See the completion artifact format | [Completion Artifact Schema](#completion-artifact-schema) |
+| Find a script | [Scripts Reference](#scripts-reference) |
+
+---
+
 ## What AOP Is — and What It Is NOT
 
 AOP = launching real OS processes via shell commands. If you are not executing a shell command that spawns an independent OS process, you are NOT using AOP. AOP supports multi-executor parallel dispatches with dependency DAGs, deadlock detection, and priority-based scheduling.
+
+**Quick Decision:** How many executors do you need?
+- **1 executor** — Follow Execution Standard + Standard Polling Loop. Simple.
+- **2-3 executors, no dependencies** — Follow Multi-Executor Coordination + Fan-In/Fan-Out.
+- **3+ executors with dependencies** — Follow Task Dependency Management (DAG) + Fan-In/Fan-Out.
 
 | Aspect | Internal Sub-agent (NOT AOP) | AOP Headless Session (Real AOP) |
 | :--- | :--- | :--- |
@@ -1117,6 +1140,17 @@ kill $ORPHAN_PID
 ```bash
 cp /c/ai/config/settings.json /c/ai/config/settings.json.bak_${SESSION_ID}
 ```
+
+### Environment Edge Cases
+
+| Edge Case | Detection | Action |
+| :--- | :--- | :--- |
+| **Disk full** | Artifact write fails (0-byte file or write error) | Kill executor. Check `df -h`. Free space before retry. |
+| **Permission denied** | Executor reports write failure in error artifact | Verify workspace is in trusted allow-list. Check filesystem permissions. |
+| **Network timeout** | Git push/pull fails inside executor | Executor should catch and report in artifact. Orchestrator retries with `--depth 1` clone if applicable. |
+| **Stale PID** | `kill -0 $PID` returns non-zero but no artifact | Mark executor as CRASHED. Check for partial outputs. Do not retry automatically. |
+| **Concurrent write conflict** | Two executors accidentally write same file | Pre-dispatch write path validation (see Multi-Executor Coordination) prevents this. If it occurs: abort both, restructure tasks. |
+| **Agent CLI not installed** | `which claude` / `which codex` / `which gemini` returns empty | STOP before dispatch. Report missing CLI to user. Do not attempt alternatives. |
 
 ---
 

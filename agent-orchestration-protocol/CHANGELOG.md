@@ -1,5 +1,32 @@
 # Changelog — Agent Orchestration Protocol
 
+## [4.2.0] - 2026-03-28
+
+### Added
+- **3 autoresearch-extracted patterns** added to SKILL.md:
+  - **Git-as-Memory** — agents read git log before starting work to avoid repeating failed approaches and build on successful patterns.
+  - **Experiment Commit Convention** — `experiment(<scope>): <description>` format for machine-readable experiment history.
+  - **Guard Pattern for Skill Development** — metric + guard dual verification to prevent regressions during optimization.
+- Cross-agent rule R-20 added to jimmy-core-preferences.
+
+## [4.1.0] - 2026-03-27
+
+### Added
+- **8 improvements from aop-domusx stress test:**
+  - Python-based artifact generation for Codex (FND-0045) — mandatory `json.dumps()` instead of bash heredoc.
+  - Mandatory pre-review integrity gate at ALL tiers (basic, medium, high).
+  - Hard-coded executor model names in prompt templates (FND-0046) — executors must not self-identify.
+  - Safety-guard requirements for high-difficulty tasks (dirty state, destructive edge cases, no silent data loss).
+  - Minimum test count expectations per difficulty tier (basic: 10+, medium: 20+, high: 40+).
+  - Tier 3 structured-output exclusion (FND-0047) — Tier 3 models blocked from structured formatting tasks.
+  - JSON repair script (`aop-json-repair.sh`) as last-resort fallback for malformed artifacts.
+  - Algorithmic depth guidance — prefer custom implementations over stdlib delegation for assessment tasks.
+- **Agent environment warning (FND-0011)** — background `&` pattern documented as unsafe in agent tool environments.
+- **Codex Windows path format rule (FND-0049)** — Python code must use `C:/ai/` not `/c/ai/`.
+
+### Changed
+- **aop-codex-dispatch.sh** — Model parameter added (4th argument), default changed from hardcoded `gpt-5.4` to configurable with `gpt-5.2-codex` default.
+
 ## [4.0.1] - 2026-03-25
 
 ### Changed

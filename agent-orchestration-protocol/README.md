@@ -1,8 +1,8 @@
 # Agent Orchestration Protocol (AOP)
 
-**Version:** 4.0.0-rc.1 | **Status:** Production-Validated (v3.0.0), Release Candidate (v4.0.0-rc.1) | **Category:** Multi-Agent Coordination
+**Version:** 4.2.0 | **Status:** Production-Validated | **Category:** Multi-Agent Coordination
 
-AOP is a methodology for coordinating independent headless agent processes via shell commands. An Orchestrator launches one or more Executor agents as separate OS processes, monitors their completion via artifact polling, and verifies their work before reporting back to the user. v4.0 adds multi-executor orchestration with DAG-based task dependencies, deadlock detection, priority scheduling, and fan-in/fan-out coordination.
+AOP is a methodology for coordinating independent headless agent processes via shell commands. An Orchestrator launches one or more Executor agents as separate OS processes, monitors their completion via artifact polling, and verifies their work before reporting back to the user. Includes multi-executor orchestration with DAG-based task dependencies, deadlock detection, priority scheduling, and fan-in/fan-out coordination.
 
 Full reference: [SKILL.md](./SKILL.md) | Worked examples: [AOP_WORKED_EXAMPLES.md](./AOP_WORKED_EXAMPLES.md) | Version history: [CHANGELOG.md](./CHANGELOG.md)
 
@@ -79,9 +79,9 @@ AOP is structured around seven operational pillars. Each pillar has a definition
 
 ---
 
-## Multi-Executor Orchestration (v4.0)
+## Multi-Executor Orchestration
 
-v4.0 introduces full multi-executor coordination:
+Full multi-executor coordination:
 
 - **Parallel Dispatch** — Fan-out N executors with disjoint write paths, fan-in results into a single aggregation artifact.
 - **Task Dependencies (DAG)** — Declare `depends_on` relationships between tasks. The DAG engine dispatches tasks in dependency order with cycle detection.
@@ -91,7 +91,7 @@ v4.0 introduces full multi-executor coordination:
 - **Crash Recovery** — Orchestrator State File enables resumption after Orchestrator crash.
 - **Event-Driven Detection** — Fast-polling (3s) or file watcher (<1s) for multi-executor artifact monitoring.
 
-Single-executor workflows continue to work with the simpler v3.0 patterns. See [SKILL.md](./SKILL.md) for the full protocol.
+Single-executor workflows continue to work with simpler patterns. See [SKILL.md](./SKILL.md) for the full protocol.
 
 ---
 
@@ -162,10 +162,11 @@ Real-world executions are documented in [orchestrations/](./orchestrations/). Ea
 
 ## Cross-LLM Reference
 
-AOP works with any orchestrator CLI. See [SKILL.md — Cross-LLM Command Reference](./SKILL.md#cross-llm-command-reference) for the full table including known quirks.
+AOP works with any orchestrator CLI. **Recommended: use the dispatch scripts** (`scripts/aop-*-dispatch.sh`) which embed the correct flags, model defaults, and error handling for each platform. See [SKILL.md — Cross-LLM Command Reference](./SKILL.md#cross-llm-command-reference) for the full table including known quirks.
 
 | Task | Claude Code | Codex | Gemini |
 | :--- | :--- | :--- | :--- |
+| **Dispatch script** (recommended) | `bash scripts/aop-claude-dispatch.sh` | `bash scripts/aop-codex-dispatch.sh` | `bash scripts/aop-gemini-dispatch.sh` |
 | Headless execution | `claude -p "..."` | `codex exec "..."` | `gemini -p "..."` |
 | File-based prompt | `cat FILE \| claude -p` | `cat FILE \| codex exec` | `cat FILE \| gemini -p --approval-mode yolo` |
 | Bypass flag | `--dangerously-skip-permissions` | `--dangerously-bypass-approvals-and-sandbox` | `--approval-mode yolo` |
@@ -183,8 +184,11 @@ AOP works with any orchestrator CLI. See [SKILL.md — Cross-LLM Command Referen
 3. **Artifact-based completion detection.** Have the Executor write a JSON file as its last step. The Orchestrator polls for this file. More reliable than parsing stdout.
 4. **Executors handle documentation reliably.** With precise instructions (absolute paths, exact content, formatting rules), executors update structured documents as reliably as code.
 5. **Prompt quality determines success.** The more precise the prompt (exact scope, verification steps, completion format), the fewer iterations needed.
+6. **Always use dispatch scripts.** A single wrong CLI flag wastes 10,000+ tokens per failed dispatch. Dispatch scripts (`scripts/aop-*-dispatch.sh`) eliminate this risk.
+7. **Codex produces malformed JSON via heredoc.** PowerShell escaping strips double quotes. Use Python `json.dumps()` for artifact generation on Codex.
+8. **Hard-code executor model identity.** Executors fabricate model names if asked to self-identify. The Orchestrator must pre-fill the `executor` field in the prompt.
 
 ---
 
-**Version:** 4.0.0-rc.1 | **Status:** Release Candidate | **Last Updated:** 2026-03-18
+**Version:** 4.2.0 | **Status:** Production-Validated | **Last Updated:** 2026-03-29
 See [CHANGELOG.md](./CHANGELOG.md) for full version history.
