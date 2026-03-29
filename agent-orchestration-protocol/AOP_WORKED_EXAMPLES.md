@@ -1,6 +1,6 @@
 # Cookbook: Agent Orchestration Protocol (AOP) Worked Examples
 **Supporting Document For:** `SKILL: agent-orchestration-protocol`
-**Version:** 4.0.0-rc.1
+**Version:** 4.2.0
 **Status:** Production-Validated
 
 This document contains a curated list of prompts that have been executed with 100% success in real-world scenarios, demonstrating the practical application of the Seven Pillars of AOP.

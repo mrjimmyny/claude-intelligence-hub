@@ -7,13 +7,13 @@ Purpose: Provide structured input for NotebookLM to generate visual and dynamic 
 | Field | Value |
 | --- | --- |
 | Name | Agent Orchestration Protocol (AOP) |
-| Version | 4.0.0-rc.1 |
-| Status | Production-Validated (v3.0.0), Release Candidate (v4.0.0-rc.1) |
+| Version | 4.2.0 |
+| Status | Production-Validated |
 | Category | Multi-Agent Coordination |
 | Command | `/aop` |
 | Aliases | `/orchestrate`, `/delegate` |
 | Maintained By | Claude Intelligence Hub |
-| Last Updated | 2026-03-17 |
+| Last Updated | 2026-03-29 |
 | Roadmap Version | 2.0 (Next Review: Q2 2026) |
 
 ---
@@ -121,6 +121,9 @@ File-based prompts are the production default — they avoid all escaping issues
 - Error recovery: timeout kill, crash recovery, orphaned process detection, rollback.
 - Completion artifact schema with required/optional fields.
 - Production-validated prompt cookbook (18 patterns in AOP_WORKED_EXAMPLES.md).
+- **Pre-Review Integrity Gate** — mandatory artifact validation at all tiers before grading.
+- **Python-Based Artifact Generation** — mandatory for Codex to prevent malformed JSON.
+- **Autoresearch Patterns** — Git-as-Memory, Experiment Commit Convention, Guard Pattern.
 - **Multi-Executor Coordination** — parallel dispatch with disjoint write path validation and per-executor isolation.
 - **Fan-In/Fan-Out Orchestration** — fan-out N executors, fan-in results into aggregation artifact with partial success handling.
 - **Task Dependency Management (DAG)** — dependency declaration, topological dispatch, cycle detection, failure propagation.
@@ -204,4 +207,4 @@ AOP is agent-agnostic and works with any CLI that supports headless execution:
 
 ---
 
-**Version:** 4.0.0-rc.1 | **Status:** Release Candidate | **Last Updated:** 2026-03-18
+**Version:** 4.2.0 | **Status:** Production-Validated | **Last Updated:** 2026-03-29

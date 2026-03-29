@@ -1,6 +1,6 @@
 ---
 name: agent-orchestration-protocol
-version: 4.1.0
+version: 4.2.0
 description: Multi-agent coordination framework - The Seven Pillars of AOP
 command: /aop
 aliases: [/orchestrate, /delegate]

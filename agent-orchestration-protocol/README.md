@@ -1,8 +1,8 @@
 # Agent Orchestration Protocol (AOP)
 
-**Version:** 4.0.0-rc.1 | **Status:** Production-Validated (v3.0.0), Release Candidate (v4.0.0-rc.1) | **Category:** Multi-Agent Coordination
+**Version:** 4.2.0 | **Status:** Production-Validated | **Category:** Multi-Agent Coordination
 
-AOP is a methodology for coordinating independent headless agent processes via shell commands. An Orchestrator launches one or more Executor agents as separate OS processes, monitors their completion via artifact polling, and verifies their work before reporting back to the user. v4.0 adds multi-executor orchestration with DAG-based task dependencies, deadlock detection, priority scheduling, and fan-in/fan-out coordination.
+AOP is a methodology for coordinating independent headless agent processes via shell commands. An Orchestrator launches one or more Executor agents as separate OS processes, monitors their completion via artifact polling, and verifies their work before reporting back to the user. Includes multi-executor orchestration with DAG-based task dependencies, deadlock detection, priority scheduling, and fan-in/fan-out coordination.
 
 Full reference: [SKILL.md](./SKILL.md) | Worked examples: [AOP_WORKED_EXAMPLES.md](./AOP_WORKED_EXAMPLES.md) | Version history: [CHANGELOG.md](./CHANGELOG.md)
 
@@ -79,9 +79,9 @@ AOP is structured around seven operational pillars. Each pillar has a definition
 
 ---
 
-## Multi-Executor Orchestration (v4.0)
+## Multi-Executor Orchestration
 
-v4.0 introduces full multi-executor coordination:
+Full multi-executor coordination:
 
 - **Parallel Dispatch** — Fan-out N executors with disjoint write paths, fan-in results into a single aggregation artifact.
 - **Task Dependencies (DAG)** — Declare `depends_on` relationships between tasks. The DAG engine dispatches tasks in dependency order with cycle detection.
@@ -91,7 +91,7 @@ v4.0 introduces full multi-executor coordination:
 - **Crash Recovery** — Orchestrator State File enables resumption after Orchestrator crash.
 - **Event-Driven Detection** — Fast-polling (3s) or file watcher (<1s) for multi-executor artifact monitoring.
 
-Single-executor workflows continue to work with the simpler v3.0 patterns. See [SKILL.md](./SKILL.md) for the full protocol.
+Single-executor workflows continue to work with simpler patterns. See [SKILL.md](./SKILL.md) for the full protocol.
 
 ---
 
@@ -186,5 +186,5 @@ AOP works with any orchestrator CLI. See [SKILL.md — Cross-LLM Command Referen
 
 ---
 
-**Version:** 4.0.0-rc.1 | **Status:** Release Candidate | **Last Updated:** 2026-03-18
+**Version:** 4.2.0 | **Status:** Production-Validated | **Last Updated:** 2026-03-29
 See [CHANGELOG.md](./CHANGELOG.md) for full version history.
