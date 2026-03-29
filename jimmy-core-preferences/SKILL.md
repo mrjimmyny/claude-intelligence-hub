@@ -657,11 +657,17 @@ Stopping at any intermediate step is a discipline failure. A checkpoint with unc
 **Why:** Read receipts are the audit trail for when entries were actually read. Fabricated timestamps make the trail unreliable and mislead Jimmy about response times.
 **How to apply:** Every agent, every read receipt, every time. Run `date` first, use the output. No exceptions.
 
-### R-23. Never Dispatch `claude -p` from Within an Active Claude Code Session
-**Origin:** FND-0053 (2026-03-29). AOP Claude headless dispatch (`aop-claude-dispatch.sh`) hung indefinitely when launched from within a running Claude Code session. The `claude -p` process started but produced zero output and never completed. Codex dispatch (`aop-codex-dispatch.sh`) worked fine in the same conditions.
-**Rule:** When orchestrating from Claude Code, NEVER use `aop-claude-dispatch.sh` to spawn a headless `claude -p` session. Use the Agent tool (sub-agents) instead for Claude-side parallel execution. The `aop-claude-dispatch.sh` script is only safe when launched from a terminal, Codex, Gemini, or a non-Claude-Code context.
-**Why:** Claude Code CLI appears to conflict with itself when a second instance is launched from within the first. The exact mechanism is unknown (possible socket/lock conflict), but the behavior is reproducible.
-**How to apply:** When dispatching parallel AOP tasks from Claude Code: use `aop-codex-dispatch.sh` for GPT models, and Agent tool sub-agents for Claude models. Reserve `aop-claude-dispatch.sh` for dispatch from external contexts only.
+### R-24. Orchestrator Must Independently Verify Sub-Agent Deliverables
+**Origin:** FND-0054 (2026-03-29). Magneto accepted a sub-agent's self-reported "SUCCESS" for daily-reports grouping without independently verifying that files were actually moved. Jimmy discovered the gap.
+**Rule:** When an orchestrator delegates a task via AOP dispatch or Agent tool, the orchestrator MUST independently verify the deliverables BEFORE reporting the task as complete to Jimmy. Never trust the sub-agent's self-reported status alone.
+**Why:** Sub-agents can report success while partially completing work, skipping steps, or misunderstanding scope. The orchestrator is responsible for quality — not just dispatch.
+**How to apply:** After every sub-agent/AOP task completion: (1) check the file system for expected changes, (2) run any applicable verification (integrity check, file count, diff), (3) only then report to Jimmy. This applies to ALL dispatch methods (Agent tool, AOP Codex, AOP Claude, AOP Gemini).
+
+### R-23. Do Not Launch `claude -p` via Bash Tool Inside a Running Claude Code Session
+**Origin:** FND-0053 (2026-03-29). AOP Claude headless dispatch (`aop-claude-dispatch.sh`) hung indefinitely when launched via the Bash tool inside an active Claude Code interactive session. The `claude -p` process started but produced zero output and never completed. The same script works perfectly when launched from a terminal, Codex, Gemini, or any other external context.
+**Rule:** Do NOT run `aop-claude-dispatch.sh` (or any `claude -p` command) via the Bash tool inside a running Claude Code session. This is NOT a general ban on Claude-to-Claude AOP dispatch — that works fine when the dispatch originates from a terminal or another agent platform.
+**Why:** The `claude -p` (stdin pipe mode) appears to conflict with the parent Claude Code process when launched as a child process. The exact mechanism is unknown (possible socket/lock conflict), but the behavior is reproducible.
+**How to apply:** When orchestrating from Claude Code and needing Claude-side parallel execution: use the Agent tool (sub-agents) instead. The `aop-claude-dispatch.sh` script remains the correct choice when dispatching from a terminal, Codex, or Gemini.
 
 ---
 

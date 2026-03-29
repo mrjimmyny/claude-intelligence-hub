@@ -226,7 +226,7 @@ If no records exist, proceed. This step is informational, not blocking.
 Check for prior self-improvement executions on this target:
 
 ```bash
-ls _skills/self-improvement/history/<target-slug>/changelog.md
+ls obsidian/CIH/projects/skills/self-improvement/history/<target-slug>/changelog.md
 ```
 
 Where `<target-slug>` is the kebab-case identifier from Step 1.3.
@@ -577,7 +577,7 @@ Read `references/history-protocol.md` and execute its 7-step procedure:
 6. Update `index.md` (update or add target row).
 7. Verify all 5 files exist.
 
-**Important:** History files are written to `_skills/self-improvement/history/` — NOT inside the worktree. This is the sole permitted write outside the worktree per Gate 2.
+**Important:** History files are written to `obsidian/CIH/projects/skills/self-improvement/history/` — NOT inside the worktree. This is the sole permitted write outside the worktree per Gate 2.
 
 **After completion:** Unload `history-protocol.md`.
 
@@ -596,7 +596,7 @@ The report has 7 sections:
 
 Fill every placeholder. A report with unfilled `<placeholder>` markers is incomplete and must not be presented.
 
-Save to: `_skills/self-improvement/history/<target-slug>/<YYYY-MM-DD>/report.md`
+Save to: `obsidian/CIH/projects/skills/self-improvement/history/<target-slug>/<YYYY-MM-DD>/report.md`
 
 **After completion:** Unload `report-template.md`.
 
@@ -622,7 +622,7 @@ For each issue discovered during execution that falls outside the target scope (
 
 | Artifact | Value |
 |----------|-------|
-| Report path | `_skills/self-improvement/history/<target-slug>/<YYYY-MM-DD>/report.md` |
+| Report path | `obsidian/CIH/projects/skills/self-improvement/history/<target-slug>/<YYYY-MM-DD>/report.md` |
 | History files updated | `changelog.md`, `index.md`, `scores.md`, `rounds-log.md` |
 | Findings registered | `<count>` FND-XXXX tickets (or 0) |
 
@@ -640,7 +640,7 @@ Display the following summary in chat:
 <target> refined: <baseline_score> -> <final_score> (<delta>%) in <N> rounds.
 Branch: self-improvement/<slug>-<YYYY-MM-DD>
 <N> findings registered (out of scope).
-Full report at: _skills/self-improvement/history/<target-slug>/<YYYY-MM-DD>/report.md
+Full report at: obsidian/CIH/projects/skills/self-improvement/history/<target-slug>/<YYYY-MM-DD>/report.md
 Recommendation: <from report Section 1 recommendation logic>
 
 Do you want to approve the merge?
@@ -729,7 +729,7 @@ Three failure modes and their required responses:
    git worktree remove --force "_worktrees/self-improvement-<slug>-<YYYY-MM-DD>"
    git branch -D "self-improvement/<slug>-<YYYY-MM-DD>"
    ```
-3. Write a partial execution entry to `_skills/self-improvement/history/<target-slug>/changelog.md` with status `Crashed`.
+3. Write a partial execution entry to `obsidian/CIH/projects/skills/self-improvement/history/<target-slug>/changelog.md` with status `Crashed`.
 4. Report the crash to Jimmy with: phase reached, last successful step, error description.
 
 ### Timeout
@@ -868,7 +868,7 @@ These gates are defined in full in `references/safety-gates.md`. This summary ex
 ### Execution History Location
 
 ```
-_skills/self-improvement/history/
+obsidian/CIH/projects/skills/self-improvement/history/
   index.md                              # Dashboard across all targets
   <target-slug>/
     changelog.md                        # One line per execution (append-only)
