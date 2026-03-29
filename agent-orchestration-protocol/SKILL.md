@@ -1141,6 +1141,17 @@ kill $ORPHAN_PID
 cp /c/ai/config/settings.json /c/ai/config/settings.json.bak_${SESSION_ID}
 ```
 
+### Environment Edge Cases
+
+| Edge Case | Detection | Action |
+| :--- | :--- | :--- |
+| **Disk full** | Artifact write fails (0-byte file or write error) | Kill executor. Check `df -h`. Free space before retry. |
+| **Permission denied** | Executor reports write failure in error artifact | Verify workspace is in trusted allow-list. Check filesystem permissions. |
+| **Network timeout** | Git push/pull fails inside executor | Executor should catch and report in artifact. Orchestrator retries with `--depth 1` clone if applicable. |
+| **Stale PID** | `kill -0 $PID` returns non-zero but no artifact | Mark executor as CRASHED. Check for partial outputs. Do not retry automatically. |
+| **Concurrent write conflict** | Two executors accidentally write same file | Pre-dispatch write path validation (see Multi-Executor Coordination) prevents this. If it occurs: abort both, restructure tasks. |
+| **Agent CLI not installed** | `which claude` / `which codex` / `which gemini` returns empty | STOP before dispatch. Report missing CLI to user. Do not attempt alternatives. |
+
 ---
 
 ## Governance (Lightweight)
