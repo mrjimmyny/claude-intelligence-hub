@@ -86,47 +86,61 @@ The **Claude Intelligence Hub** is a centralized system that:
 ## 🏗️ Development Impact Analysis
 
 > **How much effort would this take to build manually?**
+>
+> *Metrics as of 2026-03-29 (cutoff date). Original case study at v2.4.0 covered 9 skills; this section reflects the full 23-skill production system.*
 
-This hub represents **23 skill collections, 280KB+ of documentation, 160+ automated tests, and a complete CI/CD pipeline**. The initial 9 skills were built in **17 days** (Feb 2026), expanded to 22 skills by March 2026. The numbers below are from the [v2.4.0 case study](./DEVELOPMENT_IMPACT_ANALYSIS.md) and reflect the original 9-skill scope.
+This hub represents **23 production skills, 360 tracked files, ~70,000 lines of code and documentation, 78+ automation scripts (Bash + PowerShell + Python), and a CI/CD pipeline** — built from scratch in **49 days** (Feb 8 – Mar 29, 2026). The first 9 skills shipped in 17 days; skills 10–23 followed in the next 32 days at an accelerating pace once the infrastructure was solid.
 
 ### The Numbers
 
 | Metric | Manual Development | AI-Assisted Development | Savings |
 |--------|-------------------|------------------------|---------|
-| **Time to Production** | 12–18 months | 17 days (initial 9 skills) | **92–94%** |
-| **Person-Hours** | ~1,680–2,360 hours | ~136–218 hours | **92–94%** |
-| **Team Size Required** | 3–4 developers | 1 architect + AI team | **67–75%** |
-| **Estimated Cost** | $230k–$500k | $5k–$10k | **95–98%** |
-| **Lines of Code/Docs** | ~20k–30k lines | ~20k–30k lines | Same quality\* |
-| **Test Coverage** | 160+ tests | 160+ tests | Same rigor |
+| **Time to Production** | 18–24 months | 49 days (23 skills, full system) | **93–94%** |
+| **Person-Hours** | ~3,200–4,500 hours | ~400–600 hours | **87–91%** |
+| **Team Size Required** | 4–6 developers | 1 architect + 5 AI agents | **83%** |
+| **Estimated Cost** | $450k–$900k | $8k–$15k | **96–98%** |
+| **Lines of Code/Docs** | ~70,000 lines | ~70,000 lines | Same quality\* |
+| **Total Files** | 360 | 360 | Same rigor |
+| **Commits** | N/A | 353 (7.2/day avg) | Atomic discipline |
 
-\*Same quality means equivalent production-grade output with 99% test pass rate, comprehensive documentation, and full CI/CD coverage — achieved in 92–94% less time.
+\*Same quality means equivalent production-grade output with comprehensive documentation, full CI/CD coverage, cross-agent compatibility, and version-sync enforcement — achieved in 93–94% less time.
+
+### Growth Timeline
+
+| Phase | Period | Duration | Skills | Cumulative Lines | Key Milestone |
+|-------|--------|----------|--------|-----------------|---------------|
+| **Bootstrap** | Feb 8 | Day 1 | 0 | ~500 | Repository initialized |
+| **Core Build** | Feb 10–16 | 6 days | 9 | ~20,000 | First 9 skills to production |
+| **Expansion** | Feb 17–25 | 9 days | 15 | ~35,000 | AOP, token-economy, governance added |
+| **Scale** | Mar 4–28 | 24 days | 23 | ~70,000 | DDI, NotebookLMx, bi-designerx, self-improvement |
+| **Current** | Mar 29 | Day 49 | 23 | 69,942 | Hub v2.28.1, all skills production |
 
 ### The Elite League: Agents & Models
 
-This project is maintained by a multi-agent team, where each agent is powered by a specific Large Language Model to leverage its unique strengths.
+This project is built and maintained by a multi-agent team, where each agent is powered by a specific Large Language Model to leverage its unique strengths.
 
 | Agent Name | Alias | Underlying Model | Role |
 | :--- | :--- | :--- | :--- |
 | **Jimmy** | N/A | Human | Architect & Product Owner |
-| **Forge** | Gemini Pro | Google Gemini | Sr. Software Engineer & Tooling |
-| **Xavier** | Claude | Anthropic Claude | Lead Developer |
-| **Magneto** | Claude | Anthropic Claude | Sr. Developer & QA |
-| **Emma** | Codex | OpenAI Codex/o1 | Strategic Advisor |
+| **Forge** | Gemini Pro | Google Gemini 2.5 Pro | Sr. Software Engineer & Tooling |
+| **Xavier** | Claude | Anthropic Claude Sonnet 4.6 | Lead Developer |
+| **Magneto** | Claude | Anthropic Claude Opus 4.6 | Sr. Developer & QA |
+| **Emma** | Codex | OpenAI GPT 5.4 (Codex) | Strategic Advisor |
 | **Ciclope** | Abacus | Abacus.AI | Specialist & Strategist |
 
-This structure allows for a robust, multi-faceted approach to development, combining different AI architectures for optimal results.
+353 commits across 49 days — 4 distinct contributors, 1 human architect orchestrating 5 AI agents.
 
 ### Why This Matters
 
 Traditional development wisdom says "you can't have fast, cheap, and good — pick two."
 
 **AI-assisted development breaks that rule:**
-- ✅ **Fast** — 17 days (initial scope) vs 12–18 months
-- ✅ **Cheap** — $5k–$10k vs $230k–$500k
-- ✅ **Good** — 99% test pass rate, production-grade quality
+- ✅ **Fast** — 49 days for 23 production skills vs 18–24 months manual
+- ✅ **Cheap** — $8k–$15k vs $450k–$900k (96–98% savings)
+- ✅ **Good** — 70,000 lines, 360 files, CI/CD enforced, zero version drift
+- ✅ **Accelerating** — 9 skills in 17 days → 23 skills in 49 days (infrastructure compounds)
 
-📄 **Read the full analysis:** [DEVELOPMENT_IMPACT_ANALYSIS.md](./DEVELOPMENT_IMPACT_ANALYSIS.md)
+📄 **Read the original v2.4.0 case study:** [DEVELOPMENT_IMPACT_ANALYSIS.md](./DEVELOPMENT_IMPACT_ANALYSIS.md)
 
 ---
 
@@ -249,7 +263,7 @@ For complete trigger list and routing patterns, see **[HUB_MAP.md](HUB_MAP.md)**
 git clone https://github.com/mrjimmyny/claude-intelligence-hub.git
 cd claude-intelligence-hub
 
-# Run automated setup (installs 22 skills)
+# Run automated setup (installs 23 skills)
 .\scripts\setup_local_env.ps1
 
 # Force recreate existing junctions (if needed)
