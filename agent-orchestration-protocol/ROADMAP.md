@@ -64,7 +64,7 @@ AOP breaks these barriers by introducing **orchestration as a first-class capabi
 
 ---
 
-### Present: Production Phase (AOP v3.0.0) + Multi-Executor (v4.0.0-rc.1)
+### Present: Production Phase (AOP v4.2.0)
 
 **Current State:**
 
@@ -279,7 +279,7 @@ Creative Brief → Orchestrator
 
 ## Success Metrics
 
-### Current Metrics (v4.0.0-rc.1)
+### Current Metrics (v4.2.0)
 - ✅ 100% success rate on production orchestrations
 - ✅ <10 minute average completion for standard workflows
 - ✅ Artifact detection in 2-4 polls on average
@@ -340,6 +340,6 @@ The **Agent Orchestration Protocol** represents a systematic approach to multi-a
 
 ---
 
-**Roadmap Version:** 2.0
-**Last Updated:** 2026-03-18
+**Roadmap Version:** 2.1
+**Last Updated:** 2026-03-29
 **Next Review:** Q2 2026
