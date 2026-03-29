@@ -253,7 +253,23 @@ When Jimmy signals ANY form of work stoppage — pause, break, day close, or per
 - **"close day" / "call it a day" / "call the day" / "day close" / "end of day"** — triggers full Pre-Close gate (PP-01 through PC-11)
 - Any indication that work is stopping, even temporarily
 
-**Automated Enforcement (Claude Code only):** A `UserPromptSubmit` hook at `.claude/hooks/checkpoint-gate.sh` detects these three keywords (save, checkpoint, close day) and injects the applicable instructions as `additionalContext`. Codex and Gemini agents must detect keywords manually and follow the same protocol. A mechanical verification script at `_skills/daily-doc-information/scripts/checkpoint-verify.sh` handles PP-06, PP-07, and PP-10 checks for checkpoint/close-day gates.
+**Automated Enforcement (Claude Code only):** A `UserPromptSubmit` hook at `.claude/hooks/checkpoint-gate.sh` detects these three keywords (save, checkpoint, close day) and injects the applicable instructions as `additionalContext`. A second hook at `_skills/daily-doc-information/scripts/kickoff-doc-gate.sh` detects "kickoff-doc" / "/kickoff-doc" and injects session-creation + project-handoff instructions. Codex and Gemini agents must detect keywords manually and follow the same protocol. A mechanical verification script at `_skills/daily-doc-information/scripts/checkpoint-verify.sh` handles PP-06, PP-07, and PP-10 checks for checkpoint/close-day gates.
+
+### Kickoff-Doc Protocol (session opening gate)
+
+**Trigger:** `/kickoff-doc`, `kickoff-doc`, or `kickoff doc` in a user message.
+
+**Required inputs (MUST ask if missing):** session_id, agent_name, model.
+**Optional input:** project_name.
+
+**Protocol:**
+1. Validate required inputs — if session_id, agent_name, or model are missing, ask Jimmy before proceeding.
+2. Create a new session doc from the DDI template in `ai-sessions/YYYY-MM/`.
+3. If a project is specified: read all project docs (PROJECT_CONTEXT, status-atual, next-step, decisoes), find the most recent session doc for that project, compare for drift, report drift, and create a complete handoff section.
+4. If no project: create a General-context session doc with no drift check.
+5. Set status to `in_progress` with real system clock timestamp.
+
+**Full protocol reference:** `_skills/daily-doc-information/scripts/kickoff-doc-protocol.md`
 
 ### Pre-Pause Checklist (9 items — mandatory for ANY pause)
 
