@@ -243,9 +243,41 @@ Reference template: `obsidian/CIH/projects/skills/bi-designerx/05-canvas-maps/bi
 
 When the user says "lock v[N]" (or "fechamos a v[N]"):
 1. Set `locked: true` in JSON
-2. Generate all 7 CEM Package artifacts
+2. Generate all 8 CEM Package artifacts (including screenshot — see 6.7)
 3. JSON and Skin become **immutable** — no agent may modify
 4. Any changes require a new version (vN+1) on a new artboard
+
+### 6.7 Screenshot Export — Autonomous Procedure (FND-0066)
+
+Paper MCP `get_screenshot` returns base64 inline — it does NOT save to file. Agents MUST use the Playwright + Paper UI Export method to generate screenshot artifacts autonomously. **Do NOT ask Jimmy to export manually.**
+
+**Prerequisites:**
+- Paper app must be open (session init requirement per FND-0060)
+- Paper file URL must be stored in the project's `PROJECT_CONTEXT.md` under `Paper File URL:`
+- Playwright MCP must be available
+
+**Autonomous procedure (step-by-step):**
+
+1. **Get artboard node ID:** Call Paper MCP `get_basic_info` → read `artboards[].id` for target artboard
+2. **Get Paper file URL:** Read `PROJECT_CONTEXT.md` → extract `Paper File URL:` value
+3. **Construct full URL:** `{paper_file_url}?node={artboard_id}`
+4. **Navigate Playwright:** `browser_navigate` to the constructed URL
+5. **Wait for load:** Paper UI renders the file with artboard selected
+6. **Take snapshot:** `browser_snapshot` to find the Export button ref
+7. **Click Export:** `browser_click` on the Export button (`Export Ctrl + Shift + E`)
+8. **File downloads:** Playwright reports the downloaded file path
+9. **Copy to pack:** Copy downloaded PNG to `projects/[PROJECT]/artifacts/[PAGE]/bidx-cem-[PAGE]-v[N]-screenshot.png`
+10. **Cleanup:** Remove temp file from `.playwright-mcp/`
+
+**If Paper file URL is missing from PROJECT_CONTEXT.md:**
+- Navigate Playwright to `https://app.paper.design` (Jimmy must be logged in)
+- Use `browser_evaluate` → `window.location.href` to capture the URL after Jimmy navigates to the file
+- Store the URL in PROJECT_CONTEXT.md for future use
+
+**What NOT to do:**
+- Do NOT ask Jimmy to export manually — this procedure is 100% autonomous
+- Do NOT rely on Paper MCP `get_screenshot` for file artifacts — it returns base64 only
+- Do NOT skip storing the Paper file URL in PROJECT_CONTEXT.md — it's needed for all future exports
 
 ---
 

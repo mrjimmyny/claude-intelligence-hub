@@ -718,6 +718,12 @@ Stopping at any intermediate step is a discipline failure. A checkpoint with unc
 **Why:** Different dashboard pages have different section structures. Hardcoded filters silently produce incomplete artifacts.
 **How to apply:** Use `[...new Set(cem.elements.map(el => el.section))]` to discover sections dynamically. See FND-0065.
 
+### R-31. Screenshot Export Must Be Autonomous — Never Ask Jimmy to Export Manually
+**Origin:** FND-0066 (2026-03-31). Agent could not save Paper MCP `get_screenshot` to file (returns base64 inline only). Asked Jimmy to export manually. Jimmy pointed out Playwright can open Paper URL in browser and click the Export button.
+**Rule:** Screenshot artifacts MUST be exported autonomously via Playwright + Paper UI Export button. The Paper file URL MUST be stored in `PROJECT_CONTEXT.md` at project setup. Agents MUST NOT ask the user to export manually — the full procedure is in SKILL.md Section 6.7.
+**Why:** Agents should be self-sufficient for all pack artifact generation. Manual export is friction and breaks the autonomous pipeline.
+**How to apply:** At project setup, store Paper file URL in PROJECT_CONTEXT.md. At screenshot export time, follow SKILL.md 6.7 step-by-step. If URL is missing, capture it via Playwright `window.location.href`.
+
 ---
 
 *Part of the [Claude Intelligence Hub](https://github.com/mrjimmyny/claude-intelligence-hub)*
