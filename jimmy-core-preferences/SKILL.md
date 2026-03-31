@@ -694,6 +694,18 @@ Stopping at any intermediate step is a discipline failure. A checkpoint with unc
 **Why:** Projects that skip discovery start with hidden ambiguities. Projects that skip specs get built wrong. Projects that skip plans get implemented inefficiently. Projects that skip testing ship broken.
 **How to apply:** When Jimmy says "create a project", "new project", "I want to build X", or any equivalent — do NOT create folders or write code. Start Phase 0 Discovery with a structured brainstorming interview. Only proceed after Jimmy's explicit approval at each gate. Verify compliance with: `bash projects/scripts_bootstraps/project-lifecycle-verify.sh --project <path> --auto`.
 
+### R-27. CEM .md Artifacts Must Be Mirrored to Obsidian for PBI Projects
+**Origin:** FND-0062 (2026-03-30). CEM pack `.md` artifacts (Skin baseline, DRAFT-OWNER, Rationale) were stored only in `projects/[name]/artifacts/` and invisible to Obsidian graph.
+**Rule:** For PBI projects, all `.md` pack artifacts MUST exist in BOTH locations: `projects/<project>/artifacts/<page>/` (technical) AND `obsidian/CIH/projects/<project>/05-final/artifacts/<page>/` (documental). Non-`.md` artifacts (JSON, PNG, PDF, HTML, XLSX) stay only in the technical layer.
+**Why:** Obsidian graph visibility is essential for Jimmy's review and cross-referencing. Documents trapped in the technical layer are invisible to the knowledge system.
+**How to apply:** After generating or recreating any `.md` CEM artifact, immediately copy it to the Obsidian mirror path. Both copies must stay in sync.
+
+### R-28. DRAFT-OWNER Must Include Per-Section Comment Blocks
+**Origin:** FND-0063 (2026-03-31). DRAFT-OWNER generated without per-section comment areas, preventing Jimmy from annotating during review.
+**Rule:** Every DRAFT-OWNER file MUST include: (1) per-section `**[Section] notes/instructions:** <!-- -->` comment blocks after every section's tables, (2) `Changes` column in all element tables, (3) Visual Properties split per section, (4) How to Edit guide with examples, (5) General Notes section with placeholder.
+**Why:** Jimmy needs structured annotation points during DRAFT review. A single "Notes" section at the end is insufficient for per-section feedback.
+**How to apply:** Use `bidx-cem-people-overview-v1-DRAFT-OWNER.md` as the reference template. See SKILL.md Section 6.5 for full requirements.
+
 ---
 
 *Part of the [Claude Intelligence Hub](https://github.com/mrjimmyny/claude-intelligence-hub)*

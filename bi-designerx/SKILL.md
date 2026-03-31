@@ -155,7 +155,7 @@ Pattern: `{section}_{type}_{identity}`
 | Segment | Position | Values |
 |---------|----------|--------|
 | Section | 1st (2 chars) | `hd` (header), `bd` (body), `ft` (footer) |
-| Type | 2nd | `bg`, `tab`, `lbl`, `icon`, `iconbg`, `lgd`, `sub`, `dot`, `img`, `num`, `badge`, `underline`, `div`, `ind` |
+| Type | 2nd | `bg`, `tab`, `lbl`, `icon`, `iconbg`, `lgd`, `sub`, `dot`, `img`, `num`, `bar`, `badge`, `underline`, `div`, `ind` |
 | Identity | 3rd | Descriptive name |
 
 **Examples:** `hd_tab_overview`, `bd_bg_actives`, `bd_icon_turnover`, `ft_lbl_confidential`
@@ -214,7 +214,26 @@ Names are synchronized across Paper layers, JSON IDs, DRAFT tables, and Skin bas
 | 7 | HTML Package | `bidx-cem-*-v*.0-package.html` | `_skills/` | Generated |
 | 8 | Excel Package | `bidx-cem-*-v*.xlsx` | `_skills/` | Generated |
 
-### 6.4 Version Lock Protocol
+> **Obsidian Mirror Rule (FND-0062):** For PBI projects, all `.md` pack artifacts (Skin baseline, DRAFT-OWNER, Rationale) MUST be copied to `obsidian/CIH/projects/[PROJECT-NAME]/05-final/artifacts/<page-name>/` in addition to `projects/[PROJECT-NAME]/artifacts/<page-name>/`. This ensures Obsidian graph visibility for documental artifacts. JSON, PNG, PDF, HTML, and XLSX stay only in the technical layer.
+
+### 6.5 DRAFT-OWNER Template Requirements (FND-0063)
+
+Every DRAFT-OWNER file MUST include:
+
+1. **"How to Edit" guide** with examples (before/after, removing elements)
+2. **Per-section comment blocks** — after every section's tables, include:
+   ```
+   **[Section] notes/instructions:**
+   <!-- Write any [section]-specific instructions here -->
+   ```
+3. **`Changes` column** in all element tables for per-element annotations
+4. **Visual Properties table** split per section (not a single monolithic table)
+5. **General Notes** section at the end with `<!-- -->` placeholder
+6. **Global Overrides** section with its own comment block
+
+Reference template: `obsidian/CIH/projects/skills/bi-designerx/05-canvas-maps/bidx-cem-people-overview-v1-DRAFT-OWNER.md`
+
+### 6.6 Version Lock Protocol
 
 When the user says "lock v[N]" (or "fechamos a v[N]"):
 1. Set `locked: true` in JSON
@@ -371,6 +390,12 @@ projects/[PROJECT-NAME]/
 └── README.md
 
 obsidian/CIH/projects/[PROJECT-NAME]/
+├── 05-final/
+│   └── artifacts/
+│       └── <page-name>/     # Mirror of .md artifacts from technical layer
+│           ├── *-DRAFT-OWNER.md
+│           ├── *-v*.0.md    # Skin baseline
+│           └── *-rationale.md
 └── (standard documental structure: PROJECT_CONTEXT, status-atual, next-step, decisoes)
 ```
 
