@@ -706,6 +706,18 @@ Stopping at any intermediate step is a discipline failure. A checkpoint with unc
 **Why:** Jimmy needs structured annotation points during DRAFT review. A single "Notes" section at the end is insufficient for per-section feedback.
 **How to apply:** Use `bidx-cem-people-overview-v1-DRAFT-OWNER.md` as the reference template. See SKILL.md Section 6.5 for full requirements.
 
+### R-29. Interactive HTML Package is Mandatory for Every CEM Lock
+**Origin:** Jimmy's feedback on workforce-view-v1 pack (2026-03-31). Jimmy: "Que trabalho FANTÁSTICO! Daqui pra frente quero isso pra todos os projetos de BI, Design, que envolver o Paper!"
+**Rule:** The CEM HTML Package (artifact #7) MUST be generated for every locked CEM version. It is a non-negotiable deliverable — not optional, not agent-discretionary. Must be self-contained HTML with inline CSS/JS, zero external dependencies, interactive visual map with search/filter/hover/click.
+**Why:** The HTML Package provides the highest-value review artifact for stakeholders. Jimmy explicitly mandated it as standard for all BI/Design projects involving Paper.
+**How to apply:** After locking a CEM version, generate the HTML Package from the JSON. Use the workforce-view-v1 package as the reference template. See SKILL.md Section 6.3.
+
+### R-30. Excel Script Must Use Dynamic Sections — Never Hardcode Page Structure
+**Origin:** FND-0065 (2026-03-31). `generate-cem-excel.js` had hardcoded section filters for People Overview, causing Workforce View Excel to be generated with empty body tabs (120 elements missing).
+**Rule:** The Excel generation script MUST auto-discover sections from JSON elements. Never hardcode section names. Color palette cells must include visual color swatches (filled cells).
+**Why:** Different dashboard pages have different section structures. Hardcoded filters silently produce incomplete artifacts.
+**How to apply:** Use `[...new Set(cem.elements.map(el => el.section))]` to discover sections dynamically. See FND-0065.
+
 ---
 
 *Part of the [Claude Intelligence Hub](https://github.com/mrjimmyny/claude-intelligence-hub)*

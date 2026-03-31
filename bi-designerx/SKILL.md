@@ -216,6 +216,12 @@ Names are synchronized across Paper layers, JSON IDs, DRAFT tables, and Skin bas
 
 > **Obsidian Mirror Rule (FND-0062):** For PBI projects, all `.md` pack artifacts (Skin baseline, DRAFT-OWNER, Rationale) MUST be copied to `obsidian/CIH/projects/[PROJECT-NAME]/05-final/artifacts/<page-name>/` in addition to `projects/[PROJECT-NAME]/artifacts/<page-name>/`. This ensures Obsidian graph visibility for documental artifacts. JSON, PNG, PDF, HTML, and XLSX stay only in the technical layer.
 
+> **Interactive HTML Package is MANDATORY.** The HTML Package (artifact #7) MUST be generated for every locked CEM version. It provides an interactive visual map of all elements with search, filtering, hover tooltips, and click-to-highlight. This is a non-negotiable deliverable — not optional, not agent-discretionary. Generated via a self-contained HTML file with inline CSS/JS, zero external dependencies. Reference: `bidx-cem-workforce-view-v1.0-package.html`.
+
+> **PDF Generation Method:** Use Playwright `page.pdf()` to convert the Skin print HTML to PDF. No LaTeX/wkhtmltopdf/weasyprint required. See FND-0064.
+
+> **Excel Script — Dynamic Sections (FND-0065):** `generate-cem-excel.js` auto-discovers sections from JSON elements. Do NOT hardcode section names. Color palette cells include visual color swatches.
+
 ### 6.5 DRAFT-OWNER Template Requirements (FND-0063)
 
 Every DRAFT-OWNER file MUST include:
