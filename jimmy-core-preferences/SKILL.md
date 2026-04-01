@@ -8,7 +8,7 @@ aliases: [/prefs, /jimmy]
 
 # Jimmy Core Preferences — Global Cross-Agent Operating Framework
 
-**Version:** 3.4.0
+**Version:** 3.5.0
 **Last Updated:** 2026-03-23
 **Auto-Load:** Yes (Priority: Highest)
 
@@ -723,6 +723,30 @@ Stopping at any intermediate step is a discipline failure. A checkpoint with unc
 **Rule:** Screenshot artifacts MUST be exported autonomously via Playwright + Paper UI Export button. The Paper file URL MUST be stored in `PROJECT_CONTEXT.md` at project setup. Agents MUST NOT ask the user to export manually — the full procedure is in SKILL.md Section 6.7.
 **Why:** Agents should be self-sufficient for all pack artifact generation. Manual export is friction and breaks the autonomous pipeline.
 **How to apply:** At project setup, store Paper file URL in PROJECT_CONTEXT.md. At screenshot export time, follow SKILL.md 6.7 step-by-step. If URL is missing, capture it via Playwright `window.location.href`.
+
+### R-32. CEM Element Naming Must Cover ALL Tree Depths — No Generic Names Allowed
+**Origin:** FND-0068 (2026-04-01). During P3 (Element Naming) for people-strategy-v1, agent only renamed top-level semantic containers (cards, titles, charts) but left 15 child elements with Paper auto-generated names ("SVG", "Rectangle", "Frame", bare year text). Jimmy caught the drift visually in Paper's layer tree.
+**Rule:** During CEM P3 (Element Naming), the agent MUST rename ALL elements at ALL tree depths. This includes child SVGs inside icon backgrounds, child rectangles inside row containers, and child text labels inside composite frames. No element may retain Paper auto-generated names ("SVG", "Rectangle", "Frame", "Text", or bare content values). Exception: SVGVisualElement children inside chart/icon SVG composites (Path, Circle, Line, Polyline, data labels) are rendering primitives and are excluded from individual renaming.
+**Why:** Generic names in the layer tree make it impossible for Jimmy to visually verify the mapping. It caused retracking, wasted tokens, and broke the "100% unique names" guarantee of P3.
+**How to apply:** After renaming top-level elements, run `get_tree_summary` at depth 4+ and scan for ANY element still named "SVG", "Rectangle", "Frame", "Text", or a bare content value. Rename all of them before declaring P3 complete.
+
+### R-33. Always Commit + Push After Completing Work — Never Wait for Jimmy to Ask
+**Origin:** FND-0069 (2026-04-01). Jimmy had to repeatedly ask agents to commit and push after completing tasks. Memory-only rule discovered during checkpoint WARN audit.
+**Rule:** After completing ANY body of work (updates, fixes, features, doc changes), ALWAYS commit and push immediately as the final step. The work is NOT "done" until it's committed and pushed. Never wait for Jimmy to request this.
+**Why:** Uncommitted work is invisible work. If the session crashes, context switches, or another agent takes over, unpushed changes are lost. Jimmy should never have to say "commit + push" — it should be automatic.
+**How to apply:** Treat `git add + commit + push` as the natural last step of every task. This complements R-03 (checkpoint after each delivery) and R-21 (complete gate execution) but goes further: it applies to ALL work, not just checkpoint gates.
+
+### R-34. "Respondi" Means Jimmy Replied in the Thread Doc — Go Read It
+**Origin:** FND-0069 (2026-04-01). Memory-only rule discovered during checkpoint WARN audit. Jimmy uses "Respondi" as shorthand across sessions.
+**Rule:** When Jimmy says "Respondi" (or "respondi", "I replied"), it means he has written a new entry in the active project's thread document (`*-pjt-threads-jimmy-magneto.md`). Immediately read the thread doc, find his latest entry, add a read receipt, and act on instructions.
+**Why:** Thread docs are Jimmy's primary async communication channel for project work. "Respondi" is established shorthand — no need to ask "where?" or "which doc?".
+**How to apply:** On seeing "Respondi" → identify the active project → read `00_prompts_agents/*-pjt-threads-*.md` → find Jimmy's latest entry → add read receipt → execute.
+
+### R-35. Do Not Include Other Sessions' Projects in Status Updates Unless Asked
+**Origin:** FND-0069 (2026-04-01). Memory-only rule discovered during checkpoint WARN audit. Magneto was including bi-designerx updates in sessions where it wasn't the active scope, creating noise.
+**Rule:** When listing next steps, project status, or planning session work, only include projects that are IN SCOPE for the current session. Do not bring unsolicited status from projects being worked on in other parallel sessions/agents.
+**Why:** Jimmy runs multiple parallel sessions with different agents. Cross-pollinating status between sessions creates confusion and wastes context.
+**How to apply:** Check the session doc's `project:` field and thread context. Only report on projects explicitly referenced in the current session unless Jimmy asks for a broader view.
 
 ---
 

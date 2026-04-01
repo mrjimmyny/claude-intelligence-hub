@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.28.2] - 2026-04-01
+
+### Changed
+- **jimmy-core-preferences** v3.4.0 -> v3.5.0 — FND-0069: 3 new rules added to Section R (R-33 commit+push after work, R-34 "Respondi" means thread, R-35 don't cross-pollinate sessions). 5 feedback memory files migrated with markers. Checkpoint WARN gap resolved.
+
 ## [2.28.1] - 2026-03-29
 
 ### Changed
