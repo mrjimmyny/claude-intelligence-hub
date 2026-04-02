@@ -166,6 +166,14 @@ Names are synchronized across Paper layers, JSON IDs, DRAFT tables, and Skin bas
 
 **Note:** The CEM Spec v1.0 documents an older naming convention (`H-LOGO`, `B-ACT`) and a nested JSON schema (v1.0 with `sections` wrapper). Both are stale. **This SKILL.md is authoritative** for the current naming convention (Decision 15) and JSON schema (CEM v2.0, flat `elements` array). A CEM Spec v1.1 is planned to reconcile these.
 
+**Full-depth naming rule (FND-0068):** During P3 (Element Naming), the agent MUST rename ALL elements at ALL tree depths — not just top-level semantic containers. This includes:
+- Child SVGs inside icon background frames (e.g., the SVG inside `card-leadership-icon-bg` must be named `card-leadership-icon-svg`, not left as auto-generated "SVG")
+- Child rectangles inside row containers (e.g., year indicator dots must be named `card-acq-row-2026-dot`, not "Rectangle")
+- Child text labels inside composite frames (e.g., year labels must be named `card-acq-row-2026-year`, not left as "2026")
+- Any element Paper auto-names as "SVG", "Rectangle", "Frame", "Text", or a bare content value
+
+**Exception:** SVGVisualElement children inside chart/icon SVG composites (Path, Circle, Line, Polyline, and SVG `<text>` data labels like "37%") are NOT independently renamed. These are rendering primitives of the parent SVG — they cannot be individually addressed or modified outside their SVG context. They are excluded from the CEM element count but their parent SVG IS counted and named.
+
 ### 6.2 JSON Schema
 
 ```json
