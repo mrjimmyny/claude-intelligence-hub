@@ -748,6 +748,12 @@ Stopping at any intermediate step is a discipline failure. A checkpoint with unc
 **Why:** Jimmy runs multiple parallel sessions with different agents. Cross-pollinating status between sessions creates confusion and wastes context.
 **How to apply:** Check the session doc's `project:` field and thread context. Only report on projects explicitly referenced in the current session unless Jimmy asks for a broader view.
 
+### R-36. Active Timestamp Enforcement — Always Call `now.sh` Before Writing Any Timestamp
+**Origin:** FND-0070 (2026-04-02). Recurrence of FND-0052 — agent fabricated read receipt time (09:55 vs actual ~10:15) despite R-15, R-22, PB-12 all being documented. Passive rules proven insufficient after 3+ occurrences.
+**Rule:** Before writing ANY timestamp in ANY document (session doc, thread doc, read receipt, history row, frontmatter, finding), the agent MUST call `bash C:/ai/_skills/daily-doc-information/scripts/now.sh` (or the appropriate flag variant) and use the returned value verbatim. No exceptions. No estimation. No "I'll just type it."
+**Why:** Timestamps are operational data used for audits, studies, and cross-session tracking. Fabricated timestamps corrupt the historical record. Three rounds of passive rules (R-15, R-22, PB-12) failed to prevent recurrence because they depend on agent memory at write-time.
+**How to apply:** `now.sh` (default: `YYYY-MM-DD HH:MM`), `now.sh --receipt` (`YYYY-MM-DD-HH:MM` for read receipts), `now.sh --date`, `now.sh --time`, `now.sh --full`. Always run BEFORE the edit, never after.
+
 ---
 
 *Part of the [Claude Intelligence Hub](https://github.com/mrjimmyny/claude-intelligence-hub)*
