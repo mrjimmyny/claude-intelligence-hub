@@ -45,7 +45,7 @@ bi-designerx is a skill for creating professional BI dashboard backgrounds using
 | **P3** | Element Naming | P2 output | Every element has unique semantic name | User validates ALL names (HARD BLOCK) |
 | **P4** | CEM JSON Creation | P3 output (named elements) | CEM JSON with all elements mapped | JSON reviewed and validated |
 | **P5** | Markdown Generation | P4 output (validated JSON) | Skin baseline + DRAFT-OWNER + Package artifacts | Documents derived from JSON |
-| **P6** | Version Lock | P5 output + user approval | `locked: true`, immutable JSON + full CEM Package | Only user triggers lock |
+| **P6** | Version Lock | P5 output + user approval | `locked: true`, immutable JSON + full CEM Package (see 6.3, 6.6) | Only user triggers lock |
 
 **Critical gate:** P3 to P4 is HARD-BLOCKED. JSON creation is impossible until every Paper element has a validated unique name.
 
@@ -483,7 +483,7 @@ _skills/bi-designerx/
 │   └── generate-cem-excel.js        # Excel package generator
 ├── user-start-input/                # P0 reference inputs (skill-level template)
 ├── assets/                          # Shared design assets (logos, icons)
-└── exemples/                        # Reference PBI projects
+└── examples/                        # Reference PBI projects
 ```
 
 ### Documental Layer (`obsidian/CIH/projects/skills/bi-designerx/`)
