@@ -514,6 +514,114 @@ obsidian/CIH/projects/[PROJECT-NAME]/
 3. Never generate CEM JSON from memory (Principle 1)
 4. Treat JSON/Skin edits as destructive actions (Principle 2)
 
+### 11.1 Cross-Agent Handoff Protocol
+
+When one agent completes work on a pipeline phase and a different agent will continue (e.g., Magneto finishes P3, Emma picks up P4), the outgoing agent MUST commit a handoff block to the session doc and ensure all state is persisted. The incoming agent MUST read this block before starting work.
+
+**Handoff state — required fields:**
+
+```markdown
+## bi-designerx Handoff
+
+| Field | Value |
+|-------|-------|
+| **Pipeline phase completed** | P3 (Element Naming) |
+| **Next phase** | P4 (CEM JSON Creation) |
+| **Artboard lock status** | `magneto` holds `19L-0` (v5) — release/transfer needed |
+| **Last CEM JSON path** | `_skills/bi-designerx/canvas-maps/people-overview/bidx-cem-people-overview-v5.json` |
+| **JSON locked?** | No (`locked: false`) |
+| **Modified elements** | `bd_icon_turnover` renamed, `hd_tab_analytics` added, `ft_lbl_draft` set `active: false` |
+| **Pending user decisions** | User has not confirmed color palette for v5 header tabs |
+| **Paper MCP verified** | Yes — last scan at 2026-04-03 14:30 |
+| **Commit hash** | `a1b2c3d` (all changes committed and pushed) |
+```
+
+**Outgoing agent responsibilities:**
+1. Commit ALL changes (JSON, lock file, session doc) before handoff
+2. Release or explicitly note artboard lock status — the incoming agent must know if a takeover is needed
+3. List every element modified during the session (additions, renames, deletions, active flag changes)
+4. Flag any pending user decisions that block the next phase
+
+**Incoming agent responsibilities:**
+1. Read the handoff block and verify the commit hash matches HEAD
+2. Verify artboard lock — assume or request takeover as needed
+3. Verify Paper MCP is responsive before starting work
+4. Do NOT rely on session memory from the outgoing agent — only committed artifacts and the handoff block are authoritative
+
+### 11.2 Codex Loading Example
+
+When dispatching bi-designerx work to Codex (headless), include the operational sections of SKILL.md in the `<INSTRUCTIONS>` block. Codex does not have `/bidx` slash command access.
+
+**What to include (operational — required for execution):**
+- Section 2: Quick Reference — Pipeline Phases
+- Section 3: Design Principles (Non-Negotiable)
+- Section 6.1-6.2: Naming Convention + JSON Schema
+- Section 7: Multi-Agent Paper Protocol (Q2)
+- Section 11: Agent-Specific Notes (this section)
+- Section 12: Operational Constraints
+
+**What to omit (reference — load only if needed):**
+- Section 16: Decision Summary (historical context, not operational)
+- Section 17: Version History (changelog, not operational)
+- Section 14: Known Limitations (useful but not required for task execution)
+- Section 15: File Locations (provide only the paths relevant to the specific task)
+
+**Example `<INSTRUCTIONS>` block for a P4 task:**
+
+```
+<INSTRUCTIONS>
+You are executing bi-designerx Phase 4 (CEM JSON Creation) for the people-overview page.
+
+## Pipeline Context
+- Current phase: P4 (CEM JSON Creation)
+- Input: P3 output — all elements named on artboard 19L-0
+- Output: CEM JSON file at _skills/bi-designerx/canvas-maps/people-overview/bidx-cem-people-overview-v5.json
+- Gate: JSON must be reviewed and validated before P5
+
+## Key Rules (from SKILL.md)
+[Paste Section 3: Design Principles verbatim]
+[Paste Section 6.1-6.2: Naming Convention + JSON Schema verbatim]
+[Paste Section 7.1-7.4: Multi-Agent Paper Protocol verbatim]
+
+## Artboard Lock
+You are assigned to artboard 19L-0 (v5). Check artboard-locks.json before writing.
+
+## Write Guard
+Codex has NO system-level write guard. You MUST check artboard-locks.json manually before every Paper write call. This is prompt-enforced discipline — there is no hook to stop you.
+</INSTRUCTIONS>
+```
+
+### 11.3 Gemini Context Window Guidance
+
+SKILL.md is 670+ lines. When loading it into Gemini (which may have tighter effective context utilization than Claude), split it into primary and on-demand sections.
+
+**Primary load (Sections 1-8 + 11-13) — operational core:**
+- Sections 1-8: Overview, pipeline, principles, prerequisites, P0, CEM system, Q2 protocol, Paper constraints
+- Sections 11-13: Agent notes, operational constraints, error handling
+
+**On-demand load (Sections 9-10, 14-17) — reference material:**
+- Section 9: Layer Ordering (load only during P2 Paper Design work)
+- Section 10: Folder Structure (load only when creating files or navigating the project)
+- Sections 14-17: Limitations, file paths, decisions, version history (load only for debugging or historical context)
+
+**Practical approach:** The AOP dispatch prompt should include the primary sections inline and reference on-demand sections by file path, instructing Gemini to read them only when the task requires it.
+
+### 11.4 Post-Session Verification Checklist (Codex/Gemini)
+
+Claude Code has system-level hooks (PreToolUse) that prevent unauthorized writes. Codex and Gemini rely on prompt-based discipline, which is weaker. After any Codex or Gemini session that touched bi-designerx, the orchestrator (or the next Claude Code session) MUST run this verification checklist.
+
+**Post-session verification — 5 checks:**
+
+| # | Check | How to verify | Failure action |
+|---|-------|---------------|----------------|
+| V-01 | No locked artboards were modified | Compare `artboard-locks.json` timestamps; run `get_tree_summary` on locked artboards and diff against last known state | Revert unauthorized changes via Paper MCP; file FND ticket |
+| V-02 | `artboard-locks.json` integrity | Read the lock file; verify all entries have valid `agent`, `artboard_id`, `version`, and `timestamp` fields; no orphan locks for non-existent artboards | Fix or remove invalid entries |
+| V-03 | No CEM JSON modified without approval | `git diff` on all `bidx-cem-*-v*.json` files; any changes to `locked: true` files are violations | `git checkout` the violated file; file FND ticket |
+| V-04 | No Skin baseline modified without approval | `git diff` on all `bidx-cem-*-v*.0.md` files; same rule as V-03 | `git checkout` the violated file; file FND ticket |
+| V-05 | Pipeline phase consistency | Read session doc handoff; verify the declared "phase completed" matches actual artifact state (e.g., if P4 claimed complete, JSON must exist and pass schema validation) | Correct the session doc; re-run incomplete phase |
+
+**When to run:** After every headless Codex or Gemini session. Before starting any new phase that depends on the headless session's output. This is non-negotiable — trust but verify.
+
 ---
 
 ## 12. Operational Constraints
