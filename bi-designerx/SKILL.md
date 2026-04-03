@@ -135,6 +135,16 @@ Step 4: Render to Paper
 Step 5: Pipeline continues at P2 (Paper Design refinement)
 ```
 
+**Fallback: frontend-design plugin unavailable (P0 only):**
+
+If the `frontend-design` plugin is not available during P0 concept generation:
+
+1. **Do NOT block the entire pipeline.** P0 is the only phase that depends on `frontend-design`.
+2. **Alternative path:** The agent generates HTML/CSS concepts manually (inline styles, no framework dependencies) and presents them to the user as local HTML files or rendered screenshots via Playwright.
+3. **Quality gate remains the same:** User must still pick one concept before proceeding.
+4. **Report the degradation:** Inform the user that concepts were generated without the design plugin and may lack the visual polish of plugin-generated options.
+5. **P1 onwards is unaffected:** All subsequent phases use Paper MCP exclusively — `frontend-design` is never needed after P0.
+
 ### 5.3 Aesthetic Defaults
 
 Unless the user specifies otherwise, use:
@@ -173,6 +183,17 @@ Names are synchronized across Paper layers, JSON IDs, DRAFT tables, and Skin bas
 - Any element Paper auto-names as "SVG", "Rectangle", "Frame", "Text", or a bare content value
 
 **Exception:** SVGVisualElement children inside chart/icon SVG composites (Path, Circle, Line, Polyline, and SVG `<text>` data labels like "37%") are NOT independently renamed. These are rendering primitives of the parent SVG — they cannot be individually addressed or modified outside their SVG context. They are excluded from the CEM element count but their parent SVG IS counted and named.
+
+**Decorative and non-semantic elements:** Some Paper elements serve a purely decorative purpose with no semantic role in the dashboard (e.g., decorative dots, gradient accent shapes, separator lines, background pattern fills). Handling rules:
+
+| Category | Examples | Named? | In CEM JSON? | Notes |
+|----------|----------|--------|--------------|-------|
+| **Structural decorative** | Section dividers, card separators, header underlines | Yes — use `div_` or `underline_` type | Yes, `active: true` | These are part of the layout system |
+| **Accent decorative** | Colored accent dots, gradient shapes, corner ornaments | Yes — use `dot_` or `bg_` type | Yes, `active: true` | Named for tracking, but marked with `"decorative": true` in JSON `notes` field if needed |
+| **Background fill** | Full-canvas background rectangles, noise/texture layers | Yes — use `bg_` type | Yes, `active: true` | Part of the design even if not interactive |
+| **Redundant/orphan** | Leftover elements from iterations, invisible decorations | No — delete from Paper | No | Clean up during P3; if in doubt, set `active: false` and flag for user review |
+
+**Rule:** Every visible element in Paper MUST be named and tracked in CEM JSON. "Decorative" is not a reason to skip naming — it IS a reason to use a descriptive name that signals the element's role (e.g., `hd_dot_accent_left`, `bd_div_section_separator`).
 
 ### 6.2 JSON Schema
 
@@ -254,6 +275,34 @@ When the user says "lock v[N]" (or "fechamos a v[N]"):
 2. Generate all 8 CEM Package artifacts (including screenshot — see 6.7)
 3. JSON and Skin become **immutable** — no agent may modify
 4. Any changes require a new version (vN+1) on a new artboard
+
+### 6.6.1 Modifying a Locked Version (Revert/Resume)
+
+Once a version is locked (`locked: true`), it is immutable. If the user wants to modify something from a locked version, a **new version** must be created. The locked version is never changed.
+
+**Step-by-step procedure:**
+
+1. **User signals intent:** "I want to change X in v3" / "reopen v3" / "fix v3" / "modify the locked version"
+2. **Agent clarifies:** "v3 is locked and immutable. I'll create v[N+1] with your changes. Confirm?"
+3. **User confirms.**
+4. **Duplicate the artboard:**
+   - Call `duplicate_nodes` on the locked version's artboard
+   - Perform the mandatory Post-Duplication Element Audit (Section 8.1)
+   - Register new artboard ownership in `artboard-locks.json`
+5. **Create new JSON:**
+   - Copy the locked version's JSON as the starting point for v[N+1]
+   - Set `locked: false`, update `version` to `v[N+1]`, update `artboard_id`
+6. **Apply modifications:** Make the requested changes in the new artboard
+7. **Resume pipeline:** The new version enters the pipeline at the appropriate phase:
+   - Visual changes → resume at P2 (Paper Design)
+   - Element additions/removals → resume at P3 (Element Naming)
+   - Metadata-only changes → resume at P4 (CEM JSON)
+8. **Complete the pipeline** through P5 and P6 (lock) as normal
+
+**What NOT to do:**
+- Never set `locked: false` on an existing locked JSON — create a new file
+- Never modify the locked version's artboard — duplicate first
+- Never skip the post-duplication audit — FND-0029 still applies
 
 ### 6.7 Screenshot Export — Autonomous Procedure (FND-0066)
 
@@ -490,6 +539,59 @@ obsidian/CIH/projects/[PROJECT-NAME]/
 | **E-05: Layer ordering wrong** | New element renders behind background | User manually "Bring to front" in Paper UI |
 | **E-06: Rate limit (Paper free)** | MCP calls blocked | Upgrade to Paper Pro ($20/mo) |
 | **E-07: No lock file** | "No artboard lock file found" | Create empty lock file or run assume command |
+
+### 13.1 Partial Pipeline Failure Recovery
+
+When a pipeline phase fails midway, follow these recovery procedures to avoid corrupted or orphaned state.
+
+**P4 — JSON scan interrupted mid-element:**
+
+| State | What exists | Recovery |
+|-------|------------|----------|
+| Scan started, no JSON written yet | Nothing to clean up | Restart P4 from scratch — re-scan all elements |
+| JSON partially written (some elements mapped) | Incomplete JSON file | Delete the partial JSON file entirely. Never resume from a partial JSON — Principle 1 requires a complete scan. Restart P4 |
+| Scan complete, validation failed | Complete but invalid JSON | Fix validation errors in the JSON (missing fields, wrong coordinates). Re-scan only the failed elements via targeted `get_node_info` + `get_computed_styles` |
+
+**P5 — Generation fails midway (some artifacts created, some not):**
+
+| State | What exists | Recovery |
+|-------|------------|----------|
+| Skin baseline created, DRAFT failed | `.0.md` file exists | Keep the Skin baseline. Regenerate DRAFT-OWNER from the JSON — it is derived, not authoritative |
+| DRAFT created, Rationale failed | `.0.md` + DRAFT-OWNER exist | Keep both. Generate Rationale independently — it has no dependency on DRAFT |
+| Excel script crashed | JSON + `.md` artifacts exist | Fix the script error. Re-run `generate-cem-excel.js` with the same JSON input. Excel is stateless — safe to retry |
+| Playwright PDF timed out | HTML/Skin exist, no PDF | Retry PDF generation. If Playwright is unresponsive, restart the browser context and retry. See E-08 |
+| HTML Package template error | Partial or broken HTML file | Delete the broken HTML file. Regenerate from JSON — the HTML package is fully derived from JSON data |
+
+**General rule:** No P5 artifact depends on another P5 artifact. They all derive from the P4 JSON. If any single artifact fails, the others remain valid. Fix and regenerate only the failed artifact.
+
+**P6 — Lock fails after some artifacts generated:**
+
+If the lock process fails midway (e.g., 5 of 8 artifacts created):
+1. Do NOT set `locked: true` — the version is not complete
+2. Identify which artifacts are missing from the 8-artifact checklist (Section 6.3)
+3. Generate only the missing artifacts
+4. Once all 8 exist and pass validation, proceed with lock
+
+### 13.2 CEM Package Generation Failures
+
+Artifact-specific recovery for CEM Package (Section 6.3) generation errors:
+
+| # | Artifact | Common Failure | Recovery |
+|---|----------|---------------|----------|
+| 1 | **JSON** | Paper MCP timeout during scan | Wait 30s, retry. If persistent, verify Paper app is responsive. Restart Paper MCP if needed (E-01) |
+| 2 | **Skin Baseline** | Markdown rendering error | Regenerate from JSON. Skin is a deterministic transformation of JSON data |
+| 3 | **DRAFT-OWNER** | Template mismatch (missing sections) | Regenerate using the template requirements (Section 6.5). Validate all 6 required sections |
+| 4 | **Rationale** | Agent context loss (long session) | Read the JSON + Skin baseline to reconstruct design decisions. Cross-reference with `decisoes.md` |
+| 5 | **Screenshot** | Playwright navigation timeout / Paper not loaded | Retry with longer timeout. Ensure Paper file URL is correct in PROJECT_CONTEXT.md. If Paper UI is slow, wait for full render before export (Section 6.7) |
+| 6 | **PDF Export** | Playwright `page.pdf()` crash / empty PDF | Restart Playwright browser context. Verify the Skin print HTML renders correctly in browser before PDF conversion. Retry with `--no-sandbox` if permission error |
+| 7 | **HTML Package** | Template syntax error / missing element data | Validate JSON has all required fields (`id`, `label`, `type`, `section`, `x`, `y`, `w`, `h`, `active`). Regenerate HTML from corrected JSON |
+| 8 | **Excel Package** | `generate-cem-excel.js` crash / Node.js error | Check Node.js version compatibility. Run with `--verbose` flag for detailed error. Common cause: JSON has unexpected null values in coordinate fields |
+
+**Pre-generation checklist (run before starting P5/P6):**
+- Verify Paper MCP is responsive: `get_basic_info` should return within 5s
+- Verify Playwright MCP is available: `browser_snapshot` should not error
+- Verify JSON file exists and passes schema validation
+- Verify all file paths in PROJECT_CONTEXT.md are current
 
 ---
 
