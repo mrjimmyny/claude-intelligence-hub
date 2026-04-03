@@ -1,5 +1,7 @@
 # bi-designerx
 
+> **Version:** 0.1.0
+
 > End-to-end BI dashboard design workflow for non-designers.
 
 ## What It Does
@@ -12,7 +14,7 @@ bi-designerx generates professional BI dashboard backgrounds in Paper.design usi
 - **CEM System** — Canvas Element Map: structured JSON registry of every visual element, with automated Skin baselines and DRAFT-OWNER documents
 - **7-Phase Pipeline** — P0 (Kickstart) → P1 (Pre-Paper) → P2 (Design) → P3 (Naming) → P4 (JSON) → P5 (Markdown) → P6 (Lock)
 - **Multi-Agent Protocol** — Multiple agents can work on different design versions simultaneously with artboard-level write protection
-- **CEM Package** — 7 artifacts per locked version: JSON, Skin, DRAFT, Rationale, Screenshot, PDF, HTML Package
+- **CEM Package** — 8 artifacts per locked version: JSON, Skin, DRAFT, Rationale, Screenshot, PDF, HTML Package, Excel
 - **Front-End Agnostic** — Works with Power BI, Tableau, Looker, or any platform supporting background images
 
 ## Quick Start
@@ -38,9 +40,9 @@ Two-layer model:
 ## Documentation
 
 - **SKILL.md** — Full operational reference (this directory)
-- **CEM Spec** — `obsidian/CIH/projects/skills/bi-designerx/03-spec/bidx-cem-design-spec-v1.0.md`
+- **CEM Spec** — `obsidian/CIH/projects/skills/bi-designerx/03-spec/bidx-cem-design-spec-v1.1.md`
 - **Q2 Protocol Spec** — `obsidian/CIH/projects/skills/bi-designerx/03-spec/bidx-multi-agent-paper-protocol-spec-v1.0.md`
-- **Decision Log** — `obsidian/CIH/projects/skills/bi-designerx/decisoes.md` (20 decisions)
+- **Decision Log** — `obsidian/CIH/projects/skills/bi-designerx/decisoes.md` (21 decisions)
 
 ## Status
 
