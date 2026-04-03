@@ -236,7 +236,7 @@ Names are synchronized across Paper layers, JSON IDs, DRAFT tables, and Skin bas
 |---|----------|-------------|-------|------------|
 | 1 | JSON | `bidx-cem-*-v*.json` | `_skills/` | Destructive |
 | 2 | Skin Baseline | `bidx-cem-*-v*.0.md` | `obsidian/` | Destructive |
-| 3 | DRAFT-OWNER | `bidx-cem-*-DRAFT-OWNER.md` | `obsidian/` | Free |
+| 3 | DRAFT-OWNER | `bidx-cem-*-v*-DRAFT-OWNER.md` | `obsidian/` | Free |
 | 4 | Design Rationale | `bidx-cem-*-v*-rationale.md` | `obsidian/` | Immutable after lock |
 | 5 | Screenshot | `bidx-cem-*-v*-screenshot.png` | `_skills/` | Immutable after lock |
 | 6 | PDF Export | `bidx-cem-*-v*.0.pdf` | `_skills/` | Generated |
@@ -323,7 +323,7 @@ Paper MCP `get_screenshot` returns base64 inline — it does NOT save to file. A
 6. **Take snapshot:** `browser_snapshot` to find the Export button ref
 7. **Click Export:** `browser_click` on the Export button (`Export Ctrl + Shift + E`)
 8. **File downloads:** Playwright reports the downloaded file path
-9. **Copy to pack:** Copy downloaded PNG to `projects/[PROJECT]/artifacts/[PAGE]/bidx-cem-[PAGE]-v[N]-screenshot.png`
+9. **Copy to pack:** Copy downloaded PNG to `projects/[PROJECT-NAME]/artifacts/<page-name>/bidx-cem-<page-name>-v[N]-screenshot.png`
 10. **Cleanup:** Remove temp file from `.playwright-mcp/`
 
 **If Paper file URL is missing from PROJECT_CONTEXT.md:**
@@ -488,7 +488,7 @@ obsidian/CIH/projects/[PROJECT-NAME]/
 ├── 05-final/
 │   └── artifacts/
 │       └── <page-name>/     # Mirror of .md artifacts from technical layer
-│           ├── *-DRAFT-OWNER.md
+│           ├── *-v*-DRAFT-OWNER.md
 │           ├── *-v*.0.md    # Skin baseline
 │           └── *-rationale.md
 └── (standard documental structure: PROJECT_CONTEXT, status-atual, next-step, decisoes)
@@ -539,6 +539,7 @@ obsidian/CIH/projects/[PROJECT-NAME]/
 | **E-05: Layer ordering wrong** | New element renders behind background | User manually "Bring to front" in Paper UI |
 | **E-06: Rate limit (Paper free)** | MCP calls blocked | Upgrade to Paper Pro ($20/mo) |
 | **E-07: No lock file** | "No artboard lock file found" | Create empty lock file or run assume command |
+| **E-08: Playwright PDF timeout** | `page.pdf()` hangs or returns empty | Restart Playwright browser context, verify Skin print HTML renders correctly, retry with `--no-sandbox` if permission error |
 
 ### 13.1 Partial Pipeline Failure Recovery
 
@@ -614,7 +615,7 @@ Artifact-specific recovery for CEM Package (Section 6.3) generation errors:
 | Technical layer | `C:\ai\_skills\bi-designerx\` |
 | Documental layer | `C:\ai\obsidian\CIH\projects\skills\bi-designerx\` |
 | CEM JSON files (skill) | `C:\ai\_skills\bi-designerx\canvas-maps\people-overview\` |
-| CEM artifacts (PBI projects) | `C:\ai\projects\[PROJECT-NAME]\artifacts\[page-name]\` |
+| CEM artifacts (PBI projects) | `C:\ai\projects\[PROJECT-NAME]\artifacts\<page-name>\` |
 | Lock file | `C:\ai\_skills\bi-designerx\canvas-maps\artboard-locks.json` |
 | Agent identity | `C:\ai\_skills\bi-designerx\canvas-maps\.paper-agent-id` |
 | Write guard hook | `C:\ai\_skills\bi-designerx\scripts\paper-write-guard.sh` |
