@@ -265,16 +265,18 @@ Names are synchronized across Paper layers, JSON IDs, DRAFT tables, and Skin bas
 
 ### 6.3 CEM Package (8 Artifacts per Locked Version)
 
-| # | Artifact | File Pattern | Layer | Protection |
-|---|----------|-------------|-------|------------|
-| 1 | JSON | `bidx-cem-*-v*.json` | `_skills/` | Destructive |
-| 2 | Skin Baseline | `bidx-cem-*-v*.0.md` | `obsidian/` | Destructive |
-| 3 | DRAFT-OWNER | `bidx-cem-*-v*-DRAFT-OWNER.md` | `obsidian/` | Free |
-| 4 | Design Rationale | `bidx-cem-*-v*-rationale.md` | `obsidian/` | Immutable after lock |
-| 5 | Screenshot | `bidx-cem-*-v*-screenshot.png` | `_skills/` | Immutable after lock |
-| 6 | PDF Export | `bidx-cem-*-v*.0.pdf` | `_skills/` | Generated |
-| 7 | HTML Package | `bidx-cem-*-v*.0-package.html` | `_skills/` | Generated |
-| 8 | Excel Package | `bidx-cem-*-v*.xlsx` | `_skills/` | Generated |
+| # | Artifact | File Pattern | Location | Protection |
+|---|----------|-------------|----------|------------|
+| 1 | JSON | `bidx-cem-*-v*.json` | `projects/` | Destructive |
+| 2 | Skin Baseline | `bidx-cem-*-v*.0.md` | `projects/` + `obsidian/` mirror | Destructive |
+| 3 | DRAFT-OWNER | `bidx-cem-*-v*-DRAFT-OWNER.md` | `projects/` + `obsidian/` mirror | Free |
+| 4 | Design Rationale | `bidx-cem-*-v*-rationale.md` | `projects/` + `obsidian/` mirror | Immutable after lock |
+| 5 | Screenshot | `bidx-cem-*-v*-screenshot.png` | `projects/` | Immutable after lock |
+| 6 | PDF Export | `bidx-cem-*-v*.0.pdf` | `projects/` | Generated |
+| 7 | HTML Package | `bidx-cem-*-v*.0-package.html` | `projects/` | Generated |
+| 8 | Excel Package | `bidx-cem-*-v*.xlsx` | `projects/` | Generated |
+>
+> **Storage paths:** For PBI projects, ALL 8 artifacts go to `projects/[PROJECT-NAME]/artifacts/<page-name>/`. `.md` artifacts (#2, #3, #4) are additionally mirrored to `obsidian/CIH/projects/[PROJECT-NAME]/05-final/artifacts/<page-name>/` per FND-0062. The `_skills/` paths apply only to the skill's own testing artboards (e.g., `_skills/bi-designerx/canvas-maps/`).
 
 > **Version notation:** In file patterns above, `v*` is a glob wildcard matching any version. In procedural instructions, `v[N]` represents a variable version number. Concrete references like `v1`, `v3` are real examples of specific versions.
 
