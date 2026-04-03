@@ -243,6 +243,8 @@ Names are synchronized across Paper layers, JSON IDs, DRAFT tables, and Skin bas
 | 7 | HTML Package | `bidx-cem-*-v*.0-package.html` | `_skills/` | Generated |
 | 8 | Excel Package | `bidx-cem-*-v*.xlsx` | `_skills/` | Generated |
 
+> **Version notation:** In file patterns above, `v*` is a glob wildcard matching any version. In procedural instructions, `v[N]` represents a variable version number. Concrete references like `v1`, `v3` are real examples of specific versions.
+
 > **Obsidian Mirror Rule (FND-0062):** For PBI projects, all `.md` pack artifacts (Skin baseline, DRAFT-OWNER, Rationale) MUST be copied to `obsidian/CIH/projects/[PROJECT-NAME]/05-final/artifacts/<page-name>/` in addition to `projects/[PROJECT-NAME]/artifacts/<page-name>/`. This ensures Obsidian graph visibility for documental artifacts. JSON, PNG, PDF, HTML, and XLSX stay only in the technical layer.
 
 > **Interactive HTML Package is MANDATORY.** The HTML Package (artifact #7) MUST be generated for every locked CEM version. It provides an interactive visual map of all elements with search, filtering, hover tooltips, and click-to-highlight. This is a non-negotiable deliverable — not optional, not agent-discretionary. Generated via a self-contained HTML file with inline CSS/JS, zero external dependencies. Reference: `bidx-cem-workforce-view-v1.0-package.html`.
@@ -636,10 +638,17 @@ Artifact-specific recovery for CEM Package (Section 6.3) generation errors:
 | D1 | Paper.design as primary platform | All design flows through Paper MCP |
 | D2 | Corporate Clean + Modern Minimal aesthetic | Default visual direction |
 | D3 | Two-layer architecture (design bg + BI native) | Skill generates backgrounds only |
+| D4 | Front-end agnostic architecture | PBI-specific integrations are separate modules, not core dependencies |
+| D5 | Reference notebooklmx 03-spec materials | Shared references, no duplication |
+| D6 | Test-first approach | Phase 00 validates workflow before formal skill development |
+| D7 | Version B (Modern Minimal) as base template | All refinement focuses on Modern Minimal 1280x720 |
 | D8 | Flat architecture, no frames | Absolute positioning mandatory |
 | D9 | SVG icons via clone only | Maintain reference artboard as icon library |
+| D10 | Paper Pro subscription | Unlimited MCP calls, no rate-limit blocking |
+| D11 | CEM v1 deprecated — flat rebuild (v2/v3) | Frame-based designs discarded, flat architecture established |
 | D12 | Version Lock Protocol | Locked versions are immutable |
 | D13 | Sequential Pipeline with gates | P3→P4 is hard-blocked |
+| D14 | Global Knowledge Base deferred | Discoveries go to Findings (FND-XXXX), KB is a future project |
 | D15 | Unified naming convention | Same names in Paper, JSON, DRAFT, Skin |
 | D16 | CEM edits = destructive actions | Explicit approval per modification |
 | D17 | Layer ordering by creation position | Create bg first, text last |
