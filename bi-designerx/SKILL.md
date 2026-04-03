@@ -174,7 +174,7 @@ Names are synchronized across Paper layers, JSON IDs, DRAFT tables, and Skin bas
 
 **Important:** The type segment (`bg`, `tab`, `lbl`, etc.) identifies the element's **semantic role** in the naming convention. The JSON `type` field reflects the **Paper.design node type** (`text`, `frame`, `svg`, `image`, `badge`). These are different — `bd_bg_actives` has naming type `bg` but JSON type `frame`.
 
-**Note:** The CEM Spec v1.0 documents an older naming convention (`H-LOGO`, `B-ACT`) and a nested JSON schema (v1.0 with `sections` wrapper). Both are stale. **This SKILL.md is authoritative** for the current naming convention (Decision 15) and JSON schema (CEM v2.0, flat `elements` array). A CEM Spec v1.1 is planned to reconcile these.
+**Note:** The CEM Spec v1.0 documents an older naming convention (`H-LOGO`, `B-ACT`) and a nested JSON schema (v1.0 with `sections` wrapper). Both are stale. **This SKILL.md is authoritative** for the current naming convention (Decision 15) and JSON schema (CEM v2.0, flat `elements` array). CEM Spec v1.1 is the current version and reconciles these (see Section 15 path table).
 
 **Full-depth naming rule (FND-0068):** During P3 (Element Naming), the agent MUST rename ALL elements at ALL tree depths — not just top-level semantic containers. This includes:
 - Child SVGs inside icon background frames (e.g., the SVG inside `card-leadership-icon-bg` must be named `card-leadership-icon-svg`, not left as auto-generated "SVG")
@@ -473,7 +473,7 @@ obsidian/CIH/projects/skills/bi-designerx/
 ```
 projects/[PROJECT-NAME]/
 ├── pbip/                 # PBI .pbip project files (Power BI Project format)
-├── user-inputs/          # P0 inputs (screenshots, links, descriptions)
+├── user-start-input/     # P0 inputs (screenshots, links, descriptions)
 ├── artifacts/            # ALL CEM package files (8 artifacts per locked version)
 │   └── <page-name>/      # One subfolder per dashboard page
 │       ├── *.json        # CEM JSON
