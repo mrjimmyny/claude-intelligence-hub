@@ -54,6 +54,25 @@ bi-designerx is a skill for creating professional BI dashboard backgrounds using
 User edits DRAFT → Agent applies to Paper → Agent updates JSON (with approval) → Agent updates Skin → Agent refreshes DRAFT
 ```
 
+### 2.1 Iteration Sub-Cycle Details
+
+The iteration sub-cycle handles design refinements after the initial pipeline pass through P2-P5.
+
+**When to enter:** The user requests changes to the DRAFT-OWNER (e.g., "move the logo left", "remove the turnover card", "change header color"). Any modification that affects the Paper artboard triggers the cycle.
+
+**Which phases to re-run per iteration:**
+
+| Change type | P2 (Paper Design) | P3 (Naming) | P4 (JSON) | P5 (Markdown) |
+|-------------|:------------------:|:------------:|:---------:|:-------------:|
+| Visual tweak (color, position, size) | Yes | No | Yes | Yes |
+| Element added or removed | Yes | Yes | Yes | Yes |
+| Element renamed | No | Yes | Yes | Yes |
+| Metadata-only (label, notes) | No | No | Yes | Yes |
+
+**Exit condition:** User approves the DRAFT-OWNER with no further changes requested. The version is then eligible for P6 (lock).
+
+**Iteration cap:** After 5 iterations without convergence, escalate to the user: "We've done 5 rounds of changes. Want to lock the current state or continue refining?" This prevents unbounded cycles.
+
 ---
 
 ## 3. Design Principles (Non-Negotiable)
@@ -159,6 +178,20 @@ Unless the user specifies otherwise, use:
 The CEM is the structured registry of every visual element on a Paper.design canvas. It enables precise communication during design iteration via semantic IDs.
 
 ### 6.1 Naming Convention
+
+**Quick-reference — naming at a glance:**
+
+| Pattern | `{section}_{type}_{identity}` |
+|---------|-------------------------------|
+
+| Example Name | Section | Type | Identity | What It Is |
+|--------------|---------|------|----------|------------|
+| `hd_tab_overview` | `hd` (header) | `tab` (tab) | `overview` | Header navigation tab for Overview page |
+| `bd_bg_actives` | `bd` (body) | `bg` (background) | `actives` | Background card for the Active Employees section |
+| `bd_icon_turnover` | `bd` (body) | `icon` (icon) | `turnover` | Icon inside the Turnover KPI card |
+| `ft_lbl_confidential` | `ft` (footer) | `lbl` (label) | `confidential` | Footer text label for confidentiality notice |
+
+**Full rules below.**
 
 Pattern: `{section}_{type}_{identity}`
 
@@ -497,6 +530,27 @@ obsidian/CIH/projects/[PROJECT-NAME]/
 ```
 
 > **Note:** `canvas-maps/` exists ONLY in the skill's own technical layer (`_skills/bi-designerx/canvas-maps/`) for skill development and testing. PBI projects use `artifacts/` per PROJECT_TYPES.md convention.
+
+### 10.1 First Project Setup Checklist
+
+When starting a brand new PBI project that will use bi-designerx, complete these steps in order:
+
+1. **Create project directories:**
+   - `projects/[PROJECT-NAME]/user-start-input/` — for P0 reference materials
+   - `projects/[PROJECT-NAME]/artifacts/<page-name>/` — for CEM package files
+   - `obsidian/CIH/projects/[PROJECT-NAME]/05-final/artifacts/<page-name>/` — for Obsidian mirror of `.md` artifacts
+2. **Initialize PROJECT_CONTEXT.md** in the documental layer with these fields:
+   - Project name, owner, creation date
+   - `Paper File URL:` — the Paper.design file URL (required for screenshot export, Section 6.6)
+   - Target BI platform (Power BI, Tableau, etc.)
+   - Dashboard dimensions (default: 1280x720)
+3. **Create standard project docs:** `status-atual.md`, `next-step.md`, `decisoes.md`, `README.md`
+4. **Initialize artboard-locks.json** — if not already present at `_skills/bi-designerx/canvas-maps/artboard-locks.json`, create it with an empty object `{}`
+5. **Collect P0 inputs** — place screenshots, links, descriptions, brand assets, and PBI files in `projects/[PROJECT-NAME]/user-start-input/`
+6. **Verify Paper MCP** — confirm connection at `http://127.0.0.1:29979/mcp` with a `get_basic_info` call
+7. **Register Paper File URL** — navigate to the Paper file, capture the URL, store it in PROJECT_CONTEXT.md
+
+After all 7 steps, the project is ready for P0 (Kickstart).
 
 ---
 
