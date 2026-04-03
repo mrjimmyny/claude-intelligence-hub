@@ -251,7 +251,7 @@ Names are synchronized across Paper layers, JSON IDs, DRAFT tables, and Skin bas
 
 > **Excel Script — Dynamic Sections (FND-0065):** `generate-cem-excel.js` auto-discovers sections from JSON elements. Do NOT hardcode section names. Color palette cells include visual color swatches.
 
-### 6.5 DRAFT-OWNER Template Requirements (FND-0063)
+### 6.4 DRAFT-OWNER Template Requirements (FND-0063)
 
 Every DRAFT-OWNER file MUST include:
 
@@ -268,15 +268,15 @@ Every DRAFT-OWNER file MUST include:
 
 Reference template: `obsidian/CIH/projects/skills/bi-designerx/05-canvas-maps/bidx-cem-people-overview-v1-DRAFT-OWNER.md`
 
-### 6.6 Version Lock Protocol
+### 6.5 Version Lock Protocol
 
 When the user says "lock v[N]" (or "fechamos a v[N]"):
 1. Set `locked: true` in JSON
-2. Generate all 8 CEM Package artifacts (including screenshot — see 6.7)
+2. Generate all 8 CEM Package artifacts (including screenshot — see 6.6)
 3. JSON and Skin become **immutable** — no agent may modify
 4. Any changes require a new version (vN+1) on a new artboard
 
-### 6.6.1 Modifying a Locked Version (Revert/Resume)
+### 6.5.1 Modifying a Locked Version (Revert/Resume)
 
 Once a version is locked (`locked: true`), it is immutable. If the user wants to modify something from a locked version, a **new version** must be created. The locked version is never changed.
 
@@ -304,7 +304,7 @@ Once a version is locked (`locked: true`), it is immutable. If the user wants to
 - Never modify the locked version's artboard — duplicate first
 - Never skip the post-duplication audit — FND-0029 still applies
 
-### 6.7 Screenshot Export — Autonomous Procedure (FND-0066)
+### 6.6 Screenshot Export — Autonomous Procedure (FND-0066)
 
 Paper MCP `get_screenshot` returns base64 inline — it does NOT save to file. Agents MUST use the Playwright + Paper UI Export method to generate screenshot artifacts autonomously. **Do NOT ask Jimmy to export manually.**
 
@@ -465,7 +465,7 @@ obsidian/CIH/projects/skills/bi-designerx/
 ├── README.md             # Project overview
 ├── status-atual.md       # Current phase and progress
 ├── next-step.md          # Immediate action items
-└── decisoes.md           # Decision log (D1-D20)
+└── decisoes.md           # Decision log (D1-D21)
 ```
 
 ### Per-Project Structure (PBI Projects)
@@ -580,9 +580,9 @@ Artifact-specific recovery for CEM Package (Section 6.3) generation errors:
 |---|----------|---------------|----------|
 | 1 | **JSON** | Paper MCP timeout during scan | Wait 30s, retry. If persistent, verify Paper app is responsive. Restart Paper MCP if needed (E-01) |
 | 2 | **Skin Baseline** | Markdown rendering error | Regenerate from JSON. Skin is a deterministic transformation of JSON data |
-| 3 | **DRAFT-OWNER** | Template mismatch (missing sections) | Regenerate using the template requirements (Section 6.5). Validate all 6 required sections |
+| 3 | **DRAFT-OWNER** | Template mismatch (missing sections) | Regenerate using the template requirements (Section 6.4). Validate all 6 required sections |
 | 4 | **Rationale** | Agent context loss (long session) | Read the JSON + Skin baseline to reconstruct design decisions. Cross-reference with `decisoes.md` |
-| 5 | **Screenshot** | Playwright navigation timeout / Paper not loaded | Retry with longer timeout. Ensure Paper file URL is correct in PROJECT_CONTEXT.md. If Paper UI is slow, wait for full render before export (Section 6.7) |
+| 5 | **Screenshot** | Playwright navigation timeout / Paper not loaded | Retry with longer timeout. Ensure Paper file URL is correct in PROJECT_CONTEXT.md. If Paper UI is slow, wait for full render before export (Section 6.6) |
 | 6 | **PDF Export** | Playwright `page.pdf()` crash / empty PDF | Restart Playwright browser context. Verify the Skin print HTML renders correctly in browser before PDF conversion. Retry with `--no-sandbox` if permission error |
 | 7 | **HTML Package** | Template syntax error / missing element data | Validate JSON has all required fields (`id`, `label`, `type`, `section`, `x`, `y`, `w`, `h`, `active`). Regenerate HTML from corrected JSON |
 | 8 | **Excel Package** | `generate-cem-excel.js` crash / Node.js error | Check Node.js version compatibility. Run with `--verbose` flag for detailed error. Common cause: JSON has unexpected null values in coordinate fields |
@@ -655,7 +655,7 @@ Full decision log: `obsidian/CIH/projects/skills/bi-designerx/decisoes.md`
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 0.1.0 | 2026-03-24 | Initial publication. CEM system (v1-v4), 7-phase pipeline (P0-P6), Multi-Agent Paper Protocol (Q2), 20 decisions, 8 CEM Package artifacts. Phase 00 validated. |
+| 0.1.0 | 2026-03-24 | Initial publication. CEM system (v1-v4), 7-phase pipeline (P0-P6), Multi-Agent Paper Protocol (Q2), 21 decisions, 8 CEM Package artifacts. Phase 00 validated. |
 
 ---
 
