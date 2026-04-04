@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.28.3] - 2026-04-04
+
+### Changed
+- **bi-designerx** v0.1.0 -> v0.2.0 — CEM Pack expanded from 8 to 10 artifacts: #9 PNG Infographic and #10 Interactive Presentation. Both generated via LLM+Playwright pipeline.
+- **notebooklmx** v1.1.0 -> v1.2.0 — Added LLM+Playwright fallback pipeline for infographic generation. 100% prompt fidelity alternative when NotebookLM quality doesn't meet bar. FND-0072 documented.
+
 ## [2.28.2] - 2026-04-01
 
 ### Changed

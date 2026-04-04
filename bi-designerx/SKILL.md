@@ -13,7 +13,7 @@ dependencies:
 
 # bi-designerx
 
-**Version:** 0.1.0
+**Version:** 0.2.0
 **Status:** Production (Phase 00 validated — CEM system production-ready, 3 locked versions)
 **Published:** 2026-03-24
 **Maintained by:** Magneto (Claude Code)
@@ -263,7 +263,7 @@ Names are synchronized across Paper layers, JSON IDs, DRAFT tables, and Skin bas
 - `x, y, w, h` — absolute artboard coordinates
 - `active` — boolean from Paper's `isVisible` (Principle 1)
 
-### 6.3 CEM Package (8 Artifacts per Locked Version)
+### 6.3 CEM Package (10 Artifacts per Locked Version)
 
 | # | Artifact | File Pattern | Location | Protection |
 |---|----------|-------------|----------|------------|
@@ -275,8 +275,14 @@ Names are synchronized across Paper layers, JSON IDs, DRAFT tables, and Skin bas
 | 6 | PDF Export | `bidx-cem-*-v*.0.pdf` | `projects/` | Generated |
 | 7 | HTML Package | `bidx-cem-*-v*.0-package.html` | `projects/` | Generated |
 | 8 | Excel Package | `bidx-cem-*-v*.xlsx` | `projects/` | Generated |
+| 9 | PNG Infographic | `bidx-cem-*-v*-infographic.png` | `projects/` | Generated |
+| 10 | Interactive Presentation | `bidx-cem-*-v*-presentation.html` | `projects/` | Generated |
 >
-> **Storage paths:** For PBI projects, ALL 8 artifacts go to `projects/[PROJECT-NAME]/artifacts/<page-name>/`. `.md` artifacts (#2, #3, #4) are additionally mirrored to `obsidian/CIH/projects/[PROJECT-NAME]/05-final/artifacts/<page-name>/` per FND-0062. The `_skills/` paths apply only to the skill's own testing artboards (e.g., `_skills/bi-designerx/canvas-maps/`).
+> **PNG Infographic (artifact #9):** A visual summary infographic of the dashboard design, generated via the LLM+Playwright pipeline. Claude writes HTML/CSS from the CEM data, Playwright renders to a high-resolution PNG (2x scale). Template-based — reusable across projects. Self-contained render script at `_skills/ai-talk-presentation/scripts/render-infographic.py`. See FND-0072 for Playwright MCP DPR workaround.
+
+> **Interactive Presentation (artifact #10):** A self-contained HTML file presenting the dashboard design with interactive features: hover effects, glow animations, smooth scroll navigation, responsive layout (mobile/tablet/desktop), search/filter, expandable sections. Zero external dependencies — works offline in any browser. Generated from CEM data using the LLM+Playwright pipeline.
+
+> **Storage paths:** For PBI projects, ALL 10 artifacts go to `projects/[PROJECT-NAME]/artifacts/<page-name>/`. `.md` artifacts (#2, #3, #4) are additionally mirrored to `obsidian/CIH/projects/[PROJECT-NAME]/05-final/artifacts/<page-name>/` per FND-0062. The `_skills/` paths apply only to the skill's own testing artboards (e.g., `_skills/bi-designerx/canvas-maps/`).
 
 > **Version notation:** In file patterns above, `v*` is a glob wildcard matching any version. In procedural instructions, `v[N]` represents a variable version number. Concrete references like `v1`, `v3` are real examples of specific versions.
 

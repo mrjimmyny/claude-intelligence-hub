@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.28.2-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.28.3-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -114,7 +114,7 @@ This hub represents **23 production skills, 360 tracked files, ~70,000 lines of 
 | **Core Build** | Feb 10–16 | 6 days | 9 | ~20,000 | First 9 skills to production |
 | **Expansion** | Feb 17–25 | 9 days | 15 | ~35,000 | AOP, token-economy, governance added |
 | **Scale** | Mar 4–28 | 24 days | 23 | ~70,000 | DDI, NotebookLMx, bi-designerx, self-improvement |
-| **Current** | Mar 29 | Day 49 | 23 | 69,942 | Hub v2.28.2, all skills production |
+| **Current** | Mar 29 | Day 49 | 23 | 69,942 | Hub v2.28.3, all skills production |
 
 ### The Elite League: Agents & Models
 
@@ -204,7 +204,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 
 ## 📦 Available Skill Collections
 
-> **Total: 23 production skills** | All ✅ Production status | Hub v2.28.2
+> **Total: 23 production skills** | All ✅ Production status | Hub v2.28.3
 
 | Collection | Version | Status | Description | Key Features |
 |------------|---------|--------|-------------|--------------|

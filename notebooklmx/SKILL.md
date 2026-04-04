@@ -10,7 +10,7 @@ status: production
 
 # notebooklmx
 
-**Version:** 1.1.0
+**Version:** 1.2.0
 **Status:** Production (Published to claude-intelligence-hub)
 **Category:** Content Generation & Research
 

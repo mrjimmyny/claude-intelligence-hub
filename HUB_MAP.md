@@ -39,7 +39,7 @@
 | 18 | **codex-task-notifier** | v1.2.0 | `/codex-task-notifier` | "email me when done", "me manda um email" |
 | 22 | **microsoft-mail-deliver** | v1.1.0 | `/microsoft-mail-deliver` | "via Microsoft", "manda email pelo Microsoft", saved Microsoft recipient workflows |
 | 19 | **daily-doc-information** | v1.7.1 | `/daily-doc-information` | Session docs, daily reports, and project governance automation |
-| 20 | **notebooklmx** | v1.1.0 | `/notebooklmx` | "create a podcast", "generate infographic", "notebooklm", NotebookLM content generation |
+| 20 | **notebooklmx** | v1.2.0 | `/notebooklmx` | "create a podcast", "generate infographic", "notebooklm", NotebookLM content generation |
 
 ### 🟡 Tier 3: Explicit (On-Demand)
 *Only loads when manually invoked by the user.*
@@ -56,7 +56,7 @@
 | 15 | **codex-governance-framework** | v1.0.0 | `/governance` | Institutional governance docs |
 | 16 | **daily-tasks-oih** | v1.0.0 | `/daily-tasks-oih` | Daily tasks pool and per-agent execution workflow |
 | 17 | **docx-indexer** | v1.4.0 | `/docx-indexer` | Global document indexing + semantic enrichment + semantic search baseline |
-| 21 | **bi-designerx** | v0.1.0 | `/bidx` | BI dashboard design for non-designers (Paper.design + CEM system) |
+| 21 | **bi-designerx** | v0.2.0 | `/bidx` | BI dashboard design for non-designers (Paper.design + CEM system) |
 | 23 | **self-improvement** | v1.0.0 | `/self-improvement` | Iterative refinement framework (audit + simulation, worktree isolation, scoring) |
 
 ---
