@@ -7,7 +7,7 @@ aliases: [/mmd]
 
 # microsoft-mail-deliver
 
-**Version:** 1.1.0
+**Version:** 1.2.0
 **Stage:** Published
 
 ## Objective
@@ -51,6 +51,7 @@ Fallback order:
   - `C:\ai\_skills\microsoft-mail-deliver\scripts\compose-microsoft-business-email.ps1`
   - `C:\ai\_skills\microsoft-mail-deliver\scripts\send-microsoft-business-email.ps1`
   - `C:\ai\_skills\microsoft-mail-deliver\scripts\manage-known-recipients.ps1`
+  - `C:\ai\_skills\microsoft-mail-deliver\scripts\scan-qa-emails.ps1`
 - Contract file:
   - `C:\ai\_skills\microsoft-mail-deliver\templates\business-email-contract.json`
 - Known recipients registry:
@@ -195,6 +196,91 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "& 'C:\ai\_skills\microso
 powershell -NoProfile -ExecutionPolicy Bypass -File C:\ai\_skills\microsoft-mail-deliver\scripts\send-microsoft-business-email.ps1 -To all -Title 'SMOKE TEST MICROSOFT BATCH' -MainContent 'Controlled Microsoft-only batch validation.'
 ```
 
+## Email Q&A Collection
+
+**Version:** 1.2.0
+**Script:** `C:\ai\_skills\microsoft-mail-deliver\scripts\scan-qa-emails.ps1`
+**Scope:** `Mail.Read` (delegated, consented on first run)
+
+### Purpose
+
+Scan the `up4a@up4aoffice.com` inbox for emails matching a keyword in the subject (e.g., presentation Q&A), group by sender, detect duplicates, and generate dual-format output (`.md` + `.html`).
+
+### Parameters
+
+| Parameter | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `-Keyword` | string | Yes | - | Subject keyword to search for |
+| `-OutputPath` | string | Yes | - | Absolute path for output `.md` file (`.html` generated alongside) |
+| `-Profile` | string | No | `up4a` | Auth profile from `config.profiles.json` |
+| `-MaxResults` | int | No | 200 | Max messages to retrieve |
+| `-DuplicateThreshold` | double | No | 0.8 | Jaccard similarity threshold for flagging duplicates |
+| `-After` | string | No | - | Only include emails received after this datetime (ISO 8601 or `yyyy-MM-dd HH:mm`) |
+| `-IncludeTimestamp` | switch | No | - | Include email timestamp in output |
+| `-DryRun` | switch | No | - | Preview without writing files |
+| `-ValidateAuth` | switch | No | - | P1 validation mode (test auth + messages endpoint) |
+
+### Natural Language Triggers
+
+| Jimmy says | Agent does |
+|---|---|
+| "Verifica os emails de perguntas" / "Scan Q&A emails" / "Coleta as duvidas" | First scan: `-Keyword` without `-After` |
+| "Verifica se chegaram mais perguntas" / "Check for new questions" / "Tem mais perguntas?" | Read `scan_timestamp` from last output `.md` frontmatter, pass as `-After` |
+| "Reprocessa tudo" / "Full rescan" / "Pega tudo de novo" | Run without `-After` (captures all) |
+| "Coleta as duvidas sobre Papo AI" | Extract keyword "Papo AI" and run scan |
+| "Salva em C:\ai\obsidian\..." | Use the path provided as `-OutputPath` |
+
+### Output Formats
+
+Both formats are generated automatically in the same directory:
+
+1. **Markdown (`.md`)** — Obsidian-ready with YAML frontmatter, sender sections, question numbering, flagged table, wikilinks
+2. **HTML (`.html`)** — Self-contained, responsive design (Havas + Anthropic aesthetic: dark navy #1a1a2e, red accent #e63946), sender cards, stats dashboard
+
+### Exit Codes
+
+| Code | Meaning |
+|---|---|
+| 0 | Success |
+| 1 | Auth failure or invalid parameters |
+| 2 | No messages found matching keyword |
+| 3 | Graph API error |
+| 4 | Output path error |
+
+### Avoiding Reprocessing (Option C — Date Filter)
+
+The output `.md` frontmatter includes `scan_timestamp` (UTC ISO 8601). To scan only new emails:
+
+```powershell
+# Agent reads scan_timestamp from previous output, passes as -After
+.\scan-qa-emails.ps1 -Keyword "Papo AI" -OutputPath "..." -After "2026-04-05T18:36:12Z"
+```
+
+### CLI Examples
+
+```powershell
+# Basic scan
+.\scan-qa-emails.ps1 -Keyword "Papo AI" -OutputPath "C:\ai\obsidian\...\qa-report.md"
+
+# Scan only new emails (after previous scan)
+.\scan-qa-emails.ps1 -Keyword "Papo AI" -OutputPath "C:\ai\...\qa-round2.md" -After "2026-04-05T18:36:12Z"
+
+# Dry run with timestamps
+.\scan-qa-emails.ps1 -Keyword "Duvida" -OutputPath "C:\ai\...\qa.md" -DryRun -IncludeTimestamp
+
+# Validate auth (P1 mode)
+.\scan-qa-emails.ps1 -ValidateAuth -Profile "up4a"
+```
+
+### Guardrails
+
+- **Read-only** — script NEVER modifies, moves, or deletes emails
+- **Server-side + client-side filtering** — Graph `$search` for performance, regex for accuracy
+- **Zero impact on existing scripts** — no modification to send/recipient functionality
+- **Existing token reuse** — uses same profile/cache as send scripts (expanded scope)
+
+---
+
 ## Required Reading Before Implementation
 
 1. `C:\ai\obsidian\CIH\projects\skills\microsoft-mail-deliver\PROJECT_CONTEXT.md`
@@ -204,7 +290,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File C:\ai\_skills\microsoft-mail
 
 ## Current Outcome
 
-Published v1.1.0 around the `up4a@up4aoffice.com` runtime:
+Published v1.2.0 around the `up4a@up4aoffice.com` runtime:
 - delegated auth validated
 - `/me` probe validated
 - sender entrypoints validated
@@ -212,6 +298,7 @@ Published v1.1.0 around the `up4a@up4aoffice.com` runtime:
 - real Microsoft-only batch send validated with `To = all` and one non-duplicated mandatory `Cc`
 - `known:all` resolution filters disabled recipients (second safety layer, v1.1.0)
 - `Update` action available for changing recipient status without remove/re-add
+- Email Q&A Collection feature: inbox scan by keyword, dual output (`.md` + `.html`), sender grouping, duplicate detection, date filtering
 
 Known limitation kept explicit:
 - Gmail multi-recipient external batches remain under dated post-release observation until `2026-03-29`

@@ -1,11 +1,11 @@
 {
   "name": "microsoft-mail-deliver",
-  "version": "1.1.0",
-  "description": "Microsoft-native business email and Microsoft transport protocol for CIH agents, with delegated Graph delivery, known-recipient registry support, and a frozen outbound contract for Jimmy-originated emails.",
+  "version": "1.2.0",
+  "description": "Microsoft-native business email and Microsoft transport protocol for CIH agents, with delegated Graph delivery, known-recipient registry support, email Q&A collection for live presentations, and a frozen outbound contract for Jimmy-originated emails.",
   "status": "production",
   "author": "Emma (Codex) on behalf of Jimmy",
   "created": "2026-03-26",
-  "updated": "2026-03-27",
+  "updated": "2026-04-05",
   "command": "/microsoft-mail-deliver",
   "aliases": [
     "/mmd"

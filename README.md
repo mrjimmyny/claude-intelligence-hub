@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.28.3-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.28.4-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -226,7 +226,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[daily-tasks-oih](daily-tasks-oih/)** | v1.0.0 | ✅ Production | Daily task workflow for OIH | Pool capture, per-agent dispatch, execution tracking, close protocol, English-only operational docs. |
 | **[docx-indexer](docx-indexer/)** | v1.4.0 | ✅ Production | Global document indexing system | Append-only JSON index, UUID identity, SHA256 hashing, structural telemetry, semantic enrichment, validated Voyage-backed semantic search baseline, and explicit invocation judgment rules. |
 | **[codex-task-notifier](codex-task-notifier/)** | v1.2.0 | ✅ Production | Codex task completion email notifier | Local Windows-first HTTPS pipeline (Resend -> Mailgun), explicit task-end emails, dynamic agent subjects, cross-machine portable, file attachments. |
-| **[microsoft-mail-deliver](microsoft-mail-deliver/)** | v1.1.0 | ✅ Production | Microsoft-native email delivery protocol | Delegated Graph sender, frozen business-email contract, persistent known-recipient registry with enabled/level fields, and Microsoft-only batch workflow via `To = all` with disabled-recipient filtering. |
+| **[microsoft-mail-deliver](microsoft-mail-deliver/)** | v1.2.0 | ✅ Production | Microsoft-native email delivery + Q&A collection | Delegated Graph sender, frozen business-email contract, persistent known-recipient registry, Email Q&A Collection (inbox scan by keyword, dual .md/.html output, sender grouping, duplicate detection, signature stripping, date filtering). |
 | **[daily-doc-information](daily-doc-information/)** | v1.7.1 | ✅ Production | Documentation governance automation | Session docs, daily executive reports, project governance operations, strategic project portfolio, stale session detection (PP-10), LLM model tracking, and cross-agent/cross-machine portability. |
 | **[notebooklmx](notebooklmx/)** | v1.1.0 | ✅ Production | Google NotebookLM automation | Unified interface for NotebookLM content generation (audio, video, infographics, slides, quizzes), Clarity-First design system, 20 style templates, spaced protocol, MCP integration. |
 | **[bi-designerx](bi-designerx/)** | v0.1.0 | ✅ Production | BI dashboard design for non-designers | End-to-end AI-driven dashboard design workflow using Paper.design, CEM (Canvas Element Map) system, skin generation, and stakeholder-ready outputs. |

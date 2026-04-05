@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.28.4] - 2026-04-05
+
+### Changed
+- **microsoft-mail-deliver** v1.1.0 -> v1.2.0 — Email Q&A Collection feature: scan inbox by keyword, dual output (.md + .html with Havas+Anthropic design), sender grouping, duplicate detection, signature stripping, -After date filter with NEW/COLLECTED two-section layout, local BR timestamps, Inter font.
+
 ## [2.28.3] - 2026-04-04
 
 ### Changed
