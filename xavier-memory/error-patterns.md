@@ -48,7 +48,7 @@ PowerShell: Remove-Item -Path 'nul' -Force
 → Fails: treats as device, not file
 
 ✅ BOM:
-Bash: cd "/c/Users/jaderson.almeida/Downloads" && /usr/bin/rm -f ./nul
+Bash: cd "/c/Users/{USERNAME}/Downloads" && /usr/bin/rm -f ./nul
 ```
 Reserved names: CON, PRN, AUX, NUL, COM1-9, LPT1-9
 

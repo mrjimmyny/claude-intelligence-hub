@@ -4,7 +4,7 @@
   "projects": [
     {
       "name": "example-project",
-      "path": "/c/Users/jaderson.almeida/Projects/example-project",
+      "path": "/c/Users/{USERNAME}/Projects/example-project",
       "last_backup": "2026-02-16T10:30:00Z",
       "backup_by": "xavier",
       "size_bytes": 1024000,

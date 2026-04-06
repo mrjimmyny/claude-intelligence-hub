@@ -317,7 +317,7 @@ fingerprints:
 - file: .\context-guardian\README.md
   total_lines: 151
   first_line: "# Context Guardian"
-  last_line: "- [claude-intelligence-hub Issues](https://github.com/jadersonaires/claude-intelligence-hub/issues)"
+  last_line: "- [claude-intelligence-hub Issues](https://github.com/{USERNAME}/claude-intelligence-hub/issues)"
   content_hash: 27fa0295cd801922698034bbc13ab0e652dd34d0
 - file: .\context-guardian\SKILL.md
   total_lines: 551

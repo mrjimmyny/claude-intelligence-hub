@@ -35,7 +35,7 @@ Fallback order:
 6. If Jimmy says `via Microsoft` or equivalent, use this protocol and do not ask whether Gmail/Resend/Mailgun should be used.
 7. For outbound business emails on Jimmy's behalf:
    - `To` must be exactly the recipient(s) Jimmy provides
-   - `Cc` must always include `jaderson.almeida@br.havasvillage.com`
+   - `Cc` must always include `<CORPORATE_EMAIL>`
    - title is mandatory; if Jimmy does not provide it, do not send
    - subject is always uppercase
    - body must follow the frozen executive format defined in `templates\business-email-contract.json`
@@ -73,7 +73,7 @@ For business emails sent on Jimmy's behalf through this skill:
 - Greeting:
   - `Olá, bom dia / boa tarde / boa noite.`
   - `Agente <name>, <platform>, <LLM model>`
-- Mandatory intro: explain the email is being sent at Jimmy's request and replies should go to `jaderson.almeida@br.havasvillage.com`
+- Mandatory intro: explain the email is being sent at Jimmy's request and replies should go to `<CORPORATE_EMAIL>`
 - Body style: formal, professional, executive, short, direct, simple wording
 - Signature:
   - `Atenciosamente,`
@@ -82,7 +82,7 @@ For business emails sent on Jimmy's behalf through this skill:
 
 Runtime notes:
 - `scripts\send-microsoft-mail.ps1` uppercases the subject before delivery
-- `scripts\send-microsoft-mail.ps1` defaults `Cc` to `jaderson.almeida@br.havasvillage.com`
+- `scripts\send-microsoft-mail.ps1` defaults `Cc` to `<CORPORATE_EMAIL>`
 - both `To` and `Cc` accept multiple recipients separated by comma or semicolon
 - `scripts\send-microsoft-mail.ps1` also accepts the selectors `all`, `@all`, `known:all`, and `known-recipients:all` to expand Jimmy's saved Microsoft recipient registry into one comma-separated `To` list
 - `scripts\send-microsoft-mail.ps1` supports attachments
@@ -116,9 +116,9 @@ If Jimmy says "send me an email" or "me manda um email" — that means send to J
 
 When Jimmy does NOT specify a recipient, the default is:
 ```
-up4a@up4aoffice.com
+<MICROSOFT_RECIPIENT>
 ```
-This is Jimmy's own Microsoft email. This is NOT `mrjimmyny@gmail.com` (that belongs to the Codex Task Notifier protocol). Each skill has its own default — do not mix them.
+This is Jimmy's own Microsoft email. This is NOT `<DEFAULT_RECIPIENT>` (that belongs to the Codex Task Notifier protocol). Each skill has its own default — do not mix them.
 
 ### Rule 3 — Title is Mandatory
 
@@ -204,7 +204,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File C:\ai\_skills\microsoft-mail
 
 ### Purpose
 
-Scan the `up4a@up4aoffice.com` inbox for emails matching a keyword in the subject (e.g., presentation Q&A), group by sender, detect duplicates, and generate dual-format output (`.md` + `.html`).
+Scan the `<MICROSOFT_RECIPIENT>` inbox for emails matching a keyword in the subject (e.g., presentation Q&A), group by sender, detect duplicates, and generate dual-format output (`.md` + `.html`).
 
 ### Parameters
 
@@ -290,7 +290,7 @@ The output `.md` frontmatter includes `scan_timestamp` (UTC ISO 8601). To scan o
 
 ## Current Outcome
 
-Published v1.2.0 around the `up4a@up4aoffice.com` runtime:
+Published v1.2.0 around the `<MICROSOFT_RECIPIENT>` runtime:
 - delegated auth validated
 - `/me` probe validated
 - sender entrypoints validated

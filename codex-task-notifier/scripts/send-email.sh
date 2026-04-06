@@ -54,7 +54,7 @@ RESEND_KEY="${CTN_RESEND_API_KEY:-}"
 if [[ -n "$RESEND_KEY" ]]; then
   if resend emails send \
     --api-key "$RESEND_KEY" \
-    --from "notify@mrjimmyny.org" \
+    --from "${CTN_RESEND_FROM:-sender@example.com}" \
     --to "$TO" \
     --subject "$SUBJECT" \
     --html "$BODY" 2>/dev/null; then

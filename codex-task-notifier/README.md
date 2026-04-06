@@ -74,6 +74,6 @@ The Resend CLI (`resend-cli` v1.6.0) is installed globally (`npm install -g rese
 - provider order: `Resend -> Mailgun`
 - legacy path preserved: `smtp`
 
-- primary recipient: `mrjimmyny@gmail.com`
-- preferred sender: `notify@mrjimmyny.org`
-- sender fallback: `misteranalista@gmail.com`
+- primary recipient: `<OPERATOR_EMAIL>`
+- preferred sender: `<SENDER_EMAIL>`
+- sender fallback: `<GWS_AUTH_EMAIL>`

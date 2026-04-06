@@ -53,7 +53,7 @@ fi
 # Validate backup repo exists
 if [ ! -d "$BACKUP_REPO" ]; then
     echo "❌ Error: Backup repository not found: $BACKUP_REPO"
-    echo "💡 Initialize: cd ~ && git clone git@github.com:mrjimmyny/claude-session-backups.git"
+    echo "💡 Initialize: cd ~ && git clone git@github.com:{USERNAME}/{REPO}.git"
     exit 1
 fi
 
@@ -90,7 +90,7 @@ echo ""
 echo "📍 Step 1/10: Locating session file..."
 
 # Convert project path to slug
-# Example: /c/Users/jaderson.almeida/Downloads → C--Users-jaderson-almeida-Downloads
+# Example: /c/Users/{USERNAME}/Downloads → C--Users-{USERNAME}-Downloads
 # Claude converts: / → -, : → --, . → -, and uppercases drive letter
 PROJECT_SLUG=$(echo "$SESSION_PROJECT" | sed 's|^/\([a-z]\)/|\U\1--|; s|/|-|g; s|\.|-|g')
 PROJECT_DIR="$HOME/.claude/projects/$PROJECT_SLUG"
@@ -352,7 +352,7 @@ fi
 
 echo "   📑 Indexes updated: by-date, by-tag, by-machine"
 echo "   📈 Total backups: $NEW_TOTAL"
-echo "   🔗 View: https://github.com/mrjimmyny/claude-session-backups"
+echo "   🔗 View: https://github.com/{USERNAME}/{REPO}"
 echo ""
 
 # Update local tracking file

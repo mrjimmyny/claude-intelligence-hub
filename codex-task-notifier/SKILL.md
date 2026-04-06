@@ -8,6 +8,8 @@ aliases: [/ctn]
 # codex-task-notifier
 **Version:** 1.2.0
 
+**Note:** Email addresses shown as `<PLACEHOLDER>` are resolved from the operator's local `CLAUDE.md` configuration. See your local environment for actual values.
+
 ## Objective
 
 Send an explicit email notification at the end of a Codex task using the local HTTPS pipeline (Resend -> Mailgun failover), without modifying the Codex native UI or wrapping the `codex` command.
@@ -58,10 +60,10 @@ Must be set in User scope on each machine before the first use:
 | Variable | Required | Description |
 |---|---|---|
 | `CTN_RESEND_API_KEY` | Yes (tier 1) | Resend API key |
-| `CTN_RESEND_FROM` | Yes (tier 1) | Sender address for Resend (`notify@mrjimmyny.org`) |
+| `CTN_RESEND_FROM` | Yes (tier 1) | Sender address for Resend (`<SENDER_EMAIL>`) |
 | `CTN_MAILGUN_API_KEY` | Yes (tier 2) | Mailgun API key |
 | `CTN_MAILGUN_FROM` | Yes (tier 2) | Sender address for Mailgun |
-| `CTN_MAILGUN_DOMAIN` | Yes (tier 2) | Mailgun sending domain (`mg.mrjimmyny.org`) |
+| `CTN_MAILGUN_DOMAIN` | Yes (tier 2) | Mailgun sending domain (`<MAILGUN_DOMAIN>`) |
 | `CTN_MAILGUN_BASE_URL` | No | Mailgun API base URL (default: `https://api.mailgun.net`) |
 
 ## Install on a New Machine
@@ -75,10 +77,10 @@ powershell -NoProfile -ExecutionPolicy Bypass -File C:\ai\_skills\codex-task-not
 
 # 3. Set credentials in User env (do NOT store API keys in files)
 [Environment]::SetEnvironmentVariable('CTN_RESEND_API_KEY', '<key>', 'User')
-[Environment]::SetEnvironmentVariable('CTN_RESEND_FROM',    'notify@mrjimmyny.org', 'User')
+[Environment]::SetEnvironmentVariable('CTN_RESEND_FROM',    '<SENDER_EMAIL>', 'User')
 [Environment]::SetEnvironmentVariable('CTN_MAILGUN_API_KEY', '<key>', 'User')
-[Environment]::SetEnvironmentVariable('CTN_MAILGUN_FROM',    'notify@mg.mrjimmyny.org', 'User')
-[Environment]::SetEnvironmentVariable('CTN_MAILGUN_DOMAIN',  'mg.mrjimmyny.org', 'User')
+[Environment]::SetEnvironmentVariable('CTN_MAILGUN_FROM',    '<MAILGUN_SENDER>', 'User')
+[Environment]::SetEnvironmentVariable('CTN_MAILGUN_DOMAIN',  '<MAILGUN_DOMAIN>', 'User')
 [Environment]::SetEnvironmentVariable('CTN_MAILGUN_BASE_URL','https://api.mailgun.net', 'User')
 
 # 4. Validate (open a new shell first to pick up User env)
@@ -153,7 +155,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File C:\ai\_skills\codex-task-not
 | Forge | `Gemini 2.5 Flash` | Standard implementation, agentic tasks (Tier 2) |
 | Forge | `Gemini 2.5 Flash-Lite` | Mechanical, bulk, fast (Tier 3) |
 
-Expected outcome: `delivery.status = sent`, email delivered to `mrjimmyny@gmail.com`.
+Expected outcome: `delivery.status = sent`, email delivered to `<OPERATOR_EMAIL>`.
 
 ## Attachment Support
 
@@ -169,8 +171,8 @@ The `-Attachment` parameter accepts a file path. When provided:
 - Active channel: `https`
 - Provider order: `Resend -> Mailgun`
 - Legacy path preserved: `smtp` (not active by default)
-- Primary recipient: `mrjimmyny@gmail.com`
-- Preferred sender: `notify@mrjimmyny.org`
+- Primary recipient: `<OPERATOR_EMAIL>`
+- Preferred sender: `<SENDER_EMAIL>`
 
 ## Resend CLI (Alternative Channel)
 
@@ -195,8 +197,8 @@ resend emails send --api-key $CTN_RESEND_API_KEY ...
 **Send email via CLI:**
 ```bash
 resend emails send \
-  --from "notify@mrjimmyny.org" \
-  --to "mrjimmyny@gmail.com" \
+  --from "<SENDER_EMAIL>" \
+  --to "<OPERATOR_EMAIL>" \
   --subject "Magneto - Task Finished" \
   --html "<p>Task completed successfully.</p>"
 ```

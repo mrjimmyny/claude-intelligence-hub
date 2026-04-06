@@ -17,7 +17,7 @@ This publication does not replace `codex-task-notifier`. It complements it.
 ## What This Skill Does
 
 - routes explicit `via Microsoft` requests to the Microsoft 365 sender path
-- uses the validated `up4a@up4aoffice.com` delegated Graph runtime
+- uses the validated `<MICROSOFT_RECIPIENT>` delegated Graph runtime
 - sends Jimmy-originated business emails with the required `To` / `Cc` / subject / greeting / intro / signature contract
 - supports a persistent known-recipient registry
 - supports `To = all` for one-message Microsoft batch sends to the saved registry
@@ -60,7 +60,7 @@ This published skill is protocol-first. The operational runtime lives in the tec
 Active published implementation target:
 
 - profile: `up4a`
-- mailbox: `up4a@up4aoffice.com`
+- mailbox: `<MICROSOFT_RECIPIENT>`
 - auth mode: Microsoft Graph delegated auth
 
 ## Business Email Contract
@@ -68,12 +68,12 @@ Active published implementation target:
 When the email is a Jimmy-originated business email sent through this skill:
 
 - `To` must be exactly what Jimmy specified
-- `Cc` must always include `jaderson.almeida@br.havasvillage.com`
+- `Cc` must always include `<CORPORATE_EMAIL>`
 - title is mandatory
 - subject is uppercased before send
 - the greeting must use time-of-day salutation
 - the identity line must be `Agente <name>, <platform>, <LLM model>`
-- the intro must say the email is being sent at Jimmy's request and that replies should go to `jaderson.almeida@br.havasvillage.com`
+- the intro must say the email is being sent at Jimmy's request and that replies should go to `<CORPORATE_EMAIL>`
 - the tone must stay short, professional, direct, and executive
 - the signature must end with `On behalf of Jimmy`
 

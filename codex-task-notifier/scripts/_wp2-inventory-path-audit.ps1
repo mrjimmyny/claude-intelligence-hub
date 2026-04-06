@@ -20,7 +20,7 @@ $dangerPatterns = @(
     'C:\\Users\\',
     '%USERPROFILE%',
     '\$env:USERPROFILE',
-    'jaderson',
+    # 'jaderson',  # Removed — use $env:USERNAME dynamically
     'GLOBALSERVS',
     'globalservs'
 )

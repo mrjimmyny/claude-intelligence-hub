@@ -4,7 +4,7 @@
 This document describes the global auto-approval system configured for OpenAI Codex (Emma's CLI).
 
 ## Configuration File Location
-`C:\Users\jaderson.almeida\.codex\config.json`
+`C:\Users\{USERNAME}\.codex\config.json`
 
 ## What This Config Does
 
@@ -49,7 +49,7 @@ These operations require explicit user confirmation:
 ## How to Modify Permissions
 
 To add a new auto-approved command:
-1. Open `C:\Users\jaderson.almeida\.codex\config.json`
+1. Open `C:\Users\{USERNAME}\.codex\config.json`
 2. Add the command to the `allowedCommands` array
 3. Save the file (changes take effect immediately)
 

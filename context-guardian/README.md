@@ -149,4 +149,4 @@ Google Drive: Claude/_claude_intelligence_hub/_critical_bkp_xavier_local_persist
 ## Support
 
 For issues or questions, contact Jimmy or check:
-- [claude-intelligence-hub Issues](https://github.com/jadersonaires/claude-intelligence-hub/issues)
+- [claude-intelligence-hub Issues](https://github.com/{USERNAME}/claude-intelligence-hub/issues)

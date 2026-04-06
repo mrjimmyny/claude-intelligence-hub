@@ -1,6 +1,6 @@
 {
   "project_name": "example-project",
-  "project_path": "/c/Users/jaderson.almeida/Projects/example-project",
+  "project_path": "/c/Users/{USERNAME}/Projects/example-project",
   "backup_timestamp": "2026-02-16T10:30:00Z",
   "backup_by": "xavier",
   "format_version": "1.0",

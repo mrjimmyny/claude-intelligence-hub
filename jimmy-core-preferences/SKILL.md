@@ -12,6 +12,8 @@ aliases: [/prefs, /jimmy]
 **Last Updated:** 2026-03-23
 **Auto-Load:** Yes (Priority: Highest)
 
+**Note:** All `<PLACEHOLDER>` email addresses are resolved from the operator's local `CLAUDE.md`. This skill defines routing rules; actual addresses are configured per-environment.
+
 ---
 
 ## A. Purpose, Scope and Precedence
@@ -508,7 +510,7 @@ Rules learned from real failures, user corrections, and operational incidents. E
 
 ### R-01. Never Fabricate Email Addresses
 **Origin:** FND — Magneto sent email to wrong address derived from OS username.
-**Rule:** NEVER guess or derive email addresses. Always check `codex-task-notifier` SKILL.md Transport Routing section. Canonical recipient: `mrjimmyny@gmail.com`. If unsure, ask Jimmy.
+**Rule:** NEVER guess or derive email addresses. Always check `codex-task-notifier` SKILL.md Transport Routing section. Canonical recipient: `<DEFAULT_RECIPIENT>`. If unsure, ask Jimmy.
 **Related:** Section N
 
 ### R-02. Always Read Skill Before AOP Dispatch
@@ -576,8 +578,8 @@ Rules learned from real failures, user corrections, and operational incidents. E
 **Rule:** gws CLI is the DEFAULT email method. Always use `--html` flag when body contains HTML. Fall through tiers on failure.
 
 **Fallback order:**
-1. **Tier 1 — gws CLI (DEFAULT):** `gws gmail +send --to mrjimmyny@gmail.com --subject "Subject" --body "<p>Body</p>" --html` — authenticated as misteranalista@gmail.com. **CRITICAL: `--html` flag is mandatory for HTML content.** Without it, tags render as visible text. Check auth: `gws auth status`.
-2. **Tier 2 — Resend CLI:** `resend emails send --api-key $CTN_RESEND_API_KEY --from "notify@mrjimmyny.org" --to mrjimmyny@gmail.com --subject "Subject" --html "<p>Body</p>"`.
+1. **Tier 1 — gws CLI (DEFAULT):** `gws gmail +send --to <DEFAULT_RECIPIENT> --subject "Subject" --body "<p>Body</p>" --html` — authenticated as <GWS_AUTH_EMAIL>. **CRITICAL: `--html` flag is mandatory for HTML content.** Without it, tags render as visible text. Check auth: `gws auth status`.
+2. **Tier 2 — Resend CLI:** `resend emails send --api-key $CTN_RESEND_API_KEY --from "<SENDER_EMAIL>" --to <DEFAULT_RECIPIENT> --subject "Subject" --html "<p>Body</p>"`.
 3. **Tier 3 — Mailgun:** Via codex-task-notifier PowerShell pipeline (`send-manual-notification.ps1`). Mailgun is the last-resort fallback.
 4. If all three fail → report failure with all attempted methods
 
@@ -613,10 +615,10 @@ Rules learned from real failures, user corrections, and operational incidents. E
 **Rule:** When an agent drafts or sends a business email for Jimmy (not a task-end self-notification), the email MUST follow this contract:
 
 - `To`: use exactly the recipient(s) Jimmy provides
-- `Cc`: ALWAYS include `jaderson.almeida@br.havasvillage.com` for every recipient, every transport, every send, with no exceptions
+- `Cc`: ALWAYS include `<CORPORATE_EMAIL>` for every recipient, every transport, every send, with no exceptions
 - title/subject: Jimmy must define it; if missing, do NOT send; always convert the final subject to uppercase
 - opening: mandatory time-of-day salutation plus `Agente <name>, <platform>, <LLM model>`
-- intro: mandatory line stating the email is being sent at Jimmy's request and replies should go to `jaderson.almeida@br.havasvillage.com`
+- intro: mandatory line stating the email is being sent at Jimmy's request and replies should go to `<CORPORATE_EMAIL>`
 - body style: formal, professional, executive, short, direct, simple vocabulary, no rambling
 - signature: `Atenciosamente,` then `Agente <name>, <platform>, <LLM model>` then `On behalf of Jimmy`
 
@@ -632,13 +634,13 @@ Do not improvise missing title, remove the mandatory CC, substitute alternate CC
 **Origin:** FND-0048 — Agent used `known:all` without Jimmy's explicit approval, sending an internal AI test report to 8 business contacts. Additionally, HTML body rendered as raw text due to missing ContentType detection.
 **Rule:** Six non-negotiable safety mechanisms for `microsoft-mail-deliver`:
 1. **`known:all` BLOCKED by default.** The known-recipients list may ONLY be used when Jimmy **explicitly and literally** writes "send to the list" / "send to all" / "known:all" in the current message. Script enforces: `send-microsoft-mail.ps1` blocks without `-ConfirmKnownAll` switch. **Second layer (v1.1.0):** Even when `-ConfirmKnownAll` is passed, recipients with `enabled: false` are automatically excluded from the resolved list. Only `enabled: true` recipients receive batch emails. Direct targeting of a specific disabled email still works (explicit choice).
-2. **Default recipient = `up4a@up4aoffice.com`** (Jimmy's own Microsoft email). If Jimmy does not specify a recipient, use this. NOT `mrjimmyny@gmail.com` (that belongs to codex-task-notifier). Each skill has its own default.
+2. **Default recipient = `<MICROSOFT_RECIPIENT>`** (Jimmy's own Microsoft email). If Jimmy does not specify a recipient, use this. NOT `<DEFAULT_RECIPIENT>` (that belongs to codex-task-notifier). Each skill has its own default.
 3. **Title is mandatory.** If Jimmy does not provide a title/subject, the agent MUST ask. Do NOT fabricate.
 4. **Pre-send confirmation required.** Before sending, show `To`, `Subject`, body preview. Wait for Jimmy's "ok" / "dispara" / "go". Exception: Jimmy pre-authorizes in the same message where he defines all parameters.
 5. **HTML auto-detection.** `send-microsoft-mail.ps1` now auto-detects HTML tags in Body and promotes `BodyContentType` from `Text` to `HTML`.
 6. **Skill exclusivity.** "Via Microsoft" = `microsoft-mail-deliver` only. If not available, do NOT send via other transports. Report failure.
 **Why:** Agent discipline failure caused unauthorized email blast to business contacts. These gates prevent recurrence at both script and agent level.
-**How to apply:** Before any `microsoft-mail-deliver` send, verify: (a) recipient is explicitly authorized, (b) title is Jimmy-provided, (c) summary shown to Jimmy. Default to `up4a@up4aoffice.com` when no recipient specified.
+**How to apply:** Before any `microsoft-mail-deliver` send, verify: (a) recipient is explicitly authorized, (b) title is Jimmy-provided, (c) summary shown to Jimmy. Default to `<MICROSOFT_RECIPIENT>` when no recipient specified.
 **Related:** `microsoft-mail-deliver`, R-16, R-17, R-18, FND-0048
 
 ### R-20. Autoresearch Patterns — Git-as-Memory, Experiment Commits, Guard Pattern

@@ -25,8 +25,8 @@
     "legacy_channel": "smtp",
     "stable_base_path": "C:\\ai\\_skills\\codex-task-notifier",
     "runtime_root": "%USERPROFILE%\\.codex-task-notifier",
-    "primary_recipient": "mrjimmyny@gmail.com",
-    "preferred_sender": "notify@mrjimmyny.org",
+    "primary_recipient": "<OPERATOR_EMAIL>",
+    "preferred_sender": "<SENDER_EMAIL>",
     "codex_ui_inviolable": true
   }
 }

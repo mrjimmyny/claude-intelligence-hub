@@ -317,7 +317,7 @@ fingerprints:
 - file: codex-task-notifier/README.md
   total_lines: 60
   first_line: "# codex-task-notifier"
-  last_line: "- sender fallback: `misteranalista@gmail.com`"
+  last_line: "- sender fallback: `<OPERATOR_EMAIL>`"
   content_hash: 41d75ac8413bf4562398144a0d9724c03553fc2a
   encoding: us-ascii
 - file: codex-task-notifier/SKILL.md
@@ -341,7 +341,7 @@ fingerprints:
 - file: context-guardian/README.md
   total_lines: 152
   first_line: "# Context Guardian"
-  last_line: "- [claude-intelligence-hub Issues](https://github.com/jadersonaires/claude-intelligence-hub/issues)"
+  last_line: "- [claude-intelligence-hub Issues](https://github.com/{USERNAME}/claude-intelligence-hub/issues)"
   content_hash: 6d2bff6f4fee08b62ac28f4fdc715d82ca11fdd6
   encoding: utf-8
 - file: context-guardian/SKILL.md

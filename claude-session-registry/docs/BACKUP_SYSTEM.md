@@ -144,10 +144,10 @@ User triggered gdrive-sync. Check MEMORY.md for standard workflow...
 ```bash
 # Copy .jsonl to project directory
 cp critical/2026/02/[session-id].jsonl \
-   ~/.claude/projects/C--Users-jaderson-almeida-Downloads/[session-id].jsonl
+   ~/.claude/projects/C--Users-{USERNAME}-Downloads/[session-id].jsonl
 
 # Resume session
-cd /c/Users/jaderson.almeida/Downloads
+cd /c/Users/{USERNAME}/Downloads
 claude --resume [session-id]
 ```
 
@@ -325,7 +325,7 @@ METADATA=$(cat <<EOF
   "machine": "BR-SPO-DCFC264",
   "branch": "main",
   "commit": "a6f2536",
-  "project": "/c/Users/jaderson.almeida/Downloads",
+  "project": "/c/Users/{USERNAME}/Downloads",
   "tags": "#critical #gdrive-sync",
   "summary": "Implemented Google Drive sync automation"
 }
@@ -372,7 +372,7 @@ cp critical/2026/02/[session-id].jsonl \
    ~/.claude/projects/[project-slug]/[session-id].jsonl
 
 # 2. Navigate to original project directory
-cd /c/Users/jaderson.almeida/Downloads
+cd /c/Users/{USERNAME}/Downloads
 
 # 3. Resume session
 claude --resume [session-id]
@@ -545,8 +545,8 @@ done
 ### Project Path to Slug Conversion
 
 ```bash
-# Example: /c/Users/jaderson.almeida/Downloads
-# → C--Users-jaderson-almeida-Downloads
+# Example: /c/Users/{USERNAME}/Downloads
+# → C--Users-{USERNAME}-Downloads
 
 PROJECT_SLUG=$(echo "$SESSION_PROJECT" | sed 's|^/||; s|:|--|g; s|/|-|g')
 

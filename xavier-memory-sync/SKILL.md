@@ -241,8 +241,8 @@ echo "================================================================"
 🧠 Syncing Xavier Memory...
 
 Verifying hard links:
-  ✓ C--Users-jaderson-almeida-Downloads: Hard linked
-  ✓ C--Users-jaderson-almeida-Downloads--pbi-projs--project-pbip-hr-kpis-board-v2: Hard linked
+  ✓ C--Users-{USERNAME}-Downloads: Hard linked
+  ✓ C--Users-{USERNAME}-Downloads--pbi-projs--project-pbip-hr-kpis-board-v2: Hard linked
 
 Syncing to Google Drive:
   ✓ Local backup: backups/MEMORY_2026-02-15_19-45-32.md

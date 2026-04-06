@@ -13,7 +13,7 @@ NC='\033[0m' # No Color
 
 # Directories
 REPO_ROOT="/c/ai/claude-intelligence-hub"
-SKILLS_DIR="/c/Users/jaderson.almeida/.claude/skills"
+SKILLS_DIR="/c/Users/{USERNAME}/.claude/skills"
 
 echo -e "${BLUE}🔄 Syncing skills to global directory...${NC}\n"
 

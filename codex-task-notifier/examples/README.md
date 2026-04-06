@@ -17,7 +17,7 @@ Ready-to-use HTML email templates for agents sending emails via `gws gmail +send
 ```bash
 # Read the template, replace placeholders, send via gws CLI
 gws gmail +send \
-  --to mrjimmyny@gmail.com \
+  --to <OPERATOR_EMAIL> \
   --subject "Your Subject" \
   --body "<paste-html-here>" \
   --html

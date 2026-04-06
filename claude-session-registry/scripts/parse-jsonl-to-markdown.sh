@@ -13,7 +13,7 @@
 # Example:
 #   bash parse-jsonl-to-markdown.sh \
 #     "338633b3-36fb-43c9-8bdd-701f93fba9f2" \
-#     "~/.claude/projects/C--Users-jaderson-almeida-Downloads/338633b3-36fb-43c9-8bdd-701f93fba9f2.jsonl" \
+#     "~/.claude/projects/C--Users-{USERNAME}-Downloads/338633b3-36fb-43c9-8bdd-701f93fba9f2.jsonl" \
 #     "~/claude-session-backups/transcripts/2026/02/338633b3-36fb-43c9-8bdd-701f93fba9f2.md" \
 #     '{"session_id":"...","date":"2026-02-12","tags":"#critical",...}'
 

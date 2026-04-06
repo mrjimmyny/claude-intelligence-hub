@@ -85,9 +85,9 @@ function Get-NotifierSettings {
         channel                   = [string](Get-ObjectValue -Object $raw -Name "channel" -Default "https")
         subject_prefix            = [string](Get-ObjectValue -Object $raw -Name "subject_prefix" -Default "Codex")
         project_label             = [string](Get-ObjectValue -Object $raw -Name "project_label" -Default "codex-task-notifier")
-        default_recipient         = [string](Get-ObjectValue -Object $raw -Name "default_recipient" -Default "mrjimmyny@gmail.com")
-        default_sender            = [string](Get-ObjectValue -Object $raw -Name "default_sender" -Default "mrjimmyny@gmail.com")
-        fallback_sender           = [string](Get-ObjectValue -Object $raw -Name "fallback_sender" -Default "misteranalista@gmail.com")
+        default_recipient         = [string](Get-ObjectValue -Object $raw -Name "default_recipient" -Default "operator@example.com")
+        default_sender            = [string](Get-ObjectValue -Object $raw -Name "default_sender" -Default "operator@example.com")
+        fallback_sender           = [string](Get-ObjectValue -Object $raw -Name "fallback_sender" -Default "sender@example.com")
         include_payload_reference = Convert-ToBoolean -Value (Get-ObjectValue -Object $raw -Name "include_payload_reference" -Default $true) -Default $true
         dedupe_window_minutes     = Convert-ToInt -Value (Get-ObjectValue -Object $raw -Name "dedupe_window_minutes" -Default 1440) -Default 1440
         log_retention_days        = Convert-ToInt -Value (Get-ObjectValue -Object $raw -Name "log_retention_days" -Default 14) -Default 14

@@ -7,7 +7,7 @@ if (-not (Test-Path $settingsPath)) {
 }
 
 $json = Get-Content $settingsPath -Raw | ConvertFrom-Json
-$json.providers.mailgun.domain = 'mg.mrjimmyny.org'
+$json.providers.mailgun.domain = $env:CTN_MAILGUN_DOMAIN  # Set via environment variable
 $json | ConvertTo-Json -Depth 10 | Set-Content $settingsPath -Encoding UTF8
 
 Write-Host "Updated settings.json:"

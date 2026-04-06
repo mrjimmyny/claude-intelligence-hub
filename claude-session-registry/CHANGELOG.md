@@ -101,7 +101,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 **For Existing Users:**
 1. Pull latest changes: `git pull origin main`
 2. Create backup repository on GitHub (private)
-3. Clone backup repo: `git clone git@github.com:mrjimmyny/claude-session-backups.git ~/claude-session-backups`
+3. Clone backup repo: `git clone git@github.com:{USERNAME}/{REPO}.git ~/claude-session-backups`
 4. Next session registration will automatically trigger backup
 5. Optional: Retroactively backup existing sessions (see docs/BACKUP_SYSTEM.md)
 
