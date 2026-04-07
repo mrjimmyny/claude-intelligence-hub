@@ -1108,209 +1108,30 @@ audit_summary:
 ```
 
 #### 3.5.1 Generate Visual Audit Report
-Objective: Create a clean, human-readable report summarizing audit results.
+Objective: Create a clean, human-readable summary of audit results. The agent constructs this as markdown output (not bash heredoc scripts).
 
-**Part A: Build validation results table**
+**Report structure:**
 
-```bash
-cat > /tmp/audit_report.md << 'EOF'
-# 📊 Repository Audit Report
+The agent MUST produce a report with these sections, using the actual values collected during the audit:
 
-**Repository:** $(basename $(pwd))
-**Audit Date:** $(date '+%Y-%m-%d %H:%M')
-**Audit Mode:** ${AUDIT_MODE}
-**Audit Agent:** ${AUDIT_AGENT}
+1. **Header**: Repository name, audit date, mode, agent name
+2. **Validation Results Table**: One row per check, columns: Phase | Check | Status | Details
+3. **Corrections Applied**: List of files corrected (or "none needed")
+4. **Warnings**: List of non-blocking issues found
+5. **Summary Statistics**: Total files audited, skills, errors found/resolved/open, warnings, files corrected
+6. **Final Result**: PASS / PASS_WITH_WARNINGS / FAIL with one-line explanation
 
----
+**Required checks in the results table:**
 
-## ✅ Validation Results
+| Phase | Check name |
+|---|---|
+| 0 | Branch Validation, Repository State |
+| 1 | File Inventory, Critical Files |
+| 1.2 | README Structure, CHANGELOG Entry, Metadata Complete, Slash Commands, Command Docs Sync, Command Uniqueness, Root File Authorization |
+| 1.5 | Skill Count, Version Cross-Check, Architecture Complete, Reference Accuracy, Internal Links, CHANGELOG Complete, EXEC_SUMMARY Component Versions, Quick Commands Per-Skill, EXEC_SUMMARY Key Achievements Table, Stale Metrics |
+| 2 | Spot Check Sampling |
 
-| Phase | Check | Status | Details |
-|-------|-------|--------|---------|
-EOF
-
-# Add each validation result
-# PHASE 0
-echo "| 0 | Branch Validation | ${PHASE0_BRANCH_STATUS} | Branch: ${CURRENT_BRANCH} |" >> /tmp/audit_report.md
-echo "| 0 | Repository State | ${PHASE0_REPO_STATUS} | Working tree: ${WORKING_TREE_STATUS} |" >> /tmp/audit_report.md
-
-# PHASE 1
-echo "| 1 | File Inventory | ${PHASE1_INVENTORY_STATUS} | ${TRACKED_FILE_COUNT} files tracked |" >> /tmp/audit_report.md
-echo "| 1 | Critical Files | ${PHASE1_CRITICAL_STATUS} | ${CRITICAL_FILES_EXIST}/${CRITICAL_FILES_TOTAL} exist |" >> /tmp/audit_report.md
-
-# PHASE 1.2
-echo "| 1.2 | README Structure | ${PHASE12_README_STATUS} | Version: ${README_VERSION} |" >> /tmp/audit_report.md
-echo "| 1.2 | CHANGELOG Entry | ${PHASE12_CHANGELOG_STATUS} | Version ${VERSION} entry found |" >> /tmp/audit_report.md
-echo "| 1.2 | Metadata Complete | ${PHASE12_METADATA_STATUS} | ${SKILLS_WITH_METADATA}/${TOTAL_SKILLS} skills |" >> /tmp/audit_report.md
-echo "| 1.2 | Slash Commands | ${PHASE12_COMMANDS_STATUS} | ${SKILLS_WITH_COMMANDS}/${TOTAL_SKILLS} defined |" >> /tmp/audit_report.md
-echo "| 1.2 | Command Docs Sync | ${PHASE12_CMDDOC_STATUS} | HUB_MAP/README/COMMANDS synchronized |" >> /tmp/audit_report.md
-echo "| 1.2 | Command Uniqueness | ${PHASE12_CMDDUP_STATUS} | ${DUPLICATE_COMMANDS_COUNT} duplicates found |" >> /tmp/audit_report.md
-echo "| 1.2 | Root File Authorization | ${PHASE12_ROOTFILES_STATUS} | ${UNAUTHORIZED_ROOT_COUNT} unauthorized |" >> /tmp/audit_report.md
-
-# PHASE 1.5
-echo "| 1.5 | Skill Count | ${PHASE15_SKILLCOUNT_STATUS} | Real: ${REAL_SKILL_COUNT}, Declared: ${DECLARED_SKILL_COUNT} |" >> /tmp/audit_report.md
-echo "| 1.5 | Version Cross-Check | ${PHASE15_VERSIONS_STATUS} | ${VERSION_MISMATCHES} mismatches |" >> /tmp/audit_report.md
-echo "| 1.5 | Architecture Complete | ${PHASE15_ARCH_STATUS} | All skills in tree |" >> /tmp/audit_report.md
-echo "| 1.5 | Reference Accuracy | ${PHASE15_REFS_STATUS} | ${BROKEN_REFS} broken references |" >> /tmp/audit_report.md
-echo "| 1.5 | Internal Links | ${PHASE15_LINKS_STATUS} | ${BROKEN_LINKS} broken links |" >> /tmp/audit_report.md
-echo "| 1.5 | CHANGELOG Complete | ${PHASE15_CHANGELOG_STATUS} | ${CHANGELOG_ENTRIES} entries |" >> /tmp/audit_report.md
-echo "| 1.5 | EXEC_SUMMARY Complete | ${PHASE15_EXECSUM_STATUS} | ${MISSING_IN_EXECSUM} skills missing |" >> /tmp/audit_report.md
-
-cat >> /tmp/audit_report.md << 'EOF'
-
----
-
-## 🔧 Corrections Applied
-
-EOF
-
-# List corrections
-if [ ${FILES_CORRECTED} -gt 0 ]; then
-  echo "**Total Files Corrected:** ${FILES_CORRECTED}" >> /tmp/audit_report.md
-  echo "" >> /tmp/audit_report.md
-  while IFS='|' read -r file action; do
-    echo "- \`${file}\`: ${action}" >> /tmp/audit_report.md
-  done < /tmp/corrections_log.txt
-else
-  echo "*No corrections needed - repository already compliant*" >> /tmp/audit_report.md
-fi
-
-cat >> /tmp/audit_report.md << 'EOF'
-
----
-
-## ⚠️ Warnings
-
-EOF
-
-# List warnings
-if [ ${WARNINGS_FOUND} -gt 0 ]; then
-  echo "**Total Warnings:** ${WARNINGS_FOUND}" >> /tmp/audit_report.md
-  echo "" >> /tmp/audit_report.md
-  while IFS='|' read -r phase description file; do
-    echo "- **Phase ${phase}**: ${description}" >> /tmp/audit_report.md
-    [ -n "$file" ] && echo "  - File: \`${file}\`" >> /tmp/audit_report.md
-  done < /tmp/warnings_log.txt
-else
-  echo "*No warnings - clean audit*" >> /tmp/audit_report.md
-fi
-
-cat >> /tmp/audit_report.md << 'EOF'
-
----
-
-## 📈 Summary Statistics
-
-EOF
-
-cat >> /tmp/audit_report.md << EOF
-- **Total Files Audited:** ${TOTAL_FILES_AUDITED}
-- **Total Skills:** ${TOTAL_SKILLS}
-- **Critical Errors Found:** ${CRITICAL_ERRORS_FOUND}
-- **Critical Errors Resolved:** ${CRITICAL_ERRORS_RESOLVED}
-- **Critical Errors Open:** ${CRITICAL_ERRORS_OPEN}
-- **Warnings Found:** ${WARNINGS_FOUND}
-- **Files Corrected:** ${FILES_CORRECTED}
-
----
-
-## 🎯 Final Result
-
-EOF
-
-# Final verdict
-if [ "${AUDIT_RESULT}" == "PASS" ]; then
-  cat >> /tmp/audit_report.md << 'EOF'
-```
-✅ AUDIT PASSED
-Repository meets all integrity requirements
-```
-EOF
-elif [ "${AUDIT_RESULT}" == "PASS_WITH_WARNINGS" ]; then
-  cat >> /tmp/audit_report.md << 'EOF'
-```
-⚠️ AUDIT PASSED WITH WARNINGS
-Repository passes but has non-blocking issues
-Review warnings above for recommended improvements
-```
-EOF
-else
-  cat >> /tmp/audit_report.md << 'EOF'
-```
-❌ AUDIT FAILED
-Critical errors must be resolved before proceeding
-See details above for required fixes
-```
-EOF
-fi
-
-cat >> /tmp/audit_report.md << 'EOF'
-
----
-
-**Audit Protocol:** repo-auditor v2.0.0
-**Audit Trail:** See AUDIT_TRAIL.md for detailed evidence
-EOF
-```
-
-**Part B: Display report to user**
-
-```bash
-# Display visual report
-cat /tmp/audit_report.md
-
-# Save to AUDIT_TRAIL.md as appendix
-echo "" >> AUDIT_TRAIL.md
-echo "---" >> AUDIT_TRAIL.md
-echo "" >> AUDIT_TRAIL.md
-cat /tmp/audit_report.md >> AUDIT_TRAIL.md
-```
-
-**Part C: Generate summary banner**
-
-```bash
-if [ "${AUDIT_RESULT}" == "PASS" ]; then
-  echo ""
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "✅ AUDIT COMPLETE - ALL CHECKS PASSED"
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo ""
-  echo "Repository: COMPLIANT"
-  echo "Total Checks: ${TOTAL_CHECKS}"
-  echo "Passed: ${CHECKS_PASSED}"
-  echo "Failed: 0"
-  echo "Warnings: ${WARNINGS_FOUND}"
-  echo ""
-elif [ "${AUDIT_RESULT}" == "PASS_WITH_WARNINGS" ]; then
-  echo ""
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "⚠️ AUDIT COMPLETE - PASSED WITH WARNINGS"
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo ""
-  echo "Repository: COMPLIANT (with warnings)"
-  echo "Total Checks: ${TOTAL_CHECKS}"
-  echo "Passed: ${CHECKS_PASSED}"
-  echo "Failed: 0"
-  echo "Warnings: ${WARNINGS_FOUND}"
-  echo ""
-  echo "⚠️ Review warnings in report above"
-  echo ""
-else
-  echo ""
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "❌ AUDIT FAILED - CRITICAL ERRORS FOUND"
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo ""
-  echo "Repository: NON-COMPLIANT"
-  echo "Total Checks: ${TOTAL_CHECKS}"
-  echo "Passed: ${CHECKS_PASSED}"
-  echo "Failed: ${CHECKS_FAILED}"
-  echo "Open Errors: ${CRITICAL_ERRORS_OPEN}"
-  echo ""
-  echo "❌ Fix critical errors before proceeding"
-  echo ""
-fi
-```
+Append the report as a section in `AUDIT_TRAIL.md`.
 
 #### CHECKPOINT 3
 Criteria:
