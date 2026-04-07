@@ -9,7 +9,7 @@ on:
 jobs:
   security-review:
     runs-on: ubuntu-latest
-    name: security-reviewx QUICK scan
+    name: security-reviewx STANDARD scan
 
     steps:
       - name: Checkout
@@ -17,10 +17,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Run security-reviewx QUICK scan
+      - name: Run security-reviewx STANDARD scan
         id: scan
         run: |
-          echo "🔒 security-reviewx QUICK scan (M1-M4)"
+          echo "🔒 security-reviewx STANDARD scan (M1-M6)"
           echo "========================================"
 
           PATTERN_DIR="security-reviewx/patterns"
@@ -48,6 +48,25 @@ jobs:
           echo "M1: $CRITICAL critical findings"
           echo "::endgroup::"
 
+          # M2: PII_SCAN — personally identifiable information
+          echo "::group::M2 PII_SCAN"
+          # CPF pattern (exclude dummy values)
+          cpf_matches=$(grep -rn --include='*.md' --include='*.json' --include='*.js' --include='*.ts' --include='*.py' --include='*.sh' --include='*.yml' --include='*.yaml' -E '[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}' . 2>/dev/null | grep -v 'patterns/' | grep -v 'tests/' | grep -v '000\.000\.000-00' | grep -v '111\.111\.111-11' || true)
+          if [ -n "$cpf_matches" ]; then
+            cpf_count=$(echo "$cpf_matches" | wc -l)
+            HIGH=$((HIGH + cpf_count))
+            FINDINGS="${FINDINGS}\n::warning::PII CPF found: ${cpf_matches%%$'\n'*}"
+          fi
+          # Email pattern (exclude safe domains)
+          email_matches=$(grep -rn --include='*.md' --include='*.json' --include='*.js' --include='*.ts' --include='*.py' --include='*.sh' --include='*.yml' --include='*.yaml' -E '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}' . 2>/dev/null | grep -v 'patterns/' | grep -v 'tests/' | grep -v 'example\.com' | grep -v 'example\.org' | grep -v 'test\.com' | grep -v 'noreply@' | grep -v 'anthropic\.com' | grep -v 'github\.com' | grep -v 'localhost' | grep -v 'contoso\.com' || true)
+          if [ -n "$email_matches" ]; then
+            email_count=$(echo "$email_matches" | wc -l)
+            HIGH=$((HIGH + email_count))
+            FINDINGS="${FINDINGS}\n::warning::PII Email found: ${email_matches%%$'\n'*}"
+          fi
+          echo "M2: $HIGH high findings (PII)"
+          echo "::endgroup::"
+
           # M3: FILE_SCAN — dangerous files
           echo "::group::M3 FILE_SCAN"
           dangerous=$(find . -name '.env' -o -name '*.pem' -o -name '*.key' -o -name '*.p12' -o -name '*.pfx' | grep -v 'tests/' | grep -v 'node_modules/' || true)
@@ -67,6 +86,49 @@ jobs:
             MEDIUM=$((MEDIUM + pcount))
           fi
           echo "M4: $MEDIUM medium findings"
+          echo "::endgroup::"
+
+          # M5: CONFIG_SCAN — insecure configurations
+          echo "::group::M5 CONFIG_SCAN"
+          ssl_bypass=$(grep -rn --include='*.md' --include='*.json' --include='*.js' --include='*.ts' --include='*.py' --include='*.sh' --include='*.yml' --include='*.yaml' -E 'NODE_TLS_REJECT_UNAUTHORIZED\s*[=:]\s*['"'"'"]?0['"'"'"]?' . 2>/dev/null | grep -v 'patterns/' | grep -v 'tests/' || true)
+          if [ -n "$ssl_bypass" ]; then
+            ssl_count=$(echo "$ssl_bypass" | wc -l)
+            HIGH=$((HIGH + ssl_count))
+            FINDINGS="${FINDINGS}\n::warning::CONFIG SSL bypass found: ${ssl_bypass%%$'\n'*}"
+          fi
+          verify_false=$(grep -rn --include='*.md' --include='*.json' --include='*.js' --include='*.ts' --include='*.py' --include='*.sh' --include='*.yml' --include='*.yaml' -E 'verify\s*=\s*False' . 2>/dev/null | grep -v 'patterns/' | grep -v 'tests/' || true)
+          if [ -n "$verify_false" ]; then
+            vf_count=$(echo "$verify_false" | wc -l)
+            HIGH=$((HIGH + vf_count))
+            FINDINGS="${FINDINGS}\n::warning::CONFIG verify=False found: ${verify_false%%$'\n'*}"
+          fi
+          echo "M5: checked"
+          echo "::endgroup::"
+
+          # M6: CODE_SCAN — dangerous code patterns
+          echo "::group::M6 CODE_SCAN"
+          # Command injection
+          cmd_inject=$(grep -rn --include='*.js' --include='*.ts' --include='*.py' --include='*.sh' -E 'exec\([^)]*\+\s*[a-zA-Z]' . 2>/dev/null | grep -v 'patterns/' | grep -v 'tests/' || true)
+          if [ -n "$cmd_inject" ]; then
+            ci_count=$(echo "$cmd_inject" | wc -l)
+            HIGH=$((HIGH + ci_count))
+            FINDINGS="${FINDINGS}\n::warning::CODE command injection risk: ${cmd_inject%%$'\n'*}"
+          fi
+          # Unsafe eval
+          unsafe_eval=$(grep -rn --include='*.js' --include='*.ts' --include='*.py' --include='*.sh' -E 'eval\(.*\+' . 2>/dev/null | grep -v 'patterns/' | grep -v 'tests/' || true)
+          if [ -n "$unsafe_eval" ]; then
+            ue_count=$(echo "$unsafe_eval" | wc -l)
+            HIGH=$((HIGH + ue_count))
+            FINDINGS="${FINDINGS}\n::warning::CODE unsafe eval risk: ${unsafe_eval%%$'\n'*}"
+          fi
+          # SQL injection
+          sql_inject=$(grep -rn --include='*.js' --include='*.ts' --include='*.py' --include='*.sh' -E '(SELECT|INSERT|UPDATE|DELETE).*(\$\{|\+\s*[a-zA-Z_])' . 2>/dev/null | grep -v 'patterns/' | grep -v 'tests/' || true)
+          if [ -n "$sql_inject" ]; then
+            si_count=$(echo "$sql_inject" | wc -l)
+            HIGH=$((HIGH + si_count))
+            FINDINGS="${FINDINGS}\n::warning::CODE SQL injection risk: ${sql_inject%%$'\n'*}"
+          fi
+          echo "M6: checked"
           echo "::endgroup::"
 
           # Verdict
@@ -93,5 +155,5 @@ jobs:
           echo "## 🔒 security-reviewx Scan Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Verdict:** ${{ steps.scan.outputs.verdict || 'FAIL' }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Mode:** QUICK (M1, M3, M4)" >> $GITHUB_STEP_SUMMARY
+          echo "**Mode:** STANDARD (M1-M6)" >> $GITHUB_STEP_SUMMARY
           echo "**Trigger:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
