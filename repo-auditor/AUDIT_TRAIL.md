@@ -1,5 +1,5 @@
 # ===========================================
-# AUDIT_TRAIL - repo-auditor v2.0.0
+# AUDIT_TRAIL - repo-auditor v2.1.0
 # ===========================================
 
 audit_version: 2.6.0

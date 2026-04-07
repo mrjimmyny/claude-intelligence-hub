@@ -1,4 +1,4 @@
-# Repo Auditor Skill v2.0.0
+# Repo Auditor Skill v2.1.0
 
 ## Purpose
 `repo-auditor` is a deterministic audit skill for repository governance quality.
@@ -52,7 +52,7 @@ The protocol enforces these eleven validations with explicit bash commands and o
 11. Stale metrics detection (file count, skill count, commit count in README prose)
 
 ## Required Artifacts
-This skill includes these v2.0.0 artifacts:
+This skill includes these v2.1.0 artifacts:
 - `SKILL.md`: full deterministic protocol
 - `.metadata`: mandatory 4-field metadata
 - `AUDIT_TRAIL.md`: YAML-based traceability template
