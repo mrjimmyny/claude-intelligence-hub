@@ -41,6 +41,24 @@ Use the principle: `Rigor without rigidity`.
 7. Run a cross-agent sanity test:
 If Claude, Gemini, and Codex execute the same instructions, they must produce the same result.
 
+## Tool Availability and Portability
+
+This protocol uses `rg` (ripgrep) for pattern matching throughout. On systems where `rg` is not installed (e.g., Windows Git Bash, some CI environments), substitute `grep -E` for `rg -E`, `grep -c` for `rg -c`, `grep -n` for `rg -n`, and `grep -l` for `rg -l`. The `-o` (only-matching) flag works in both tools. For `rg` capture groups (`-r '$1'`), use `sed` as a pipeline stage instead.
+
+**Quick substitution table:**
+
+| `rg` command | `grep` equivalent |
+|---|---|
+| `rg -n "pattern" file` | `grep -n "pattern" file` |
+| `rg -c "pattern" file` | `grep -c "pattern" file` |
+| `rg -l "pattern" dir` | `grep -rl "pattern" dir` |
+| `rg -o "pattern" file` | `grep -oE "pattern" file` |
+| `rg -q "pattern" file` | `grep -qE "pattern" file` |
+| `rg "pattern" . --glob "*.md"` | `grep -r "pattern" --include="*.md" .` |
+| `rg -o "^key:\s*(.+)" file -r '$1'` | `grep "^key:" file \| sed 's/^key:\s*//'` |
+
+The agent SHOULD attempt `rg` first and fall back to `grep` if `rg` returns "command not found" (exit code 127). Log the fallback as `WARNING` in `AUDIT_TRAIL.md`.
+
 ## Execution Modes (Set in PHASE 0)
 
 | Mode | Description | File modifications | Release publication |
@@ -276,16 +294,17 @@ Criteria:
 - Missing date format => `WARNING`
 
 #### 1.2.3 Validate `.metadata` files for all skills
+`.metadata` files use JSON format. Validate mandatory fields exist and are non-empty.
 Commands for each `<SKILL_PATH>/.metadata`:
 ```bash
-rg -n "^name:\s*\S+" <SKILL_PATH>/.metadata
-rg -n "^version:\s*\S+" <SKILL_PATH>/.metadata
-rg -n "^status:\s*\S+" <SKILL_PATH>/.metadata
-rg -n "^description:\s*\S+" <SKILL_PATH>/.metadata
+grep -q '"name"' <SKILL_PATH>/.metadata
+grep -q '"version"' <SKILL_PATH>/.metadata
+grep -q '"status"' <SKILL_PATH>/.metadata
+grep -q '"description"' <SKILL_PATH>/.metadata
 ```
 Cross-check metadata name vs directory:
 ```bash
-METADATA_NAME=$(rg -o "^name:\s*(.+)" <SKILL_PATH>/.metadata -r '$1' | tr -d ' ')
+METADATA_NAME=$(grep '"name"' <SKILL_PATH>/.metadata | sed 's/.*"name": *"\([^"]*\)".*/\1/')
 DIR_NAME=$(basename <SKILL_PATH>)
 echo "metadata_name=${METADATA_NAME} dir_name=${DIR_NAME}"
 ```
@@ -395,6 +414,27 @@ echo "COMMANDS.md commands: ${COMMANDS_MD_COUNT}"
 Criteria:
 - `PASS` if all counts match: `TOTAL_SKILLS == HUB_MAP_COUNT == README_COUNT == COMMANDS_MD_COUNT`
 - Mismatch => `CRITICAL ERROR` (command documentation out of sync)
+
+**Part B.2: Per-skill presence validation (not just counts)**
+
+Counts alone can mask mismatches where different skills are missing vs extra. For each skill with a defined command, verify it appears by name in all three doc files:
+```bash
+: > /tmp/per_skill_sync_errors.txt
+while IFS=$'\t' read -r skill_name command; do
+  in_hub=$(grep -c "$skill_name" /tmp/hub_map_commands.txt 2>/dev/null || echo 0)
+  in_readme=$(grep -c "$skill_name" /tmp/readme_commands.txt 2>/dev/null || echo 0)
+  in_commands=$(grep -c "$command" /tmp/commands_md_list.txt 2>/dev/null || echo 0)
+  if [ "$in_hub" -eq 0 ] || [ "$in_readme" -eq 0 ] || [ "$in_commands" -eq 0 ]; then
+    echo "${skill_name}|hub=${in_hub}|readme=${in_readme}|commands=${in_commands}" >> /tmp/per_skill_sync_errors.txt
+  fi
+done < /tmp/skill_commands_actual.tsv
+
+SYNC_ERRORS=$(wc -l < /tmp/per_skill_sync_errors.txt | tr -d ' ')
+```
+
+Criteria:
+- `PASS` if `SYNC_ERRORS == 0`
+- Otherwise: `CRITICAL ERROR` (specific skills missing from documentation)
 
 **Part C: Validate command uniqueness (no duplicates)**
 
@@ -731,8 +771,11 @@ while IFS= read -r skill_dir; do
     skill_version=$(grep '"version"' "$metadata_file" | sed 's/.*"version": *"\([^"]*\)".*/\1/')
     skill_name=$(basename "$skill_dir")
 
-    # Check if version appears in Component Versions line
-    if ! echo "$COMPONENT_LINE" | grep -q "v${skill_version}"; then
+    # Check if skill name appears in Component Versions line (not just version number)
+    # Match by skill name (hyphenated or space-separated) to avoid false positives
+    # from different skills sharing the same version number
+    formatted_name=$(echo "$skill_name" | sed 's/-/ /g')
+    if ! echo "$COMPONENT_LINE" | grep -qi "$skill_name\|$formatted_name"; then
       echo "${skill_name}|v${skill_version}" >> /tmp/missing_skills_in_executive.txt
       echo "❌ MISSING: ${skill_name} v${skill_version} not in EXECUTIVE_SUMMARY Component Versions"
     fi
@@ -785,8 +828,9 @@ if [ "$MISSING_COUNT" -gt 0 ] && [ "$AUDIT_MODE" = "AUDIT_AND_FIX" ]; then
   COMPONENT_LINE=$(grep "^\*\*Component Versions:\*\*" EXECUTIVE_SUMMARY.md)
   STILL_MISSING=0
   while IFS= read -r skill_dir; do
-    skill_version=$(grep '"version"' "${skill_dir}/.metadata" | sed 's/.*"version": *"\([^"]*\)".*/\1/')
-    if ! echo "$COMPONENT_LINE" | grep -q "v${skill_version}"; then
+    skill_name=$(basename "$skill_dir")
+    formatted_name=$(echo "$skill_name" | sed 's/-/ /g')
+    if ! echo "$COMPONENT_LINE" | grep -qi "$skill_name\|$formatted_name"; then
       STILL_MISSING=$((STILL_MISSING + 1))
     fi
   done < /tmp/repo_skills_list.txt
@@ -813,6 +857,146 @@ executive_summary_validation:
   status: <PASS | FAIL | RECOVERED>
 ```
 
+#### 1.5.9 README Quick Commands table per-skill validation
+Objective: Verify every skill with a `command:` definition in SKILL.md frontmatter has a corresponding row in the README Quick Commands table.
+
+**Critical Issue This Addresses:**
+Count-based checks (1.2.5 Part B) can show matching totals while different skills are missing/extra. This check validates per-skill presence.
+
+Extract skills from Quick Commands table:
+```bash
+awk '/^## .*Quick Commands/,/^---/' README.md | grep "^\|.*\`/" | grep -o "\*\*[^*]*\*\*" | sed 's/\*//g' | sort > /tmp/readme_quick_commands_skills.txt
+```
+
+Compare against all skills that have `command:` defined:
+```bash
+: > /tmp/missing_from_quick_commands.txt
+for skill_dir in */; do
+  if [[ -f "${skill_dir}.metadata" ]]; then
+    skill_name=$(basename "$skill_dir" /)
+    if grep -q "^command:" "${skill_dir}SKILL.md" 2>/dev/null; then
+      if ! grep -qi "^${skill_name}$" /tmp/readme_quick_commands_skills.txt; then
+        echo "$skill_name" >> /tmp/missing_from_quick_commands.txt
+      fi
+    fi
+  fi
+done
+
+MISSING_QC=$(wc -l < /tmp/missing_from_quick_commands.txt | tr -d ' ')
+```
+
+Criteria:
+- `PASS` if `MISSING_QC == 0`
+- Otherwise: `CRITICAL ERROR` (skill published but invisible in Quick Commands)
+
+Record:
+```yaml
+quick_commands_validation:
+  skills_with_commands: <N>
+  skills_in_quick_commands: <N>
+  missing: <N>
+  missing_list:
+    - skill: <name>
+  status: <PASS | FAIL>
+```
+
+#### 1.5.10 EXECUTIVE_SUMMARY Key Achievements table validation
+Objective: Verify every skill appears in the EXECUTIVE_SUMMARY Key Achievements table with a matching version.
+
+**Critical Issue This Addresses:**
+Phase 1.5.8 validates the Component Versions line but NOT the Key Achievements table. Skills can be in the version line but missing from the main table (e.g., notebooklmx was absent for weeks).
+
+Extract skill entries from Key Achievements table:
+```bash
+awk '/Key Achievements/,/^###/' EXECUTIVE_SUMMARY.md | grep "^\|" | grep -v "^|--" | grep -v "Component" | grep -o "\*\*[^*]*\*\*" | sed 's/\*//g' | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g' | sort > /tmp/exec_summary_table_skills.txt
+```
+
+Compare against repository skills:
+```bash
+: > /tmp/missing_from_exec_table.txt
+while IFS= read -r skill_dir; do
+  skill_name=$(basename "$skill_dir")
+  # Normalize: convert hyphens to match various table formats
+  if ! grep -qi "$skill_name" /tmp/exec_summary_table_skills.txt; then
+    meta_ver=$(grep '"version"' "${skill_dir}/.metadata" | sed 's/.*"version": *"\([^"]*\)".*/\1/')
+    echo "${skill_name}|v${meta_ver}" >> /tmp/missing_from_exec_table.txt
+  fi
+done < /tmp/repo_skills_list.txt
+
+MISSING_TABLE=$(wc -l < /tmp/missing_from_exec_table.txt | tr -d ' ')
+```
+
+Criteria:
+- `PASS` if `MISSING_TABLE == 0`
+- Otherwise: `CRITICAL ERROR` (skill missing from executive summary table)
+
+Record:
+```yaml
+executive_summary_table_validation:
+  repo_skill_count: <N>
+  skills_in_table: <N>
+  missing_from_table: <N>
+  missing_list:
+    - skill: <name>
+      version: <vX.Y.Z>
+  status: <PASS | FAIL | RECOVERED>
+```
+
+#### 1.5.11 Stale metrics detection in README prose
+Objective: Detect stale numeric metrics scattered through README prose (skill count, file count, commit count, line count).
+
+**Critical Issue This Addresses:**
+Metrics like "23 production skills", "360 tracked files", "353 commits" appear in multiple README sections outside tables. These are never validated by other checks and become stale silently after each new skill or commit.
+
+Gather actual values:
+```bash
+ACTUAL_SKILL_COUNT=$(find . -maxdepth 2 -name ".metadata" | grep -v "^\./\." | wc -l | tr -d ' ')
+ACTUAL_FILE_COUNT=$(git ls-files | wc -l | tr -d ' ')
+ACTUAL_COMMIT_COUNT=$(git rev-list --count HEAD)
+```
+
+Scan README for declared values and flag mismatches:
+```bash
+STALE_COUNT=0
+
+# Check skill count references in prose (exclude tables)
+grep -n "[0-9]\+ production skills" README.md | while read -r line; do
+  declared=$(echo "$line" | grep -o "[0-9]\+ production" | grep -o "[0-9]\+")
+  if [ "$declared" != "$ACTUAL_SKILL_COUNT" ]; then
+    echo "STALE: skill count $declared (actual: $ACTUAL_SKILL_COUNT) at $line"
+    STALE_COUNT=$((STALE_COUNT + 1))
+  fi
+done
+
+# Check file count references
+grep -n "[0-9]\+ tracked files\|[0-9]\+ files" README.md | while read -r line; do
+  declared=$(echo "$line" | grep -o "[0-9]\+ \(tracked \)\?files" | grep -o "[0-9]\+")
+  if [ -n "$declared" ] && [ "$declared" -gt 100 ] && [ "$declared" != "$ACTUAL_FILE_COUNT" ]; then
+    echo "STALE: file count $declared (actual: $ACTUAL_FILE_COUNT) at $line"
+  fi
+done
+```
+
+Criteria:
+- `PASS` if no stale metrics detected
+- `WARNING` if stale metrics found (non-blocking but must be logged and reported)
+- Recovery: In `AUDIT_AND_FIX` mode, update stale values to actual counts
+
+Record:
+```yaml
+stale_metrics_validation:
+  actual_skills: <N>
+  actual_files: <N>
+  actual_commits: <N>
+  stale_references_found: <N>
+  stale_details:
+    - line: <N>
+      metric: <type>
+      declared: <N>
+      actual: <N>
+  status: <PASS | WARNING>
+```
+
 #### CHECKPOINT 1.5
 Criteria:
 - Skill count: `PASS` or `FAIL`
@@ -821,6 +1005,9 @@ Criteria:
 - Reference accuracy: `PASS` or `FAIL`
 - Internal links: `PASS` or `WARNING` or `FAIL`
 - EXECUTIVE_SUMMARY Component Versions completeness: `PASS` or `FAIL` or `RECOVERED`
+- README Quick Commands per-skill validation: `PASS` or `FAIL`
+- EXECUTIVE_SUMMARY Key Achievements table: `PASS` or `FAIL` or `RECOVERED`
+- Stale metrics in README prose: `PASS` or `WARNING`
 Gate:
 - Any `FAIL` => `CRITICAL ERROR` => `BLOCKED`
 
@@ -926,209 +1113,30 @@ audit_summary:
 ```
 
 #### 3.5.1 Generate Visual Audit Report
-Objective: Create a clean, human-readable report summarizing audit results.
+Objective: Create a clean, human-readable summary of audit results. The agent constructs this as markdown output (not bash heredoc scripts).
 
-**Part A: Build validation results table**
+**Report structure:**
 
-```bash
-cat > /tmp/audit_report.md << 'EOF'
-# 📊 Repository Audit Report
+The agent MUST produce a report with these sections, using the actual values collected during the audit:
 
-**Repository:** $(basename $(pwd))
-**Audit Date:** $(date '+%Y-%m-%d %H:%M')
-**Audit Mode:** ${AUDIT_MODE}
-**Audit Agent:** ${AUDIT_AGENT}
+1. **Header**: Repository name, audit date, mode, agent name
+2. **Validation Results Table**: One row per check, columns: Phase | Check | Status | Details
+3. **Corrections Applied**: List of files corrected (or "none needed")
+4. **Warnings**: List of non-blocking issues found
+5. **Summary Statistics**: Total files audited, skills, errors found/resolved/open, warnings, files corrected
+6. **Final Result**: PASS / PASS_WITH_WARNINGS / FAIL with one-line explanation
 
----
+**Required checks in the results table:**
 
-## ✅ Validation Results
+| Phase | Check name |
+|---|---|
+| 0 | Branch Validation, Repository State |
+| 1 | File Inventory, Critical Files |
+| 1.2 | README Structure, CHANGELOG Entry, Metadata Complete, Slash Commands, Command Docs Sync, Command Uniqueness, Root File Authorization |
+| 1.5 | Skill Count, Version Cross-Check, Architecture Complete, Reference Accuracy, Internal Links, CHANGELOG Complete, EXEC_SUMMARY Component Versions, Quick Commands Per-Skill, EXEC_SUMMARY Key Achievements Table, Stale Metrics |
+| 2 | Spot Check Sampling |
 
-| Phase | Check | Status | Details |
-|-------|-------|--------|---------|
-EOF
-
-# Add each validation result
-# PHASE 0
-echo "| 0 | Branch Validation | ${PHASE0_BRANCH_STATUS} | Branch: ${CURRENT_BRANCH} |" >> /tmp/audit_report.md
-echo "| 0 | Repository State | ${PHASE0_REPO_STATUS} | Working tree: ${WORKING_TREE_STATUS} |" >> /tmp/audit_report.md
-
-# PHASE 1
-echo "| 1 | File Inventory | ${PHASE1_INVENTORY_STATUS} | ${TRACKED_FILE_COUNT} files tracked |" >> /tmp/audit_report.md
-echo "| 1 | Critical Files | ${PHASE1_CRITICAL_STATUS} | ${CRITICAL_FILES_EXIST}/${CRITICAL_FILES_TOTAL} exist |" >> /tmp/audit_report.md
-
-# PHASE 1.2
-echo "| 1.2 | README Structure | ${PHASE12_README_STATUS} | Version: ${README_VERSION} |" >> /tmp/audit_report.md
-echo "| 1.2 | CHANGELOG Entry | ${PHASE12_CHANGELOG_STATUS} | Version ${VERSION} entry found |" >> /tmp/audit_report.md
-echo "| 1.2 | Metadata Complete | ${PHASE12_METADATA_STATUS} | ${SKILLS_WITH_METADATA}/${TOTAL_SKILLS} skills |" >> /tmp/audit_report.md
-echo "| 1.2 | Slash Commands | ${PHASE12_COMMANDS_STATUS} | ${SKILLS_WITH_COMMANDS}/${TOTAL_SKILLS} defined |" >> /tmp/audit_report.md
-echo "| 1.2 | Command Docs Sync | ${PHASE12_CMDDOC_STATUS} | HUB_MAP/README/COMMANDS synchronized |" >> /tmp/audit_report.md
-echo "| 1.2 | Command Uniqueness | ${PHASE12_CMDDUP_STATUS} | ${DUPLICATE_COMMANDS_COUNT} duplicates found |" >> /tmp/audit_report.md
-echo "| 1.2 | Root File Authorization | ${PHASE12_ROOTFILES_STATUS} | ${UNAUTHORIZED_ROOT_COUNT} unauthorized |" >> /tmp/audit_report.md
-
-# PHASE 1.5
-echo "| 1.5 | Skill Count | ${PHASE15_SKILLCOUNT_STATUS} | Real: ${REAL_SKILL_COUNT}, Declared: ${DECLARED_SKILL_COUNT} |" >> /tmp/audit_report.md
-echo "| 1.5 | Version Cross-Check | ${PHASE15_VERSIONS_STATUS} | ${VERSION_MISMATCHES} mismatches |" >> /tmp/audit_report.md
-echo "| 1.5 | Architecture Complete | ${PHASE15_ARCH_STATUS} | All skills in tree |" >> /tmp/audit_report.md
-echo "| 1.5 | Reference Accuracy | ${PHASE15_REFS_STATUS} | ${BROKEN_REFS} broken references |" >> /tmp/audit_report.md
-echo "| 1.5 | Internal Links | ${PHASE15_LINKS_STATUS} | ${BROKEN_LINKS} broken links |" >> /tmp/audit_report.md
-echo "| 1.5 | CHANGELOG Complete | ${PHASE15_CHANGELOG_STATUS} | ${CHANGELOG_ENTRIES} entries |" >> /tmp/audit_report.md
-echo "| 1.5 | EXEC_SUMMARY Complete | ${PHASE15_EXECSUM_STATUS} | ${MISSING_IN_EXECSUM} skills missing |" >> /tmp/audit_report.md
-
-cat >> /tmp/audit_report.md << 'EOF'
-
----
-
-## 🔧 Corrections Applied
-
-EOF
-
-# List corrections
-if [ ${FILES_CORRECTED} -gt 0 ]; then
-  echo "**Total Files Corrected:** ${FILES_CORRECTED}" >> /tmp/audit_report.md
-  echo "" >> /tmp/audit_report.md
-  while IFS='|' read -r file action; do
-    echo "- \`${file}\`: ${action}" >> /tmp/audit_report.md
-  done < /tmp/corrections_log.txt
-else
-  echo "*No corrections needed - repository already compliant*" >> /tmp/audit_report.md
-fi
-
-cat >> /tmp/audit_report.md << 'EOF'
-
----
-
-## ⚠️ Warnings
-
-EOF
-
-# List warnings
-if [ ${WARNINGS_FOUND} -gt 0 ]; then
-  echo "**Total Warnings:** ${WARNINGS_FOUND}" >> /tmp/audit_report.md
-  echo "" >> /tmp/audit_report.md
-  while IFS='|' read -r phase description file; do
-    echo "- **Phase ${phase}**: ${description}" >> /tmp/audit_report.md
-    [ -n "$file" ] && echo "  - File: \`${file}\`" >> /tmp/audit_report.md
-  done < /tmp/warnings_log.txt
-else
-  echo "*No warnings - clean audit*" >> /tmp/audit_report.md
-fi
-
-cat >> /tmp/audit_report.md << 'EOF'
-
----
-
-## 📈 Summary Statistics
-
-EOF
-
-cat >> /tmp/audit_report.md << EOF
-- **Total Files Audited:** ${TOTAL_FILES_AUDITED}
-- **Total Skills:** ${TOTAL_SKILLS}
-- **Critical Errors Found:** ${CRITICAL_ERRORS_FOUND}
-- **Critical Errors Resolved:** ${CRITICAL_ERRORS_RESOLVED}
-- **Critical Errors Open:** ${CRITICAL_ERRORS_OPEN}
-- **Warnings Found:** ${WARNINGS_FOUND}
-- **Files Corrected:** ${FILES_CORRECTED}
-
----
-
-## 🎯 Final Result
-
-EOF
-
-# Final verdict
-if [ "${AUDIT_RESULT}" == "PASS" ]; then
-  cat >> /tmp/audit_report.md << 'EOF'
-```
-✅ AUDIT PASSED
-Repository meets all integrity requirements
-```
-EOF
-elif [ "${AUDIT_RESULT}" == "PASS_WITH_WARNINGS" ]; then
-  cat >> /tmp/audit_report.md << 'EOF'
-```
-⚠️ AUDIT PASSED WITH WARNINGS
-Repository passes but has non-blocking issues
-Review warnings above for recommended improvements
-```
-EOF
-else
-  cat >> /tmp/audit_report.md << 'EOF'
-```
-❌ AUDIT FAILED
-Critical errors must be resolved before proceeding
-See details above for required fixes
-```
-EOF
-fi
-
-cat >> /tmp/audit_report.md << 'EOF'
-
----
-
-**Audit Protocol:** repo-auditor v2.0.0
-**Audit Trail:** See AUDIT_TRAIL.md for detailed evidence
-EOF
-```
-
-**Part B: Display report to user**
-
-```bash
-# Display visual report
-cat /tmp/audit_report.md
-
-# Save to AUDIT_TRAIL.md as appendix
-echo "" >> AUDIT_TRAIL.md
-echo "---" >> AUDIT_TRAIL.md
-echo "" >> AUDIT_TRAIL.md
-cat /tmp/audit_report.md >> AUDIT_TRAIL.md
-```
-
-**Part C: Generate summary banner**
-
-```bash
-if [ "${AUDIT_RESULT}" == "PASS" ]; then
-  echo ""
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "✅ AUDIT COMPLETE - ALL CHECKS PASSED"
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo ""
-  echo "Repository: COMPLIANT"
-  echo "Total Checks: ${TOTAL_CHECKS}"
-  echo "Passed: ${CHECKS_PASSED}"
-  echo "Failed: 0"
-  echo "Warnings: ${WARNINGS_FOUND}"
-  echo ""
-elif [ "${AUDIT_RESULT}" == "PASS_WITH_WARNINGS" ]; then
-  echo ""
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "⚠️ AUDIT COMPLETE - PASSED WITH WARNINGS"
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo ""
-  echo "Repository: COMPLIANT (with warnings)"
-  echo "Total Checks: ${TOTAL_CHECKS}"
-  echo "Passed: ${CHECKS_PASSED}"
-  echo "Failed: 0"
-  echo "Warnings: ${WARNINGS_FOUND}"
-  echo ""
-  echo "⚠️ Review warnings in report above"
-  echo ""
-else
-  echo ""
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "❌ AUDIT FAILED - CRITICAL ERRORS FOUND"
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo ""
-  echo "Repository: NON-COMPLIANT"
-  echo "Total Checks: ${TOTAL_CHECKS}"
-  echo "Passed: ${CHECKS_PASSED}"
-  echo "Failed: ${CHECKS_FAILED}"
-  echo "Open Errors: ${CRITICAL_ERRORS_OPEN}"
-  echo ""
-  echo "❌ Fix critical errors before proceeding"
-  echo ""
-fi
-```
+Append the report as a section in `AUDIT_TRAIL.md`.
 
 #### CHECKPOINT 3
 Criteria:
@@ -1262,6 +1270,9 @@ release_url: <URL | N/A>
 - Command documentation out of sync across HUB_MAP, README, COMMANDS.md
 - Duplicate slash command definitions (command collision)
 - Unauthorized files in repository root (not in scripts/integrity-check.sh approved_files)
+- Skills missing from README Quick Commands table (1.5.9)
+- Skills missing from EXECUTIVE_SUMMARY Key Achievements table (1.5.10)
+- Specific skills missing from HUB_MAP, README, or COMMANDS.md despite matching counts (1.2.5 Part B.2)
 
 `WARNING` (non-blocking but mandatory to log):
 - Non-critical orphan files
@@ -1273,6 +1284,7 @@ release_url: <URL | N/A>
 - Missing expected (non-required) files
 - Missing date format in changelog entry
 - Orphaned entries in approved_files list (files in list but don't exist)
+- Stale numeric metrics in README prose (skill count, file count, commit count — 1.5.11)
 
 ## Resume Protocol for Interrupted Audits
 

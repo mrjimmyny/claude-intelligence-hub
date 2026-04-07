@@ -30,7 +30,7 @@ The skill implements all mandatory phases and checkpoints:
 - `PHASE 0`: scope and preconditions
 - `PHASE 1`: inventory and file fingerprints
 - `PHASE 1.2`: structural validation
-- `PHASE 1.5`: deep cross-file validation (7 sub-validations)
+- `PHASE 1.5`: deep cross-file validation (11 sub-validations)
 - `PHASE 2`: spot-check sampling
 - `PHASE 3`: closure and checkpoint consolidation
 - `PHASE 3.6`: release tag and GitHub release publication
@@ -38,7 +38,7 @@ The skill implements all mandatory phases and checkpoints:
 Checkpoint gates are strict: unresolved `CRITICAL ERROR` always results in `BLOCKED`.
 
 ## Phase 1.5 Cross-File Validations
-The protocol enforces these seven validations with explicit bash commands and objective criteria:
+The protocol enforces these eleven validations with explicit bash commands and objective criteria:
 1. Skill count (`README` declaration vs actual repository count)
 2. Version cross-check (`README` table vs skill `.metadata`)
 3. Architecture completeness (`README` tree vs repository filesystem)
@@ -46,6 +46,10 @@ The protocol enforces these seven validations with explicit bash commands and ob
 5. Orphan file detection (with documented exceptions)
 6. Internal link validation (critical vs non-critical severity)
 7. `CHANGELOG` completeness (target version has real entries)
+8. `EXECUTIVE_SUMMARY` Component Versions completeness (by skill name, not just version number)
+9. README Quick Commands per-skill validation (every skill present in the table)
+10. `EXECUTIVE_SUMMARY` Key Achievements table validation (every skill in the table)
+11. Stale metrics detection (file count, skill count, commit count in README prose)
 
 ## Required Artifacts
 This skill includes these v2.0.0 artifacts:
