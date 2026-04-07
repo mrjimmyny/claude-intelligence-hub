@@ -32,16 +32,6 @@ print_header() {
   echo ""
 }
 
-require_key() {
-  local key="$1"
-  if ! rg -q "^${key}:" "$TRAIL_FILE"; then
-    echo -e "${RED}x Missing required key: ${key}${NC}"
-    errors=$((errors + 1))
-  else
-    echo -e "${GREEN}ok ${key}${NC}"
-  fi
-}
-
 warn() {
   local message="$1"
   echo -e "${YELLOW}! ${message}${NC}"
@@ -52,6 +42,25 @@ fail() {
   local message="$1"
   echo -e "${RED}x ${message}${NC}"
   errors=$((errors + 1))
+}
+
+if command -v rg >/dev/null 2>&1; then
+  RG_Q=(rg -q)
+  RG_N=(rg -n)
+else
+  RG_Q=(grep -qE)
+  RG_N=(grep -nE)
+  warn "rg not found; falling back to grep -E"
+fi
+
+require_key() {
+  local key="$1"
+  if ! "${RG_Q[@]}" "^${key}:" "$TRAIL_FILE"; then
+    echo -e "${RED}x Missing required key: ${key}${NC}"
+    errors=$((errors + 1))
+  else
+    echo -e "${GREEN}ok ${key}${NC}"
+  fi
 }
 
 print_header
@@ -108,7 +117,7 @@ check_status() {
     return
   fi
 
-  if ! echo "$value" | rg -q "^(${allowed})$"; then
+  if ! echo "$value" | "${RG_Q[@]}" "^(${allowed})$"; then
     fail "${key} has invalid value '${value}'"
   else
     echo -e "${GREEN}ok ${key}=${value}${NC}"
@@ -142,7 +151,7 @@ if [[ "$audit_result" == "PASS" || "$audit_result" == "PASS_WITH_WARNINGS" ]]; t
   fi
 fi
 
-blocked_phases=$(rg -n "^phase_[0-9_]+_status:\s*BLOCKED$" "$TRAIL_FILE" | wc -l | tr -d ' ')
+blocked_phases=$("${RG_N[@]}" "^phase_[0-9_]+_status:[[:space:]]*BLOCKED$" "$TRAIL_FILE" | wc -l | tr -d ' ')
 if [ "$blocked_phases" -gt 0 ] && [ "$audit_result" != "FAIL" ] && [[ "$audit_result" != "<"* ]]; then
   fail "One or more phases are BLOCKED but audit_result is ${audit_result}"
 fi
@@ -150,9 +159,9 @@ fi
 echo ""
 echo "-- Fingerprint Structure --"
 
-fingerprint_entries=$(rg -n "^  - file:" "$TRAIL_FILE" | wc -l | tr -d ' ')
-line_entries=$(rg -n "^    total_lines:" "$TRAIL_FILE" | wc -l | tr -d ' ')
-hash_entries=$(rg -n "^    content_hash:" "$TRAIL_FILE" | wc -l | tr -d ' ')
+fingerprint_entries=$("${RG_N[@]}" "^  - file:" "$TRAIL_FILE" | wc -l | tr -d ' ')
+line_entries=$("${RG_N[@]}" "^    total_lines:" "$TRAIL_FILE" | wc -l | tr -d ' ')
+hash_entries=$("${RG_N[@]}" "^    content_hash:" "$TRAIL_FILE" | wc -l | tr -d ' ')
 
 if [ "$fingerprint_entries" -gt 0 ]; then
   if [ "$line_entries" -lt "$fingerprint_entries" ] || [ "$hash_entries" -lt "$fingerprint_entries" ]; then
