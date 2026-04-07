@@ -1,6 +1,7 @@
 ---
 name: security-reviewx
 description: Comprehensive security review skill — scans repositories for exposed secrets, PII, dangerous files, hardcoded paths, config vulnerabilities, and code vulnerabilities before publication to GitHub
+command: /security-reviewx
 version: 1.0.0
 global: true
 cross_agent: true

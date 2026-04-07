@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.29.1] - 2026-04-07
+
+### Fixed
+- **repo-auditor** full audit — 22 critical errors found and recovered across 4 files:
+  - **README.md**: security-reviewx missing from skill table, stale skill counts (23→24), stale file counts (360→378), stale commit counts (353→380), stale line counts (70k→72k), 4 version mismatches (jimmy-core-preferences, AOP, notebooklmx, bi-designerx), security-reviewx missing from architecture tree
+  - **COMMANDS.md**: security-reviewx missing from all sections, stale version (2.27.0→2.29.0)
+  - **EXECUTIVE_SUMMARY.md**: 4 version mismatches (jimmy-core-preferences, microsoft-mail-deliver, daily-doc-information, bi-designerx), notebooklmx and security-reviewx missing from Key Achievements table
+  - **security-reviewx/SKILL.md**: missing `command:` frontmatter field
+
 ## [2.29.0] - 2026-04-07
 
 ### Added

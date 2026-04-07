@@ -694,3 +694,112 @@ visual_report:
     - claude-session-registry/README.md: Converted home-directory restore guide markdown link to code literal
     - claude-session-registry/docs/BACKUP_SYSTEM.md: Converted home-directory restore guide and backup repo markdown links to code literals
   final_verdict: Repository passes the final validation run with two non-blocking warnings and no open critical errors.
+
+---
+
+# Audit 2026-04-07 — Magneto (claude-opus-4-6)
+
+audit_parameters:
+  target_repo: claude-intelligence-hub
+  target_version: v2.29.0
+  audit_date: 2026-04-07
+  audit_agent: Magneto (claude-opus-4-6)
+  audit_mode: AUDIT_AND_FIX
+
+phase_0:
+  branch_validation: PASS (main)
+  repository_state: PASS (clean working tree, 0/0 divergence)
+  github_auth: PASS (mrjimmyny)
+  critical_file_list: declared
+  checkpoint_0: PASS
+
+phase_1:
+  tracked_files: 378
+  critical_files_exist: ALL PRESENT
+  skills_count: 24
+  checkpoint_1: PASS
+
+phase_1_2:
+  readme_structure: FAIL → RECOVERED (security-reviewx missing from skill table, stale counts)
+  changelog_entry: PASS (v2.29.0 entry exists with date)
+  metadata_fields: PASS (24/24 skills have all mandatory fields)
+  slash_commands:
+    missing_commands: 1 (security-reviewx SKILL.md lacked command: field)
+    status: FAIL → RECOVERED (added command: /security-reviewx)
+  command_doc_sync:
+    hub_map: 24
+    readme: 23 → RECOVERED (24)
+    commands_md: 23 → RECOVERED (24)
+    status: FAIL → RECOVERED
+  duplicate_commands: 0
+  root_file_authorization: PASS
+  checkpoint_1_2: PASS (after recovery)
+
+phase_1_5:
+  skill_count:
+    real: 24
+    declared_readme: 23 → RECOVERED (24)
+    status: FAIL → RECOVERED
+  version_crosscheck:
+    mismatches_found: 4
+    details:
+      - skill: jimmy-core-preferences
+        readme_table: v3.4.0
+        metadata: v3.5.0
+        status: FAIL → RECOVERED
+      - skill: agent-orchestration-protocol
+        readme_table: v4.1.0
+        metadata: v4.2.0
+        status: FAIL → RECOVERED
+      - skill: notebooklmx
+        readme_table: v1.1.0
+        metadata: v1.2.0
+        status: FAIL → RECOVERED
+      - skill: bi-designerx
+        readme_table: v0.1.0
+        metadata: v0.2.0
+        status: FAIL → RECOVERED
+    status: FAIL → RECOVERED
+  architecture_tree:
+    missing: security-reviewx
+    stale_versions: 4 (jimmy-core-preferences, AOP, notebooklmx, bi-designerx)
+    status: FAIL → RECOVERED
+  executive_summary_versions:
+    mismatches_found: 4
+    details:
+      - jimmy-core-preferences: 3.4.0 → 3.5.0
+      - microsoft-mail-deliver: 1.0.0 → 1.2.0
+      - daily-doc-information: 1.6.0 → 1.7.1
+      - bi-designerx: 0.1.0 → 0.2.0
+    missing_from_table: notebooklmx, security-reviewx
+    status: FAIL → RECOVERED
+  commands_md:
+    missing: security-reviewx
+    stale_version: 2.27.0 → 2.29.0
+    status: FAIL → RECOVERED
+  stale_metrics:
+    files: 360 → 378
+    lines: 70,000 → 72,000
+    commits: 353 → 380
+    skill_count: 23 → 24
+    days: 49 → 58
+    status: RECOVERED
+  checkpoint_1_5: PASS (after recovery)
+
+phase_2:
+  spot_check: PASS (integrity-check.sh 6/6 before and after fixes)
+
+phase_3:
+  all_checkpoints: PASS
+  critical_errors_found: 22
+  critical_errors_resolved: 22
+  critical_errors_open: 0
+  warnings_found: 0
+  files_corrected: 4
+  corrected_files:
+    - README.md (skill table, counts, versions, architecture tree, metrics)
+    - COMMANDS.md (security-reviewx entry, version, categories)
+    - EXECUTIVE_SUMMARY.md (version mismatches, missing skills in table)
+    - security-reviewx/SKILL.md (added command: frontmatter)
+  audit_result: PASS (all errors recovered)
+  integrity_check_final: 6/6 PASS

@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.29.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.29.1-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -44,6 +44,7 @@ All skills are available as **slash commands** for instant access. Just type `/c
 | **notebooklmx** | `/notebooklmx` | /nlmx | Google NotebookLM automation (audio, video, infographics, slides, quizzes) |
 | **bi-designerx** | `/bidx` | /bi-designer | BI dashboard design for non-designers (Paper.design + CEM system) |
 | **self-improvement** | `/self-improvement` | /improve | Iterative refinement framework (audit + simulation, worktree isolation, scoring) |
+| **security-reviewx** | `/security-reviewx` | /security, /scan | Comprehensive security review (secrets, PII, files, paths, config, code) |
 
 **Example usage:**
 ```bash
@@ -87,21 +88,21 @@ The **Claude Intelligence Hub** is a centralized system that:
 
 > **How much effort would this take to build manually?**
 >
-> *Metrics as of 2026-03-29 (cutoff date). Original case study at v2.4.0 covered 9 skills; this section reflects the full 23-skill production system.*
+> *Metrics as of 2026-04-07 (cutoff date). Original case study at v2.4.0 covered 9 skills; this section reflects the full 24-skill production system.*
 
-This hub represents **23 production skills, 360 tracked files, ~70,000 lines of code and documentation, 78+ automation scripts (Bash + PowerShell + Python), and a CI/CD pipeline**. Conceived in **November 2025**, first commit on **February 8, 2026**, and fully operational by **March 29, 2026** — 49 days from code to 23 production skills. The first 9 skills shipped in 17 days; skills 10–23 followed in the next 32 days at an accelerating pace once the infrastructure was solid.
+This hub represents **24 production skills, 378 tracked files, ~72,000 lines of code and documentation, 78+ automation scripts (Bash + PowerShell + Python), and a CI/CD pipeline**. Conceived in **November 2025**, first commit on **February 8, 2026**, and fully operational by **March 29, 2026** — 58 days from code to 24 production skills. The first 9 skills shipped in 17 days; skills 10–24 followed in the next 41 days at an accelerating pace once the infrastructure was solid.
 
 ### The Numbers
 
 | Metric | Manual Development | AI-Assisted Development | Savings |
 |--------|-------------------|------------------------|---------|
-| **Time to Production** | 18–24 months | 49 days (23 skills, full system) | **93–94%** |
+| **Time to Production** | 18–24 months | 58 days (24 skills, full system) | **93–94%** |
 | **Person-Hours** | ~3,200–4,500 hours | ~400–600 hours | **87–91%** |
 | **Team Size Required** | 4–6 developers | 1 architect + 5 AI agents | **83%** |
 | **Estimated Cost** | $450k–$900k | $8k–$15k | **96–98%** |
-| **Lines of Code/Docs** | ~70,000 lines | ~70,000 lines | Same quality\* |
-| **Total Files** | 360 | 360 | Same rigor |
-| **Commits** | N/A | 353 (7.2/day avg) | Atomic discipline |
+| **Lines of Code/Docs** | ~72,000 lines | ~72,000 lines | Same quality\* |
+| **Total Files** | 378 | 378 | Same rigor |
+| **Commits** | N/A | 380 (6.6/day avg) | Atomic discipline |
 
 \*Same quality means equivalent production-grade output with comprehensive documentation, full CI/CD coverage, cross-agent compatibility, and version-sync enforcement — achieved in 93–94% less time.
 
@@ -114,7 +115,7 @@ This hub represents **23 production skills, 360 tracked files, ~70,000 lines of 
 | **Core Build** | Feb 10–16 | 6 days | 9 | ~20,000 | First 9 skills to production |
 | **Expansion** | Feb 17–25 | 9 days | 15 | ~35,000 | AOP, token-economy, governance added |
 | **Scale** | Mar 4–28 | 24 days | 23 | ~70,000 | DDI, NotebookLMx, bi-designerx, self-improvement |
-| **Current** | Apr 7 | Day 58 | 24 | ~72,000 | Hub v2.29.0, security-reviewx added |
+| **Current** | Apr 7 | Day 58 | 24 | ~72,000 | Hub v2.29.1, security-reviewx added |
 
 ### The Elite League: Agents & Models
 
@@ -129,17 +130,17 @@ This project is built and maintained by a multi-agent team, where each agent is 
 | **Emma** | Codex | OpenAI GPT 5.4 (Codex) | Strategic Advisor |
 | **Ciclope** | Abacus | Abacus.AI | Specialist & Strategist |
 
-353 commits across 49 days — 4 distinct contributors, 1 human architect orchestrating 5 AI agents.
+380 commits across 58 days — 4 distinct contributors, 1 human architect orchestrating 5 AI agents.
 
 ### Why This Matters
 
 Traditional development wisdom says "you can't have fast, cheap, and good — pick two."
 
 **AI-assisted development breaks that rule:**
-- ✅ **Fast** — 49 days for 23 production skills vs 18–24 months manual
+- ✅ **Fast** — 58 days for 24 production skills vs 18–24 months manual
 - ✅ **Cheap** — $8k–$15k vs $450k–$900k (96–98% savings)
-- ✅ **Good** — 70,000 lines, 360 files, CI/CD enforced, zero version drift
-- ✅ **Accelerating** — 9 skills in 17 days → 23 skills in 49 days (infrastructure compounds)
+- ✅ **Good** — 72,000 lines, 378 files, CI/CD enforced, zero version drift
+- ✅ **Accelerating** — 9 skills in 17 days → 24 skills in 58 days (infrastructure compounds)
 
 📄 **Read the original v2.4.0 case study:** [DEVELOPMENT_IMPACT_ANALYSIS.md](./DEVELOPMENT_IMPACT_ANALYSIS.md)
 
@@ -204,11 +205,11 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 
 ## 📦 Available Skill Collections
 
-> **Total: 24 production skills** | All ✅ Production status | Hub v2.29.0
+> **Total: 24 production skills** | All ✅ Production status | Hub v2.29.1
 
 | Collection | Version | Status | Description | Key Features |
 |------------|---------|--------|-------------|--------------|
-| **[jimmy-core-preferences](jimmy-core-preferences/)** | v3.4.0 | ✅ Production | Global cross-agent operating framework | Radical honesty, prompt governance, documentation language standard, hybrid session governance, curator-only daily reports, mandatory project sync before session close, DAX overlay, cross-agent bootstrap, AOP dispatch guardrails, and global skill symlink integrity. See [HUB_MAP.md](HUB_MAP.md) for triggers. |  
+| **[jimmy-core-preferences](jimmy-core-preferences/)** | v3.5.0 | ✅ Production | Global cross-agent operating framework | Radical honesty, prompt governance, documentation language standard, hybrid session governance, curator-only daily reports, mandatory project sync before session close, DAX overlay, cross-agent bootstrap, AOP dispatch guardrails, and global skill symlink integrity. See [HUB_MAP.md](HUB_MAP.md) for triggers. |  
 | **[session-memoria](session-memoria/)** | v1.2.0 | ✅ Production | Knowledge management system | 100% conversation retention, triple-index search, lifecycle tracking, Git-synced. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
 | **[gdrive-sync-memoria](gdrive-sync-memoria/)** | v1.0.0 | ✅ Production | Google Drive integration | ChatLLM Teams sync, auto-import to session-memoria, zero-friction automation. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
 | **[claude-session-registry](claude-session-registry/)** | v1.1.0 | ✅ Production | Session tracking & backup | Resume ID tracking, Git context, Golden Close protocol, **automatic backup to GitHub**. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
@@ -219,7 +220,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[context-guardian](context-guardian/)** | v1.1.0 | ✅ Production | Context preservation system | Xavier ↔ Magneto account switching, 3-strategy symlinks, rollback protection, .contextignore support, dry-run mode, verify-backup reports. |
 | **[repo-auditor](repo-auditor/)** | v2.0.0 | ✅ Production | End-to-end audit skill | Mandatory proof-of-read fingerprinting, accumulative AUDIT_TRAIL.md, validate-trail.sh for CI. |
 | **[conversation-memoria](conversation-memoria/)** | v1.0.0 | ✅ Production | Persistent conversation storage | Intelligent metadata extraction, 95-98% token savings, week-based organization, natural language triggers, cross-agent memory sharing. |
-| **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v4.1.0 | ✅ Production-Validated | Multi-agent coordination framework | Multi-executor robust orchestration, task-ID namespaced artifacts, fan-in/fan-out, DAG dependency management, deadlock detection, priority-aware execution, and dispatch-script guardrails for headless launches. |
+| **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v4.2.0 | ✅ Production | Multi-agent coordination framework | Multi-executor robust orchestration, task-ID namespaced artifacts, fan-in/fan-out, DAG dependency management, deadlock detection, priority-aware execution, and dispatch-script guardrails for headless launches. |
 | **[core_catalog](core_catalog/)** | v1.0.0 | ✅ Production | Core system catalog | Bootstrap compatibility data, centralized configuration references, and environment initialization mappings. |
 | **[token-economy](token-economy/)** | v1.0.0 | ✅ Production | Token budget governance | Budget enforcement adapter, preflight token discipline, and response-size reduction rules. |
 | **[codex-governance-framework](codex-governance-framework/)** | v1.0.0 | ✅ Production | Institutional governance framework | Codex bootstrap governance, playbook guidance, onboarding references, and CI-ready contracts. |
@@ -228,8 +229,9 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[codex-task-notifier](codex-task-notifier/)** | v1.2.0 | ✅ Production | Codex task completion email notifier | Local Windows-first HTTPS pipeline (Resend -> Mailgun), explicit task-end emails, dynamic agent subjects, cross-machine portable, file attachments. |
 | **[microsoft-mail-deliver](microsoft-mail-deliver/)** | v1.2.0 | ✅ Production | Microsoft-native email delivery + Q&A collection | Delegated Graph sender, frozen business-email contract, persistent known-recipient registry, Email Q&A Collection (inbox scan by keyword, dual .md/.html output, sender grouping, duplicate detection, signature stripping, date filtering). |
 | **[daily-doc-information](daily-doc-information/)** | v1.7.1 | ✅ Production | Documentation governance automation | Session docs, daily executive reports, project governance operations, strategic project portfolio, stale session detection (PP-10), LLM model tracking, and cross-agent/cross-machine portability. |
-| **[notebooklmx](notebooklmx/)** | v1.1.0 | ✅ Production | Google NotebookLM automation | Unified interface for NotebookLM content generation (audio, video, infographics, slides, quizzes), Clarity-First design system, 20 style templates, spaced protocol, MCP integration. |
-| **[bi-designerx](bi-designerx/)** | v0.1.0 | ✅ Production | BI dashboard design for non-designers | End-to-end AI-driven dashboard design workflow using Paper.design, CEM (Canvas Element Map) system, skin generation, and stakeholder-ready outputs. |
+| **[notebooklmx](notebooklmx/)** | v1.2.0 | ✅ Production | Google NotebookLM automation | Unified interface for NotebookLM content generation (audio, video, infographics, slides, quizzes), Clarity-First design system, 20 style templates, spaced protocol, MCP integration, LLM+Playwright fallback pipeline. |
+| **[bi-designerx](bi-designerx/)** | v0.2.0 | ✅ Production | BI dashboard design for non-designers | End-to-end AI-driven dashboard design workflow using Paper.design, CEM (Canvas Element Map) system, skin generation, and stakeholder-ready outputs. CEM Pack with 10 artifacts including PNG Infographic and Interactive Presentation. |
+| **[security-reviewx](security-reviewx/)** | v1.0.0 | ✅ Production | Comprehensive security review | 7 scan modules (SECRET, PII, FILE, PATH, CONFIG, CODE, GIT_HISTORY), 76 patterns, 3 modes (QUICK/STANDARD/DEEP). Cross-agent and cross-machine validated. |
 | **[self-improvement](self-improvement/)** | v1.0.0 | ✅ Production | Iterative refinement framework | Agent-agnostic framework for refining skills, projects, scripts, and protocols via worktree isolation, two-layer testing (audit + simulation), weighted scoring, and historical tracking. |
 
 ---
@@ -266,7 +268,7 @@ For complete trigger list and routing patterns, see **[HUB_MAP.md](HUB_MAP.md)**
 git clone https://github.com/mrjimmyny/claude-intelligence-hub.git
 cd claude-intelligence-hub
 
-# Run automated setup (installs 23 skills)
+# Run automated setup (installs 24 skills)
 .\scripts\setup_local_env.ps1
 
 # Force recreate existing junctions (if needed)
@@ -290,7 +292,7 @@ bash scripts/setup_local_env.sh --force
 ```
 
 **What it does:**
-- ✅ Auto-installs 23 skills (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih, docx-indexer, codex-task-notifier, microsoft-mail-deliver, daily-doc-information, notebooklmx, bi-designerx, self-improvement)
+- ✅ Auto-installs 24 skills (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih, docx-indexer, codex-task-notifier, microsoft-mail-deliver, daily-doc-information, notebooklmx, bi-designerx, self-improvement, security-reviewx)
 - ✅ Creates junctions/symlinks (auto-sync with Git)
 - ✅ Validates installation with integrity checks
 - ✅ Takes ~15 minutes from zero to production
@@ -423,7 +425,7 @@ claude
 ```
 claude-intelligence-hub/
 │
-├── 📁 jimmy-core-preferences/       # ⭐ Global Cross-Agent Framework (v3.4.0)
+├── 📁 jimmy-core-preferences/       # ⭐ Global Cross-Agent Framework (v3.5.0)
 │   ├── SKILL.md                     # Universal AI behavior rules (15KB)       
 │   ├── EXECUTIVE_SUMMARY.MD         # 49KB comprehensive doc
 │   ├── CHANGELOG.md                 # v1.0 → v1.5 evolution
@@ -508,7 +510,7 @@ claude-intelligence-hub/
 │   │   └── templates/               # Conversation templates
 │   └── README.md                    # Main documentation
 │
-├── 📁 agent-orchestration-protocol/ # ⭐ Multi-Agent Coordination (v4.1.0)
+├── 📁 agent-orchestration-protocol/ # ⭐ Multi-Agent Coordination (v4.2.0)
 │   ├── SKILL.md                     # The Seven Pillars of AOP
 │   ├── README.md                    # Complete guide
 │   ├── AOP-EXECUTIVE-SUMMARY.md     # Executive summary
@@ -551,11 +553,11 @@ claude-intelligence-hub/
 │   ├── .metadata                    # Version metadata
 │   └── README.md                    # User documentation
 │
-├── 📁 notebooklmx/                   # ⭐ NotebookLM Automation (v1.1.0)
+├── 📁 notebooklmx/                   # ⭐ NotebookLM Automation (v1.2.0)
 │   ├── SKILL.md                     # Operational protocol & template library
 │   └── .metadata                    # Version metadata
 │
-├── 📁 bi-designerx/                  # ⭐ BI Dashboard Design for Non-Designers (v0.1.0)
+├── 📁 bi-designerx/                  # ⭐ BI Dashboard Design for Non-Designers (v0.2.0)
 │   ├── SKILL.md                     # Operational protocol & CEM workflow
 │   └── .metadata                    # Version metadata
 │
@@ -569,6 +571,13 @@ claude-intelligence-hub/
 │   ├── .metadata                    # Version metadata
 │   └── README.md                    # User documentation
 │
+├── 📁 security-reviewx/             # ⭐ Comprehensive Security Review (v1.0.0)
+│   ├── SKILL.md                     # Security scan protocol & modules
+│   ├── .metadata                    # Version metadata
+│   ├── README.md                    # User documentation
+│   ├── patterns/                    # Pattern library (76 patterns)
+│   └── scripts/                     # Scan scripts
+│
 ├── 📁 token-economy/                # 📊 Token Budget Governance (v1.0.0)
 │   ├── README.md                    # Budget discipline rules & overview
 │   └── budget-rules.md              # Strict token enforcement rules (30-50% savings)
@@ -579,8 +588,8 @@ claude-intelligence-hub/
 │
 ├── README.md                        # ⭐ This file
 ├── CHANGELOG.md                     # Version history
-├── EXECUTIVE_SUMMARY.md             # Comprehensive hub overview (v2.27.1)
-├── HUB_MAP.md                       # Skill routing dictionary (v2.27.1)
+├── EXECUTIVE_SUMMARY.md             # Comprehensive hub overview (v2.29.1)
+├── HUB_MAP.md                       # Skill routing dictionary (v2.29.1)
 ├── WINDOWS_JUNCTION_SETUP.md        # Junction setup guide (Windows)
 ├── scripts/                         # Automation & deployment scripts
 │   ├── setup_local_env.ps1          # Windows automated setup (15-min)
@@ -743,9 +752,9 @@ To maintain the high quality and integrity of the Claude Intelligence Hub, all a
 
 | Metric | Value |
 |--------|-------|
-| **Production Skills** | 22 collections (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih, docx-indexer, codex-task-notifier, microsoft-mail-deliver, daily-doc-information, notebooklmx, bi-designerx, self-improvement) |
+| **Production Skills** | 24 collections (jimmy-core-preferences, session-memoria, gdrive-sync-memoria, claude-session-registry, x-mem, xavier-memory, xavier-memory-sync, pbi-claude-skills, context-guardian, repo-auditor, conversation-memoria, agent-orchestration-protocol, core_catalog, token-economy, codex-governance-framework, daily-tasks-oih, docx-indexer, codex-task-notifier, microsoft-mail-deliver, daily-doc-information, notebooklmx, bi-designerx, self-improvement, security-reviewx) |
 | **Total Documentation** | ~320KB (executive summaries, guides, changelogs, handover docs) |
-| **Version History** | 30+ commits (tracked in CHANGELOG.md) |
+| **Version History** | 380 commits (tracked in CHANGELOG.md) |
 | **Setup Time** | 15 minutes (Windows/macOS/Linux automated deployment) |
 | **CI/CD Coverage** | 6 integrity checks + 5-job enforcement pipeline |        
 | **Session Memoria Entries** | 11 entries (~56KB knowledge base) |

@@ -60,6 +60,7 @@
 | `/preferences` | /prefs, /jimmy | jimmy-core-preferences | Master AI behavior framework |
 | `/registry` | /register-session | claude-session-registry | Session tracking & backup |
 | `/repo-auditor` | /audit, /validate | repo-auditor | Repository integrity audit |
+| `/security-reviewx` | /security, /scan | security-reviewx | Comprehensive security review (secrets, PII, files, paths, config, code) |
 | `/token-economy` | /tokens, /budget | token-economy | Budget enforcement & token reduction |
 | `/xavier-memory` | /xmemory | xavier-memory | Cross-project persistent memory |
 | `/xavier-sync` | /sync-memory | xavier-memory-sync | Memory sync to Google Drive |
@@ -88,6 +89,7 @@
 | /codex-task-notifier | Send task completion emails |
 | /microsoft-mail-deliver | Send email through Microsoft 365 |
 | /repo-auditor | Deep repository audit |
+| /security-reviewx | Comprehensive security review |
 | /docx-indexer | Global document indexing + enrichment |
 | /governance | Codex governance framework |
 | /catalog | System configuration data |
@@ -144,6 +146,7 @@ These skills only load when manually invoked:
 | /xavier-sync | Memory backup |
 | /context-guardian | Account switching |
 | /repo-auditor | Repo audit |
+| /security-reviewx | Security review |
 | /conversation | Session history |
 | /catalog | System config |
 | /governance | Governance docs |
@@ -292,5 +295,5 @@ The repo-auditor automatically validates:
 
 ---
 
-**Last Updated:** 2026-03-27
-**Version:** 2.27.0
+**Last Updated:** 2026-04-07
+**Version:** 2.29.0
