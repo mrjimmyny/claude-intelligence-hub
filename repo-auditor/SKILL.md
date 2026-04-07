@@ -770,8 +770,11 @@ while IFS= read -r skill_dir; do
     skill_version=$(grep '"version"' "$metadata_file" | sed 's/.*"version": *"\([^"]*\)".*/\1/')
     skill_name=$(basename "$skill_dir")
 
-    # Check if version appears in Component Versions line
-    if ! echo "$COMPONENT_LINE" | grep -q "v${skill_version}"; then
+    # Check if skill name appears in Component Versions line (not just version number)
+    # Match by skill name (hyphenated or space-separated) to avoid false positives
+    # from different skills sharing the same version number
+    formatted_name=$(echo "$skill_name" | sed 's/-/ /g')
+    if ! echo "$COMPONENT_LINE" | grep -qi "$skill_name\|$formatted_name"; then
       echo "${skill_name}|v${skill_version}" >> /tmp/missing_skills_in_executive.txt
       echo "❌ MISSING: ${skill_name} v${skill_version} not in EXECUTIVE_SUMMARY Component Versions"
     fi
@@ -824,8 +827,9 @@ if [ "$MISSING_COUNT" -gt 0 ] && [ "$AUDIT_MODE" = "AUDIT_AND_FIX" ]; then
   COMPONENT_LINE=$(grep "^\*\*Component Versions:\*\*" EXECUTIVE_SUMMARY.md)
   STILL_MISSING=0
   while IFS= read -r skill_dir; do
-    skill_version=$(grep '"version"' "${skill_dir}/.metadata" | sed 's/.*"version": *"\([^"]*\)".*/\1/')
-    if ! echo "$COMPONENT_LINE" | grep -q "v${skill_version}"; then
+    skill_name=$(basename "$skill_dir")
+    formatted_name=$(echo "$skill_name" | sed 's/-/ /g')
+    if ! echo "$COMPONENT_LINE" | grep -qi "$skill_name\|$formatted_name"; then
       STILL_MISSING=$((STILL_MISSING + 1))
     fi
   done < /tmp/repo_skills_list.txt
