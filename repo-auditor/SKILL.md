@@ -6,7 +6,7 @@ aliases: [/audit, /repo-audit, /validate]
 ---
 
 # Repo Auditor
-**Version:** 2.0.0
+**Version:** 2.1.0
 
 ## Objective
 Transform repository audits from surface checks into deep protocol execution:

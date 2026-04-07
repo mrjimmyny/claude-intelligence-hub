@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.29.1-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.29.2-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -115,7 +115,7 @@ This hub represents **24 production skills, 378 tracked files, ~72,000 lines of 
 | **Core Build** | Feb 10–16 | 6 days | 9 | ~20,000 | First 9 skills to production |
 | **Expansion** | Feb 17–25 | 9 days | 15 | ~35,000 | AOP, token-economy, governance added |
 | **Scale** | Mar 4–28 | 24 days | 23 | ~70,000 | DDI, NotebookLMx, bi-designerx, self-improvement |
-| **Current** | Apr 7 | Day 58 | 24 | ~72,000 | Hub v2.29.1, security-reviewx added |
+| **Current** | Apr 7 | Day 58 | 24 | ~72,000 | Hub v2.29.2, repo-auditor v2.1.0 |
 
 ### The Elite League: Agents & Models
 
@@ -205,7 +205,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 
 ## 📦 Available Skill Collections
 
-> **Total: 24 production skills** | All ✅ Production status | Hub v2.29.1
+> **Total: 24 production skills** | All ✅ Production status | Hub v2.29.2
 
 | Collection | Version | Status | Description | Key Features |
 |------------|---------|--------|-------------|--------------|
@@ -218,7 +218,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[xavier-memory](xavier-memory/)** | v1.1.0 | ✅ Production | Global memory infrastructure | Master MEMORY.md, cross-project sync, 3-layer backup (Git/Hard links/GDrive). Foundation for X-MEM protocol. |
 | **[xavier-memory-sync](xavier-memory-sync/)** | v1.0.0 | ✅ Production | Memory sync automation | Trigger phrases for backup/restore/status, Google Drive integration, zero-duplicate guarantee. |
 | **[context-guardian](context-guardian/)** | v1.1.0 | ✅ Production | Context preservation system | Xavier ↔ Magneto account switching, 3-strategy symlinks, rollback protection, .contextignore support, dry-run mode, verify-backup reports. |
-| **[repo-auditor](repo-auditor/)** | v2.0.0 | ✅ Production | End-to-end audit skill | Mandatory proof-of-read fingerprinting, accumulative AUDIT_TRAIL.md, validate-trail.sh for CI. |
+| **[repo-auditor](repo-auditor/)** | v2.1.0 | ✅ Production | End-to-end audit skill | 11 cross-file validations, proof-of-read fingerprinting, rg/grep portability, accumulative AUDIT_TRAIL.md, validate-trail.sh for CI. |
 | **[conversation-memoria](conversation-memoria/)** | v1.0.0 | ✅ Production | Persistent conversation storage | Intelligent metadata extraction, 95-98% token savings, week-based organization, natural language triggers, cross-agent memory sharing. |
 | **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v4.2.0 | ✅ Production | Multi-agent coordination framework | Multi-executor robust orchestration, task-ID namespaced artifacts, fan-in/fan-out, DAG dependency management, deadlock detection, priority-aware execution, and dispatch-script guardrails for headless launches. |
 | **[core_catalog](core_catalog/)** | v1.0.0 | ✅ Production | Core system catalog | Bootstrap compatibility data, centralized configuration references, and environment initialization mappings. |
@@ -496,7 +496,7 @@ claude-intelligence-hub/
 │   ├── templates/                   # Config metadata schema templates
 │   └── docs/                        # Phase 0 discovery report
 │
-├── 📁 repo-auditor/                 # ⭐ End-to-End Audit Skill (v2.0.0)
+├── 📁 repo-auditor/                 # ⭐ End-to-End Audit Skill (v2.1.0)
 │   ├── SKILL.md                     # Audit workflows & proof-of-read fingerprinting
 │   ├── AUDIT_TRAIL.md               # Accumulative audit log (append-only)
 │   └── scripts/                     # validate-trail.sh for CI enforcement
@@ -588,8 +588,8 @@ claude-intelligence-hub/
 │
 ├── README.md                        # ⭐ This file
 ├── CHANGELOG.md                     # Version history
-├── EXECUTIVE_SUMMARY.md             # Comprehensive hub overview (v2.29.1)
-├── HUB_MAP.md                       # Skill routing dictionary (v2.29.1)
+├── EXECUTIVE_SUMMARY.md             # Comprehensive hub overview (v2.29.2)
+├── HUB_MAP.md                       # Skill routing dictionary (v2.29.2)
 ├── WINDOWS_JUNCTION_SETUP.md        # Junction setup guide (Windows)
 ├── scripts/                         # Automation & deployment scripts
 │   ├── setup_local_env.ps1          # Windows automated setup (15-min)

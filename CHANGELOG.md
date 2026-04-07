@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.29.2] - 2026-04-07
+
+### Changed
+- **repo-auditor** v2.0.0 -> v2.1.0 — self-improvement: 3 new validation sub-checks (1.5.9 Quick Commands per-skill, 1.5.10 EXEC_SUMMARY Key Achievements table, 1.5.11 stale metrics detection), per-skill presence validation (1.2.5 B.2), rg-to-grep portability table, simplified Visual Report, .metadata JSON validation fix, Component Versions name-based matching. Score: 6.95 → 8.05 (+15.8%).
+
 ## [2.29.1] - 2026-04-07
 
 ### Fixed
