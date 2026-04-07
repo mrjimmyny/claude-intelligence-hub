@@ -38,7 +38,7 @@ The skill implements all mandatory phases and checkpoints:
 Checkpoint gates are strict: unresolved `CRITICAL ERROR` always results in `BLOCKED`.
 
 ## Phase 1.5 Cross-File Validations
-The protocol enforces these ten validations with explicit bash commands and objective criteria:
+The protocol enforces these eleven validations with explicit bash commands and objective criteria:
 1. Skill count (`README` declaration vs actual repository count)
 2. Version cross-check (`README` table vs skill `.metadata`)
 3. Architecture completeness (`README` tree vs repository filesystem)

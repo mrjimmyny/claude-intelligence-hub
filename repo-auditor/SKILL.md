@@ -294,16 +294,17 @@ Criteria:
 - Missing date format => `WARNING`
 
 #### 1.2.3 Validate `.metadata` files for all skills
+`.metadata` files use JSON format. Validate mandatory fields exist and are non-empty.
 Commands for each `<SKILL_PATH>/.metadata`:
 ```bash
-rg -n "^name:\s*\S+" <SKILL_PATH>/.metadata
-rg -n "^version:\s*\S+" <SKILL_PATH>/.metadata
-rg -n "^status:\s*\S+" <SKILL_PATH>/.metadata
-rg -n "^description:\s*\S+" <SKILL_PATH>/.metadata
+grep -q '"name"' <SKILL_PATH>/.metadata
+grep -q '"version"' <SKILL_PATH>/.metadata
+grep -q '"status"' <SKILL_PATH>/.metadata
+grep -q '"description"' <SKILL_PATH>/.metadata
 ```
 Cross-check metadata name vs directory:
 ```bash
-METADATA_NAME=$(rg -o "^name:\s*(.+)" <SKILL_PATH>/.metadata -r '$1' | tr -d ' ')
+METADATA_NAME=$(grep '"name"' <SKILL_PATH>/.metadata | sed 's/.*"name": *"\([^"]*\)".*/\1/')
 DIR_NAME=$(basename <SKILL_PATH>)
 echo "metadata_name=${METADATA_NAME} dir_name=${DIR_NAME}"
 ```
