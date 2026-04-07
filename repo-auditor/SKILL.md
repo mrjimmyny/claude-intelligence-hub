@@ -59,6 +59,10 @@ This protocol uses `rg` (ripgrep) for pattern matching throughout. On systems wh
 
 The agent SHOULD attempt `rg` first and fall back to `grep` if `rg` returns "command not found" (exit code 127). Log the fallback as `WARNING` in `AUDIT_TRAIL.md`.
 
+### Platform Considerations
+- **macOS (BSD userland):** `awk` and `sed` behavior can differ from GNU. If a pipeline fails, prefer `gawk`/`gsed` or replace the step with a Python equivalent to keep results deterministic.
+- **Windows (PowerShell/CMD):** Run the protocol in Git Bash or WSL. If `/tmp` is not available, use `$TEMP` and replace all `/tmp/...` paths consistently. If `file --mime-encoding` is missing, use `python -c "open('FILE','r',encoding='utf-8').read()"` as an encoding check.
+
 ## Execution Modes (Set in PHASE 0)
 
 | Mode | Description | File modifications | Release publication |
