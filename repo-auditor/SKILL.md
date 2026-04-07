@@ -41,6 +41,24 @@ Use the principle: `Rigor without rigidity`.
 7. Run a cross-agent sanity test:
 If Claude, Gemini, and Codex execute the same instructions, they must produce the same result.
 
+## Tool Availability and Portability
+
+This protocol uses `rg` (ripgrep) for pattern matching throughout. On systems where `rg` is not installed (e.g., Windows Git Bash, some CI environments), substitute `grep -E` for `rg -E`, `grep -c` for `rg -c`, `grep -n` for `rg -n`, and `grep -l` for `rg -l`. The `-o` (only-matching) flag works in both tools. For `rg` capture groups (`-r '$1'`), use `sed` as a pipeline stage instead.
+
+**Quick substitution table:**
+
+| `rg` command | `grep` equivalent |
+|---|---|
+| `rg -n "pattern" file` | `grep -n "pattern" file` |
+| `rg -c "pattern" file` | `grep -c "pattern" file` |
+| `rg -l "pattern" dir` | `grep -rl "pattern" dir` |
+| `rg -o "pattern" file` | `grep -oE "pattern" file` |
+| `rg -q "pattern" file` | `grep -qE "pattern" file` |
+| `rg "pattern" . --glob "*.md"` | `grep -r "pattern" --include="*.md" .` |
+| `rg -o "^key:\s*(.+)" file -r '$1'` | `grep "^key:" file \| sed 's/^key:\s*//'` |
+
+The agent SHOULD attempt `rg` first and fall back to `grep` if `rg` returns "command not found" (exit code 127). Log the fallback as `WARNING` in `AUDIT_TRAIL.md`.
+
 ## Execution Modes (Set in PHASE 0)
 
 | Mode | Description | File modifications | Release publication |
