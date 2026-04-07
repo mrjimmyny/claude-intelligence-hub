@@ -8,9 +8,9 @@ cross_agent: true
 
 # security-reviewx
 
-> **Version:** 1.0.0
-> **Type:** Global, Cross-Agent, Cross-Machine
-> **Pattern Library:** v1.0.0
+**Version:** 1.0.0
+**Type:** Global, Cross-Agent, Cross-Machine
+**Pattern Library:** v1.0.0
 
 Deterministic, modular security scanning skill. Detects exposed secrets, sensitive data, credentials, and security vulnerabilities in repositories.
 
