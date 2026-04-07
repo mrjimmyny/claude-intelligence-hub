@@ -942,11 +942,11 @@ executive_summary_table_validation:
   status: <PASS | FAIL | RECOVERED>
 ```
 
-#### 1.5.11 Stale metrics detection in README prose
-Objective: Detect stale numeric metrics scattered through README prose (skill count, file count, commit count, line count).
+#### 1.5.11 Stale metrics detection in README + EXECUTIVE_SUMMARY prose
+Objective: Detect stale numeric metrics scattered through README and EXECUTIVE_SUMMARY prose (skill count, file count, commit count, line count).
 
 **Critical Issue This Addresses:**
-Metrics like "23 production skills", "360 tracked files", "353 commits" appear in multiple README sections outside tables. These are never validated by other checks and become stale silently after each new skill or commit.
+Metrics like "23 production skills", "360 tracked files", "353 commits" appear in multiple README and EXECUTIVE_SUMMARY sections outside tables. These are never validated by other checks and become stale silently after each new skill or commit.
 
 Gather actual values:
 ```bash
@@ -955,25 +955,29 @@ ACTUAL_FILE_COUNT=$(git ls-files | wc -l | tr -d ' ')
 ACTUAL_COMMIT_COUNT=$(git rev-list --count HEAD)
 ```
 
-Scan README for declared values and flag mismatches:
+Scan README.md and EXECUTIVE_SUMMARY.md for declared values and flag mismatches:
 ```bash
 STALE_COUNT=0
 
-# Check skill count references in prose (exclude tables)
-grep -n "[0-9]\+ production skills" README.md | while read -r line; do
-  declared=$(echo "$line" | grep -o "[0-9]\+ production" | grep -o "[0-9]\+")
-  if [ "$declared" != "$ACTUAL_SKILL_COUNT" ]; then
-    echo "STALE: skill count $declared (actual: $ACTUAL_SKILL_COUNT) at $line"
-    STALE_COUNT=$((STALE_COUNT + 1))
-  fi
-done
+for file in README.md EXECUTIVE_SUMMARY.md; do
+  [ -f "$file" ] || continue
 
-# Check file count references
-grep -n "[0-9]\+ tracked files\|[0-9]\+ files" README.md | while read -r line; do
-  declared=$(echo "$line" | grep -o "[0-9]\+ \(tracked \)\?files" | grep -o "[0-9]\+")
-  if [ -n "$declared" ] && [ "$declared" -gt 100 ] && [ "$declared" != "$ACTUAL_FILE_COUNT" ]; then
-    echo "STALE: file count $declared (actual: $ACTUAL_FILE_COUNT) at $line"
-  fi
+  # Check skill count references in prose (exclude tables)
+  grep -n "[0-9]\+ production skills" "$file" | while read -r line; do
+    declared=$(echo "$line" | grep -o "[0-9]\+ production" | grep -o "[0-9]\+")
+    if [ "$declared" != "$ACTUAL_SKILL_COUNT" ]; then
+      echo "STALE: skill count $declared (actual: $ACTUAL_SKILL_COUNT) at $file:$line"
+      STALE_COUNT=$((STALE_COUNT + 1))
+    fi
+  done
+
+  # Check file count references
+  grep -n "[0-9]\+ tracked files\|[0-9]\+ files" "$file" | while read -r line; do
+    declared=$(echo "$line" | grep -o "[0-9]\+ \(tracked \)\?files" | grep -o "[0-9]\+")
+    if [ -n "$declared" ] && [ "$declared" -gt 100 ] && [ "$declared" != "$ACTUAL_FILE_COUNT" ]; then
+      echo "STALE: file count $declared (actual: $ACTUAL_FILE_COUNT) at $file:$line"
+    fi
+  done
 done
 ```
 
@@ -1007,7 +1011,7 @@ Criteria:
 - EXECUTIVE_SUMMARY Component Versions completeness: `PASS` or `FAIL` or `RECOVERED`
 - README Quick Commands per-skill validation: `PASS` or `FAIL`
 - EXECUTIVE_SUMMARY Key Achievements table: `PASS` or `FAIL` or `RECOVERED`
-- Stale metrics in README prose: `PASS` or `WARNING`
+- Stale metrics in README/EXECUTIVE_SUMMARY prose: `PASS` or `WARNING`
 Gate:
 - Any `FAIL` => `CRITICAL ERROR` => `BLOCKED`
 
@@ -1036,6 +1040,22 @@ sort --random-sort /tmp/repo_files.txt | head -n "$N" > /tmp/spot_check.txt
 Fallback if `sort --random-sort` is unavailable:
 ```bash
 shuf /tmp/repo_files.txt | head -n "$N" > /tmp/spot_check.txt
+```
+Fallback if `shuf` is unavailable (macOS without coreutils):
+```bash
+N_VALUE="${N}" python - <<'PY'
+import os
+import random
+
+with open("/tmp/repo_files.txt", "r", encoding="utf-8") as f:
+    lines = [line.strip() for line in f if line.strip()]
+
+random.shuffle(lines)
+n = int(os.environ.get("N_VALUE", "10"))
+
+with open("/tmp/spot_check.txt", "w", encoding="utf-8") as out:
+    out.write("\n".join(lines[:n]))
+PY
 ```
 
 #### 2.2 Validate each sampled file
@@ -1284,7 +1304,7 @@ release_url: <URL | N/A>
 - Missing expected (non-required) files
 - Missing date format in changelog entry
 - Orphaned entries in approved_files list (files in list but don't exist)
-- Stale numeric metrics in README prose (skill count, file count, commit count — 1.5.11)
+- Stale numeric metrics in README or EXECUTIVE_SUMMARY prose (skill count, file count, commit count — 1.5.11)
 
 ## Resume Protocol for Interrupted Audits
 
