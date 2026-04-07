@@ -396,6 +396,27 @@ Criteria:
 - `PASS` if all counts match: `TOTAL_SKILLS == HUB_MAP_COUNT == README_COUNT == COMMANDS_MD_COUNT`
 - Mismatch => `CRITICAL ERROR` (command documentation out of sync)
 
+**Part B.2: Per-skill presence validation (not just counts)**
+
+Counts alone can mask mismatches where different skills are missing vs extra. For each skill with a defined command, verify it appears by name in all three doc files:
+```bash
+: > /tmp/per_skill_sync_errors.txt
+while IFS=$'\t' read -r skill_name command; do
+  in_hub=$(grep -c "$skill_name" /tmp/hub_map_commands.txt 2>/dev/null || echo 0)
+  in_readme=$(grep -c "$skill_name" /tmp/readme_commands.txt 2>/dev/null || echo 0)
+  in_commands=$(grep -c "$command" /tmp/commands_md_list.txt 2>/dev/null || echo 0)
+  if [ "$in_hub" -eq 0 ] || [ "$in_readme" -eq 0 ] || [ "$in_commands" -eq 0 ]; then
+    echo "${skill_name}|hub=${in_hub}|readme=${in_readme}|commands=${in_commands}" >> /tmp/per_skill_sync_errors.txt
+  fi
+done < /tmp/skill_commands_actual.tsv
+
+SYNC_ERRORS=$(wc -l < /tmp/per_skill_sync_errors.txt | tr -d ' ')
+```
+
+Criteria:
+- `PASS` if `SYNC_ERRORS == 0`
+- Otherwise: `CRITICAL ERROR` (specific skills missing from documentation)
+
 **Part C: Validate command uniqueness (no duplicates)**
 
 ```bash
@@ -813,6 +834,146 @@ executive_summary_validation:
   status: <PASS | FAIL | RECOVERED>
 ```
 
+#### 1.5.9 README Quick Commands table per-skill validation
+Objective: Verify every skill with a `command:` definition in SKILL.md frontmatter has a corresponding row in the README Quick Commands table.
+
+**Critical Issue This Addresses:**
+Count-based checks (1.2.5 Part B) can show matching totals while different skills are missing/extra. This check validates per-skill presence.
+
+Extract skills from Quick Commands table:
+```bash
+awk '/^## .*Quick Commands/,/^---/' README.md | grep "^\|.*\`/" | grep -o "\*\*[^*]*\*\*" | sed 's/\*//g' | sort > /tmp/readme_quick_commands_skills.txt
+```
+
+Compare against all skills that have `command:` defined:
+```bash
+: > /tmp/missing_from_quick_commands.txt
+for skill_dir in */; do
+  if [[ -f "${skill_dir}.metadata" ]]; then
+    skill_name=$(basename "$skill_dir" /)
+    if grep -q "^command:" "${skill_dir}SKILL.md" 2>/dev/null; then
+      if ! grep -qi "^${skill_name}$" /tmp/readme_quick_commands_skills.txt; then
+        echo "$skill_name" >> /tmp/missing_from_quick_commands.txt
+      fi
+    fi
+  fi
+done
+
+MISSING_QC=$(wc -l < /tmp/missing_from_quick_commands.txt | tr -d ' ')
+```
+
+Criteria:
+- `PASS` if `MISSING_QC == 0`
+- Otherwise: `CRITICAL ERROR` (skill published but invisible in Quick Commands)
+
+Record:
+```yaml
+quick_commands_validation:
+  skills_with_commands: <N>
+  skills_in_quick_commands: <N>
+  missing: <N>
+  missing_list:
+    - skill: <name>
+  status: <PASS | FAIL>
+```
+
+#### 1.5.10 EXECUTIVE_SUMMARY Key Achievements table validation
+Objective: Verify every skill appears in the EXECUTIVE_SUMMARY Key Achievements table with a matching version.
+
+**Critical Issue This Addresses:**
+Phase 1.5.8 validates the Component Versions line but NOT the Key Achievements table. Skills can be in the version line but missing from the main table (e.g., notebooklmx was absent for weeks).
+
+Extract skill entries from Key Achievements table:
+```bash
+awk '/Key Achievements/,/^###/' EXECUTIVE_SUMMARY.md | grep "^\|" | grep -v "^|--" | grep -v "Component" | grep -o "\*\*[^*]*\*\*" | sed 's/\*//g' | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g' | sort > /tmp/exec_summary_table_skills.txt
+```
+
+Compare against repository skills:
+```bash
+: > /tmp/missing_from_exec_table.txt
+while IFS= read -r skill_dir; do
+  skill_name=$(basename "$skill_dir")
+  # Normalize: convert hyphens to match various table formats
+  if ! grep -qi "$skill_name" /tmp/exec_summary_table_skills.txt; then
+    meta_ver=$(grep '"version"' "${skill_dir}/.metadata" | sed 's/.*"version": *"\([^"]*\)".*/\1/')
+    echo "${skill_name}|v${meta_ver}" >> /tmp/missing_from_exec_table.txt
+  fi
+done < /tmp/repo_skills_list.txt
+
+MISSING_TABLE=$(wc -l < /tmp/missing_from_exec_table.txt | tr -d ' ')
+```
+
+Criteria:
+- `PASS` if `MISSING_TABLE == 0`
+- Otherwise: `CRITICAL ERROR` (skill missing from executive summary table)
+
+Record:
+```yaml
+executive_summary_table_validation:
+  repo_skill_count: <N>
+  skills_in_table: <N>
+  missing_from_table: <N>
+  missing_list:
+    - skill: <name>
+      version: <vX.Y.Z>
+  status: <PASS | FAIL | RECOVERED>
+```
+
+#### 1.5.11 Stale metrics detection in README prose
+Objective: Detect stale numeric metrics scattered through README prose (skill count, file count, commit count, line count).
+
+**Critical Issue This Addresses:**
+Metrics like "23 production skills", "360 tracked files", "353 commits" appear in multiple README sections outside tables. These are never validated by other checks and become stale silently after each new skill or commit.
+
+Gather actual values:
+```bash
+ACTUAL_SKILL_COUNT=$(find . -maxdepth 2 -name ".metadata" | grep -v "^\./\." | wc -l | tr -d ' ')
+ACTUAL_FILE_COUNT=$(git ls-files | wc -l | tr -d ' ')
+ACTUAL_COMMIT_COUNT=$(git rev-list --count HEAD)
+```
+
+Scan README for declared values and flag mismatches:
+```bash
+STALE_COUNT=0
+
+# Check skill count references in prose (exclude tables)
+grep -n "[0-9]\+ production skills" README.md | while read -r line; do
+  declared=$(echo "$line" | grep -o "[0-9]\+ production" | grep -o "[0-9]\+")
+  if [ "$declared" != "$ACTUAL_SKILL_COUNT" ]; then
+    echo "STALE: skill count $declared (actual: $ACTUAL_SKILL_COUNT) at $line"
+    STALE_COUNT=$((STALE_COUNT + 1))
+  fi
+done
+
+# Check file count references
+grep -n "[0-9]\+ tracked files\|[0-9]\+ files" README.md | while read -r line; do
+  declared=$(echo "$line" | grep -o "[0-9]\+ \(tracked \)\?files" | grep -o "[0-9]\+")
+  if [ -n "$declared" ] && [ "$declared" -gt 100 ] && [ "$declared" != "$ACTUAL_FILE_COUNT" ]; then
+    echo "STALE: file count $declared (actual: $ACTUAL_FILE_COUNT) at $line"
+  fi
+done
+```
+
+Criteria:
+- `PASS` if no stale metrics detected
+- `WARNING` if stale metrics found (non-blocking but must be logged and reported)
+- Recovery: In `AUDIT_AND_FIX` mode, update stale values to actual counts
+
+Record:
+```yaml
+stale_metrics_validation:
+  actual_skills: <N>
+  actual_files: <N>
+  actual_commits: <N>
+  stale_references_found: <N>
+  stale_details:
+    - line: <N>
+      metric: <type>
+      declared: <N>
+      actual: <N>
+  status: <PASS | WARNING>
+```
+
 #### CHECKPOINT 1.5
 Criteria:
 - Skill count: `PASS` or `FAIL`
@@ -821,6 +982,9 @@ Criteria:
 - Reference accuracy: `PASS` or `FAIL`
 - Internal links: `PASS` or `WARNING` or `FAIL`
 - EXECUTIVE_SUMMARY Component Versions completeness: `PASS` or `FAIL` or `RECOVERED`
+- README Quick Commands per-skill validation: `PASS` or `FAIL`
+- EXECUTIVE_SUMMARY Key Achievements table: `PASS` or `FAIL` or `RECOVERED`
+- Stale metrics in README prose: `PASS` or `WARNING`
 Gate:
 - Any `FAIL` => `CRITICAL ERROR` => `BLOCKED`
 
@@ -1262,6 +1426,9 @@ release_url: <URL | N/A>
 - Command documentation out of sync across HUB_MAP, README, COMMANDS.md
 - Duplicate slash command definitions (command collision)
 - Unauthorized files in repository root (not in scripts/integrity-check.sh approved_files)
+- Skills missing from README Quick Commands table (1.5.9)
+- Skills missing from EXECUTIVE_SUMMARY Key Achievements table (1.5.10)
+- Specific skills missing from HUB_MAP, README, or COMMANDS.md despite matching counts (1.2.5 Part B.2)
 
 `WARNING` (non-blocking but mandatory to log):
 - Non-critical orphan files
@@ -1273,6 +1440,7 @@ release_url: <URL | N/A>
 - Missing expected (non-required) files
 - Missing date format in changelog entry
 - Orphaned entries in approved_files list (files in list but don't exist)
+- Stale numeric metrics in README prose (skill count, file count, commit count — 1.5.11)
 
 ## Resume Protocol for Interrupted Audits
 
