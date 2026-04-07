@@ -1,0 +1,6 @@
+{
+  "version": "1.0.0",
+  "module": "CUSTOM",
+  "description": "User-defined custom patterns. Add patterns here to extend the scan without modifying core pattern files. Custom patterns with the same ID as a core pattern will override the core version.",
+  "patterns": []
+}

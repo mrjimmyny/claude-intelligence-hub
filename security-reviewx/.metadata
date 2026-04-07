@@ -1,0 +1,26 @@
+{
+  "name": "security-reviewx",
+  "version": "1.0.0",
+  "description": "Comprehensive security review skill — scans repositories for exposed secrets, PII, dangerous files, hardcoded paths, config vulnerabilities, and code vulnerabilities before publication to GitHub.",
+  "status": "production",
+  "author": "Magneto (Claude Code) + Jimmy",
+  "created": "2026-04-06",
+  "updated": "2026-04-07",
+  "type": "security-automation",
+  "auto_load": false,
+  "triggers": {
+    "security_scan": [
+      "scan for secrets",
+      "security review",
+      "check for exposed data",
+      "run security scan",
+      "scan repo for vulnerabilities",
+      "check before publishing"
+    ]
+  },
+  "global": true,
+  "cross_agent": true,
+  "cross_machine": true,
+  "dependencies": [],
+  "tags": ["security", "scanning", "secrets", "pii", "compliance"]
+}

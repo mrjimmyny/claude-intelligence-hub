@@ -2,7 +2,7 @@
 
 **Version:** 2.28.0
 **Status:** 🟢 Active & Synchronized
-**Registry:** 23 Production Skills
+**Registry:** 24 Production Skills
 
 ---
 
@@ -10,7 +10,7 @@
 
 | Metric | Count | Status |
 | :--- | :--- | :--- |
-| **Total Skills** | 23 | ✅ Verified |
+| **Total Skills** | 24 | ✅ Verified |
 | **Governance** | 100% | 🟢 Compliant |
 | **Architecture** | 3-Tier | 🏗️ Structured |
 
@@ -38,6 +38,7 @@
 | 12 | **agent-orchestration-protocol** | v4.2.0 | `/aop` | "orchestrate", "delegate" |
 | 18 | **codex-task-notifier** | v1.2.0 | `/codex-task-notifier` | "email me when done", "me manda um email" |
 | 22 | **microsoft-mail-deliver** | v1.2.0 | `/microsoft-mail-deliver` | "via Microsoft", "manda email pelo Microsoft", saved Microsoft recipient workflows |
+| 24 | **security-reviewx** | v1.0.0 | `/security-reviewx` | "scan for secrets", "security review", "check before publishing" |
 | 19 | **daily-doc-information** | v1.7.1 | `/daily-doc-information` | Session docs, daily reports, and project governance automation |
 | 20 | **notebooklmx** | v1.2.0 | `/notebooklmx` | "create a podcast", "generate infographic", "notebooklm", NotebookLM content generation |
 
@@ -179,6 +180,15 @@
 - **Description:** Agent-agnostic iterative refinement framework for skills, projects, scripts, and protocols. Two-layer testing (audit gate + functional simulation), worktree isolation, weighted scoring per target type, historical tracking, and explicit approval gate. Sub-agents mandatory (Opus 4.6 only).
 - **Triggers:** "self-improvement", "improve this skill", "refine this", "run self-improvement on"
 - **Key files:** `_skills/self-improvement/` (technical — history/reports), `obsidian/CIH/projects/skills/self-improvement/` (documental)
+
+### 24. security-reviewx
+- **Path:** `security-reviewx/`
+- **Version:** v1.0.0
+- **Tier:** 2 (Context-Aware)
+- **Command:** `/security-reviewx`
+- **Description:** Comprehensive security review skill — scans repositories for exposed secrets, PII, dangerous files, hardcoded paths, config vulnerabilities, and code vulnerabilities. 7 modules (SECRET, PII, FILE, PATH, CONFIG, CODE, GIT_HISTORY), 3 modes (QUICK, STANDARD, DEEP), 76 patterns. Cross-agent, cross-machine validated.
+- **Triggers:** "scan for secrets", "security review", "check for exposed data", "run security scan", "check before publishing"
+- **Key files:** `security-reviewx/patterns/` (pattern library), `security-reviewx/SKILL.md` (protocol)
 
 ---
 

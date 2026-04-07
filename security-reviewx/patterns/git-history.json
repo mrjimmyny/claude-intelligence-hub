@@ -1,0 +1,35 @@
+{
+  "version": "1.0.0",
+  "module": "GIT_HISTORY_SCAN",
+  "description": "Overrides and additional patterns for git history scanning. Uses SECRET_SCAN patterns as base, with these additions for commit-specific detection.",
+  "patterns": [
+    {
+      "id": "GIT-DEL-001",
+      "name": "Deleted Secret in History",
+      "regex": "__uses_secret_scan_patterns__",
+      "severity": "CRITICAL",
+      "description": "A secret was committed and then removed — still exists in git history",
+      "category": "history_secret",
+      "file_types": ["*"],
+      "exclude_paths": [],
+      "false_positive_hints": [],
+      "remediation": "1. Rotate the credential immediately (it is compromised). 2. Use BFG Repo Cleaner or git filter-branch to rewrite history. 3. Force-push the cleaned history. 4. Add pre-commit hooks to prevent recurrence.",
+      "compliance": ["SOC2", "ISO27001"],
+      "enabled": true
+    },
+    {
+      "id": "GIT-MSG-001",
+      "name": "Suspicious Commit Message",
+      "regex": "(?i)(remove secret|fix credential|oops|accidentally|leaked|exposed)",
+      "severity": "HIGH",
+      "description": "Commit message suggests a secret was previously committed",
+      "category": "history_signal",
+      "file_types": ["__commit_message__"],
+      "exclude_paths": [],
+      "false_positive_hints": [],
+      "remediation": "Review the commit and its parent to verify the secret was properly rotated.",
+      "compliance": [],
+      "enabled": true
+    }
+  ]
+}

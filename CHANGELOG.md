@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.29.0] - 2026-04-07
+
+### Added
+- **security-reviewx** v1.0.0 — New skill: comprehensive security review for repositories. 7 scan modules (SECRET, PII, FILE, PATH, CONFIG, CODE, GIT_HISTORY), 76 patterns, 3 modes (QUICK/STANDARD/DEEP). Cross-agent validated (Claude + Codex), cross-machine validated (2 machines). Tested with seed repo (33-35 findings) and false-positive repo (0 findings). Performance: 15s on 361 files.
+
 ## [2.28.4] - 2026-04-05
 
 ### Changed
