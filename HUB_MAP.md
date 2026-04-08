@@ -23,7 +23,7 @@
 
 | # | Skill Name | Version | Command | Role |
 | :--- | :--- | :--- | :--- | :--- |
-| 1 | **jimmy-core-preferences** | v3.6.0 | `/preferences` | Master AI Behavior |
+| 1 | **jimmy-core-preferences** | v3.7.0 | `/preferences` | Master AI Behavior |
 | 14 | **token-economy** | v1.0.0 | `/token-economy` | Budget Enforcement |
 
 ### 🟢 Tier 2: Context-Aware (Suggested)

@@ -1,6 +1,6 @@
 ---
 name: jimmy-core-preferences
-version: 3.4.0
+version: 3.7.0
 description: Global cross-agent operating framework for Jimmy.
 command: /preferences
 aliases: [/prefs, /jimmy]
@@ -8,8 +8,8 @@ aliases: [/prefs, /jimmy]
 
 # Jimmy Core Preferences — Global Cross-Agent Operating Framework
 
-**Version:** 3.6.0
-**Last Updated:** 2026-03-23
+**Version:** 3.7.0
+**Last Updated:** 2026-04-08
 **Auto-Load:** Yes (Priority: Highest)
 
 **Note:** All `<PLACEHOLDER>` email addresses are resolved from the operator's local `CLAUDE.md`. This skill defines routing rules; actual addresses are configured per-environment.
@@ -765,6 +765,32 @@ Stopping at any intermediate step is a discipline failure. A checkpoint with unc
 4. **Git commit exists for the gate.** A commit touching the daily report AND the closed session doc(s) AND (if any project status changed) the strategic-project-portfolio.md must exist for the day, with message containing "close-day" or equivalent.
 **Why:** Close-day is the only end-of-day artifact with cross-session truth. Silent failures accumulate — a missed close-day gate leaves the day's work unverified and invisible to retroactive analysis. The declaration-without-execution pattern has failed three times under different scopes (session checkpoint, session field-level close, day-level close). Mechanical enforcement is the only remaining option.
 **How to apply:** Run `bash C:/ai/_skills/daily-doc-information/scripts/close-day-verify.sh` as a mandatory check in the close-day keyword gate. The script must exit 0 before the agent may declare the gate complete. If it exits non-zero, the agent must fix every failing check and re-run the script. Report results as a compact table in the close-day confirmation message. The keyword hook `C:/ai/.claude/hooks/checkpoint-gate.sh` now injects the mandatory invocation instruction. A pre-commit hook (`_skills/daily-doc-information/scripts/hooks/pre-commit-daily-report.sh`, installed locally via `install-pre-commit.sh`) mechanically blocks SC-09 violations at commit time.
+
+### R-38. Never Run Destructive Git Operations Without Listing Targets and Obtaining Explicit Authorization
+**Origin:** FND-0077 (2026-04-08). Agent ran `git worktree prune` in the parent repo after cleaning up 12 legitimate worktrees. The prune command silently removed the `C:/ai/claude-intelligence-hub/` directory AND its `.git` because the hub had been cross-registered as a worktree of the parent repo by the FND-0076 AOP Phase 0 bug. Net effect: 223 MB of hub content and a local commit (b4732fa, the R-37 release) were deleted instantly. No explicit "rm" was ever typed. The agent did not predict this outcome because it did not verify what `prune` would touch before running it.
+**Rule:** Before running ANY of the following git operations, the agent MUST list every target that will be affected AND obtain Jimmy's explicit authorization for that exact operation on that exact list:
+- `git worktree prune` (can delete directories and .git contents when worktrees are cross-registered)
+- `git gc --aggressive` or `git gc --prune=now`
+- `git clean -fd` / `git clean -fdx`
+- `git worktree remove --force <path>`
+- `git reflog expire --expire-unreachable=now --all`
+- `git update-ref -d <ref>`
+- `rm -rf` targeting any directory inside `C:/ai/` (use `find -delete` with explicit starting path only)
+- Any `find -delete` where the starting path contains symlinks, junctions, or nested `.git` directories
+
+No exceptions. "Looks innocent" is not a pass. "Previous similar command worked" is not a pass. The listing step MUST happen even when you think the outcome is obvious.
+**Why:** Destructive git operations have blast radius that depends on repository state you may not have fully inspected. `git worktree prune` was assumed safe because it "only cleans stale entries" — but a stale entry pointing at a valid directory WILL delete that directory. The cost of a 30-second authorization check is trivial; the cost of the hub disaster on 2026-04-08 was hours of recovery, lost local commits, and high stress for Jimmy.
+**How to apply:** Before running any command in the list above, write in the conversation: "I am about to run `<exact command>`. This will affect the following paths/refs: `<listed targets>`. Confirm?" Wait for explicit approval. If Jimmy says anything other than "yes", do not proceed. Log the authorization in the session doc's modification history.
+
+### R-39. Verify Worktree Registration in BOTH Parent and Hub Repos Before Any Worktree Operation
+**Origin:** FND-0077 (2026-04-08). Same incident as R-38. The hub `C:/ai/claude-intelligence-hub/` was cross-registered as a worktree of the parent repo `C:/ai/.git/` because of an FND-0076 AOP Phase 0 bug. The agent did not detect this because it ran `git worktree list` only from inside the hub, saw 4 legitimate hub worktrees (run01-04), and assumed `_worktrees/si-repo-auditor-2026-04-07-run05` through run16 were also hub worktrees. They were actually parent-repo worktrees. The cross-registration of the hub itself was never inspected.
+**Rule:** Before ANY worktree operation (`add`, `remove`, `prune`, `repair`, `move`) in a multi-repo workspace like `C:/ai/`, the agent MUST:
+1. Run `git worktree list --verbose` from inside the parent repo (`C:/ai/.git/`) and record the output.
+2. Run `git worktree list --verbose` from inside EACH nested repo (e.g., `C:/ai/claude-intelligence-hub/.git/`) and record each output.
+3. Cross-reference: verify that each worktree path appears in exactly ONE repo's list. If a path appears in two lists, flag it as cross-registration drift (FND-0076 pattern) and STOP — do not proceed without resolving the drift first.
+4. Verify that no nested repository directory (`claude-intelligence-hub/`, `_worktrees/*/`) is listed as a worktree of its parent repo. If it is, flag and STOP.
+**Why:** Cross-registration is invisible drift that only surfaces when a destructive operation runs. Detecting it before the operation is trivial. Detecting it after is an incident.
+**How to apply:** A reusable script `_skills/daily-doc-information/scripts/worktree-preflight.sh` runs the 4 checks. Invoke it before any worktree operation. If the script reports drift, STOP and report to Jimmy. Do not run any worktree command until drift is resolved. PP-14 in `checkpoint-verify.sh` runs this check at every checkpoint to catch drift proactively.
 
 ---
 

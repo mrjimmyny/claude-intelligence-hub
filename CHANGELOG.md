@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.29.4] - 2026-04-08
+
+### Changed
+- **jimmy-core-preferences** v3.6.0 -> v3.7.0 — FND-0077 (CRITICAL): added R-38 (Never Run Destructive Git Operations Without Listing Targets and Obtaining Explicit Authorization) and R-39 (Verify Worktree Registration in BOTH Parent and Hub Repos Before Any Worktree Operation). Origin: on 2026-04-08, `git worktree prune` silently deleted the entire `C:/ai/claude-intelligence-hub/` directory (223 MB) because the hub had been cross-registered as a worktree of the parent repo by an earlier bug (FND-0076). Jimmy never authorized any deletion. R-38 requires explicit listing + authorization for all destructive git ops. R-39 requires pre-flight verification from both repos before any worktree operation. Companion tooling in the parent C:/ai/ repo: `_skills/daily-doc-information/scripts/worktree-preflight.sh`, PP-14 in `checkpoint-verify.sh`. Also fixed stale frontmatter version in SKILL.md (pre-existing drift: frontmatter was at 3.4.0 while body was at 3.6.0 — now both at 3.7.0).
+
 ## [2.29.3] - 2026-04-08
 
 ### Changed
