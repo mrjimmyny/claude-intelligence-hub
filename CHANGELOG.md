@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.29.3] - 2026-04-08
+
+### Changed
+- **jimmy-core-preferences** v3.5.0 -> v3.6.0 — FND-0075: added R-37 (Close-Day Gate Must Produce a Canonical Daily Report — Path, Coverage, and Commit Verified Mechanically). Third recurrence of the "declared but not verified" anti-pattern (FND-0050, FND-0073, FND-0075) — rule establishes 4 mandatory mechanical checks for close-day: canonical path, session coverage, SC-09 bypass prevention, and commit presence. Root cause in the keyword hook (`.claude/hooks/checkpoint-gate.sh`) also fixed: PC-11 instruction was literally pointing to the wrong folder. Companion tooling in the parent C:/ai/ repo: `_skills/daily-doc-information/scripts/close-day-verify.sh`, PP-11/PP-12/PP-13 in `checkpoint-verify.sh`, and pre-commit hook blocking SC-09 violations.
+
 ## [2.29.2] - 2026-04-07
 
 ### Changed

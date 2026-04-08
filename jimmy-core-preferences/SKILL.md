@@ -8,7 +8,7 @@ aliases: [/prefs, /jimmy]
 
 # Jimmy Core Preferences — Global Cross-Agent Operating Framework
 
-**Version:** 3.5.0
+**Version:** 3.6.0
 **Last Updated:** 2026-03-23
 **Auto-Load:** Yes (Priority: Highest)
 
@@ -755,6 +755,16 @@ Stopping at any intermediate step is a discipline failure. A checkpoint with unc
 **Rule:** Before writing ANY timestamp in ANY document (session doc, thread doc, read receipt, history row, frontmatter, finding), the agent MUST call `bash C:/ai/_skills/daily-doc-information/scripts/now.sh` (or the appropriate flag variant) and use the returned value verbatim. No exceptions. No estimation. No "I'll just type it."
 **Why:** Timestamps are operational data used for audits, studies, and cross-session tracking. Fabricated timestamps corrupt the historical record. Three rounds of passive rules (R-15, R-22, PB-12) failed to prevent recurrence because they depend on agent memory at write-time.
 **How to apply:** `now.sh` (default: `YYYY-MM-DD HH:MM`), `now.sh --receipt` (`YYYY-MM-DD-HH:MM` for read receipts), `now.sh --date`, `now.sh --time`, `now.sh --full`. Always run BEFORE the edit, never after.
+
+### R-37. Close-Day Gate Must Produce a Canonical Daily Report — Path, Coverage, and Commit Verified Mechanically
+**Origin:** FND-0075 (2026-04-08). Third recurrence of the "declared but not verified" anti-pattern (FND-0050, FND-0073, FND-0075). On 2026-04-07, Jimmy explicitly requested a close-day gate at 22:29. The agent acknowledged at 22:32 but the resulting commit contained zero daily-report or portfolio changes. A separate earlier gate the same day wrote 7 daily-report files into `ai-sessions/2026-04/` (wrong folder), bypassing the DDI skill's SC-09 OUTPUT_PATH_OUT_OF_BOUNDS check. The root cause in the passive gate instructions was literally telling agents to "Check ai-sessions/YYYY-MM/ for daily report" — the wrong path baked into the keyword hook itself.
+**Rule:** A close-day gate is NOT complete until ALL four mechanical checks pass for the current day:
+1. **Daily report exists at canonical path.** File must be at `obsidian/CIH/projects/skills/daily-doc-information/daily-reports/YYYY-MM/daily-report-executive-YYYY-MM-DD-v1.md` (or legacy `daily-report-YYYY-MM-DD.md` for pre-existing files). No orphan daily reports may exist in `ai-sessions/YYYY-MM/`.
+2. **Coverage complete.** The daily report's Sessions Today table must list EVERY session doc with `closed_at_local` on that date. Missing any closed session is a gate failure.
+3. **No SC-09 bypass.** Writes to daily-report files MUST go through the DDI skill's `create-daily-report` operation OR, if using Write directly, the agent must self-verify the output path is inside `daily-reports/YYYY-MM/` before writing. A pre-commit hook blocks any commit that stages a `daily-report-*.md` file outside the canonical path.
+4. **Git commit exists for the gate.** A commit touching the daily report AND the closed session doc(s) AND (if any project status changed) the strategic-project-portfolio.md must exist for the day, with message containing "close-day" or equivalent.
+**Why:** Close-day is the only end-of-day artifact with cross-session truth. Silent failures accumulate — a missed close-day gate leaves the day's work unverified and invisible to retroactive analysis. The declaration-without-execution pattern has failed three times under different scopes (session checkpoint, session field-level close, day-level close). Mechanical enforcement is the only remaining option.
+**How to apply:** Run `bash C:/ai/_skills/daily-doc-information/scripts/close-day-verify.sh` as a mandatory check in the close-day keyword gate. The script must exit 0 before the agent may declare the gate complete. If it exits non-zero, the agent must fix every failing check and re-run the script. Report results as a compact table in the close-day confirmation message. The keyword hook `C:/ai/.claude/hooks/checkpoint-gate.sh` now injects the mandatory invocation instruction. A pre-commit hook (`_skills/daily-doc-information/scripts/hooks/pre-commit-daily-report.sh`, installed locally via `install-pre-commit.sh`) mechanically blocks SC-09 violations at commit time.
 
 ---
 
