@@ -629,7 +629,7 @@ Compare each entry with metadata:
 ```bash
 while IFS=$'\t' read -r SKILL_NAME TABLE_VERSION; do
   META_FILE="./${SKILL_NAME}/.metadata"
-  META_VERSION=$(rg -o "^version:\s*(.+)" "${META_FILE}" -r '$1' | tr -d ' ')
+  META_VERSION=$(grep '"version"' "${META_FILE}" | sed 's/.*"version": *"\([^"]*\)".*/\1/' | tr -d ' ')
   echo -e "${SKILL_NAME}\t${TABLE_VERSION}\t${META_VERSION}"
 done < /tmp/readme_skill_versions.tsv > /tmp/version_crosscheck.tsv
 ```
@@ -667,16 +667,44 @@ Record full diff in `AUDIT_TRAIL.md`.
 #### 1.5.4 Reference accuracy (version references in docs)
 Map version references:
 ```bash
-rg -n "v[0-9]+\.[0-9]+\.[0-9]+" . --glob "*.md" > /tmp/version_references.txt
+: > /tmp/reference_files.txt
+for file in README.md EXECUTIVE_SUMMARY.md HUB_MAP.md AUDIT_TRAIL.md; do
+  [ -f "$file" ] && echo "$file" >> /tmp/reference_files.txt
+done
+
+rg -n "v[0-9]+\.[0-9]+\.[0-9]+" $(cat /tmp/reference_files.txt) > /tmp/version_references.txt
 ```
-For each reference that includes both target file and version:
-1. Open referenced file.
-2. Extract live version from referenced file.
-3. Compare cited version vs live version.
+Cross-check skill references against live `.metadata` versions:
+```bash
+find . -maxdepth 2 -name ".metadata" -not -path "./.git/*" | sed 's|/\.metadata||' | sort > /tmp/repo_skills_list.txt
+
+: > /tmp/reference_mismatches.txt
+while IFS= read -r line; do
+  while IFS= read -r skill_dir; do
+    skill_name=$(basename "$skill_dir")
+    meta_ver=$(grep '"version"' "${skill_dir}/.metadata" | sed 's/.*"version": *"\([^"]*\)".*/\1/')
+    if echo "$line" | grep -qi "$skill_name"; then
+      if ! echo "$line" | grep -q "v${meta_ver}"; then
+        echo "MISMATCH:${skill_name}|expected v${meta_ver}|${line}" >> /tmp/reference_mismatches.txt
+      fi
+    fi
+  done < /tmp/repo_skills_list.txt
+done < /tmp/version_references.txt
+
+MISMATCH_COUNT=$(wc -l < /tmp/reference_mismatches.txt | tr -d ' ')
+```
 
 Criteria:
-- All references correct => `PASS`
+- `PASS` if `MISMATCH_COUNT == 0`
 - Any mismatch => `CRITICAL ERROR`
+
+Record:
+```yaml
+reference_accuracy: <PASS | FAIL>
+mismatch_count: <N>
+mismatches:
+  - "MISMATCH:skill|expected vX.Y.Z|<line>"
+```
 
 #### 1.5.5 Orphan file detection
 List markdown files:
@@ -1012,6 +1040,7 @@ Criteria:
 - Architecture completeness: `PASS` or `FAIL`
 - Reference accuracy: `PASS` or `FAIL`
 - Internal links: `PASS` or `WARNING` or `FAIL`
+- CHANGELOG completeness: `PASS` or `FAIL`
 - EXECUTIVE_SUMMARY Component Versions completeness: `PASS` or `FAIL` or `RECOVERED`
 - README Quick Commands per-skill validation: `PASS` or `FAIL`
 - EXECUTIVE_SUMMARY Key Achievements table: `PASS` or `FAIL` or `RECOVERED`
