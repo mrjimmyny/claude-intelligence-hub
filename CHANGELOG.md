@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.29.7] - 2026-04-09
+
+### Changed
+- **agent-orchestration-protocol** v4.2.0 -> v4.3.0 — [[FND-0078]] Codex model lineup alignment with official April 2026 docs. New Codex DEFAULT is `gpt-5.4` (`effort=medium`); new Tier 2 Light is `gpt-5.4-mini`; `gpt-5.3-codex` retains Tier 1.5 (complex engineering); `gpt-5.2` added as deep-debug alternative; `gpt-5.3-codex-spark` added as Tier 2.5 Ultra-Iterate (ChatGPT Pro only). Retired from routing (no longer listed in `developers.openai.com/codex/models`): `gpt-5.2-codex`, `gpt-5.1-codex`, `gpt-5.1-codex-max`, `gpt-5-codex-mini`, `gpt-5.1-codex-mini`. Cross-Provider Equivalence Table rewritten. New mandatory SKILL.md section "Codex CLI Flags — Headless Preset" with copy-paste examples using `--yolo` short alias and `-c model_reasoning_effort="minimal|low|medium|high|xhigh"` override (the only documented CLI way to change effort at dispatch time — `xhigh` only on `gpt-5.4`). Cross-LLM Command Reference updated: new "Reasoning effort override" row; Codex bypass row now shows both `--yolo` (primary) and long form. Completion Artifact hard-coded executor example updated to `gpt-5.4`. Dispatch script `aop-codex-dispatch.sh` default model bumped from `gpt-5.2-codex` to `gpt-5.4`, now accepts optional `effort` argument (defaults to `medium`), always passes `-c model_reasoning_effort="..."`. LLM Model Selection Guide bumped to v2.3.0 with full Codex section rewrite, new CLI preset, retirement table, decision-matrix substitution banner. No changes to `AGENTS.md`, `GEMINI.md`, `CLAUDE.md`, or `jimmy-core-preferences` — verified via grep that none embed Codex model IDs; all reference AOP by path. Source of truth: Emma (Codex headless research session 019d739f) citing `developers.openai.com/codex/{models,cli/reference,config-reference,cli/features,noninteractive}` — see `generalx-pjt-threads-jimmy-emma.md` thread `2026-04-09-jimmy-01`, Emma's Entry read-2026-04-09-18:29-jimmy.
+
 ## [2.29.6] - 2026-04-08
 
 ### Added

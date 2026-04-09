@@ -8,22 +8,31 @@
 #          This script provides a clean bash entry point.
 #
 # Usage:
-#   bash scripts/aop-codex-dispatch.sh <prompt_file> <artifact_path> [working_dir] [model]
+#   bash scripts/aop-codex-dispatch.sh <prompt_file> <artifact_path> [working_dir] [model] [effort]
 #
 # Arguments:
 #   prompt_file   - Path to the AOP prompt file (AOP_PROMPT_*.md)
 #   artifact_path - Path where completion artifact should be written
 #   working_dir   - Optional working directory (defaults to current dir)
-#   model         - Optional model override (defaults to gpt-5.2-codex)
+#   model         - Optional model override (defaults to gpt-5.4)
+#   effort        - Optional reasoning effort override (minimal|low|medium|high|xhigh).
+#                   Defaults to medium. Only gpt-5.4 supports xhigh.
+#                   Passed via: -c model_reasoning_effort="<effort>"
 #
-# Model selection (official Codex routing — March 2026):
-#   gpt-5.4          - Architecture, planning, reasoning (Tier 1)
-#   gpt-5.3-codex    - Complex multi-step, multi-agent orchestration (Tier 1.5)
-#   gpt-5.2-codex    - Standard coding, implementation (Tier 2 — DEFAULT)
-#   gpt-5.4-mini     - Light reasoning with speed (Tier 2)
-#   gpt-5.1-codex    - High stability, consistent output (Tier 2.5)
-#   gpt-5.1-codex-max - Large context, many files, long sessions (Tier 2.5)
-#   gpt-5-codex-mini  - Simple, repetitive, fast (Tier 3)
+# Model selection (official Codex routing — April 2026, post-FND-0078):
+#   gpt-5.4             - Architecture / planning / reasoning (Tier 1, effort=high|xhigh)
+#                         AND Standard coding / balanced dev (Tier 2 Core, effort=medium — DEFAULT)
+#   gpt-5.3-codex       - Complex software engineering, multi-step workflows,
+#                         multi-agent orchestration, critical patches (Tier 1.5)
+#   gpt-5.4-mini        - Triage, small edits, sidecar/subagent workers,
+#                         cost-sensitive loops (Tier 2 Light, effort=low|medium)
+#   gpt-5.2             - Deep root-cause debugging / long deliberation
+#                         (Tier 2 Deep-Debug alt, effort=high)
+#   gpt-5.3-codex-spark - Ultra-rapid iterative code edits (Tier 2.5,
+#                         ChatGPT Pro plans only, research preview)
+#
+# RETIRED (no longer in /codex/models as of April 2026 — do NOT use):
+#   gpt-5.2-codex, gpt-5.1-codex, gpt-5.1-codex-max, gpt-5-codex-mini
 #
 # Cross-machine: Uses relative paths from script location.
 #                 No hardcoded user paths. Works on any machine
@@ -35,20 +44,23 @@
 #     /c/ai/temp/AOP_COMPLETE_task1.json \
 #     /c/ai/claude-intelligence-hub
 #
-#   # With explicit model override:
+#   # With explicit model + effort override:
 #   bash scripts/aop-codex-dispatch.sh \
 #     /c/ai/temp/AOP_PROMPT_task1.md \
 #     /c/ai/temp/AOP_COMPLETE_task1.json \
 #     /c/ai/claude-intelligence-hub \
-#     gpt-5.3-codex
+#     gpt-5.3-codex \
+#     xhigh
 # ============================================================
 
 set -euo pipefail
 
-PROMPT_FILE="${1:?Usage: aop-codex-dispatch.sh <prompt_file> <artifact_path> [working_dir] [model]}"
-ARTIFACT_PATH="${2:?Usage: aop-codex-dispatch.sh <prompt_file> <artifact_path> [working_dir] [model]}"
+USAGE="Usage: aop-codex-dispatch.sh <prompt_file> <artifact_path> [working_dir] [model] [effort]"
+PROMPT_FILE="${1:?$USAGE}"
+ARTIFACT_PATH="${2:?$USAGE}"
 WORKING_DIR="${3:-$(pwd)}"
-MODEL="${4:-gpt-5.2-codex}"
+MODEL="${4:-gpt-5.4}"
+EFFORT="${5:-medium}"
 
 # Validate inputs
 if [ ! -f "$PROMPT_FILE" ]; then
@@ -64,6 +76,7 @@ echo "Prompt:    $PROMPT_FILE"
 echo "Artifact:  $ARTIFACT_PATH"
 echo "WorkDir:   $WORKING_DIR"
 echo "Model:     $MODEL"
+echo "Effort:    $EFFORT"
 echo "Time:      $(date -u +%Y-%m-%dT%H:%M:%SZ)"
 echo "=========================="
 
@@ -83,9 +96,13 @@ Do NOT use: cat > artifact.json << 'EOF' ... EOF
 ARTIFACT_PATCH
 
 # Read patched prompt and pass to codex exec via stdin
+# Note: --dangerously-bypass-approvals-and-sandbox is the long form of --yolo (identical behavior).
+# The long form is used here for explicit auditability in CI/script logs.
+# Effort is passed via -c model_reasoning_effort="..." (the only documented CLI way, post-FND-0078).
 cat "$PATCHED_PROMPT" | codex exec \
   --model "$MODEL" \
   --dangerously-bypass-approvals-and-sandbox \
+  -c "model_reasoning_effort=\"$EFFORT\"" \
   -C "$WORKING_DIR"
 
 # Cleanup patched prompt

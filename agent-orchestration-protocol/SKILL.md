@@ -1,6 +1,6 @@
 ---
 name: agent-orchestration-protocol
-version: 4.2.0
+version: 4.3.0
 description: Multi-agent coordination framework - The Seven Pillars of AOP
 command: /aop
 aliases: [/orchestrate, /delegate]
@@ -9,7 +9,7 @@ aliases: [/orchestrate, /delegate]
 # Agent Orchestration Protocol (AOP)
 
 **Skill ID:** `agent-orchestration-protocol`
-**Version:** 4.2.0
+**Version:** 4.3.0
 **Status:** Production-Validated
 **Category:** Multi-Agent Coordination
 
@@ -773,37 +773,95 @@ Cycle N: t3 completes → slot opens → dispatch t2
 **MANDATORY:** Before dispatching any headless session, the Orchestrator MUST select the appropriate model based on task complexity. Do NOT default to the most expensive model for every task.
 
 **Quick rule:** Does this task need a brain, or just hands?
-- **Hands** (mechanical, template, notification) → Tier 3: Haiku / GPT-5-codex-mini / Flash-Lite
-- **Brain** (standard coding, implementation, refactoring) → Tier 2: Sonnet / GPT-5.2-codex (DEFAULT) / Flash
-- **Orchestrating brain** (complex multi-step, multi-agent workflows) → Tier 1.5: GPT-5.3-codex
-- **Big brain** (architecture, planning, reasoning, audits) → Tier 1: Opus / GPT-5.4 high / Pro
+- **Hands** (mechanical, template, notification) → Tier 3: Haiku / Flash-Lite (Codex has no listed Tier 3 model today — use `gpt-5.4-mini` with `effort=low` instead)
+- **Brain** (standard coding, implementation, refactoring) → Tier 2: Sonnet / **`gpt-5.4`** (DEFAULT for Codex) / Flash
+- **Orchestrating brain** (complex multi-step, multi-agent workflows, deep engineering) → Tier 1.5: `gpt-5.3-codex`
+- **Big brain** (architecture, planning, reasoning, audits) → Tier 1: Opus / `gpt-5.4` (effort `high`/`xhigh`) / Pro
 
-### Cross-Provider Equivalence Table (v2.2.0 — Official Codex Source)
+### Cross-Provider Equivalence Table (v2.3.0 — Official Codex Source, April 2026)
 
-| Tier | Anthropic | OpenAI (Codex) | Google | Use When |
+> **Source of truth:** `developers.openai.com/codex/models`, `/codex/cli/reference`, `/codex/config-reference`, `/codex/cli/features`, `/codex/noninteractive` — re-verified 2026-04-09 via Emma (see [[generalx-pjt-threads-jimmy-emma]] thread `2026-04-09-jimmy-01`, Emma's Entry read-2026-04-09-18:29-jimmy). The paid-plan (user-auth) Codex lineup is now: `gpt-5.4`, `gpt-5.4-mini`, `gpt-5.3-codex`, `gpt-5.2`, `gpt-5.3-codex-spark` (research preview, ChatGPT Pro only). Prior IDs (`gpt-5.2-codex`, `gpt-5.1-codex`, `gpt-5.1-codex-max`, `gpt-5-codex-mini`) are NO LONGER listed — do not use them for new dispatches (see [[FND-0078]]).
+
+| Tier | Anthropic | OpenAI (Codex — paid-plan, official April 2026) | Google | Use When |
 |---|---|---|---|---|
-| 1 (Architect) | `claude-opus-4-6` | `gpt-5.4` (high/xhigh) | `gemini-2.5-pro` | Architecture, planning, reasoning, decision-making, complex multi-doc synthesis, audits |
-| 1.5 (Senior Engineer) | — | `gpt-5.3-codex` | — | Complex multi-step workflows, long-running processes, multi-agent orchestration |
-| 2 (Engineer) | `claude-sonnet-4-6` | **`gpt-5.2-codex`** (DEFAULT) / `gpt-5.4-mini` | `gemini-2.5-flash` | Standard coding, refactoring, implementation, balanced development (80% of tasks) |
-| 2.5 (Reliable Engineer) | — | `gpt-5.1-codex` / `gpt-5.1-codex-max` | — | High stability + lower cost; large context + many files + long sessions |
-| 3 (Operator) | `claude-haiku-4-5` | `gpt-5-codex-mini` | `gemini-2.5-flash-lite` | Simple, repetitive, fast execution, low cost, templates, notifications, bulk ops — **NOT for structured output** (see below) |
+| 1 (Architect) | `claude-opus-4-6` | `gpt-5.4` (effort `high`/`xhigh`) | `gemini-2.5-pro` | Architecture, planning, reasoning, decision-making, complex multi-doc synthesis, audits |
+| 1.5 (Senior Engineer) | — | `gpt-5.3-codex` | — | Complex software engineering, multi-step workflows, multi-agent orchestration, critical patches |
+| 2 Core (Engineer — DEFAULT) | `claude-sonnet-4-6` | **`gpt-5.4`** (effort `medium`) | `gemini-2.5-flash` | Standard coding, refactoring, implementation, balanced development (core workhorse) |
+| 2 Light (Fast Engineer) | `claude-sonnet-4-6` | **`gpt-5.4-mini`** (effort `low`/`medium`) | `gemini-2.5-flash` | Triage, lint-level review, small edits, sidecar/subagent dispatches, cost-sensitive loops |
+| 2 Deep-Debug (alt) | — | `gpt-5.2` | — | Deep root-cause debugging, long deliberation over intermittent bugs (alternative to `gpt-5.3-codex`) |
+| 2.5 Ultra-Iterate (Pro only) | — | `gpt-5.3-codex-spark` | — | Ultra-rapid code iteration loops (research preview, ChatGPT Pro plans) |
+| 3 (Operator) | `claude-haiku-4-5` | — (no listed Codex Tier 3 today; use `gpt-5.4-mini` + `effort=low` for the cheapest Codex path) | `gemini-2.5-flash-lite` | Simple, repetitive, fast execution, low cost, templates, notifications, bulk ops — **NOT for structured output** (see below) |
 
 **Tier 3 Limitation — Structured Output (FND-0047):**
 
-Tier 3 models (`gpt-5-codex-mini`, `claude-haiku-4-5`, `gemini-2.5-flash-lite`) have weaker instruction-following for structural formatting constraints. In the aop-domusx stress test, `gpt-5-codex-mini` failed to produce fenced code blocks, proper JSON artifacts, and formatting constraints despite explicit prompt instructions. **Do NOT use Tier 3 for any task requiring:** JSON artifact compliance, structured report output, formatted code blocks, or multi-section document generation. This is an accepted model limitation, not a fixable prompt issue.
+Tier 3 models (`claude-haiku-4-5`, `gemini-2.5-flash-lite`, and — historically — `gpt-5-codex-mini`) have weaker instruction-following for structural formatting constraints. In the aop-domusx stress test, `gpt-5-codex-mini` (now retired from `/codex/models`) failed to produce fenced code blocks, proper JSON artifacts, and formatting constraints despite explicit prompt instructions. **Do NOT use Tier 3 for any task requiring:** JSON artifact compliance, structured report output, formatted code blocks, or multi-section document generation. For Codex structured-output work, use `gpt-5.4-mini` (Tier 2 Light) as the cheapest safe option.
 
-### Codex Model Routing Logic (Official — March 2026)
+### Codex Model Routing Logic (Official — April 2026, post-[[FND-0078]])
 
 | Condition | Model |
 |---|---|
-| Complex multi-step workflows, multi-agent orchestration | `gpt-5.3-codex` |
-| Standard coding, refactoring, implementation, balanced | **`gpt-5.2-codex`** (DEFAULT) |
-| High stability, lower cost, consistent output | `gpt-5.1-codex` |
-| Large context, many files, long sessions | `gpt-5.1-codex-max` |
-| Simple, repetitive, fast execution, low cost | `gpt-5-codex-mini` |
-| Architecture, planning, reasoning, decision-making | `gpt-5.4` |
-| Light reasoning with speed and efficiency | `gpt-5.4-mini` |
-| No condition clearly matches | Default to `gpt-5.2-codex` |
+| Architecture, planning, reasoning, decision-making, audits | `gpt-5.4` (`effort=high` or `xhigh`) |
+| Complex software engineering, multi-step workflows, multi-agent orchestration, critical patches | `gpt-5.3-codex` |
+| Standard coding, refactoring, implementation, balanced dev (DEFAULT) | **`gpt-5.4`** (`effort=medium`) |
+| Triage, small edits, sidecar/subagent parallel workers, cost-sensitive loops | `gpt-5.4-mini` (`effort=low` or `medium`) |
+| Deep debugging with long deliberation (root-cause over many hypotheses) | `gpt-5.2` (alt to `gpt-5.3-codex`) |
+| Ultra-rapid iterative code edits (micro-experiments) | `gpt-5.3-codex-spark` (ChatGPT Pro only, when available) |
+| No condition clearly matches | Default to `gpt-5.4` (`effort=medium`) |
+
+### Codex CLI Flags — Headless Preset (MANDATORY for Orchestrators)
+
+Every headless Codex dispatch MUST use these three ingredients together. Do NOT improvise from memory — copy from this block.
+
+1. **Subcommand:** `codex exec` (non-interactive / headless; alias `codex e`). For resumption: `codex exec resume --last`.
+2. **Model:** `-m <model>` (or long form `--model <model>`). Pick from the routing table above.
+3. **No-approval (equivalent to Claude `--dangerously-skip-permissions` / Gemini `--approval-mode yolo`):**
+   - **Primary:** `--yolo` (official short alias — Codex CLI)
+   - **Long form:** `--dangerously-bypass-approvals-and-sandbox` (identical behavior; use when scripts require the explicit form)
+4. **Reasoning effort override (no dedicated CLI flag):**
+   - `-c model_reasoning_effort="minimal"` | `"low"` | `"medium"` | `"high"` | `"xhigh"`
+   - Supported values depend on the model (e.g., only `gpt-5.4` supports `xhigh`).
+5. **Working directory:** `-C <abs-path>` (always pass an absolute Windows-style path: `C:/ai/...`, never `/c/ai/...` — see [[FND-0049]]).
+6. **Structured output (optional):** `--json` and/or `-o <file>` for orchestrator-readable output.
+
+**Copy-paste canonical examples (all headless, all with `--yolo` + effort override):**
+
+```bash
+# Tier 1 — Architecture / planning (maximum rigor)
+codex exec -m gpt-5.4 --yolo -c model_reasoning_effort="xhigh" \
+  -C C:/ai/target-project "architect the migration plan and return prioritized actions"
+
+# Tier 1.5 — Complex software engineering / multi-step / critical patches
+codex exec -m gpt-5.3-codex --yolo -c model_reasoning_effort="xhigh" \
+  -C C:/ai/target-project "diagnose flaky integration failures and deliver minimal robust fix"
+
+# Tier 2 Core — Standard implementation (DEFAULT)
+codex exec -m gpt-5.4 --yolo -c model_reasoning_effort="medium" \
+  -C C:/ai/target-project "implement feature X with tests from the spec in docs/"
+
+# Tier 2 Light — Triage / sidecar / subagent worker
+codex exec -m gpt-5.4-mini --yolo -c model_reasoning_effort="low" \
+  -C C:/ai/target-project "triage changed files and list only critical risks"
+
+# Tier 2 Deep-Debug (alternative heavy reasoning)
+codex exec -m gpt-5.2 --yolo -c model_reasoning_effort="high" \
+  -C C:/ai/target-project "perform deep root-cause analysis for intermittent production bug"
+
+# Tier 2.5 Ultra-Iterate (ChatGPT Pro only)
+codex exec -m gpt-5.3-codex-spark --yolo -c model_reasoning_effort="medium" \
+  -C C:/ai/target-project "apply quick UI iteration and return diff summary"
+
+# Resume previous headless run
+codex exec resume --last -m gpt-5.4 --yolo -c model_reasoning_effort="high" \
+  "continue from previous plan and finish implementation"
+
+# Structured output for orchestrator consumption
+codex exec --json -m gpt-5.4 --yolo -c model_reasoning_effort="high" \
+  -C C:/ai/target-project "triage open issues and propose plan"
+```
+
+> **Equivalence note for orchestrators:** The short alias `--yolo` and the long form `--dangerously-bypass-approvals-and-sandbox` are identical. The dispatch script `aop-codex-dispatch.sh` uses the long form for explicit auditability; copy-paste examples above use `--yolo` for readability. Either is acceptable in new prompts.
+
+> **Do NOT guess effort values.** Only `minimal | low | medium | high | xhigh` are documented. `xhigh` is supported on `gpt-5.4`; other models may reject it silently and fall back to their default. When in doubt, use `medium`.
 
 ### Execution Principles (Official Codex Source)
 
@@ -885,19 +943,19 @@ After each change:
 
 After every dispatch, **explicitly state in session docs:**
 ```
-Selected model: gpt-5.2-codex
+Selected model: gpt-5.4 (effort=medium)
 Reason: Standard implementation from clear spec, no multi-step orchestration needed
 ```
 
 **Full guide with 36 task examples, mixed-model patterns, cost analysis, and provider-specific CLI syntax:**
-See `06-operationalization/llm-model-selection-guide-for-aop-orchestrators-magneto-2026-03-18-v2.0.md` (v2.2.0) in the AOP project documentation.
+See `06-operationalization/llm-model-selection-guide-for-aop-orchestrators-magneto-2026-03-18-v2.0.md` (v2.3.0, post-[[FND-0078]]) in the AOP project documentation.
 
 **AOP Integration Rules:**
-1. State in the session doc which model was selected and WHY
+1. State in the session doc which model was selected and WHY (include effort)
 2. For parallel dispatches, assign models per-task, not one model for all
 3. If a task fails on a lower-tier model, escalate to next tier before retrying
 4. Never use Tier 1 for tasks classified as Trivial or Low in the decision matrix
-5. Default to Tier 2 (Sonnet / GPT-5.2-codex / Flash) when in doubt — it covers 80% of tasks
+5. Default to Tier 2 Core (Sonnet / `gpt-5.4` effort=medium / Flash) when in doubt — it covers 80% of tasks
 
 ---
 
@@ -1274,8 +1332,9 @@ Before dispatching ANY headless session to ANY agent (Claude, Codex, Gemini, or 
 | :--- | :--- | :--- | :--- |
 | **Headless execution** | `claude -p "..."` | `codex exec "..."` | `gemini -m gemini-2.5-flash -p "..." --approval-mode yolo` |
 | **File-based prompt** | `cat FILE.md \| claude -p` | `cat FILE.md \| codex exec` | `cat FILE.md \| gemini -m gemini-2.5-flash -p --approval-mode yolo` |
-| **Bypass sandbox/approval** | `--dangerously-skip-permissions` | `--dangerously-bypass-approvals-and-sandbox` | `--approval-mode yolo` (MANDATORY for headless) |
-| **Model selection** | `--model claude-sonnet-4-6` | `--model gpt-5.2-codex` (DEFAULT) | `-m gemini-2.5-flash` |
+| **Bypass sandbox/approval** | `--dangerously-skip-permissions` | `--yolo` (short alias) or `--dangerously-bypass-approvals-and-sandbox` (long form, identical) | `--approval-mode yolo` (MANDATORY for headless) |
+| **Model selection** | `--model claude-sonnet-4-6` | `-m gpt-5.4` (DEFAULT, effort=medium) | `-m gemini-2.5-flash` |
+| **Reasoning effort override** | (built-in per model) | `-c model_reasoning_effort="minimal\|low\|medium\|high\|xhigh"` (no dedicated flag — use config override) | (built-in per model) |
 | **Background execution** | Append `&` in bash | Append `&` in bash | Append `&` in bash |
 | **Set workspace** | `cd /c/ai/project` before launch | `cd /c/ai/project` before launch | `cd /c/ai/project` before launch |
 | **Git bypass (non-git dir)** | N/A | `--skip-git-repo-check` | N/A |
@@ -1354,7 +1413,7 @@ The `executor` field MUST be pre-filled by the Orchestrator in the prompt templa
 
 **Orchestrator responsibility:** When writing the executor prompt, substitute the actual model name:
 ```
-'executor': 'gpt-5.2-codex (headless AOP)'   # Orchestrator fills this, not the executor
+'executor': 'gpt-5.4 (headless AOP)'   # Orchestrator fills this, not the executor
 ```
 
 The executor copies this value verbatim into the artifact. It never needs to guess its own identity.
@@ -1513,6 +1572,7 @@ Real-world case studies are in [orchestrations/](./orchestrations/).
 
 ## Version History
 
+- **v4.3.0** — **Codex Model Lineup Alignment with Official April 2026 Docs ([[FND-0078]]).** Cross-Provider Equivalence Table rebuilt: new Codex DEFAULT is `gpt-5.4` (`effort=medium`); new Tier 2 Light is `gpt-5.4-mini`; `gpt-5.3-codex` retains Tier 1.5 (complex engineering); `gpt-5.2` added as deep-debug alternative; `gpt-5.3-codex-spark` added as Tier 2.5 (ChatGPT Pro only). Retired from routing: `gpt-5.2-codex`, `gpt-5.1-codex`, `gpt-5.1-codex-max`, `gpt-5-codex-mini` (no longer listed in `/codex/models`). Codex Model Routing Logic table rewritten. New mandatory section "Codex CLI Flags — Headless Preset" with canonical copy-paste examples using `--yolo` short alias and `-c model_reasoning_effort="..."` override (the only documented CLI way to change effort at dispatch time — values: `minimal | low | medium | high | xhigh`, with `xhigh` supported only on `gpt-5.4`). Cross-LLM Command Reference updated: new "Reasoning effort override" row; Codex bypass row now shows both `--yolo` (primary) and long form. Completion Artifact hard-coded executor example updated to `gpt-5.4`. Dispatch script `aop-codex-dispatch.sh` default model bumped from `gpt-5.2-codex` to `gpt-5.4`. LLM Model Selection Guide bumped to v2.3.0. Source: Emma (Codex headless research session 019d739f) citing `developers.openai.com/codex/{models,cli/reference,config-reference,cli/features,noninteractive}` — see [[generalx-pjt-threads-jimmy-emma]] thread `2026-04-09-jimmy-01`, Emma's Entry read-2026-04-09-18:29-jimmy. No changes to `AGENTS.md`, `GEMINI.md`, `CLAUDE.md`, or `jimmy-core-preferences` (they reference AOP by path, not by model ID — verified via grep).
 - **v4.2.0** — 3 autoresearch-extracted patterns: Git-as-Memory (agents read git log before starting), Experiment Commit Convention (`experiment(<scope>): <description>`), Guard Pattern for skill development (metric + guard dual verification). Cross-agent rule R-20 in jimmy-core-preferences.
 - **v4.1.0** — 8 improvements from aop-domusx stress test: Python-based artifact generation for Codex (FND-0045), mandatory pre-review integrity gate at all tiers, hard-coded executor model names (FND-0046), safety-guard requirements for high-difficulty, minimum test count per tier, Tier 3 structured-output exclusion (FND-0047), JSON repair script, algorithmic depth guidance. Agent environment warning for background processes (FND-0011). Codex Windows path format rule (FND-0049).
 - **v4.0.1** — Added a non-negotiable Pre-Dispatch Mandatory Gate requiring version-controlled dispatch scripts before any headless session. Added `aop-claude-dispatch.sh` and `aop-gemini-dispatch.sh` as audited launch adapters for Claude Code and Gemini CLI. **Model Selection v2.2.0 (March 2026):** Updated with official Codex model routing — 5-tier system (Tier 1/1.5/2/2.5/3), GPT-5.2-codex as official DEFAULT, new models (GPT-5.1-codex, GPT-5-codex-mini), Codex Execution Principles, mandatory post-AOP model reporting. Fixed Codex dispatch script (was hardcoded to GPT-5.4, now configurable with GPT-5.2-codex default). Fixed Gemini model IDs (gemini-3.x → gemini-2.5-x).

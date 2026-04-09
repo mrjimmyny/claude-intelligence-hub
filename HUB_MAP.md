@@ -35,7 +35,7 @@
 | 4 | **claude-session-registry** | v1.1.0 | `/registry` | "registra sessão", Golden Close |
 | 5 | **pbi-claude-skills** | v1.3.0 | `/pbi` | `.pbip` project detection |
 | 7 | **xavier-memory** | v1.1.0 | `/xavier-memory` | Cross-project sync |
-| 12 | **agent-orchestration-protocol** | v4.2.0 | `/aop` | "orchestrate", "delegate" |
+| 12 | **agent-orchestration-protocol** | v4.3.0 | `/aop` | "orchestrate", "delegate" |
 | 18 | **codex-task-notifier** | v1.2.0 | `/codex-task-notifier` | "email me when done", "me manda um email" |
 | 22 | **microsoft-mail-deliver** | v1.2.0 | `/microsoft-mail-deliver` | "via Microsoft", "manda email pelo Microsoft", saved Microsoft recipient workflows |
 | 24 | **security-reviewx** | v1.0.0 | `/security-reviewx` | "scan for secrets", "security review", "check before publishing" |

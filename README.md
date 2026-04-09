@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.29.6-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.29.7-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -220,7 +220,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[context-guardian](context-guardian/)** | v1.1.0 | ✅ Production | Context preservation system | Xavier ↔ Magneto account switching, 3-strategy symlinks, rollback protection, .contextignore support, dry-run mode, verify-backup reports. |
 | **[repo-auditor](repo-auditor/)** | v2.2.0 | ✅ Production | End-to-end audit skill | 11 cross-file validations, environment pre-flight, `AUDIT_ONLY` default, rg/grep portability, stale-metrics detection in README + EXECUTIVE_SUMMARY, validate-trail.sh for CI. |
 | **[conversation-memoria](conversation-memoria/)** | v1.0.0 | ✅ Production | Persistent conversation storage | Intelligent metadata extraction, 95-98% token savings, week-based organization, natural language triggers, cross-agent memory sharing. |
-| **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v4.2.0 | ✅ Production | Multi-agent coordination framework | Multi-executor robust orchestration, task-ID namespaced artifacts, fan-in/fan-out, DAG dependency management, deadlock detection, priority-aware execution, and dispatch-script guardrails for headless launches. |
+| **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v4.3.0 | ✅ Production | Multi-agent coordination framework | Multi-executor robust orchestration, task-ID namespaced artifacts, fan-in/fan-out, DAG dependency management, deadlock detection, priority-aware execution, dispatch-script guardrails, and April 2026 Codex model lineup alignment (FND-0078) with `--yolo` + `model_reasoning_effort` headless preset. |
 | **[core_catalog](core_catalog/)** | v1.0.0 | ✅ Production | Core system catalog | Bootstrap compatibility data, centralized configuration references, and environment initialization mappings. |
 | **[token-economy](token-economy/)** | v1.0.0 | ✅ Production | Token budget governance | Budget enforcement adapter, preflight token discipline, and response-size reduction rules. |
 | **[codex-governance-framework](codex-governance-framework/)** | v1.0.0 | ✅ Production | Institutional governance framework | Codex bootstrap governance, playbook guidance, onboarding references, and CI-ready contracts. |
@@ -510,7 +510,7 @@ claude-intelligence-hub/
 │   │   └── templates/               # Conversation templates
 │   └── README.md                    # Main documentation
 │
-├── 📁 agent-orchestration-protocol/ # ⭐ Multi-Agent Coordination (v4.2.0)
+├── 📁 agent-orchestration-protocol/ # ⭐ Multi-Agent Coordination (v4.3.0)
 │   ├── SKILL.md                     # The Seven Pillars of AOP
 │   ├── README.md                    # Complete guide
 │   ├── AOP-EXECUTIVE-SUMMARY.md     # Executive summary
