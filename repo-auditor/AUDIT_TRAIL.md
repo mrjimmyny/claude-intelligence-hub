@@ -1,5 +1,14 @@
 # ===========================================
-# AUDIT_TRAIL - repo-auditor v2.0.0
+# AUDIT_TRAIL - repo-auditor v2.2.0
+# ===========================================
+#
+# HISTORICAL PRESERVATION NOTE (v2.2.0):
+# Every entry below is an IMMUTABLE historical record of a past audit.
+# Do NOT edit, refactor, or "update" old entries — they are evidence of
+# the audit state at a specific point in time. When a new audit runs,
+# APPEND new records; never modify existing ones. Drift between a past
+# record and the current repo state is expected and is the whole point
+# of the historical log.
 # ===========================================
 
 audit_version: 2.6.0

@@ -6,7 +6,7 @@ aliases: [/audit, /repo-audit, /validate]
 ---
 
 # Repo Auditor
-**Version:** 2.1.0
+**Version:** 2.2.0
 
 ## Objective
 Transform repository audits from surface checks into deep protocol execution:
@@ -59,6 +59,72 @@ This protocol uses `rg` (ripgrep) for pattern matching throughout. On systems wh
 
 The agent SHOULD attempt `rg` first and fall back to `grep` if `rg` returns "command not found" (exit code 127). Log the fallback as `WARNING` in `AUDIT_TRAIL.md`.
 
+## Environment Pre-Flight (Mandatory — Run Before PHASE 0)
+
+Objective: detect missing tools and unusable paths BEFORE the audit starts, so failures surface as a clean `BLOCKED` with a clear remedy rather than a mid-phase crash.
+
+Run this block verbatim at the start of every audit session. Record results in `AUDIT_TRAIL.md` under `environment_preflight:`.
+
+```bash
+# --- Tool availability (required vs optional) ---
+REQUIRED_TOOLS="git wc head tail file awk sed sort uniq cut find grep"
+OPTIONAL_TOOLS="rg jq gh python python3 shuf"
+
+missing_required=""
+for t in $REQUIRED_TOOLS; do
+  command -v "$t" >/dev/null 2>&1 || missing_required="$missing_required $t"
+done
+
+missing_optional=""
+for t in $OPTIONAL_TOOLS; do
+  command -v "$t" >/dev/null 2>&1 || missing_optional="$missing_optional $t"
+done
+
+if [ -n "$missing_required" ]; then
+  echo "CRITICAL ERROR: missing required tools:$missing_required"
+  echo "Audit cannot proceed. Install the missing tools or switch environments."
+  # Record as BLOCKED and stop.
+fi
+
+if [ -n "$missing_optional" ]; then
+  echo "WARNING: missing optional tools:$missing_optional"
+  echo "Audit will proceed with documented fallbacks (see 'Tool Availability and Portability')."
+fi
+
+# --- TMP_DIR fallback (Windows/Git Bash without /tmp) ---
+if [ -z "${TMP_DIR:-}" ]; then
+  if [ -d "/tmp" ] && [ -w "/tmp" ]; then
+    TMP_DIR="/tmp"
+  elif [ -n "${TEMP:-}" ] && [ -d "$TEMP" ] && [ -w "$TEMP" ]; then
+    TMP_DIR="$TEMP"
+  elif [ -n "${TMPDIR:-}" ] && [ -d "$TMPDIR" ] && [ -w "$TMPDIR" ]; then
+    TMP_DIR="$TMPDIR"
+  else
+    TMP_DIR="$PWD/.repo-auditor-tmp"
+    mkdir -p "$TMP_DIR"
+  fi
+  export TMP_DIR
+fi
+echo "Using TMP_DIR=$TMP_DIR"
+
+# --- .metadata writability check on target repo ---
+if [ ! -w "." ]; then
+  echo "CRITICAL ERROR: current working directory is not writable"
+fi
+```
+
+**Rule:** Every subsequent phase MUST use `${TMP_DIR}` instead of hardcoding `/tmp` for intermediate files (e.g., `${TMP_DIR}/repo_files.txt`). Existing hardcoded `/tmp/...` references in this document are legacy and will be migrated progressively; new code should always use `${TMP_DIR}`.
+
+Record in `AUDIT_TRAIL.md`:
+```yaml
+environment_preflight:
+  required_tools_missing: <none|list>
+  optional_tools_missing: <none|list>
+  tmp_dir_used: <path>
+  cwd_writable: <YES|NO>
+  status: <PASS|BLOCKED>
+```
+
 ## Execution Modes (Set in PHASE 0)
 
 | Mode | Description | File modifications | Release publication |
@@ -67,7 +133,35 @@ The agent SHOULD attempt `rg` first and fall back to `grep` if `rg` returns "com
 | `AUDIT_ONLY` | Audit and report only | No | No |
 | `DRY_RUN` | Simulate the audit and log intended actions | No | No |
 
-Default mode: `AUDIT_AND_FIX`.
+**Default mode: `AUDIT_ONLY` (v2.2.0 change — safer default).** `AUDIT_AND_FIX` must be requested EXPLICITLY by the caller. This prevents accidental auto-fix runs that modify files when the caller only intended to inspect the repo.
+
+### Explicit Invocation Gate for `AUDIT_AND_FIX`
+
+Before starting any audit, confirm both:
+
+1. `audit_mode` is set to `AUDIT_AND_FIX` in `AUDIT_TRAIL.md`, AND
+2. The caller (user or orchestrator) explicitly requested `AUDIT_AND_FIX` in the invocation (slash command flag `--mode AUDIT_AND_FIX`, or explicit instruction in the invoking message).
+
+If only condition #1 is met (e.g., a previous audit left `AUDIT_AND_FIX` in the trail), treat it as `AUDIT_ONLY` and log a `WARNING`:
+
+```yaml
+mode_gate:
+  trail_mode: AUDIT_AND_FIX
+  caller_intent: AUDIT_ONLY
+  resolved_mode: AUDIT_ONLY
+  status: WARNING
+  reason: "AUDIT_AND_FIX requires explicit caller intent per v2.2.0 gate"
+```
+
+### `audit_version` Parameter Requirement
+
+Every audit invocation MUST set `audit_version` in `AUDIT_TRAIL.md`. This is the version of the repo-auditor protocol being executed (e.g., `2.2.0`), NOT the version of the target repository (that is `target_version`).
+
+The audit `BLOCKS` at PHASE 0 if:
+- `audit_version` is missing
+- `audit_version` does not match the `**Version:**` line in this SKILL.md
+
+This prevents audits from running under a protocol version different from the one installed, which can silently bypass newer validations.
 
 ## Mandatory Critical Files (Set in PHASE 0)
 
@@ -581,7 +675,7 @@ status: <PASS | PASS_WITH_WARNINGS | BLOCKED>
 
 ### PHASE 1.5: Content and Cross-File Consistency Validation
 Objective: compare declared repository state against actual state.
-This is the core phase and must include all seven validations below.
+This is the core phase and must include all eleven validations below (1.5.1 through 1.5.11).
 
 #### 1.5.1 Skill count (`README.md` vs repository)
 Count real skills:
@@ -955,27 +1049,78 @@ ACTUAL_FILE_COUNT=$(git ls-files | wc -l | tr -d ' ')
 ACTUAL_COMMIT_COUNT=$(git rev-list --count HEAD)
 ```
 
-Scan README for declared values and flag mismatches:
+Scan README AND EXECUTIVE_SUMMARY for declared values and flag mismatches (v2.2.0: extended to `EXECUTIVE_SUMMARY.md`):
+
 ```bash
 STALE_COUNT=0
+SCAN_FILES="README.md"
+if [ -f "EXECUTIVE_SUMMARY.md" ]; then
+  SCAN_FILES="$SCAN_FILES EXECUTIVE_SUMMARY.md"
+fi
 
-# Check skill count references in prose (exclude tables)
-grep -n "[0-9]\+ production skills" README.md | while read -r line; do
-  declared=$(echo "$line" | grep -o "[0-9]\+ production" | grep -o "[0-9]\+")
-  if [ "$declared" != "$ACTUAL_SKILL_COUNT" ]; then
-    echo "STALE: skill count $declared (actual: $ACTUAL_SKILL_COUNT) at $line"
-    STALE_COUNT=$((STALE_COUNT + 1))
-  fi
-done
+for doc in $SCAN_FILES; do
+  # Check skill count references in prose (exclude tables)
+  grep -n "[0-9]\+ production skills" "$doc" 2>/dev/null | while read -r line; do
+    declared=$(echo "$line" | grep -o "[0-9]\+ production" | grep -o "[0-9]\+")
+    if [ "$declared" != "$ACTUAL_SKILL_COUNT" ]; then
+      echo "STALE: $doc skill count $declared (actual: $ACTUAL_SKILL_COUNT) at $line"
+      STALE_COUNT=$((STALE_COUNT + 1))
+    fi
+  done
 
-# Check file count references
-grep -n "[0-9]\+ tracked files\|[0-9]\+ files" README.md | while read -r line; do
-  declared=$(echo "$line" | grep -o "[0-9]\+ \(tracked \)\?files" | grep -o "[0-9]\+")
-  if [ -n "$declared" ] && [ "$declared" -gt 100 ] && [ "$declared" != "$ACTUAL_FILE_COUNT" ]; then
-    echo "STALE: file count $declared (actual: $ACTUAL_FILE_COUNT) at $line"
-  fi
+  # Check file count references
+  grep -n "[0-9]\+ tracked files\|[0-9]\+ files" "$doc" 2>/dev/null | while read -r line; do
+    declared=$(echo "$line" | grep -o "[0-9]\+ \(tracked \)\?files" | grep -o "[0-9]\+")
+    if [ -n "$declared" ] && [ "$declared" -gt 100 ] && [ "$declared" != "$ACTUAL_FILE_COUNT" ]; then
+      echo "STALE: $doc file count $declared (actual: $ACTUAL_FILE_COUNT) at $line"
+    fi
+  done
+
+  # Check commit count references
+  grep -n "[0-9]\+ commits" "$doc" 2>/dev/null | while read -r line; do
+    declared=$(echo "$line" | grep -o "[0-9]\+ commits" | grep -o "[0-9]\+")
+    if [ -n "$declared" ] && [ "$declared" -gt 10 ] && [ "$declared" != "$ACTUAL_COMMIT_COUNT" ]; then
+      echo "STALE: $doc commit count $declared (actual: $ACTUAL_COMMIT_COUNT) at $line"
+    fi
+  done
 done
 ```
+
+**Python sampling fallback for very large repos (v2.2.0):**
+If the scan above takes longer than 10 seconds on a large repository, switch to a sampling strategy that inspects the top 50 prose paragraphs containing digits. Use Python when available:
+
+```bash
+if command -v python3 >/dev/null 2>&1 || command -v python >/dev/null 2>&1; then
+  PY=$(command -v python3 || command -v python)
+  for doc in $SCAN_FILES; do
+    "$PY" - "$doc" "$ACTUAL_SKILL_COUNT" "$ACTUAL_FILE_COUNT" "$ACTUAL_COMMIT_COUNT" <<'PYEOF'
+import re, sys
+path, skills, files, commits = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
+with open(path, encoding='utf-8', errors='replace') as f:
+    text = f.read()
+# Match prose digits tied to the 3 metric families (not table cells).
+patterns = {
+    'skills':  (r'(\d+)\s+production skills', skills),
+    'files':   (r'(\d+)\s+(?:tracked\s+)?files', files),
+    'commits': (r'(\d+)\s+commits', commits),
+}
+stale = 0
+for label, (pat, expected) in patterns.items():
+    for m in re.finditer(pat, text):
+        declared = m.group(1)
+        if int(declared) > 10 and declared != expected:
+            start = max(0, m.start() - 30)
+            end = min(len(text), m.end() + 30)
+            snippet = text[start:end].replace('\n', ' ')
+            print(f"STALE: {path} {label} declared={declared} expected={expected}  ...{snippet}...")
+            stale += 1
+print(f"STALE_COUNT_{path}={stale}")
+PYEOF
+  done
+fi
+```
+
+Python sampling is ~5-10x faster on repos with >100 MB of markdown because it reads each file once and uses compiled regex instead of spawning one subprocess per pattern per file.
 
 Criteria:
 - `PASS` if no stale metrics detected

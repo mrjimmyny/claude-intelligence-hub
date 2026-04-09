@@ -1,4 +1,4 @@
-# Repo Auditor Skill v2.0.0
+# Repo Auditor Skill v2.2.0
 
 ## Purpose
 `repo-auditor` is a deterministic audit skill for repository governance quality.
@@ -83,6 +83,92 @@ The skill enforces `P01` to `P13` in `SKILL.md`, including:
 - No release without tag verification
 - No unresolved `BLOCKED` state progression
 - No vague criteria
+
+## Artifact Map
+
+| File | Role | Updated by |
+|---|---|---|
+| `SKILL.md` | Full deterministic protocol — every phase, checkpoint, validation, gate | Human or release PR |
+| `README.md` | Surface-level index of the skill — purpose, modes, artifacts, quick start | Human or release PR |
+| `.metadata` | Machine-readable version and routing metadata | Release automation |
+| `AUDIT_TRAIL.md` | YAML-structured evidence log of every audit execution | Agent at audit time (append-only) |
+| `scripts/validate-trail.sh` | Structural validator for `AUDIT_TRAIL.md` (runs independently) | Human or release PR |
+
+`AUDIT_TRAIL.md` is **append-only during audits**: new executions add new records; old entries are immutable historical evidence and MUST NOT be edited retroactively.
+
+## Quick Start
+
+The fastest path from zero to a first audit on a target repository:
+
+```bash
+# 1. Confirm repo-auditor is installed as a skill in ~/.claude/skills/
+ls ~/.claude/skills/repo-auditor/
+
+# 2. cd into the target repository (must be a git repo with a clean tree)
+cd /path/to/target-repo
+git status --short
+
+# 3. Trigger the skill with an explicit mode
+/repo-auditor --mode AUDIT_ONLY
+
+# 4. Inspect the evidence log produced in the target repo
+cat AUDIT_TRAIL.md
+
+# 5. Validate the trail structure
+bash ~/.claude/skills/repo-auditor/scripts/validate-trail.sh AUDIT_TRAIL.md
+```
+
+For an audit that also applies trivial fixes and publishes a release:
+
+```bash
+/repo-auditor --mode AUDIT_AND_FIX
+```
+
+`AUDIT_AND_FIX` MUST be explicit — the default is `AUDIT_ONLY` for safety (v2.2.0).
+
+## `.metadata` Fields — Required vs Optional
+
+The `.metadata` file is JSON and drives version routing. Fields:
+
+| Field | Required? | Purpose |
+|---|---|---|
+| `name` | **required** | Skill identifier; MUST match the directory name |
+| `version` | **required** | Canonical version (source of truth — all other files must match) |
+| `status` | **required** | One of `draft`, `production`, `deprecated`, `experimental` |
+| `description` | **required** | One-line summary used by skill routers and catalogs |
+| `auto_load` | optional | `true` to load the skill automatically; defaults to `false` |
+| `priority` | optional | `low`, `normal`, `high`; routing hint for skill dispatchers |
+| `command` | optional (but recommended) | Slash command; validated by Phase 1.2.5 if present |
+| `aliases` | optional | Array of alternate slash commands |
+
+A missing **required** field is a `CRITICAL ERROR` in Phase 1.2.3. A missing optional field is silent.
+
+## Version Sync Guardrails
+
+`repo-auditor` enforces version consistency in the target repo because version drift is the #1 source of audit noise. For the skill's own files, these must stay synchronized on every release:
+
+| File | What to update |
+|---|---|
+| `repo-auditor/.metadata` | `version` field (source of truth) |
+| `repo-auditor/SKILL.md` | `**Version:**` line near the top |
+| `repo-auditor/README.md` | `# Repo Auditor Skill vX.Y.Z` on line 1 |
+| `repo-auditor/AUDIT_TRAIL.md` | `# AUDIT_TRAIL - repo-auditor vX.Y.Z` header |
+| Hub `CHANGELOG.md` | New `[hub-version]` entry referencing the skill bump |
+| Hub `HUB_MAP.md` | Version reference next to the skill name |
+
+The hub-level sync script handles most of these automatically:
+
+```bash
+bash /c/ai/claude-intelligence-hub/scripts/sync-versions.sh repo-auditor
+```
+
+After running it, also run the integrity check:
+
+```bash
+bash /c/ai/claude-intelligence-hub/scripts/integrity-check.sh
+```
+
+Must report `6 passed / 0 failed` before committing.
 
 ## Usage Note
 When this skill is triggered, execute commands exactly as specified in `SKILL.md`, log evidence in `AUDIT_TRAIL.md`, and treat checkpoint gates as non-negotiable.

@@ -5,8 +5,8 @@
 **Repository:** https://github.com/mrjimmyny/claude-intelligence-hub
 **Developed by:** Xavier (Claude Sonnet 4.5) & Jimmy
 **Purpose:** Centralized AI intelligence system - Skills, memory, automation, and routing
-**Version:** 2.29.4 (Hub v2.29.4 + AOP v4.2.0)
-**Component Versions:** Preferences v3.7.0, Memoria v1.2.0, PBI v1.3.0, GDrive v1.0.0, Registry v1.1.0, X-MEM v1.0.0, Xavier-Memory v1.1.0, Xavier-Memory-Sync v1.0.0, Context-Guardian v1.1.0, Repo-Auditor v2.1.0, Conv-Memoria v1.0.0, AOP v4.2.0, Catalog v1.0.0, Token-Economy v1.0.0, Codex-Governance v1.0.0, daily-tasks-oih v1.0.0, docx-indexer v1.4.0, codex-task-notifier v1.2.0, microsoft-mail-deliver v1.2.0, daily-doc-information v1.7.1, notebooklmx v1.2.0, bi-designerx v0.2.0, self-improvement v1.0.0, security-reviewx v1.0.0
+**Version:** 2.29.5 (Hub v2.29.5 + AOP v4.2.0)
+**Component Versions:** Preferences v3.7.0, Memoria v1.2.0, PBI v1.3.0, GDrive v1.0.0, Registry v1.1.0, X-MEM v1.0.0, Xavier-Memory v1.1.0, Xavier-Memory-Sync v1.0.0, Context-Guardian v1.1.0, Repo-Auditor v2.2.0, Conv-Memoria v1.0.0, AOP v4.2.0, Catalog v1.0.0, Token-Economy v1.0.0, Codex-Governance v1.0.0, daily-tasks-oih v1.0.0, docx-indexer v1.4.0, codex-task-notifier v1.2.0, microsoft-mail-deliver v1.2.0, daily-doc-information v1.7.1, notebooklmx v1.2.0, bi-designerx v0.2.0, self-improvement v1.0.0, security-reviewx v1.0.0
 **Status:** ✅ Production - Enterprise-Ready - **ZERO TO HERO COMPLETE** (Modules 1-4) + Context Preservation + Repo Auditor + Navigation Roadmap + AOP
 
 ---
@@ -880,7 +880,7 @@ session-memoria/
 
 ---
 
-### 10. repo-auditor (v2.0.0)
+### 10. repo-auditor (v2.2.0)
 
 **Purpose:** End-to-end repository audit skill - Quality and governance enforcement
 
@@ -1236,7 +1236,7 @@ User: *doesn't even notice, just works*
 - **[README.md](pbi-claude-skills/README.md)** - User guide
 
 ### Repo Auditor, Conversation Memoria, AOP & Core Catalog Documentation
-- **[Repo Auditor SKILL.md](repo-auditor/SKILL.md)** - Audit protocol (v2.0.0)
+- **[Repo Auditor SKILL.md](repo-auditor/SKILL.md)** - Audit protocol (v2.2.0)
 - **[Conversation Memoria SKILL.md](conversation-memoria/SKILL.md)** - Persistence protocol
 - **[AOP Complete Guide](agent-orchestration-protocol/README.md)** - Multi-agent coordination
 - **[Core Catalog README.md](core_catalog/README.md)** - Infrastructure data guide

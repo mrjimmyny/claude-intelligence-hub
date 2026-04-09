@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.29.5] - 2026-04-08
+
+### Changed
+- **repo-auditor** v2.1.0 -> v2.2.0 — self-improvement: 10 AOP-approved improvements from the 2026-04-07 final report (5 independent runs, +11.8% avg score). **Tier 1 (strong consensus):** (1) Version alignment README.md + AUDIT_TRAIL.md headers to v2.2.0; (2) Phase 1.5 validation count corrected from "seven" to "eleven". **Tier 2 (moderate consensus):** (3) Portable regex backend in `scripts/validate-trail.sh` — prefers `rg`, falls back to POSIX `grep -E` automatically (new `rg_q`/`rg_n` helpers); (4) Mandatory Environment Pre-Flight block in SKILL.md — tool availability check + TMP_DIR fallback for Git Bash/Windows without /tmp; (5) README Artifact Map table + Quick Start section for new operators. **Tier 3 (unique but valuable):** (6) Stale-metrics detection expanded to `EXECUTIVE_SUMMARY.md` + Python sampling fallback for large repos; (7) `.metadata` Required vs Optional fields table in README; (8) Explicit Invocation Gate for `AUDIT_AND_FIX` — default mode changed from `AUDIT_AND_FIX` to `AUDIT_ONLY` for safety, new `audit_version` parameter requirement (must match SKILL.md body); (9) Version Sync Guardrails section in README documenting the files that must stay in sync; (10) AUDIT_TRAIL.md historical preservation note — entries are append-only immutable evidence.
+
 ## [2.29.4] - 2026-04-08
 
 ### Changed

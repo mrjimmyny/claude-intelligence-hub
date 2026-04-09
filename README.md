@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.29.4-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.29.5-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -218,7 +218,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 | **[xavier-memory](xavier-memory/)** | v1.1.0 | ✅ Production | Global memory infrastructure | Master MEMORY.md, cross-project sync, 3-layer backup (Git/Hard links/GDrive). Foundation for X-MEM protocol. |
 | **[xavier-memory-sync](xavier-memory-sync/)** | v1.0.0 | ✅ Production | Memory sync automation | Trigger phrases for backup/restore/status, Google Drive integration, zero-duplicate guarantee. |
 | **[context-guardian](context-guardian/)** | v1.1.0 | ✅ Production | Context preservation system | Xavier ↔ Magneto account switching, 3-strategy symlinks, rollback protection, .contextignore support, dry-run mode, verify-backup reports. |
-| **[repo-auditor](repo-auditor/)** | v2.1.0 | ✅ Production | End-to-end audit skill | 11 cross-file validations, proof-of-read fingerprinting, rg/grep portability, accumulative AUDIT_TRAIL.md, validate-trail.sh for CI. |
+| **[repo-auditor](repo-auditor/)** | v2.2.0 | ✅ Production | End-to-end audit skill | 11 cross-file validations, environment pre-flight, `AUDIT_ONLY` default, rg/grep portability, stale-metrics detection in README + EXECUTIVE_SUMMARY, validate-trail.sh for CI. |
 | **[conversation-memoria](conversation-memoria/)** | v1.0.0 | ✅ Production | Persistent conversation storage | Intelligent metadata extraction, 95-98% token savings, week-based organization, natural language triggers, cross-agent memory sharing. |
 | **[agent-orchestration-protocol](agent-orchestration-protocol/)** | v4.2.0 | ✅ Production | Multi-agent coordination framework | Multi-executor robust orchestration, task-ID namespaced artifacts, fan-in/fan-out, DAG dependency management, deadlock detection, priority-aware execution, and dispatch-script guardrails for headless launches. |
 | **[core_catalog](core_catalog/)** | v1.0.0 | ✅ Production | Core system catalog | Bootstrap compatibility data, centralized configuration references, and environment initialization mappings. |
@@ -496,7 +496,7 @@ claude-intelligence-hub/
 │   ├── templates/                   # Config metadata schema templates
 │   └── docs/                        # Phase 0 discovery report
 │
-├── 📁 repo-auditor/                 # ⭐ End-to-End Audit Skill (v2.1.0)
+├── 📁 repo-auditor/                 # ⭐ End-to-End Audit Skill (v2.2.0)
 │   ├── SKILL.md                     # Audit workflows & proof-of-read fingerprinting
 │   ├── AUDIT_TRAIL.md               # Accumulative audit log (append-only)
 │   └── scripts/                     # validate-trail.sh for CI enforcement
