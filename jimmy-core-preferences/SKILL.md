@@ -8,7 +8,7 @@ aliases: [/prefs, /jimmy]
 
 # Jimmy Core Preferences — Global Cross-Agent Operating Framework
 
-**Version:** 3.7.0
+**Version:** 3.8.0
 **Last Updated:** 2026-04-08
 **Auto-Load:** Yes (Priority: Highest)
 
@@ -791,6 +791,16 @@ No exceptions. "Looks innocent" is not a pass. "Previous similar command worked"
 4. Verify that no nested repository directory (`claude-intelligence-hub/`, `_worktrees/*/`) is listed as a worktree of its parent repo. If it is, flag and STOP.
 **Why:** Cross-registration is invisible drift that only surfaces when a destructive operation runs. Detecting it before the operation is trivial. Detecting it after is an incident.
 **How to apply:** A reusable script `_skills/daily-doc-information/scripts/worktree-preflight.sh` runs the 4 checks. Invoke it before any worktree operation. If the script reports drift, STOP and report to Jimmy. Do not run any worktree command until drift is resolved. PP-14 in `checkpoint-verify.sh` runs this check at every checkpoint to catch drift proactively.
+
+### R-40. Thread Entries Must Never Contain H3 or H4 Headers — Use H5+ or Bold Text
+**Origin:** Multiple recurrences through 2026-04 (most recently 2026-04-08 in `si-pjt-threads-jimmy-magneto.md` thread `2026-04-09-jimmy-01`, where the agent used `### O que existe hoje` / `### Proposta` inside a `#### Magneto's Entry`). Jimmy had to manually fix the markdown because each `###` inside an entry creates a NEW mother thread and breaks the threading model (FND-0058).
+**Rule:** Inside any `#### <Name>'s Entry` of a project thread doc (`*-pjt-threads-*.md`):
+1. NEVER use `### ` (H3) — that is reserved for the mother thread header (`### YYYY-MM-DD-who-NN`).
+2. NEVER use `#### ` (H4) — that is reserved for the entry marker itself (`#### <Name>'s Entry`).
+3. For in-entry sub-sections, use `##### ` (H5) or deeper, OR use **bold text** as a pseudo-heading.
+4. This applies to ALL agents and ALL thread docs — it is a structural rule of the threading model, not a style preference.
+**Why:** H3 and H4 have semantic meaning in the thread doc template (mother thread + entry marker). Using them inside an entry's body creates phantom mother threads that break the `2026-04-09-jimmy-01 → jimmy-02 → jimmy-03` numbering, confuse the reader, and force Jimmy to manually refactor. Thread-doc-template rule R3/R5 already implies this but agents keep ignoring it because the prose was not explicit.
+**How to apply:** Before writing any thread entry, mentally scan your planned sub-headers. If any would be `###` or `####`, demote them to `#####` or convert them to `**Bold:**` lines. When in doubt, use bold text — it cannot break the thread structure under any circumstance.
 
 ---
 

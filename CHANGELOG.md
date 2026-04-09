@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.29.6] - 2026-04-08
+
+### Added
+- **agent-orchestration-protocol** — Three new scripts resolve FND-0074 (AOP polling waste): `aop-write-manifest.sh` (Phase A, CC writes manifest + exits), `aop-collect-when-ready.sh` (Phase B, non-AI filesystem watcher, ZERO tokens during wait), `aop-resume-consolidation.sh` (Phase C, fresh CC session for consolidation only). Cross-platform, jq/python/awk fallbacks, CR stripping for Windows jq. End-to-end tested. Legacy `aop-multi-poll.sh` coexists; CC prompt template migration deferred to next AOP exercise. Expected savings: ~75-80% Anthropic tokens in multi-level AOP.
+- **agent-orchestration-protocol** — Three new deliverables resolve FND-0076 (AOP Phase 0 worktree + CWD discipline): `aop-setup-worktrees.sh` (mandatory `--repo` flag, refuses drifted repos, R-39 preflight before ops, per-worktree registration verification, rollback trap on failure, `--dry-run` mode), `aop-cleanup.sh` (trap-based executor rollback, conservative hub restore, defensive — never prunes/force-deletes), `templates/AOP_EXECUTOR_OPERATING_ENVIRONMENT.md` (mandatory prompt header block with CWD discipline, pre-commit branch verification, mandatory cleanup trap installation). Smoke tested on BR-SPO-DCFC264.
+
+### Changed
+- **jimmy-core-preferences** v3.7.0 -> v3.8.0 — Added R-40 (Thread Entries Must Never Contain H3 or H4 Headers). Origin: multiple recurrences through 2026-04 — most recently 2026-04-08 in `si-pjt-threads-jimmy-magneto.md` thread `2026-04-09-jimmy-01` where the agent used `### O que existe hoje` inside a `#### Magneto's Entry`, creating phantom mother threads Jimmy had to manually fix. Rule: inside any thread entry, use only H5+ (`#####`) or bold text for sub-sections — H3 and H4 are reserved for mother thread and entry markers respectively. Applies to all agents and all thread docs.
+
 ## [2.29.5] - 2026-04-08
 
 ### Changed
