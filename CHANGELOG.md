@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.29.10] - 2026-04-10
+
+### Changed
+- **jimmy-core-preferences** v3.10.0 -> v3.11.0 — Added **R-44** (Project Documentation Live-Sync — Operational Docs Must Track Execution State in the Same Commit). **Origin:** 2026-04-10, Jimmy's thread entry `2026-04-10-jimmy-01` in `bdvx-pjt-threads-jimmy-magneto.md` at ~12:00, verbatim: *"Fui olhar agora o C:\ai\obsidian\CIH\projects\skills\bi-datavizx\status-atual.md e C:\ai\obsidian\CIH\projects\skills\bi-datavizx\next-step.md e me parece que estão desatualizados com o que estamos fazendo agora. Se for isso, preciso que você mantenha os docs do projeto atualizados sempre que formos avançando pra não ficar muito gap entre o que foi executado e o que está em andamento."* Observed during bi-datavizx workstream 2 (pbir-cli Phase 0 Addendum) execution: Magneto had completed the addendum draft, transcribed Jimmy's pre-signature, and dispatched CODEX R02 — but `status-atual.md` and `next-step.md` still said "workstream 2 queued awaiting G-07", a ~2-hour gap between executed state and doc state. Jimmy explicitly approved promotion to Section R cross-agent scope at 12:44 in the same thread. **Rule:** every meaningful project state change (draft completed, CODEX dispatched, artifact returned, verdict signed, gate identified, workstream opened/closed, phase transition, decision row registered, risk materialized, blocker changed) MUST update `status-atual.md` + `next-step.md` + `strategic-project-portfolio.md` (if row changes) **in the same commit as the event**. The Session Close Protocol is the MINIMUM bar; R-44 raises it to **continuous-sync** — doc state and execution state must never diverge by more than one commit. No authorization required to sync (operational docs are reality descriptors, not decision vectors). No "wait for save/checkpoint/close-day" exception. Includes 11-item list of sync-triggering events, counter-example vs correct pattern, and relationship to existing Session Close Protocol + R-33. Mirrored as non-negotiable section "Project Doc Live-Sync (MANDATORY — R-44)" in `C:/ai/CLAUDE.md`, `C:/ai/AGENTS.md`, and `C:/ai/GEMINI.md`.
+
 ## [2.29.9] - 2026-04-10
 
 ### Changed

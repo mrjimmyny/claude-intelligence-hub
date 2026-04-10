@@ -1,6 +1,6 @@
 ---
 name: jimmy-core-preferences
-version: 3.9.0
+version: 3.11.0
 description: Global cross-agent operating framework for Jimmy.
 command: /preferences
 aliases: [/prefs, /jimmy]
@@ -8,8 +8,8 @@ aliases: [/prefs, /jimmy]
 
 # Jimmy Core Preferences — Global Cross-Agent Operating Framework
 
-**Version:** 3.10.0
-**Last Updated:** 2026-04-09
+**Version:** 3.11.0
+**Last Updated:** 2026-04-10
 **Auto-Load:** Yes (Priority: Highest)
 
 **Note:** All `<PLACEHOLDER>` email addresses are resolved from the operator's local `CLAUDE.md`. This skill defines routing rules; actual addresses are configured per-environment.
@@ -858,6 +858,42 @@ C:/ai/obsidian/CIH/projects/skills/daily-doc-information/ai-sessions/YYYY-MM/
 **Why:** BI artifacts routinely represent hundreds of hours of modeling, business logic, validation, stakeholder alignment, and corporate compliance work. A single unauthorized delete can: (a) destroy work that cannot be rebuilt from git (model changes, DAX measures, visual tweaks made inside Desktop), (b) violate corporate data governance policies (deleting a BigQuery table that other pipelines consume), (c) trigger downstream pipeline or dashboard failures that propagate to business users, (d) expose Jimmy to compliance breach or audit findings, (e) be impossible to recover if the deletion propagated to Service/Fabric before a backup was taken. The cost of asking — a few seconds of thread round-trip — is trivial compared to the cost of even a single wrong delete. Agents that "think they know" which deletions are safe are exactly the failure mode this rule prevents.
 
 **How to apply:** BEFORE any wrapped CLI command, SQL statement, API call, or script invocation whose effect is destructive on any BI artifact or data source: STOP, check this rule, and follow the authorization protocol above. Fire the gate REGARDLESS of whether: the operation is "just a test", the target is "clearly unused", there's a dry-run flag available, the operation was mentioned in a prior planning doc (the plan authorizes the strategy, not the individual destructive execution steps), or the agent is "sure" nothing depends on it. Every bi-datavizx module, every BI adapter (desktop-adapter, fabric-adapter, data-ingest, report-ops, model-ops), every PBI project, every ad-hoc BI script MUST honor this rule. If in doubt whether an operation is destructive, TREAT IT AS DESTRUCTIVE and ask. Cross-reference: [[bdvx-contract-v1.1]] Section 6 D-rules (proposed D13 amendment) and bi-datavizx `decisoes.md` D18. For Claude Code, the rule is mirrored in `C:/ai/CLAUDE.md` section "BI Destructive Operations (MANDATORY)". For Codex, it is mirrored in `C:/ai/AGENTS.md`. For Gemini CLI, it is mirrored in `C:/ai/GEMINI.md`.
+
+### R-44. Project Documentation Live-Sync — Operational Docs Must Track Execution State in the Same Commit
+**Origin:** 2026-04-10. Jimmy's thread entry `2026-04-10-jimmy-01` in `bdvx-pjt-threads-jimmy-magneto.md` at ~12:00, verbatim: *"Fui olhar agora o C:\ai\obsidian\CIH\projects\skills\bi-datavizx\status-atual.md e C:\ai\obsidian\CIH\projects\skills\bi-datavizx\next-step.md e me parece que estão desatualizados com o que estamos fazendo agora. Se for isso, preciso que você mantenha os docs do projeto atualizados sempre que formos avançando pra não ficar muito gap entre o que foi executado e o que está em andamento."* Observed during the bi-datavizx workstream 2 (pbir-cli Phase 0 Addendum) execution: Magneto had completed the addendum v1.0 draft, transcribed Jimmy's pre-signature, and dispatched CODEX R02 review — but `status-atual.md` and `next-step.md` still said "workstream 2 queued awaiting G-07". Gap of ~2 hours between executed state and doc state. Jimmy explicitly approved promoting this rule to Section R cross-agent scope at 2026-04-10 12:44 in the same thread, verbatim: *"Go para: promover R-44c formalmente pra `jimmy-core-preferences` Section R como R-44 (depois de R-43) e aprovo formalmente a próxima etapa. Pode seguir."*
+
+**Rule:** Every time a project's state changes meaningfully — draft completed, CODEX dispatched, artifact returned, verdict received, phase transition, new gate identified, workstream status flip, pre-signature recorded, amendment round opened or closed — the operational state docs (`status-atual.md`, `next-step.md`, and, if the project's row would change, `strategic-project-portfolio.md`) MUST be updated **in the same commit as the event**. The Session Close Protocol rule (update status-atual/next-step/decisoes of every referenced project before closing) is the MINIMUM bar — R-44 raises it to **continuous-sync**. Doc state and execution state must never diverge by more than one commit. This applies to every agent (Claude Code, Codex, Gemini, any future agent), every project, every workstream.
+
+**Events that trigger mandatory sync (non-exhaustive):**
+1. A new document draft is completed (addendum, Contract amendment, SDD amendment, DEP, analysis, review report, template).
+2. CODEX (or any reviewer) is dispatched via AOP real — record dispatch time, task ID, SID, model, effort, expected duration, reviewer session doc.
+3. A CODEX (or any reviewer) artifact is returned and absorbed.
+4. Jimmy signs a verdict or pre-signs a recommendation.
+5. A new follow-up gate is identified by an impact assessment.
+6. A workstream is opened, paused, or closed.
+7. A phase transition happens.
+8. A decision row is registered in `decisoes.md` (D-XX).
+9. A skill version or hub version bump that affects a project's dependencies.
+10. A risk materializes or a mitigation is applied that changes a project's blocker state.
+11. An error, blocker, or re-escalation that changes the Blocked / In Progress section of the status.
+
+**Authorization to sync:** NONE required. Operational state docs are NOT decision vectors — they describe reality. Updating them to reflect reality is always authorized. Only `decisoes.md` rows, Contract/SDD amendments, and Phase verdicts require Jimmy gating.
+
+**Authorization NOT to sync:** NONE. There is no "wait for save/checkpoint/close-day" exception. Agents who delay sync create gaps; gaps force Jimmy to re-read execution state from conversation history instead of docs, which is exactly what operational docs exist to prevent.
+
+**Why:** Gaps between executed state and doc state break traceability and force Jimmy to re-ask questions that should be readable directly from the docs. Jimmy's workflow depends on being able to open `status-atual.md` and `next-step.md` and see the current reality — not the reality as of the last checkpoint 2 hours ago. The `save` / `checkpoint` / `close day` keyword gates are meant to VERIFY the state is already synced, not to CREATE the sync at that moment. An agent that only syncs at checkpoint time has been deferring a debt the entire session. The cost of a small incremental sync inside each event's commit is trivial (a few lines of edit); the cost of stale docs is Jimmy losing situational awareness and the agent losing Jimmy's trust.
+
+**How to apply:**
+- Treat every meaningful state change as a pair: (execution change, doc change). The doc change lives in the same commit as the execution change.
+- When drafting a document, update `status-atual.md` to reflect "draft X in progress" in the same commit that creates the draft. When the draft is complete, bump the status in the same commit that contains the final section of the draft.
+- When dispatching a CODEX review, update `status-atual.md` with the dispatch details (task ID, SID, model, effort, expected duration) in the same commit that creates the dispatch script or prompt file.
+- When absorbing findings, update `status-atual.md` with the verdict + absorption summary in the same commit that contains the absorption edits.
+- When identifying a new follow-up gate via an impact assessment, update `next-step.md`'s "Blocked pending" section in the same commit that adds the impact assessment to the source document.
+- When a workstream closes, update BOTH `status-atual.md` (Completed section) AND `next-step.md` (Immediate Action moves to the next workstream) AND `strategic-project-portfolio.md` (if the project's row would change) in the same commit.
+- **Counter-example (wrong):** draft a document, dispatch CODEX, wait for CODEX, absorb findings, then update `status-atual.md` only when Jimmy says "checkpoint" or "save". By the time the update happens, hours have passed and Jimmy has no visibility into the current state.
+- **Correct pattern:** draft → commit with doc updates → dispatch CODEX → commit with dispatch event logged → (while waiting) any other state change → commit with update → artifact returns → commit with absorption + doc updates. Docs are always current to within one commit of reality.
+- **Relationship to existing rules:** R-44 does NOT replace the Session Close Protocol (update docs of every referenced project before closing). R-44 ADDS a stricter continuous bar: the Session Close Protocol is the floor; R-44 is the ceiling. When the close-day gate fires, it should find that all docs are already synced — not use the gate as the moment to sync. R-44 also reinforces R-33 (always commit+push after work): the scope of "after work" is narrowed to "after each meaningful event", not "at the end of the session".
+- For Claude Code, the rule is mirrored in `C:/ai/CLAUDE.md` section "Project Doc Live-Sync (MANDATORY — R-44)". For Codex, it is mirrored in `C:/ai/AGENTS.md`. For Gemini CLI, it is mirrored in `C:/ai/GEMINI.md`.
 
 ---
 
