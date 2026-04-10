@@ -1,6 +1,6 @@
 ---
 name: jimmy-core-preferences
-version: 3.7.0
+version: 3.9.0
 description: Global cross-agent operating framework for Jimmy.
 command: /preferences
 aliases: [/prefs, /jimmy]
@@ -8,8 +8,8 @@ aliases: [/prefs, /jimmy]
 
 # Jimmy Core Preferences — Global Cross-Agent Operating Framework
 
-**Version:** 3.8.0
-**Last Updated:** 2026-04-08
+**Version:** 3.9.0
+**Last Updated:** 2026-04-09
 **Auto-Load:** Yes (Priority: Highest)
 
 **Note:** All `<PLACEHOLDER>` email addresses are resolved from the operator's local `CLAUDE.md`. This skill defines routing rules; actual addresses are configured per-environment.
@@ -801,6 +801,31 @@ No exceptions. "Looks innocent" is not a pass. "Previous similar command worked"
 4. This applies to ALL agents and ALL thread docs — it is a structural rule of the threading model, not a style preference.
 **Why:** H3 and H4 have semantic meaning in the thread doc template (mother thread + entry marker). Using them inside an entry's body creates phantom mother threads that break the `2026-04-09-jimmy-01 → jimmy-02 → jimmy-03` numbering, confuse the reader, and force Jimmy to manually refactor. Thread-doc-template rule R3/R5 already implies this but agents keep ignoring it because the prose was not explicit.
 **How to apply:** Before writing any thread entry, mentally scan your planned sub-headers. If any would be `###` or `####`, demote them to `#####` or convert them to `**Bold:**` lines. When in doubt, use bold text — it cannot break the thread structure under any circumstance.
+
+### R-41. Thread Read Receipts — Only the Reader Marks, Never the Writer
+**Origin:** Second recurrence on 2026-04-09 in `bdvx-pjt-threads-jimmy-magneto.md` thread `2026-04-09-jimmy-01`. Magneto (Claude Code, session `e1e369e8`) posted a `#### Magneto's Entry ✅ read-2026-04-09-22:18-jimmy` — fabricating a Jimmy read receipt on its own entry. Jimmy corrected verbatim: *"APENAS EU marco lido nas suas threads e APENAS VOCÊ marca lido nas minhas. Por favor siga o template. Não inventa."* First recurrence was earlier same day at 17:01; this is recurrence #2 within six hours.
+**Rule:** In any project thread document (`{project}-pjt-threads-{user}-{agent}.md`), read receipts on `#### <Name>'s Entry` headers follow strict ownership:
+1. **An agent marks `✅ read-YYYY-MM-DD-HH:MM-{agent-slug}` ONLY on entries written by SOMEONE ELSE.** Jimmy's entries, other agents' entries — read them, then append the receipt to the H4 header.
+2. **An agent NEVER marks a read receipt on its own entry.** The `read-...-jimmy` receipt that eventually appears on a Magneto entry is added by Jimmy himself when he reads it — not by Magneto at write time.
+3. Symmetrically: Jimmy marks receipts on agent entries; agents mark receipts on Jimmy's entries and on other agents' entries.
+4. **Past mistakes are frozen.** If old thread entries contain wrong receipts, DO NOT retroactively fix them — Jimmy's explicit instruction (2026-04-09 22:20): *"NÃO MEXA EM NADA DAS THREADS PASSADAS."* Apply the rule only going forward.
+5. Applies universally to every project thread doc, every agent, every platform (Claude Code, Codex, Gemini, any future agent).
+**Why:** A receipt is a claim about who read what and when. Adding `read-...-jimmy` to a Magneto-authored entry is a **fabrication** of Jimmy's read state — it looks as if Jimmy acknowledged content he may never have seen. That is a silent fraud risk and a direct violation of the `thread-doc-template.md` R6 rule (append after reading). The reader marks; the writer never pre-marks.
+**How to apply:** Before posting any `#### <Name>'s Entry`, scan the H4 line. It MUST end with the entry name only, NO receipt. If a receipt already appears, DELETE it before saving the entry. When reading someone else's entry, APPEND your receipt to THEIR H4 header (not yours). Mentally check: "Am I the writer or the reader of this entry? If writer → no receipt from me. If reader → add my receipt to THEIR header."
+
+### R-42. All Session Docs Centralized Under DDI — Including Reviewer and Pontual Docs
+**Origin:** 2026-04-09 22:43. On the `bdvx-contract-v1.0.md` verdict block, Jimmy marked "Approved with observations" and added verbatim: *"qualquer doc session deve ser salvo abaixo de DDI, mesmo os pontuais apontando para os devidos projetos. Assim garantimos centralização desse tipo de doc."* This extends the previous rule (Magneto's own session doc → DDI) to ALL session docs of any agent, any role, any project — including CODEX reviewer session docs which had previously been placed inside project folders per the locality rule.
+**Rule:** Every session document — agent work session docs, reviewer session docs (CODEX, any reviewer), and any other pontual session doc that points to a specific project — lives **exclusively** under the DDI canonical path:
+```
+C:/ai/obsidian/CIH/projects/skills/daily-doc-information/ai-sessions/YYYY-MM/
+```
+1. Agent work session docs (Magneto, Emma/Codex, Gemini, any agent) → DDI.
+2. Reviewer session docs (CODEX reviewer rounds, any AOP reviewer) → DDI.
+3. Pontual / project-specific session docs (any doc that would have lived inside `projects/skills/<project>/ai-sessions/`) → DDI.
+4. Non-session project artifacts (analysis docs, Contract, SDD, Plan, Tests, thread docs, AOP prompt files, AOP complete artifacts, dispatch wrapper scripts, technical code, fixtures) continue to live inside the respective project structure. ONLY session docs are centralized.
+5. Legacy session docs created before 2026-04-09 22:43 under the old interpretation stay where they are unless Jimmy explicitly authorizes migration. The rule is forward-looking; retroactive moves require explicit authorization and a cross-reference sweep.
+**Why:** Centralization of session docs gives a single place for `find` / indexing / audit / daily-doc governance scripts to locate every session document of every kind across all projects. Scattering session docs across each project's `ai-sessions/` folder creates discovery drift and fragments the session-doc governance that `daily-doc-information` skill operates on. Jimmy's decision elevates consistency and discoverability over locality.
+**How to apply:** Before creating ANY session doc — agent session, reviewer session, pontual session pointing to a project — check: "Is this a session document?" If yes → write it to `obsidian/CIH/projects/skills/daily-doc-information/ai-sessions/YYYY-MM/`, never to a project-specific `ai-sessions/` folder. If the skill or project under discussion is `bi-datavizx`, `agent-orchestration-protocol`, `self-improvement`, or any other, the rule is the same: session doc → DDI. Cross-check with [[bdvx-contract-v1.1]] Section 10 for the bi-datavizx instantiation of the rule. This rule supersedes any earlier locality-rule statement that placed reviewer session docs inside project folders (see bi-datavizx `decisoes.md` D6 amended by D16).
 
 ---
 

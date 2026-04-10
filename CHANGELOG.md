@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.29.8] - 2026-04-09
+
+### Changed
+- **jimmy-core-preferences** v3.8.0 -> v3.9.0 — Added **R-41** (Thread Read Receipts — Only the Reader Marks, Never the Writer) and **R-42** (All Session Docs Centralized Under DDI — Including Reviewer and Pontual Docs). **R-41 origin:** second recurrence on 2026-04-09 in `bdvx-pjt-threads-jimmy-magneto.md` (thread `2026-04-09-jimmy-01`), where Magneto posted `#### Magneto's Entry ✅ read-2026-04-09-22:18-jimmy` fabricating a Jimmy read receipt on its own entry. Jimmy corrected verbatim: *"APENAS EU marco lido nas suas threads e APENAS VOCÊ marca lido nas minhas."* Rule: an agent marks `✅ read-...` ONLY on entries written by someone else — never on its own. Past mistakes are frozen (Jimmy's explicit instruction: *"NÃO MEXA EM NADA DAS THREADS PASSADAS."*). **R-42 origin:** 2026-04-09 22:43, on the `bdvx-contract-v1.0.md` verdict block, Jimmy marked "Approved with observations" and added verbatim: *"qualquer doc session deve ser salvo abaixo de DDI, mesmo os pontuais apontando para os devidos projetos. Assim garantimos centralização desse tipo de doc."* Rule: every session document — agent work session, reviewer session (CODEX rounds), and any pontual session pointing to a project — lives under `obsidian/CIH/projects/skills/daily-doc-information/ai-sessions/YYYY-MM/`, never inside project-specific `ai-sessions/` folders. Non-session project artifacts (analyses, Contract, SDD, Plan, Tests, thread docs, AOP wrappers/prompts/artifacts, technical code, fixtures) continue to live inside the respective project structure. Legacy session docs created before 2026-04-09 22:43 stay where they are unless Jimmy explicitly authorizes migration. R-42 amends the reviewer-session-doc portion of the bi-datavizx locality rule (D6 in `decisoes.md`, now overridden by D16; Contract v1.1 Section 10 rewritten to absorb the amendment).
+
 ## [2.29.7] - 2026-04-09
 
 ### Changed
