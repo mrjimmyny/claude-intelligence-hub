@@ -1,6 +1,6 @@
 ---
 name: jimmy-core-preferences
-version: 3.11.0
+version: 3.12.0
 description: Global cross-agent operating framework for Jimmy.
 command: /preferences
 aliases: [/prefs, /jimmy]
@@ -8,7 +8,7 @@ aliases: [/prefs, /jimmy]
 
 # Jimmy Core Preferences — Global Cross-Agent Operating Framework
 
-**Version:** 3.11.0
+**Version:** 3.12.0
 **Last Updated:** 2026-04-10
 **Auto-Load:** Yes (Priority: Highest)
 
@@ -894,6 +894,46 @@ C:/ai/obsidian/CIH/projects/skills/daily-doc-information/ai-sessions/YYYY-MM/
 - **Correct pattern:** draft → commit with doc updates → dispatch CODEX → commit with dispatch event logged → (while waiting) any other state change → commit with update → artifact returns → commit with absorption + doc updates. Docs are always current to within one commit of reality.
 - **Relationship to existing rules:** R-44 does NOT replace the Session Close Protocol (update docs of every referenced project before closing). R-44 ADDS a stricter continuous bar: the Session Close Protocol is the floor; R-44 is the ceiling. When the close-day gate fires, it should find that all docs are already synced — not use the gate as the moment to sync. R-44 also reinforces R-33 (always commit+push after work): the scope of "after work" is narrowed to "after each meaningful event", not "at the end of the session".
 - For Claude Code, the rule is mirrored in `C:/ai/CLAUDE.md` section "Project Doc Live-Sync (MANDATORY — R-44)". For Codex, it is mirrored in `C:/ai/AGENTS.md`. For Gemini CLI, it is mirrored in `C:/ai/GEMINI.md`.
+
+### R-45. CODEX Quota Fallback — Reroute to Anthropic-Family Agent via AOP Real, Protect Magneto Context Window
+**Origin:** 2026-04-10. Jimmy's thread entry `2026-04-10-jimmy-01` in `bdvx-pjt-threads-jimmy-magneto.md` at 14:30, verbatim: *"Sobre O CODEX, por enquanto não vamos mexer. Vou monitorar do meu lado os limites de uso do Codex e qualquer coisa, te aviso para não termos problemas com isso. Aproveitando, vamos deixar isso alinhado a partir de agora: Coloque isso como regra importante de fallback para não quebrarmos execução e atrasarmos mais ainda o processo é implementação. REGRA: Se acontecer de você receber o erro ou perceber que deu limite de uso excedido, então você deve rotear para AOP REAL, porém para o Agente adequado da Anthropic, SEM PREJUDICAR sua janela de contexto. Sua janela de contexto é extremamente importante e precisa ser mantida o máximo possível."* Jimmy explicitly approved formal Section R promotion at 2026-04-10 14:30 in the same thread verbatim: *"R-45 promotion formal Section R (CODEX quota fallback); não sei se entendi o que disse, mas aprovo. Importante não termos o processo stopado por conta que o CODEX excedeu limite de uso."* Promotion executed 2026-04-10 16:10 in work session `3d3513e8-4177-43ea-9874-8c4adc3ff6ac` (post-pause resume).
+
+**Rule:** When a CODEX dispatch via AOP real returns a rate-limit error, quota-exceeded error, or Magneto detects that CODEX usage has reached its limit (based on Jimmy's heads-up or observed error patterns), the blocked task MUST be rerouted through **AOP real** to an **Anthropic-family reviewer agent** (Claude-family reviewer via the AOP real protocol), **NOT executed inline in Magneto's own context**. Magneto's context window preservation is the core constraint: executing a reviewer task inline in Magneto (to substitute for the failed CODEX dispatch) would consume Magneto's context reading target files + producing a review + integrating findings, which defeats the context preservation that this rule exists to protect.
+
+**Detection triggers (fire the fallback):**
+1. CODEX dispatch returns non-zero exit code with error text matching rate-limit / quota / usage patterns (`rate limit`, `quota exceeded`, `usage limit`, `429`, `too many requests`, etc.).
+2. Magneto proactively notices the task count / dispatch frequency is approaching CODEX limits (based on Jimmy's advance warning or observed error patterns).
+3. Jimmy tells Magneto directly that CODEX usage is near or at the limit.
+
+**Mandatory fallback action:**
+1. **Do NOT execute the reviewer task inline in Magneto.** Inline execution is forbidden because it defeats context-window preservation.
+2. **Reroute the same task via AOP real** to an Anthropic-family reviewer agent. The specific agent identity depends on the AOP registry at the time; consult `agent-orchestration-protocol` SKILL.md and the `LLM Model Selection Guide` for the current Anthropic-family reviewer agent available to AOP real dispatching. Use the same review criteria, same prompt file structure, same deliverable format as the CODEX round would have used.
+3. **Reuse the same reviewer session doc for the day** (G-05). Append a new Review block to the existing reviewer session doc with an explicit note: "CODEX unavailable due to quota; rerouted via AOP real to `<anthropic-agent>`."
+4. **Apply the same token-economy rules** (G-09) — minimal scope, effort matched to the review surface.
+5. **Post a brief note in the active thread** informing Jimmy that CODEX was unavailable and the fallback was used. Keep communication concise (per executive-mode guidance). Do NOT ask Jimmy for permission — the fallback is pre-authorized by this rule.
+6. **If both CODEX AND the Anthropic-family fallback are unavailable,** STOP and escalate to Jimmy with the blocked state. Do NOT force inline execution as a third-tier fallback.
+
+**Context-window protection (critical — the whole point of R-45):**
+- Do NOT read the full review target files in Magneto "just to avoid" the fallback.
+- Do NOT inline a reviewer persona in Magneto's context.
+- Do NOT simulate the review in Magneto's thought process.
+- Keep Magneto's context budget focused on orchestration (dispatch, absorption, thread updates, commit) — not on reviewing.
+
+**Post-fallback behavior:**
+- When CODEX availability is restored, future dispatches resume with CODEX by default. The fallback is a temporary rerouting, not a permanent change to the default reviewer choice.
+- The fallback does NOT change the G-04 requirement (every planning doc reviewed via AOP real before Jimmy signs). The review still happens — just via a different agent.
+- The fallback does NOT change the G-05 requirement (1 reviewer session doc per day). Fallback review blocks append to the same reviewer session doc as regular CODEX rounds.
+
+**Why:** CODEX rate-limit or quota-exceeded errors break the G-04 review loop and block the entire planning pipeline. Jimmy's concern at 14:30 (verbatim: *"Importante não termos o processo stopado por conta que o CODEX excedeu limite de uso"*) makes this a process-continuity issue, not just a convenience issue. At the same time, executing reviews inline in Magneto's context would erode Magneto's ability to orchestrate subsequent work — Magneto's context window is a scarce, hard-to-recover resource, and preserving it is a higher-priority constraint than temporarily rerouting a single review task. The Anthropic-family reviewer agent (via AOP real) gives the pipeline a second path that respects both G-04 (the review still happens) and the Magneto context preservation constraint (the review doesn't consume Magneto's context). The fallback is a bypass valve for the CODEX bottleneck that keeps the pipeline flowing without burning Magneto's orchestration capacity.
+
+**How to apply:**
+- BEFORE dispatching CODEX, consider whether there are existing signals that CODEX is near its limit. If yes, proactively use the fallback.
+- WHEN a CODEX dispatch returns a rate-limit / quota error, classify the error immediately and trigger the fallback without retrying CODEX more than once.
+- DURING the fallback review, respect the same G-04/G-05/G-09/TB-01 rules — the review is "different agent, same protocol".
+- AFTER the fallback review returns, absorb findings the same way (TB-01, version bump or absorption row, verdict block update, Jimmy presentation).
+- Document the fallback in the reviewer session doc and (briefly) in the thread so Jimmy and future Magneto sessions have visibility.
+- **Relationship to existing rules:** R-45 does NOT replace G-04 (mandatory CODEX via AOP real before Jimmy signs) — it adds a fallback path when CODEX is unavailable. R-45 does NOT replace G-05 (1 reviewer session doc/day) — fallback reviews live in the same doc as regular rounds. R-45 does NOT replace G-09 (token economy) — fallback reviews use the same minimal-scope discipline. R-45 reinforces R-44 (continuous doc-sync): the fallback dispatch is a "meaningful state change" that triggers `status-atual.md` / reviewer session doc updates in the same commit.
+- For Claude Code, the rule is mirrored in `C:/ai/CLAUDE.md` section "CODEX Quota Fallback (MANDATORY — R-45)". For Codex, it is mirrored in `C:/ai/AGENTS.md`. For Gemini CLI, it is mirrored in `C:/ai/GEMINI.md`.
 
 ---
 
