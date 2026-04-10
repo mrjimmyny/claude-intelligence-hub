@@ -8,7 +8,7 @@ aliases: [/prefs, /jimmy]
 
 # Jimmy Core Preferences — Global Cross-Agent Operating Framework
 
-**Version:** 3.12.0
+**Version:** 3.13.0
 **Last Updated:** 2026-04-10
 **Auto-Load:** Yes (Priority: Highest)
 
@@ -934,6 +934,32 @@ C:/ai/obsidian/CIH/projects/skills/daily-doc-information/ai-sessions/YYYY-MM/
 - Document the fallback in the reviewer session doc and (briefly) in the thread so Jimmy and future Magneto sessions have visibility.
 - **Relationship to existing rules:** R-45 does NOT replace G-04 (mandatory CODEX via AOP real before Jimmy signs) — it adds a fallback path when CODEX is unavailable. R-45 does NOT replace G-05 (1 reviewer session doc/day) — fallback reviews live in the same doc as regular rounds. R-45 does NOT replace G-09 (token economy) — fallback reviews use the same minimal-scope discipline. R-45 reinforces R-44 (continuous doc-sync): the fallback dispatch is a "meaningful state change" that triggers `status-atual.md` / reviewer session doc updates in the same commit.
 - For Claude Code, the rule is mirrored in `C:/ai/CLAUDE.md` section "CODEX Quota Fallback (MANDATORY — R-45)". For Codex, it is mirrored in `C:/ai/AGENTS.md`. For Gemini CLI, it is mirrored in `C:/ai/GEMINI.md`.
+
+### R-46. Mandatory Pre-Write Self-Check on Thread Entries (Active Gate for R-41, FND-0079 Third Recurrence)
+
+**Origin:** 2026-04-10 19:20 Brasilia. Third recurrence of R-41 (thread read receipts — writer self-marks own entries) detected in `bdvx-pjt-threads-jimmy-magneto.md` under bi-datavizx work session `3d3513e8-4177-43ea-9874-8c4adc3ff6ac` after R-41 had already been promoted to Section R on 2026-04-09 22:58. Jimmy authorized the FND HIGH + definitive solution in thread `2026-04-10-jimmy-01` at 2026-04-10 19:10. Full root-cause analysis and 5-layer solution in [[FND-0079]].
+
+**Rule:** Before writing ANY `#### {Agent}'s Entry` line in any project thread document, the writing agent MUST mentally execute this pre-write self-check:
+1. Is this entry being written by me (current agent identity)?
+2. If yes → the H4 header line MUST end exactly at `#### {MyName}'s Entry` with NO `read-...` receipt after it. The receipt is a READ-STATE annotation added by the READER after reading, not part of the H4 header template.
+3. Am I about to add `read-YYYY-MM-DD-HH:MM-{human-slug}` to my own entry? STOP. That is an R-41/R-46 violation.
+4. Only add a receipt when I am marking someone else's entry I just read.
+
+R-46 is the ACTIVE version of R-41. R-41 remains the "what" rule (receipts are reader-owned); R-46 adds the "how do I not autopilot past R-41 at write time" pre-write gate. Both rules stay in force. R-46 points to R-41 for the underlying principle.
+
+**Why:** R-41 (promoted 2026-04-09 22:58) is a PASSIVE rule (written in docs only, no mechanical enforcement). Passive rules failed three times (FND-0079 recurrence history): 2026-04-09 17:01, 2026-04-09 22:18-22:20, 2026-04-10 18:51-19:06. Cognitive autopilot at write time treats the receipt as part of the H4 header template rather than a separate post-read annotation. This is the same structural failure pattern as FND-0050 (checkpoint declared but not verified), FND-0073 (close-day declared but not verified), and FND-0075 (R-37 close-day third recurrence) — passive rules require mechanical reinforcement to stop recurring.
+
+**Enforcement:** Three-layer defense. **Layer 1 (mechanical scanner):** `C:/ai/_skills/daily-doc-information/scripts/thread-receipts-verify.sh` greps thread docs for the self-mark pattern and reports violations; runs as checkpoint-verify.sh PP-15. **Layer 2 (commit-level block):** `C:/ai/_skills/daily-doc-information/scripts/hooks/pre-commit-thread-receipts.sh` blocks any commit that adds a new self-mark receipt line (historical lines are never touched). Installed via `install-pre-commit.sh`. **Layer 3 (this rule):** active pre-write self-check required before every thread entry is drafted. Plus **Layer 4 (template clarification):** `thread-doc-template.md` R6 clarified with CORRECT/WRONG counter-example. Plus **Layer 5 (post-resume re-read):** handoff template + kickoff-doc protocol re-read R-41/R-46 before any thread write in a freshly-resumed session.
+
+**How to apply:**
+- BEFORE drafting any new `#### {Agent}'s Entry` block, run the 4-step mental check above.
+- If editing an existing thread to add a read receipt, verify: (a) the receipt is on someone else's entry, (b) the reader slug matches my agent identity, (c) the timestamp is captured from `bash C:/ai/_skills/daily-doc-information/scripts/now.sh --receipt`.
+- NEVER "complete the template pattern" by adding a reader receipt to my own entry header.
+- NEVER retroactively fix old self-mark violations — Jimmy has authority over historical thread corrections (FND-0079 acceptance criterion 7).
+
+**Relationship to existing rules:** R-46 does NOT replace R-41 (R-41 remains the canonical ownership rule). R-46 is the active pre-write gate that enforces R-41. R-46 is structurally similar to R-37 (close-day mechanical enforcement after 3 passive failures) and R-39 (worktree pre-flight mechanical check added after FND-0077). Same pattern, same lesson: passive rules need mechanical reinforcement when they fail repeatedly. Cross-references: [[FND-0079]], [[FND-0050]], [[FND-0073]], [[FND-0075]], [[FND-0077]], R-41 (ownership), R-37 (close-day mechanical), R-39 (worktree mechanical), thread-doc-template R6.
+
+- For Claude Code, the rule is mirrored in `C:/ai/CLAUDE.md` section "Thread Read Receipts Pre-Write Self-Check (MANDATORY — R-46)". For Codex, it is mirrored in `C:/ai/AGENTS.md`. For Gemini CLI, it is mirrored in `C:/ai/GEMINI.md`.
 
 ---
 

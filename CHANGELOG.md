@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.29.12] - 2026-04-10
+
+### Changed
+- **jimmy-core-preferences** v3.12.0 -> v3.13.0 — chore(jimmy-core-preferences): bump to v3.13.0 + R-46 Mandatory Pre-Write Self-Check on Thread Entries (FND-0079 third recurrence of R-41, 5-layer definitive solution). **Origin:** 2026-04-10 19:20 Brasilia. Third recurrence of R-41 (thread read receipts — writer self-marks own entries) in `bdvx-pjt-threads-jimmy-magneto.md` after R-41 was already promoted to Section R on 2026-04-09 22:58, confirming passive rules alone are insufficient. **Rule (R-46):** before writing any `#### {Agent}'s Entry` line, run a 4-step pre-write self-check: (1) is this my own entry? (2) if yes, leave the H4 header clean — no receipt; (3) am I about to self-mark? STOP; (4) only add a receipt when marking someone else's entry. **Why:** same structural failure as FND-0050/FND-0073/FND-0075 — passive rules need mechanical reinforcement after 3 recurrences. **5-layer enforcement:** Layer 1 (`thread-receipts-verify.sh` mechanical scanner, runs as PP-15 in `checkpoint-verify.sh`), Layer 2 (`pre-commit-thread-receipts.sh` commit-level block via updated `install-pre-commit.sh` dispatcher), Layer 3 (R-46 active pre-write self-check rule — this entry), Layer 4 (`thread-doc-template.md` R6 CORRECT/WRONG counter-example clarification), Layer 5 (`kickoff-doc-protocol.md` post-resume discipline re-read checklist). Mirrored as "Thread Read Receipts Pre-Write Self-Check (MANDATORY — R-46)" in `C:/ai/CLAUDE.md`, `C:/ai/AGENTS.md`, and `C:/ai/GEMINI.md`.
+
 ## [2.29.11] - 2026-04-10
 
 ### Changed

@@ -4,7 +4,7 @@
 
 A comprehensive repository of Claude Code skills, knowledge systems, and automation tools designed to maximize AI productivity across all projects and sessions.
 
-[![Version](https://img.shields.io/badge/version-2.29.11-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.29.12-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/status-production-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -209,7 +209,7 @@ See [xavier-memory/README.md](xavier-memory/README.md) and [xavier-memory-sync/S
 
 | Collection | Version | Status | Description | Key Features |
 |------------|---------|--------|-------------|--------------|
-| **[jimmy-core-preferences](jimmy-core-preferences/)** | v3.7.0 | ✅ Production | Global cross-agent operating framework | Radical honesty, prompt governance, documentation language standard, hybrid session governance, curator-only daily reports, mandatory project sync before session close, DAX overlay, cross-agent bootstrap, AOP dispatch guardrails, global skill symlink integrity, and close-day gate mechanical enforcement (R-37). See [HUB_MAP.md](HUB_MAP.md) for triggers. |  
+| **[jimmy-core-preferences](jimmy-core-preferences/)** | v3.13.0 | ✅ Production | Global cross-agent operating framework | Radical honesty, prompt governance, documentation language standard, hybrid session governance, curator-only daily reports, mandatory project sync before session close, DAX overlay, cross-agent bootstrap, AOP dispatch guardrails, global skill symlink integrity, close-day gate mechanical enforcement (R-37), BI destructive op safety gate (R-43), project doc live-sync (R-44), CODEX quota fallback (R-45), thread receipt pre-write self-check (R-46). See [HUB_MAP.md](HUB_MAP.md) for triggers. |  
 | **[session-memoria](session-memoria/)** | v1.2.0 | ✅ Production | Knowledge management system | 100% conversation retention, triple-index search, lifecycle tracking, Git-synced. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
 | **[gdrive-sync-memoria](gdrive-sync-memoria/)** | v1.0.0 | ✅ Production | Google Drive integration | ChatLLM Teams sync, auto-import to session-memoria, zero-friction automation. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
 | **[claude-session-registry](claude-session-registry/)** | v1.1.0 | ✅ Production | Session tracking & backup | Resume ID tracking, Git context, Golden Close protocol, **automatic backup to GitHub**. See [HUB_MAP.md](HUB_MAP.md) for triggers. |
