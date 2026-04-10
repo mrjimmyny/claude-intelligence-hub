@@ -8,7 +8,7 @@ aliases: [/prefs, /jimmy]
 
 # Jimmy Core Preferences — Global Cross-Agent Operating Framework
 
-**Version:** 3.9.0
+**Version:** 3.10.0
 **Last Updated:** 2026-04-09
 **Auto-Load:** Yes (Priority: Highest)
 
@@ -826,6 +826,38 @@ C:/ai/obsidian/CIH/projects/skills/daily-doc-information/ai-sessions/YYYY-MM/
 5. Legacy session docs created before 2026-04-09 22:43 under the old interpretation stay where they are unless Jimmy explicitly authorizes migration. The rule is forward-looking; retroactive moves require explicit authorization and a cross-reference sweep.
 **Why:** Centralization of session docs gives a single place for `find` / indexing / audit / daily-doc governance scripts to locate every session document of every kind across all projects. Scattering session docs across each project's `ai-sessions/` folder creates discovery drift and fragments the session-doc governance that `daily-doc-information` skill operates on. Jimmy's decision elevates consistency and discoverability over locality.
 **How to apply:** Before creating ANY session doc — agent session, reviewer session, pontual session pointing to a project — check: "Is this a session document?" If yes → write it to `obsidian/CIH/projects/skills/daily-doc-information/ai-sessions/YYYY-MM/`, never to a project-specific `ai-sessions/` folder. If the skill or project under discussion is `bi-datavizx`, `agent-orchestration-protocol`, `self-improvement`, or any other, the rule is the same: session doc → DDI. Cross-check with [[bdvx-contract-v1.1]] Section 10 for the bi-datavizx instantiation of the rule. This rule supersedes any earlier locality-rule statement that placed reviewer session docs inside project folders (see bi-datavizx `decisoes.md` D6 amended by D16).
+
+### R-43. BI Destructive Operation Safety Gate — Non-Negotiable Across All Projects and Agents
+**Origin:** 2026-04-10. Jimmy's thread entry `2026-04-10-jimmy-01` in `bdvx-pjt-threads-jimmy-magneto.md`, verbatim: *"sobre segurança contra qualquer ação de deleção de dados quando estivermos trabalhando com qualquer Projeto de BI. Precisamos ter extremamente claro nessa skill, protocolo que NÃO É PERMITIDO DELETAR, apagar nada sem minha solicitação por escrito. Nenhum Agente está autorizado a achar que pode deletar algo. Se realmente precisar deletar qualquer dado, tabela, conexão etc, precisa pedir autorização pra mim imediatamente explicando porque / motivo precisa fazer isso é quais os impactos, ou seja, esse tipo de ação ou qualquer tipo de ação destrutiva precisa ser muito bem pensado antes de ser efetivado."* This rule escalates and supersedes the bi-datavizx Phase 0 resolution Q6/D17 (previously "only irreversible ops require explicit approval") to ALL destructive BI operations, not just irreversible ones.
+**Rule:** In any bi-datavizx workflow, any Power BI (PBIP/PBIX/PBIR) project, any Fabric/Service workflow, any BigQuery/SharePoint/external-data-source workflow, or any other BI context under Jimmy's ownership, the following operations are CLASSIFIED AS DESTRUCTIVE and MUST NOT be executed by any agent (Claude Code, Codex, Gemini, or any other) without Jimmy's explicit written authorization for the specific operation on the specific target:
+1. Delete a table, column, measure, calculated column, calculation group, or hierarchy from a semantic model.
+2. Delete a relationship, perspective, or role.
+3. Delete a partition, M expression, or parameter.
+4. Delete a page, visual, bookmark, filter, theme, annotation, or schema element from a report.
+5. Drop/delete a BigQuery table, view, dataset, project, or any other source-system object touched by the skill (including `bq rm`, `gcloud ... delete`, SQL `DROP`/`DELETE`/`TRUNCATE`, etc.).
+6. Delete, rotate, revoke, or overwrite a credential, connection string, service account key, or configuration file containing credentials.
+7. Delete a report file (`.pbip`, `.pbix`, PBIR folder, `Report.json`, `Model.bim`, `.tmdl`, etc.), a backup file, or any artifact in the project's `artifacts/` or `backups/` folders.
+8. Delete a workspace item in Fabric or Power BI Service (report, semantic model, dataflow, pipeline, app, workspace itself).
+9. Any operation exposed as `delete`, `remove`, `drop`, `rm`, `clear`, `reset`, `destroy`, `unlink`, `uninstall`, `purge`, or equivalent in any wrapped CLI (`pbi-cli`, `pbir-cli`, `pbi-fixer`, `gcloud`, `bq`, `az`, `pac`, `fabric-cli`, etc.) when its effect is to remove data, metadata, structure, or configuration from a BI artifact.
+10. Any bulk / recursive operation (`--all`, `--recursive`, globbed targets, wildcarded selectors) that could delete more than one target — even if each individual target would otherwise be authorized.
+
+**Authorization protocol (mandatory before executing any destructive BI operation):**
+1. STOP execution.
+2. Post a request to Jimmy in the active thread doc OR session doc (whichever is the current communication channel), stating explicitly: (a) the exact command/operation, (b) the exact target (full path, ID, name, workspace), (c) the reason / motive, (d) the impact — what breaks, what is lost, what downstream pipeline or report depends on it, (e) the reversibility — can this be undone? how? is there a backup? (f) the alternatives considered — is there a non-destructive path? (g) the blast radius — how many rows/objects/files are affected?
+3. WAIT for Jimmy's explicit written "go" specific to that operation on that target. Silence ≠ approval. "Go ahead" on a different topic ≠ approval. Blanket phrases like "vai limpando" or "clean up" are NOT sufficient authorization.
+4. Execute ONLY the authorized operation on the authorized target. Do NOT chain additional deletes on the same authorization.
+5. After execution, confirm in the thread/session doc: what was executed, what was the result, what state exists now.
+6. The authorization does NOT carry over to any other operation, any other target, any other session, any other day. Each destructive op requires fresh authorization.
+
+**Granularity of authorization:**
+- INSUFFICIENT: "ok pode limpar", "vai deletando", "clean up the old ones", "remove what you don't need".
+- SUFFICIENT: "ok delete the column `customer_id_old` from the table `sales` in model `C:/projects/report.pbip`", "yes, drop the BigQuery view `analytics.v_sales_deprecated`", "yes, delete the unused measure `Total Sales (old)` from `sales.tmdl`".
+
+**Relationship to existing rules:** R-43 does NOT replace R-06 (filesystem `rm -rf`) or R-38 (destructive git operations) — those remain in force for their scopes (filesystem and git). R-43 adds a new scope — **BI artifacts and BI-adjacent data sources** — to the destructive-action governance family. When multiple rules apply (e.g., deleting a `.pbip` file is both filesystem and BI), the MOST RESTRICTIVE authorization requirement wins. R-43 SUPERSEDES the bi-datavizx Phase 0 Q6 resolution (D17 "only irreversible ops require approval") for BI scope — the escalated bar is now ALL destructive ops, not just irreversible ones.
+
+**Why:** BI artifacts routinely represent hundreds of hours of modeling, business logic, validation, stakeholder alignment, and corporate compliance work. A single unauthorized delete can: (a) destroy work that cannot be rebuilt from git (model changes, DAX measures, visual tweaks made inside Desktop), (b) violate corporate data governance policies (deleting a BigQuery table that other pipelines consume), (c) trigger downstream pipeline or dashboard failures that propagate to business users, (d) expose Jimmy to compliance breach or audit findings, (e) be impossible to recover if the deletion propagated to Service/Fabric before a backup was taken. The cost of asking — a few seconds of thread round-trip — is trivial compared to the cost of even a single wrong delete. Agents that "think they know" which deletions are safe are exactly the failure mode this rule prevents.
+
+**How to apply:** BEFORE any wrapped CLI command, SQL statement, API call, or script invocation whose effect is destructive on any BI artifact or data source: STOP, check this rule, and follow the authorization protocol above. Fire the gate REGARDLESS of whether: the operation is "just a test", the target is "clearly unused", there's a dry-run flag available, the operation was mentioned in a prior planning doc (the plan authorizes the strategy, not the individual destructive execution steps), or the agent is "sure" nothing depends on it. Every bi-datavizx module, every BI adapter (desktop-adapter, fabric-adapter, data-ingest, report-ops, model-ops), every PBI project, every ad-hoc BI script MUST honor this rule. If in doubt whether an operation is destructive, TREAT IT AS DESTRUCTIVE and ask. Cross-reference: [[bdvx-contract-v1.1]] Section 6 D-rules (proposed D13 amendment) and bi-datavizx `decisoes.md` D18. For Claude Code, the rule is mirrored in `C:/ai/CLAUDE.md` section "BI Destructive Operations (MANDATORY)". For Codex, it is mirrored in `C:/ai/AGENTS.md`. For Gemini CLI, it is mirrored in `C:/ai/GEMINI.md`.
 
 ---
 

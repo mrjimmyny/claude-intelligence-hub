@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.29.9] - 2026-04-10
+
+### Changed
+- **jimmy-core-preferences** v3.9.0 -> v3.10.0 — Added **R-43** (BI Destructive Operation Safety Gate — Non-Negotiable Across All Projects and Agents). **Origin:** 2026-04-10, Jimmy's thread entry `2026-04-10-jimmy-01` in `bdvx-pjt-threads-jimmy-magneto.md`, verbatim: *"sobre segurança contra qualquer ação de deleção de dados quando estivermos trabalhando com qualquer Projeto de BI. Precisamos ter extremamente claro nessa skill, protocolo que NÃO É PERMITIDO DELETAR, apagar nada sem minha solicitação por escrito."* **Rule:** any destructive operation on a BI artifact (semantic model elements, report elements, PBIP/PBIX/PBIR files, workspace items, credentials, configurations) or BI-adjacent data source (BigQuery/SharePoint/etc. tables, views, datasets) requires Jimmy's explicit written authorization for the specific operation on the specific target — no blanket approvals, no carry-over between operations, no silent execution. Escalates and supersedes the bi-datavizx Phase 0 Q6/D17 resolution ("only irreversible ops") to ALL destructive ops. Includes a 10-item classification list of destructive operations, a 6-step authorization protocol, granularity examples (sufficient vs insufficient), and cross-rule relationships to R-06 (filesystem) and R-38 (git). R-43 is mirrored as non-negotiable clauses in `C:/ai/CLAUDE.md`, `C:/ai/AGENTS.md`, and `C:/ai/GEMINI.md`, and registered as D18 in `bi-datavizx/decisoes.md`. A formal Contract Section 12 amendment proposal (Contract v1.2 → v1.3, adding D13 to Section 6) is pending Jimmy's explicit approval per the amendment process.
+
 ## [2.29.8] - 2026-04-09
 
 ### Changed

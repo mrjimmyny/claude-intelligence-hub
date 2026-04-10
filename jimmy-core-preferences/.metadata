@@ -1,11 +1,11 @@
 {
   "name": "jimmy-core-preferences",
-  "version": "3.9.0",
+  "version": "3.10.0",
   "description": "Global cross-agent operating framework for Jimmy.",
   "status": "production",
   "author": "mrjimmyny",
   "created": "2025-02-09",
-  "last_updated": "2026-04-09",
+  "last_updated": "2026-04-10",
   "skill_type": "global-framework",
   "auto_load": true,
   "priority": "highest"
