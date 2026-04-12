@@ -14,8 +14,8 @@ dependencies:
 
 # bi-datavizx
 
-**Version:** 1.0.0
-**Status:** Production (v1 — Phases 1-6 CLOSED, 1280 tests PASS, SC1-SC12 ALL MET)
+**Version:** 1.1.0
+**Status:** Production (v1.1 — Phases 1-6 + DAX Authoring Standards, SC1-SC12 ALL MET)
 **Published:** 2026-04-12
 **Maintained by:** Magneto (Claude Code)
 **Project:** bi-datavizx
@@ -112,13 +112,50 @@ bdvx project query --project-root C:/path/to/project --kind measures
 
 ---
 
-## 7. Deferred Scope (Post-v1)
+## 7. DAX Authoring Standards (Non-Negotiable)
+
+These rules apply to ALL agents authoring, reviewing, or modifying DAX measures via bi-datavizx. Source: Jimmy's mandatory DAX rules (Contract v1.6 Section 14.1, D69).
+
+### 7.1 Code Rules (enforced by DAX linter)
+
+| Rule | ID | Enforcement |
+|---|---|---|
+| No text/comments before measure name. Observations start on line 2 after `=` | DAX007 | Lint warning |
+| Comments: clear, objective, ALWAYS in English | DAX008 | Lint info (non-ASCII detection) |
+| Measure names: lowercase, English, no special chars, no spaces (use `_`), `=` prefix (never `:=` or `=:`) | DAX004 + DAX009 | Lint warning |
+| Complex logic (3+ VARs or 10+ lines): detail comments step by step | DAX010 | Lint info (advisory) |
+| Prefer clean DAX: avoid heavy constructs, use Variables, minimize dependencies | DAX001-003, DAX005 | Lint warning |
+
+### 7.2 Agent Behavioral Rules (operational directives)
+
+**SKILL-R4 — Multi-version comparison:** When authoring DAX measures, the agent MUST internally create 2+ versions using different techniques before presenting the final version to Jimmy. The agent presents ONLY the best version unless Jimmy explicitly requests comparison. The internal exploration is invisible to Jimmy — he sees one clean result.
+
+**SKILL-R6 — No unnecessary variations:** Do NOT create variations of the same measure (v1, v2, vN) unless Jimmy explicitly requests them for comparison or analysis. Be objective. One measure, one version, done.
+
+**SKILL-FLOW — DAX Creation Flow:**
+1. Agent sends the first measure or action
+2. Jimmy creates, tests, and gives feedback (adjustments, comments, etc.)
+3. If adjustments needed → back to step 1 (agent's turn)
+4. Jimmy retests (his turn)
+5. Success → Jimmy gives `[GO NEXT]` for the next measure
+6. Jimmy confirms with `[OK, tudo]` — agent may ask questions/suggestions
+7. All good → topic closed, free to move on
+
+**SKILL-WORK — DAX Work Flow Rules:**
+- **Rule 1 (Existing measure):** Jimmy sends measure name + table + usage context. Agent looks up the inventory/model, reads the code, responds based on the official version. If Jimmy pastes a random measure, agent checks inventory FIRST before changing anything.
+- **Rule 2 (Draft measure):** Jimmy pastes the full DAX with context (new, not in inventory, name changes, etc.). Agent works from that draft.
+- **Rule 3 (Refine mode):** During back-and-forth on the same measures, Jimmy keeps only the latest code. No repetition in chat.
+- **Rule 4 (Final/consolidated):** When a measure is finalized, Jimmy updates the real PBI model and the inventory files. Agent always consults the most current inventory as source of truth.
+
+---
+
+## 8. Deferred Scope (Post-v1)
 
 | Scope | Status |
 |---|---|
 | Phase 7 — Deployment Governance (Q5) | DEFER — Jimmy must elevate |
-| DAX Authoring Standards (Contract v1.6 Section 14.1) | DEFER — dedicated future phase (9 items: DAX007-010 lint rules + SKILL.md operational directives) |
-| pbi-claude-skills migration | Post-v1 gate |
+| ~~DAX Authoring Standards~~ | **IMPLEMENTED** (v1.1.0) — lint rules DAX007-010 + SKILL.md directives |
+| ~~pbi-claude-skills migration~~ | **RESOLVED** — pbi-claude-skills removed from Hub (2026-04-12) |
 
 ---
 
