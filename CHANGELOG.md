@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.30.1] - 2026-04-12
+
+### Removed
+- **pbi-claude-skills** v1.3.0 — REMOVED. Superseded by bi-datavizx v1.0.0 which absorbed all safe patterns. Jimmy's explicit authorization in thread S10 (D69). Zero impact on bi-datavizx (no code dependency verified via grep). Hub skill count: 25 → 24.
+
 ## [2.30.0] - 2026-04-12
 
 ### Added

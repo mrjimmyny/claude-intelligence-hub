@@ -33,7 +33,7 @@
 | :--- | :--- | :--- | :--- | :--- |
 | 2 | **session-memoria** | v1.2.0 | `/memoria` | "registre isso", "busca na memoria" |
 | 4 | **claude-session-registry** | v1.1.0 | `/registry` | "registra sessão", Golden Close |
-| 5 | **pbi-claude-skills** | v1.3.0 | `/pbi` | `.pbip` project detection |
+| ~~5~~ | ~~pbi-claude-skills~~ | — | — | **REMOVED** — superseded by bi-datavizx v1.0.0 (D69, 2026-04-12) |
 | 7 | **xavier-memory** | v1.1.0 | `/xavier-memory` | Cross-project sync |
 | 12 | **agent-orchestration-protocol** | v4.3.0 | `/aop` | "orchestrate", "delegate" |
 | 18 | **codex-task-notifier** | v1.2.0 | `/codex-task-notifier` | "email me when done", "me manda um email" |
@@ -83,9 +83,8 @@
 - **Path:** `claude-session-registry/`
 - **Automation:** Session ID tracking & GitHub backups.
 
-### 5. pbi-claude-skills
-- **Path:** `pbi-claude-skills/`
-- **Optimization:** Power BI PBIP project token savings (50-97%).
+### ~~5. pbi-claude-skills~~ (REMOVED)
+- **Superseded by:** bi-datavizx v1.0.0 (skill #22). All safe patterns absorbed. Removed 2026-04-12 per Jimmy's explicit authorization (D69 thread S10).
 
 ### 6. x-mem
 - **Path:** `x-mem/`
