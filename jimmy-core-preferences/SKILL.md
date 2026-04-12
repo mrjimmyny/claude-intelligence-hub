@@ -1,6 +1,6 @@
 ---
 name: jimmy-core-preferences
-version: 3.12.0
+version: 3.14.0
 description: Global cross-agent operating framework for Jimmy.
 command: /preferences
 aliases: [/prefs, /jimmy]
@@ -8,7 +8,7 @@ aliases: [/prefs, /jimmy]
 
 # Jimmy Core Preferences — Global Cross-Agent Operating Framework
 
-**Version:** 3.13.0
+**Version:** 3.14.0
 **Last Updated:** 2026-04-10
 **Auto-Load:** Yes (Priority: Highest)
 
@@ -960,6 +960,27 @@ R-46 is the ACTIVE version of R-41. R-41 remains the "what" rule (receipts are r
 **Relationship to existing rules:** R-46 does NOT replace R-41 (R-41 remains the canonical ownership rule). R-46 is the active pre-write gate that enforces R-41. R-46 is structurally similar to R-37 (close-day mechanical enforcement after 3 passive failures) and R-39 (worktree pre-flight mechanical check added after FND-0077). Same pattern, same lesson: passive rules need mechanical reinforcement when they fail repeatedly. Cross-references: [[FND-0079]], [[FND-0050]], [[FND-0073]], [[FND-0075]], [[FND-0077]], R-41 (ownership), R-37 (close-day mechanical), R-39 (worktree mechanical), thread-doc-template R6.
 
 - For Claude Code, the rule is mirrored in `C:/ai/CLAUDE.md` section "Thread Read Receipts Pre-Write Self-Check (MANDATORY — R-46)". For Codex, it is mirrored in `C:/ai/AGENTS.md`. For Gemini CLI, it is mirrored in `C:/ai/GEMINI.md`.
+
+### R-48. LLM Alternation — Author/Implementer = Claude Code, Reviewer/Auditor/Tester = CODEX
+
+**Origin:** 2026-04-10 23:02 Brasilia. Jimmy's thread entry in `bdvx-pjt-threads-jimmy-magneto.md` (work session `3d4198e4`), verbatim: *"Delegue AOP real não apenas para Claude Code, mas precisamos trabalhar mais com CODEX como revisor, auditor, tester. Alterne os LLMs claude code e codex."* Reinforced 2026-04-11 20:32 (temporary CODEX-first rule for spike authoring) and 2026-04-10 23:02 ("Novamente lembrando!" in thread). Registered in bi-datavizx D26. Validated operationally across 21+ AOP real rounds including Phase 1 Foundation (26 dispatches), Phase 2 Module 3 (WS-A through WS-H), and Phases 3-6.
+
+**Rule:** When dispatching work via AOP real, alternate LLMs by role:
+- **Author / Implementer role** → Claude Code (Claude Sonnet 4.6 or current Claude model)
+- **Reviewer / Auditor / Tester role** → CODEX (gpt-5.4 or current OpenAI model)
+
+This is the DEFAULT pattern. Jimmy may override temporarily (e.g., CODEX-first for spike authoring 2026-04-11 20:32, or Claude reviewer when CODEX quota is exhausted per R-45). The override is session-scoped and reverts to the default at next session.
+
+**Why:** Single-LLM review creates blind spots — the same model that authored code reviews its own patterns favorably. Cross-LLM alternation forces genuine independent verification. Jimmy's explicit operational directive confirmed after observing that early bi-datavizx rounds used Claude for both authoring and reviewing, producing shallow audits.
+
+**How to apply:**
+- Before every AOP real dispatch, check the role (author vs reviewer/auditor/tester).
+- Author dispatch → Claude Code agent.
+- Reviewer/auditor/tester dispatch → CODEX agent.
+- If CODEX is unavailable (quota, rate limit), apply R-45 fallback (reroute to Anthropic-family via AOP real, never inline in Magneto).
+- Log the alternation round number in the session doc for traceability.
+
+**Relationship to existing rules:** Complements R-45 (CODEX quota fallback) and G-04 (mandatory CODEX review for planning docs). R-48 is broader than G-04 — it applies to ALL AOP dispatches, not just planning doc reviews. When R-45 activates (CODEX unavailable), the reviewer role temporarily shifts to an Anthropic-family agent; when CODEX is back, R-48 default resumes.
 
 ---
 
