@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.30.2] - 2026-04-12
+
+### Changed
+- **agent-orchestration-protocol** v4.3.0 -> v4.4.0 — Claude Code CLI Flags Parity ([[TK-0001]]). New mandatory section "Claude CLI Flags — Headless Preset" with 12 flags and 7 canonical examples. Cross-LLM Command Reference: 7 new rows (effort, max-turns, budget, fallback, output format, bare, append system prompt). Dispatch script upgraded with effort/max-turns/budget args + JSON output default. Source: deep research from Anthropic official docs.
+
 ## [2.30.1] - 2026-04-12
 
 ### Removed

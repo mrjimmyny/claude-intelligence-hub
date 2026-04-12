@@ -1,6 +1,6 @@
 ---
 name: agent-orchestration-protocol
-version: 4.3.0
+version: 4.4.0
 description: Multi-agent coordination framework - The Seven Pillars of AOP
 command: /aop
 aliases: [/orchestrate, /delegate]
@@ -9,7 +9,7 @@ aliases: [/orchestrate, /delegate]
 # Agent Orchestration Protocol (AOP)
 
 **Skill ID:** `agent-orchestration-protocol`
-**Version:** 4.3.0
+**Version:** 4.4.0
 **Status:** Production-Validated
 **Category:** Multi-Agent Coordination
 
@@ -863,6 +863,77 @@ codex exec --json -m gpt-5.4 --yolo -c model_reasoning_effort="high" \
 
 > **Do NOT guess effort values.** Only `minimal | low | medium | high | xhigh` are documented. `xhigh` is supported on `gpt-5.4`; other models may reject it silently and fall back to their default. When in doubt, use `medium`.
 
+### Claude CLI Flags — Headless Preset (MANDATORY for Orchestrators)
+
+Every headless Claude Code dispatch MUST use the correct flags. Do NOT improvise from memory — copy from this block.
+
+1. **Headless mode:** `-p` (print mode, non-interactive).
+2. **Model:** `--model <alias>` — aliases: `opus`, `sonnet`, `haiku`, `opusplan`. Full IDs: `claude-opus-4-6`, `claude-sonnet-4-6`, `claude-haiku-4-5-20251001`. Append `[1m]` for explicit 1M context: `opus[1m]`, `sonnet[1m]`.
+3. **No-approval:** `--dangerously-skip-permissions` (equivalent to `--permission-mode bypassPermissions`).
+4. **Effort level (native flag):** `--effort low|medium|high|max` — `max` is **Opus only**, does NOT persist across sessions. Default: `medium` (Pro/Max), `high` (API/Team/Enterprise).
+5. **Max turns (runaway prevention):** `--max-turns <N>` — limits agentic turns. Exits with error when reached. No limit by default. **Recommended for all AOP dispatches.**
+6. **Budget cap:** `--max-budget-usd <N>` — hard dollar spend limit per invocation. **Recommended for cost-sensitive dispatches.**
+7. **Fallback model:** `--fallback-model <model>` — auto-fallback when primary model is overloaded. Example: `--fallback-model sonnet` when dispatching with `--model opus`.
+8. **Output format:** `--output-format json|text|stream-json` — `json` returns structured result with metadata (session_id, cost, etc.). **Recommended for AOP: always use `--output-format json` for programmatic parsing.**
+9. **Fast startup:** `--bare` — skips hooks, skills, plugins, MCP, auto-memory, CLAUDE.md discovery. **Recommended for scripted/SDK dispatch where the executor does not need skills or hooks.**
+10. **System prompt (append):** `--append-system-prompt-file <path>` — adds persona/instructions to default system prompt while preserving Claude Code's native capabilities. **Preferred over `--system-prompt` for AOP because it keeps tool access and built-in behaviors.**
+11. **Structured output:** `--json-schema '<schema>'` — validates output against a JSON Schema. Result in `structured_output` field of JSON output.
+12. **Session continuity:** `--resume <session_id>` to resume a specific session, `--continue` for most recent.
+
+**Copy-paste canonical examples (all headless):**
+
+```bash
+# Tier 1 — Architect / deep reasoning
+cat PROMPT.md | claude -p \
+  --model opus --effort high \
+  --dangerously-skip-permissions \
+  --max-turns 30 --max-budget-usd 10.00 \
+  --fallback-model sonnet \
+  --output-format json
+
+# Tier 2 — Standard implementation (DEFAULT)
+cat PROMPT.md | claude -p \
+  --model sonnet --effort medium \
+  --dangerously-skip-permissions \
+  --max-turns 20 \
+  --output-format json
+
+# Tier 3 — Fast read-only / mechanical
+cat PROMPT.md | claude -p \
+  --model haiku \
+  --dangerously-skip-permissions \
+  --max-turns 10 \
+  --output-format json
+
+# Fast startup (scripted, no skills/hooks needed)
+cat PROMPT.md | claude --bare -p \
+  --model sonnet --effort medium \
+  --dangerously-skip-permissions \
+  --output-format json
+
+# opusplan — Opus for planning, auto-switch to Sonnet for execution
+cat PROMPT.md | claude -p \
+  --model opusplan \
+  --dangerously-skip-permissions \
+  --max-turns 25 \
+  --output-format json
+
+# With custom persona (preserves Claude Code capabilities)
+cat PROMPT.md | claude -p \
+  --model sonnet --effort high \
+  --dangerously-skip-permissions \
+  --append-system-prompt-file ./persona-reviewer.txt \
+  --output-format json
+
+# Session continuity (multi-round review)
+session_id=$(cat PROMPT.md | claude -p --model sonnet --dangerously-skip-permissions --output-format json | jq -r '.session_id')
+claude -p "Continue the review and fix remaining issues" --resume "$session_id" --dangerously-skip-permissions
+```
+
+> **Effort tip:** Include the word `ultrathink` in a prompt to trigger high effort for a single turn (no effect if already at high or max).
+
+> **Do NOT guess effort values.** Only `low | medium | high | max` are documented for Claude Code. `max` is Opus-only and does NOT persist across sessions. When in doubt, use `medium`.
+
 ### Execution Principles (Official Codex Source)
 
 1. **Always analyze the task before selecting a model.** Never select blindly.
@@ -1334,7 +1405,13 @@ Before dispatching ANY headless session to ANY agent (Claude, Codex, Gemini, or 
 | **File-based prompt** | `cat FILE.md \| claude -p` | `cat FILE.md \| codex exec` | `cat FILE.md \| gemini -m gemini-2.5-flash -p --approval-mode yolo` |
 | **Bypass sandbox/approval** | `--dangerously-skip-permissions` | `--yolo` (short alias) or `--dangerously-bypass-approvals-and-sandbox` (long form, identical) | `--approval-mode yolo` (MANDATORY for headless) |
 | **Model selection** | `--model claude-sonnet-4-6` | `-m gpt-5.4` (DEFAULT, effort=medium) | `-m gemini-2.5-flash` |
-| **Reasoning effort override** | (built-in per model) | `-c model_reasoning_effort="minimal\|low\|medium\|high\|xhigh"` (no dedicated flag — use config override) | (built-in per model) |
+| **Reasoning effort override** | `--effort low\|medium\|high\|max` (native flag; `max` = Opus only) | `-c model_reasoning_effort="minimal\|low\|medium\|high\|xhigh"` (no dedicated flag — use config override) | (built-in per model) |
+| **Max turns (runaway prevention)** | `--max-turns <N>` | N/A (use timeout) | N/A |
+| **Budget cap** | `--max-budget-usd <N>` | N/A | N/A |
+| **Fallback model** | `--fallback-model <model>` | N/A | N/A |
+| **Output format (JSON)** | `--output-format json` | `--json` | N/A |
+| **Fast startup (no hooks/skills)** | `--bare` | N/A | N/A |
+| **Append system prompt** | `--append-system-prompt-file <path>` | N/A | N/A |
 | **Background execution** | Append `&` in bash | Append `&` in bash | Append `&` in bash |
 | **Set workspace** | `cd /c/ai/project` before launch | `cd /c/ai/project` before launch | `cd /c/ai/project` before launch |
 | **Git bypass (non-git dir)** | N/A | `--skip-git-repo-check` | N/A |
@@ -1572,6 +1649,7 @@ Real-world case studies are in [orchestrations/](./orchestrations/).
 
 ## Version History
 
+- **v4.4.0** — **Claude Code CLI Flags Parity ([[TK-0001]]).** New mandatory section "Claude CLI Flags — Headless Preset" with 12 documented flags and 7 canonical copy-paste examples (Tier 1/2/3, bare mode, opusplan, custom persona, session continuity). Flags added: `--effort` (native, not config override like Codex), `--max-turns` (runaway prevention), `--max-budget-usd` (cost cap), `--fallback-model` (overload resilience), `--output-format json` (programmatic parsing), `--bare` (fast startup for scripted dispatch), `--append-system-prompt-file` (persona injection preserving Claude Code capabilities), `--json-schema` (structured output validation), `--resume`/`--continue` (session continuity), `opusplan` alias (Opus for planning, Sonnet for execution), `ultrathink` keyword. Cross-LLM Command Reference table updated: 7 new rows (effort override corrected from "built-in per model" to native `--effort` flag, max turns, budget cap, fallback model, output format, fast startup, append system prompt). Dispatch script `aop-claude-dispatch.sh` upgraded: new args for effort (default medium), max_turns (default 30), max_budget (optional); now emits `--output-format json` by default; effort validation added. Source: deep research from Anthropic official docs (code.claude.com/docs/en/) — see [[aop-claude-code-models-and-flags-reference-v1.0]] and [[TK-0001]].
 - **v4.3.0** — **Codex Model Lineup Alignment with Official April 2026 Docs ([[FND-0078]]).** Cross-Provider Equivalence Table rebuilt: new Codex DEFAULT is `gpt-5.4` (`effort=medium`); new Tier 2 Light is `gpt-5.4-mini`; `gpt-5.3-codex` retains Tier 1.5 (complex engineering); `gpt-5.2` added as deep-debug alternative; `gpt-5.3-codex-spark` added as Tier 2.5 (ChatGPT Pro only). Retired from routing: `gpt-5.2-codex`, `gpt-5.1-codex`, `gpt-5.1-codex-max`, `gpt-5-codex-mini` (no longer listed in `/codex/models`). Codex Model Routing Logic table rewritten. New mandatory section "Codex CLI Flags — Headless Preset" with canonical copy-paste examples using `--yolo` short alias and `-c model_reasoning_effort="..."` override (the only documented CLI way to change effort at dispatch time — values: `minimal | low | medium | high | xhigh`, with `xhigh` supported only on `gpt-5.4`). Cross-LLM Command Reference updated: new "Reasoning effort override" row; Codex bypass row now shows both `--yolo` (primary) and long form. Completion Artifact hard-coded executor example updated to `gpt-5.4`. Dispatch script `aop-codex-dispatch.sh` default model bumped from `gpt-5.2-codex` to `gpt-5.4`. LLM Model Selection Guide bumped to v2.3.0. Source: Emma (Codex headless research session 019d739f) citing `developers.openai.com/codex/{models,cli/reference,config-reference,cli/features,noninteractive}` — see [[generalx-pjt-threads-jimmy-emma]] thread `2026-04-09-jimmy-01`, Emma's Entry read-2026-04-09-18:29-jimmy. No changes to `AGENTS.md`, `GEMINI.md`, `CLAUDE.md`, or `jimmy-core-preferences` (they reference AOP by path, not by model ID — verified via grep).
 - **v4.2.0** — 3 autoresearch-extracted patterns: Git-as-Memory (agents read git log before starting), Experiment Commit Convention (`experiment(<scope>): <description>`), Guard Pattern for skill development (metric + guard dual verification). Cross-agent rule R-20 in jimmy-core-preferences.
 - **v4.1.0** — 8 improvements from aop-domusx stress test: Python-based artifact generation for Codex (FND-0045), mandatory pre-review integrity gate at all tiers, hard-coded executor model names (FND-0046), safety-guard requirements for high-difficulty, minimum test count per tier, Tier 3 structured-output exclusion (FND-0047), JSON repair script, algorithmic depth guidance. Agent environment warning for background processes (FND-0011). Codex Windows path format rule (FND-0049).

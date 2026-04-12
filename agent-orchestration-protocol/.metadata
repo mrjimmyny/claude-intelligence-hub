@@ -1,6 +1,6 @@
 {
   "name": "agent-orchestration-protocol",
-  "version": "4.3.0",
+  "version": "4.4.0",
   "type": "orchestration-protocol",
   "status": "production-validated",
   "owner": "Claude Intelligence Hub",
