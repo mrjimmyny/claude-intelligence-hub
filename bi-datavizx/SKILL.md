@@ -72,12 +72,23 @@ bi-datavizx (bdvx) is the **backend** execution layer for the BI data-viz workfl
 
 ## 4. Installation
 
+### Prerequisites
+
+| Dependency | Version | Install |
+|---|---|---|
+| **Python** | **3.11.x** (required for Fabric) | `winget install Python.Python.3.11` |
+| **pywin32** | >=306 | `py -3.11 -m pip install "pywin32>=306"` |
+| **pbi-cli** | 3.10.10 | `py -3.11 -m pip install "pbi-cli-tool @ git+https://github.com/MinaSaad1/pbi-cli.git@v3.10.10"` |
+| **pbir-cli** | 0.9.7 | MSI from [GitHub](https://github.com/maxanatsko/pbir.tools/releases/tag/v0.9.7) |
+| **semantic-link-labs** | >=0.14.0 | `py -3.11 -m pip install semantic-link-labs` |
+
+### Setup
+
 ```bash
 cd C:/ai/_skills/bi-datavizx
-pip install -e ".[dev]"
+py -3.11 -m pip install -e ".[dev]"
+py -3.11 -c "from bdvx.core.dispatcher import dispatch; r = dispatch('core', 'version', {}, 'test'); print(r)"
 ```
-
-Windows credential commands require `pywin32>=306`.
 
 ---
 
