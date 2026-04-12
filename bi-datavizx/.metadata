@@ -1,0 +1,12 @@
+{
+  "name": "bi-datavizx",
+  "version": "1.0.0",
+  "description": "Backend BI execution toolkit for Power BI ecosystem. Agent-neutral command surface covering data ingestion (BigQuery + SharePoint), desktop automation (pbi-cli + pbir-cli dual-backend), Fabric/Premium scanning, report formatting, DAX formatting/linting, and governance wires.",
+  "category": "BI & Data",
+  "status": "production",
+  "command": "/bdvx",
+  "aliases": ["/bi-datavizx"],
+  "dependencies": ["pbi-cli", "pbir-cli", "pbi-fixer-v2"],
+  "author": "Jimmy (OWNER) + Magneto (Claude Code)",
+  "created": "2026-04-09"
+}

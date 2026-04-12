@@ -58,6 +58,7 @@
 | 16 | **daily-tasks-oih** | v1.0.0 | `/daily-tasks-oih` | Daily tasks pool and per-agent execution workflow |
 | 17 | **docx-indexer** | v1.4.0 | `/docx-indexer` | Global document indexing + semantic enrichment + semantic search baseline |
 | 21 | **bi-designerx** | v0.2.0 | `/bidx` | BI dashboard design for non-designers (Paper.design + CEM system) |
+| 22 | **bi-datavizx** | v1.0.0 | `/bdvx` | Backend BI execution toolkit for Power BI (data ingestion, desktop automation, Fabric, DAX, governance) |
 | 23 | **self-improvement** | v1.0.0 | `/self-improvement` | Iterative refinement framework (audit + simulation, worktree isolation, scoring) |
 
 ---
@@ -171,6 +172,17 @@
 - **Description:** End-to-end BI dashboard design workflow for non-designers. AI-driven design generation in Paper.design with Canvas Element Map (CEM) management system. 7-phase pipeline (P0 Kickstart → P6 Version Lock), Multi-Agent Paper Protocol for concurrent artboard access, 7-artifact CEM Package per locked version, front-end agnostic (PBI, Tableau, Looker).
 - **Dependencies:** Paper MCP (`http://127.0.0.1:29979/mcp`), `frontend-design` plugin
 - **Key files:** `_skills/bi-designerx/` (technical), `obsidian/CIH/projects/skills/bi-designerx/` (documental)
+
+### 22. bi-datavizx
+- **Path:** `bi-datavizx/`
+- **Version:** v1.0.0
+- **Tier:** 3 (Explicit/On-Demand)
+- **Command:** `/bdvx`
+- **Aliases:** `/bi-datavizx`
+- **Description:** Backend BI execution toolkit for Power BI ecosystem. Agent-neutral command surface (10-module architecture) covering data ingestion (BigQuery + SharePoint), desktop automation (pbi-cli + pbir-cli dual-backend), Fabric/Premium scanning (pbi-fixer v2), report formatting + bi-designerx handoff, DAX formatting/linting (6 built-in rules), and governance wires (findings, AOP, CEM protection, locality, TB-01). 1280 tests, SC1-SC12 ALL MET. Complement to bi-designerx (FRONTEND).
+- **Dependencies:** pbi-cli v3.10.10, pbir-cli v0.9.7, pbi-fixer v2
+- **Key files:** `_skills/bi-datavizx/` (technical), `obsidian/CIH/projects/skills/bi-datavizx/` (documental)
+- **Triggers:** "bi-datavizx", "bdvx", "power bi backend", "DAX format", "fabric scan"
 
 ### 23. self-improvement
 - **Path:** `self-improvement/`

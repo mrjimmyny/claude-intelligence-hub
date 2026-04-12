@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.30.0] - 2026-04-12
+
+### Added
+- **bi-datavizx** v1.0.0 — NEW SKILL. Backend BI execution toolkit for Power BI ecosystem. Agent-neutral 10-module architecture: core-contract, project-intel, desktop-adapter (pbi-cli + pbir-cli dual-backend), fabric-adapter (pbi-fixer v2), data-ingest (BigQuery + SharePoint), report-ops (bi-designerx handoff), model-ops (DAX formatter/linter), governance, docs, integration. 1280 tests PASS, SC1-SC12 ALL MET. Contract v1.6 with deferred backlog (DAX Authoring Standards + Phase 7 Deployment Governance). Complement to bi-designerx (FRONTEND). Command: `/bdvx`. 83 Python source files, 105 test files across 10 modules. Published as part of bi-datavizx v1 wrap (D69, session 16ba4e91).
+
 ## [2.29.12] - 2026-04-10
 
 ### Changed
