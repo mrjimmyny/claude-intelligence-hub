@@ -92,11 +92,61 @@ Before installing bi-datavizx, make sure your machine has the following software
 | 6 | **pbir-cli** | 0.9.7 (locked) | Controls PBIR report files directly without Desktop. | Download MSI from [GitHub releases](https://github.com/maxanatsko/pbir.tools/releases/tag/v0.9.7) and run the installer |
 | 7 | **semantic-link-labs** | >= 0.14.0 | Enables Fabric/Premium features: Best Practice Analyzer, IBCS compliance, Vertipaq analysis. | `py -3.11 -m pip install semantic-link-labs` |
 
+### Required for BigQuery Data Sources
+
+If you plan to import data from Google BigQuery (Module 5: data-ingest), the Google Cloud SDK is **required**. Without it, BigQuery import operations will not work.
+
+| # | Software | Version | How to install |
+|---|---|---|---|
+| 1 | **Google Cloud SDK** (`gcloud`) | Latest | `winget install Google.CloudSDK` |
+
+#### BigQuery Authentication — Step by Step
+
+After installing the Google Cloud SDK, you must authenticate with the Google account that has access to your BigQuery project. This is a one-time setup (tokens are cached locally).
+
+**Step 1: Authenticate your Google account**
+
+Open PowerShell or your terminal and run:
+```powershell
+gcloud auth login
+```
+This opens your default browser. Sign in with the Google account that has access to BigQuery (usually your corporate email). After login, the browser shows "You are now authenticated" and you can close it.
+
+**Step 2: Set application-default credentials (required for Python libraries)**
+
+```powershell
+gcloud auth application-default login
+```
+Same flow — opens browser, you sign in, token is saved locally.
+
+**Step 3: Verify authentication**
+
+```powershell
+gcloud auth list
+# Should show your account with an asterisk (*) as ACTIVE
+
+gcloud config set project YOUR_GCP_PROJECT_ID
+# Sets the default project for BigQuery queries
+```
+
+**Step 4: Store credentials in bi-datavizx**
+
+```bash
+bdvx credential set bdvx/myproject/bigquery/service-account
+```
+The skill stores the credential reference in Windows Credential Manager (DPAPI encrypted). The actual Google OAuth token is managed by `gcloud` — bi-datavizx reads it at runtime, never stores the raw token.
+
+#### Important Security Notes
+
+- **Your password is never shared with the AI agent.** Authentication happens in YOUR browser on YOUR machine. The agent never sees your Google credentials.
+- **Tokens are stored locally by gcloud** in `~/.config/gcloud/` (encrypted by Windows).
+- **bi-datavizx only reads tokens at runtime** via the `gcloud` Python libraries. Tokens are decrypted in memory, used for the current operation, and released immediately.
+- **No tokens are logged, displayed, or transmitted.** The audit log records that a BigQuery operation ran, but never the credential value.
+
 ### Optional Software
 
 | Software | Why you might need it |
 |---|---|
-| **Google Cloud SDK** (`gcloud`) | Only if you use BigQuery as a data source. Provides authentication for BigQuery connections. |
 | **Git** | Recommended for version-controlling your Power BI projects in PBIP/TMDL format. |
 
 ### Operating System
