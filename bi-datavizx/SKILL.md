@@ -1,6 +1,6 @@
 ---
 name: bi-datavizx
-version: 1.0.0
+version: 1.1.0
 description: Backend BI execution toolkit for Power BI ecosystem. Agent-neutral command surface covering data ingestion (BigQuery + SharePoint), desktop automation (pbi-cli + pbir-cli dual-backend), Fabric/Premium scanning, report formatting, DAX formatting/linting, and governance wires.
 command: /bdvx
 aliases: [/bi-datavizx]
@@ -31,7 +31,7 @@ bi-datavizx (bdvx) is the **backend** execution layer for the BI data-viz workfl
 - **Desktop Automation** — pbi-cli (F1-F10) + pbir-cli (F11-F16) dual-backend for model CRUD, DAX, report editing, visual management
 - **Fabric/Premium** — pbi-fixer v2 wrappers for BPA, IBCS, Vertipaq scan, perspectives, incremental refresh
 - **Report Operations** — bi-designerx handoff, template engine, visual formatting, page management
-- **DAX Formatting/Linting** — 6 built-in rules (DAX001-DAX006), configurable profiles
+- **DAX Formatting/Linting** — 10 documented rules (DAX001-DAX010), including the DAX Authoring Standards added in v1.1.0
 - **Model Operations** — Copilot polish, translations
 - **Governance Wires** — findings, AOP dispatch, session-doc, CEM protection, locality rule, TB-01
 
@@ -174,7 +174,7 @@ These rules apply to ALL agents authoring, reviewing, or modifying DAX measures 
 
 ```bash
 cd C:/ai/_skills/bi-datavizx
-pytest tests/ --no-cov -q    # 1280 passed, 49 skipped
+pytest tests/ --no-cov -q    # 1296 passed, 47 skipped
 ```
 
 ---
